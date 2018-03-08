@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
   <head>
     <title>Lavados especiales</title>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -29,13 +29,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>fonts/eleganticons/et-icons.css"/>
 
     <script src="<?php echo base_url()?>js/tcal.js"></script>
-    <script src="<?php echo base_url()?>js/jquery.js"></script>
+    <script src="<?php echo base_url()?>js/jquery-1.12.4.js"></script>
     <script src="<?php echo base_url()?>js/bootstrap.min.js"></script>
     <script src="<?php echo base_url()?>js/owl.carousel.min.js"></script>
     <script src="<?php echo base_url()?>js/wow.min.js"></script>
     <script src="<?php echo base_url()?>js/typewriter.js"></script>
     <script src="<?php echo base_url()?>js/jquery.onepagenav.js"></script>
     <script src="<?php echo base_url()?>js/main.js"></script>
+
   </head>
   <body>
     <div class="preloader">
@@ -58,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right main-nav">
               <li>
-                <a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue">Iniciar Sesión</a>
+                <a href="#" data-toggle="modal" data-target="#modal1" name="login" id="login" class="btn btn-blue">Iniciar Sesión</a>
               </li>
             </ul>
           </div>
