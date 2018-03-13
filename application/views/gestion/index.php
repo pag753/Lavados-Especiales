@@ -73,7 +73,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </li>
             <li><a href="<?php echo base_url()?>index.php/gestion/reportes" class="btn btn-blue">Reportes</a></li>
             <li><a href="<?php echo base_url()?>index.php/gestion/cambiarPass" class="btn btn-blue">Cambiar Contraseña</a></li>
-
             <?php if ($_SESSION['id']==5): ?>
               <li><a href="<?php echo base_url()?>index.php/root/" class="btn btn-blue">Regresar</a></li>
             <?php endif ?>

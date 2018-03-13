@@ -30,14 +30,14 @@ class Welcome extends CI_Controller
 				{
 					$info = array('texto1' => 'Error en usuario o contraseña',
 												'texto2' => 'Intente de nuevo');
-					$this->carga($info);
+					$this->load->view('welcome/index',$info);
 				}
 			}
 			else
 			{
 				$info = array('texto1' => 'Bienvenido a',
 			 								'texto2' => 'Lavados especiales');
-				$this->carga($info);
+				$this->load->view('welcome/index',$info);
 			}
 		}
 		else
@@ -45,12 +45,6 @@ class Welcome extends CI_Controller
 			$this->sesion();
 		}
 	}
-
-	function carga($info)
-	{
-		$this->load->view('welcome/index',$info);
-	}
-
 
 	function sesion()
 	{

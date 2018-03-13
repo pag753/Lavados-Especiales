@@ -68,16 +68,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li class="dropdown">
               <a href="#" class="btn btn-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cortes<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<?php echo base_url()?>index.php/operario/alta" class="btn btn-gray">Insertar información</a></li>
+                <li><a href="<?php echo base_url()?>index.php/produccion/autorizar" class="btn btn-gray">Autorizar corte</a></li>
               </ul>
             </li>
             <?php if ($_SESSION['id']==5): ?>
               <li><a href="<?php echo base_url()?>index.php/root/" class="btn btn-blue">Regresar</a></li>
             <?php endif ?>
-            <li><a href="<?php echo base_url()?>index.php/operario/cerrar_sesion" class="btn btn-blue">Cerrar Sesión</a></li>
+            <li><a href="<?php echo base_url()?>index.php/produccion/cerrar_sesion" class="btn btn-blue">Cerrar Sesión</a></li>
           </ul>
         </div>
-        <!-- /.navbar-collapse -->
       </div>
     </nav>
     <div class="container">
