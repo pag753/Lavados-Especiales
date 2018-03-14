@@ -26,7 +26,11 @@ class Produccion extends CI_Controller
 			$data['texto1']="El corte con folio ".$datos;
 			$data['texto2']="Se ha autorizado con éxito";
 		}
-		$this->load->view('produccion/index',$data);/*
+		$this->load->view('head');
+		$this->load->view('produccion/menu');
+		$this->load->view('produccion/index',$data);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('produccion_base');
 		$this->load->view('produccion_principal',$data);
@@ -106,7 +110,11 @@ class Produccion extends CI_Controller
 		$datos['datos_corte']=$entrada;
 		$datos['texto1']=$texto1;
 		$datos['texto2']=$texto2;
-		$this->load->view('produccion/cargarAutorizacion',$datos);/*
+		$this->load->view('head');
+		$this->load->view('produccion/menu');
+		$this->load->view('produccion/cargarAutorizacion',$datos);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('produccion_base');
 		$this->load->view('produccion_autorizacion_corte',$datos);

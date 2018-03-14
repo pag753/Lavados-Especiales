@@ -34,7 +34,11 @@ class Administracion extends CI_Controller
 			}
 
 		}
-		$this->load->view('administracion/index',$data);/*
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/index',$data);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('administracionBase');
 		$this->load->view('administracionPrincipal',$data);
@@ -105,7 +109,11 @@ class Administracion extends CI_Controller
 
 	private function cargaCosto($datos)
 	{
-		$this->load->view('administracion/cargaCosto',$datos);/*
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/cargaCosto',$datos);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('administracionBase');
 		$this->load->view('administracionCostos',$datos);
@@ -115,7 +123,11 @@ class Administracion extends CI_Controller
 
 	private function cargaCostoValidacion($textos)
 	{
-		$this->load->view('administracion/cargaCostoValidacion');/*
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/cargaCostoValidacion');
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('administracionBase');
 		$this->load->view('administracionCostosValidacion',$textos);
@@ -139,35 +151,60 @@ class Administracion extends CI_Controller
 					$data['marca']=$this->ClienteHasMarca->get($id);
 					$this->load->model('Marca');
 					$data['marcas']=$this->Marca->get();
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosCliente',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosCliente',$data);
 					break;
 
 				case 2:
 					$this->load->model("Lavado");
 					$data['data']=$this->Lavado->getById($id);
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosLavado',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosLavado',$data);
 					break;
 
 				case 3:
 					$this->load->model("Maquilero");
 					$data['data']=$this->Maquilero->getById($id);
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosMaquilero',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosMaquilero',$data);
 					break;
 
 				case 4:
 					$this->load->model("Marca");
 					$data['data']=$this->Marca->getById($id);
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosMarca',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosMarca',$data);
 					break;
 
 					case 5:
 					$this->load->model("ProcesoSeco");
 					$data['data']=$this->ProcesoSeco->getById($id);
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosProcesos',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosProcesos',$data);
 						break;
 
@@ -176,14 +213,24 @@ class Administracion extends CI_Controller
 					$data['data']=$this->Usuarios->getById($id);
 					$this->load->model("TipoUsuario");
 					$data['tiposUsuario']=$this->TipoUsuario->get();
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosUsuarios',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosUsuarios',$data);
 						break;
 
 					case 7:
 					$this->load->model("Tipo_pantalon");
 					$data['data']=$this->Tipo_pantalon->getById($id);
+
+					$this->load->view('head');
+					$this->load->view('administracion/menu');
 					$this->load->view('administracion/catalogosTipoPantalon',$data);
+					$this->load->view('foot');
+
 					//$this->load->view('administracionCatalogosTipoPantalon',$data);
 						break;
 				}
@@ -233,7 +280,12 @@ class Administracion extends CI_Controller
 					$data['data']=$this->Tipo_pantalon->get();
 						break;
 				}
+
+				$this->load->view('head');
+				$this->load->view('administracion/menu');
 				$this->load->view('administracion/catalogos',$data);
+				$this->load->view('foot');
+
 				//$this->load->view('administracionCatalogos',$data);
 				//$this->load->view('footer');
 			}

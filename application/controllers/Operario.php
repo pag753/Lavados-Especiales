@@ -26,7 +26,12 @@ class Operario extends CI_Controller
 			$data['texto1']="Los datos";
 			$data['texto2']="Se han registrado con éxito";
 		}
+		$datos['folio']=$this->input->post()['folio'];
+		$this->load->view('head');
+		$this->load->view('operario/menu');
 		$this->load->view('operario/index');
+		$this->load->view('foot');
+
 		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('operarioBase');
@@ -51,7 +56,11 @@ class Operario extends CI_Controller
 				$data['defectos']+=$value['defectos'];
 			}
 			$data['query']=$query;
+			$this->load->view('head');
+			$this->load->view('operario/menu');
 			$this->load->view('operariops/altaConfirmacion',$data);
+			$this->load->view('foot');
+
 			/*
 			$this->load->view('encabezado_principal');
 			$this->load->view('operarioBase');
@@ -60,7 +69,11 @@ class Operario extends CI_Controller
 		}
 		else
 		{
-			$this->loas->view('operario/alta');/*
+			$this->load->view('head');
+			$this->load->view('operario/menu');
+			$this->loas->view('operario/alta');
+			$this->load->view('foot');
+			/*
 			$this->load->view('encabezado_principal');
 			$this->load->view('operarioBase');
 			$this->load->view('operarioAlta');

@@ -39,7 +39,12 @@ class Gestion extends CI_Controller
 		$this->load->view('gestion_base');
  		$this->load->view('gestion_principal',$data);
 		$this->load->view('footer');*/
+
+		$this->load->view('head');
+		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
+		$this->load->view('foot');
+
 	}
 
 	public function cerrar_sesion()
@@ -95,7 +100,13 @@ class Gestion extends CI_Controller
 			$datos['clientes']=$this->cliente->get();
 			$datos['tipos']=$this->tipo_pantalon->get();
 			$datos['corte']=$id_corte;
-			$this->load->view('gestion/alta',$datos);/*
+
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
+			$this->load->view('gestion/alta',$datos);
+			$this->load->view('foot');
+
+			/*
 			$this->load->view('encabezado_principal');
 			$this->load->view('gestion_base');
 			$this->load->view('gestion_alta_corte',$datos);
@@ -130,7 +141,12 @@ class Gestion extends CI_Controller
 		else
 		{
 			$datos['fecha']=date("d/m/Y");
+
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaInterna',$datos);
+			$this->load->view('foot');
+
 			/*
 			$this->load->view('encabezado_principal');
 			$this->load->view('gestion_base');
@@ -146,7 +162,12 @@ class Gestion extends CI_Controller
 		$datos['marcas']=$this->Marca->get();
 		$datos['maquileros']=$this->Maquilero->get();
 		$datos['tipos']=$this->Tipo_pantalon->get();
-		$this->load->view('gestion/reportes',$datos);/*
+
+		$this->load->view('head');
+		$this->load->view('gestion/menu');
+		$this->load->view('gestion/reportes',$datos);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		if($_SESSION['id']!=5)
 			$this->load->view('gestion_base');
@@ -752,7 +773,11 @@ class Gestion extends CI_Controller
 
 	public function cambiarPass()
 	{
-		$this->load->view('gestion/cambiarPass');/*
+		$this->load->view('head');
+		$this->load->view('gestion/menu');
+		$this->load->view('gestion/cambiarPass');
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('gestion_base');
 		$this->load->view('generalCambiarContraseña.php');
@@ -775,8 +800,14 @@ class Gestion extends CI_Controller
 	private function cargaSalidaInterna1Validacion($datos=null)
 	{
 		if(isset($this->input->post()['folio']))
+		{
 			$datos['folio']=$this->input->post()['folio'];
-		$this->load->view('gestion/cargaSalidaInterna1Validacion',$datos);/*
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
+			$this->load->view('gestion/cargaSalidaInterna1Validacion',$datos);
+			$this->load->view('foot');
+		}
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('gestion_base');
 		$this->load->view('gestion_salidaInterna1Validacion',$datos);

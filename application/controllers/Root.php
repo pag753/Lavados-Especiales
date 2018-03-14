@@ -14,7 +14,12 @@ class Root extends CI_Controller
 	{
 		$data['texto1']="Bienvenido(a) usuario";
 		$data['texto2']=$_SESSION['username'];
-		$this->load->view('root/index');/*
+
+		$this->load->view('head');
+		$this->load->view('root/menu');
+		$this->load->view('root/index');
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('rootBase');
 		$this->load->view('rootPrincipal',$data);

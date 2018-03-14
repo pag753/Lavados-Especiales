@@ -26,7 +26,11 @@ class Operariops extends CI_Controller
 			$data['texto1']="Los datos";
 			$data['texto2']="Se han registrado con éxito";
 		}
-		$this->load->view('operariops/index',$data);/*
+		$this->load->view('head');
+		$this->load->view('operariops/menu');
+		$this->load->view('operariops/index',$data);
+		$this->load->view('foot');
+		/*
 		$this->load->view('encabezado_principal');
 		$this->load->view('operariopsBase');
 		$this->load->view('operarioPrincipal',$data);
@@ -67,7 +71,11 @@ class Operariops extends CI_Controller
 			else
 				$data=null;
 
+			$this->load->view('head');
+			$this->load->view('operariops/menu');
 			$this->load->view('operariops/insertar',$data);
+			$this->load->view('foot');
+
 			/*
 			$this->load->view('encabezado_principal');
 			$this->load->view('operariopsBase');
