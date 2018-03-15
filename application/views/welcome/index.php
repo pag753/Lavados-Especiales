@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+
     <div class="container">
       <div class="table">
         <div class="header-text">
@@ -8,13 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-md-12 text-center">
               <h3 class="light blue"><?php echo $texto1; ?></h3>
               <h1 class="blue typed"><?php echo $texto2; ?></h1>
-              <span class="typed-cursor">|</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </header>
   <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content modal-popup">

@@ -18,18 +18,18 @@ class Operario extends CI_Controller
 	{
 		if($datos==null)
 		{
-			$data['texto1']="Bienvenido(a) usuario";
-			$data['texto2']=$_SESSION['username'];
+			$datos['texto1']="Bienvenido(a) usuario";
+			$datos['texto2']=$_SESSION['username'];
 		}
 		else
 		{
-			$data['texto1']="Los datos";
-			$data['texto2']="Se han registrado con éxito";
+			$datos['texto1']="Los datos";
+			$datos['texto2']="Se han registrado con éxito";
 		}
 		$datos['folio']=$this->input->post()['folio'];
 		$this->load->view('head');
 		$this->load->view('operario/menu');
-		$this->load->view('operario/index');
+		$this->load->view('operario/index',$datos);
 		$this->load->view('foot');
 
 		/*

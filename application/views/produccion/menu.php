@@ -1,32 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<nav class="navbar">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="<?php echo base_url()?>"><img src="<?php echo base_url()?>img/logo.png" data-active-url="<?php echo base_url()?>img/logo-active.png" alt=""></a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right main-nav">
-        <li class="dropdown">
-          <a href="#" class="btn btn-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cortes<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="<?php echo base_url()?>index.php/produccion/autorizar" class="btn btn-gray">Autorizar corte</a></li>
-          </ul>
-        </li>
-        <?php if ($_SESSION['id']==5): ?>
-          <li><a href="<?php echo base_url()?>index.php/root/" class="btn btn-blue">Regresar</a></li>
-        <?php endif ?>
-        <li><a href="<?php echo base_url()?>index.php/produccion/cerrar_sesion" class="btn btn-blue">Cerrar Sesión</a></li>
-      </ul>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="<?php echo base_url()?>"><img src="<?php echo base_url()?>img/logo.png" data-active-url="<?php echo base_url()?>img/logo-active.png" alt=""></a>
+  <button class="navbar-toggler" type="button"  data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/produccion/autorizar">Autorizar corte</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="<?php echo base_url()?>index.php/produccion/cerrar_sesion">Cerrar Sesión</a>
+      </li>
+    </ul>
   </div>
 </nav>

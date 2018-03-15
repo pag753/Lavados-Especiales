@@ -19,4 +19,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </ul>
       <a href="#" class="close-link"><i class="arrow_up"></i></a>
     </div>
-  </header>
