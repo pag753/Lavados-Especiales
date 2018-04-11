@@ -40,14 +40,13 @@ class Welcome extends CI_Controller
 			}
 			else
 			{
-				$info = array('texto1' => 'Bienvenido a',
+				$info = array('texto1' => 'Bienvenido',
 			 								'texto2' => 'Lavados especiales');
 
 				$this->load->view('head');
 				$this->load->view('welcome/menu');
 				$this->load->view('welcome/index',$info);
 				$this->load->view('foot');
-
 			}
 		}
 		else
@@ -80,40 +79,5 @@ class Welcome extends CI_Controller
 			redirect('/operariops');
 				break;
 		}
-	}
-
-	public function cambiarPass()
-	{
-		if($this->input->post())
-		{
-			$this->load->model('Usuarios');
-			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
-			$id=$_SESSION['id'];
-			switch ($id)
-			{
-				case 1://administrador
-				redirect('/administracion/index/-1');
-					break;
-				case 2://gestion
-				redirect('/gestion/index/-1');
-					break;
-				case 3://producción
-				redirect('/produccion/index/-1');
-					break;
-				case 4://encargado de proceso seco
-				redirect('/operario/index/-1');
-				 	break;
-				case 5://root
-				redirect('/root/index/-1');
-					break;
-				case 6://operario de proceso seco
-				redirect('/operariops/index/-1');
-					break;
-			}
-		}
-		else
-		{
-			redirect('/');
-		}
-	}
+	}	
 }

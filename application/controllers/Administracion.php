@@ -38,11 +38,6 @@ class Administracion extends CI_Controller
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/index',$data);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('administracionBase');
-		$this->load->view('administracionPrincipal',$data);
-		$this->load->view('footer');*/
 	}
 
 	public function cerrar_sesion()
@@ -113,11 +108,6 @@ class Administracion extends CI_Controller
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/cargaCosto',$datos);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('administracionBase');
-		$this->load->view('administracionCostos',$datos);
-		$this->load->view('footer');*/
 	}
 
 
@@ -125,283 +115,322 @@ class Administracion extends CI_Controller
 	{
 		$this->load->view('head');
 		$this->load->view('administracion/menu');
-		$this->load->view('administracion/cargaCostoValidacion');
+		$this->load->view('administracion/cargaCostoValidacion',$textos);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('administracionBase');
-		$this->load->view('administracionCostosValidacion',$textos);
-		$this->load->view('footer');*/
 	}
 
-	public function catalogos($id=null)
+	//CATÁLOGOS
+	public function catalogosClientes()
 	{
-		//$this->load->view('encabezado_principal');
-		//$this->load->view('administracionBase');
-		if($this->input->post())
-		{
-			$data['post']=$this->input->post();
-			$id=$this->input->post()['nombre'];
-			switch ($this->input->post()['id'])
-			{
-				case 1:
-					$this->load->model("Cliente");
-					$data['data']=$this->Cliente->getById($id);
-					$this->load->model("ClienteHasMarca");
-					$data['marca']=$this->ClienteHasMarca->get($id);
-					$this->load->model('Marca');
-					$data['marcas']=$this->Marca->get();
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosCliente',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosCliente',$data);
-					break;
-
-				case 2:
-					$this->load->model("Lavado");
-					$data['data']=$this->Lavado->getById($id);
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosLavado',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosLavado',$data);
-					break;
-
-				case 3:
-					$this->load->model("Maquilero");
-					$data['data']=$this->Maquilero->getById($id);
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosMaquilero',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosMaquilero',$data);
-					break;
-
-				case 4:
-					$this->load->model("Marca");
-					$data['data']=$this->Marca->getById($id);
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosMarca',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosMarca',$data);
-					break;
-
-					case 5:
-					$this->load->model("ProcesoSeco");
-					$data['data']=$this->ProcesoSeco->getById($id);
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosProcesos',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosProcesos',$data);
-						break;
-
-					case 6:
-					$this->load->model("Usuarios");
-					$data['data']=$this->Usuarios->getById($id);
-					$this->load->model("TipoUsuario");
-					$data['tiposUsuario']=$this->TipoUsuario->get();
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosUsuarios',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosUsuarios',$data);
-						break;
-
-					case 7:
-					$this->load->model("Tipo_pantalon");
-					$data['data']=$this->Tipo_pantalon->getById($id);
-
-					$this->load->view('head');
-					$this->load->view('administracion/menu');
-					$this->load->view('administracion/catalogosTipoPantalon',$data);
-					$this->load->view('foot');
-
-					//$this->load->view('administracionCatalogosTipoPantalon',$data);
-						break;
-				}
-				//$this->load->view('footer');
-
-		}
-		else
-		{
-			if($id==null)
-				redirect('/');
-			else
-			{
-				$data['id']=$id;
-				switch ($id)
-				{
-					case 1:
-					$this->load->model("Cliente");
-					$data['data']=$this->Cliente->get();
-						break;
-					case 2:
-					$this->load->model("Lavado");
-					$data['data']=$this->Lavado->get();
-						break;
-
-					case 3:
-					$this->load->model("Maquilero");
-					$data['data']=$this->Maquilero->get();
-						break;
-
-					case 4:
-					$this->load->model("Marca");
-					$data['data']=$this->Marca->get();
-						break;
-
-					case 5:
-					$this->load->model("ProcesoSeco");
-					$data['data']=$this->ProcesoSeco->get();
-						break;
-
-					case 6:
-					$this->load->model("Usuarios");
-					$data['data']=$this->Usuarios->get();
-						break;
-
-					case 7:
-					$this->load->model("Tipo_pantalon");
-					$data['data']=$this->Tipo_pantalon->get();
-						break;
-				}
-
-				$this->load->view('head');
-				$this->load->view('administracion/menu');
-				$this->load->view('administracion/catalogos',$data);
-				$this->load->view('foot');
-
-				//$this->load->view('administracionCatalogos',$data);
-				//$this->load->view('footer');
-			}
-		}
+		$this->load->model("Cliente");
+		$data['data']=$this->Cliente->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosCliente',$data);
+		$this->load->view('foot');
 	}
 
-	public function CatalogosGuardar($catalogo)
+	public function catalogosLavados()
+	{
+		$this->load->model("Lavado");
+		$data['data']=$this->Lavado->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosLavado',$data);
+		$this->load->view('foot');
+	}
+
+	public function catalogosMaquileros()
+	{
+		$this->load->model("Maquilero");
+		$data['data']=$this->Maquilero->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosMaquilero',$data);
+		$this->load->view('foot');
+	}
+
+	public function catalogosMarcas()
+	{
+		$this->load->model("Marca");
+		$data['data']=$this->Marca->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosMarca',$data);
+		$this->load->view('foot');
+	}
+
+	public function catalogosProcesos()
+	{
+		$this->load->model("ProcesoSeco");
+		$data['data']=$this->ProcesoSeco->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosProcesos',$data);
+		$this->load->view('foot');
+	}
+
+	public function catalogosUsuarios()
+	{
+		$this->load->model("Usuarios");
+		$this->load->model("TipoUsuario");
+		$data['data']=$this->Usuarios->get();
+		$data['TipoUsuario']=$this->TipoUsuario->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosUsuarios',$data);
+		$this->load->view('foot');
+	}
+
+	public function catalogosTipos()
+	{
+		$this->load->model("Tipo_pantalon");
+		$data['data']=$this->Tipo_pantalon->get();
+		$this->load->view('head');
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosTipoPantalon',$data);
+		$this->load->view('foot');
+	}
+
+	public function nuevoCliente()
 	{
 		if($this->input->post())
 		{
-			$opcion=$this->input->post()['opcion'];
-			switch ($catalogo)
-			{
-				case 1:
-					$this->load->model("Cliente");
-					if ($opcion=='Editar')
-					{
-						$this->Cliente->update($this->input->post()['nombre'],$this->input->post()['direccion'],$this->input->post()['telefono'],$this->input->post()['id']);
-						$data['cliente_id']=$this->input->post()['id'];
-					}
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$data['direccion']=$this->input->post()['direccion'];
-						$data['telefono']=$this->input->post()['telefono'];
-						$n=$this->Cliente->insert($data);
-						$data=null;
-						$data['cliente_id']=$n;
-					}
-					$this->load->model("ClienteHasMarca");
-					$this->ClienteHasMarca->delete($this->input->post()['id']);
+			$this->load->model("Cliente");
+			$data['nombre']=$this->input->post()['nombre'];
+			$data['direccion']=$this->input->post()['direccion'];
+			$data['telefono']=$this->input->post()['telefono'];
+			$n=$this->Cliente->insert($data);
+			redirect("/administracion/catalogosClientes");
+		}
+		else redirect("/");
+	}
 
-					foreach ($this->input->post()['marca'] as $key => $value)
-					{
-						$data['marca_id']=$value;
-						$this->ClienteHasMarca->insert($data);
-					}
-						break;
-				case 2:
-					$this->load->model("Lavado");
-					if ($opcion=='Editar')
-						$this->Lavado->update($this->input->post()['nombre'],$this->input->post()['id']);
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$this->Lavado->insert($data);
-					}
-						break;
+	public function editarCliente()
+	{
+		if($this->input->post())
+		{
+				$this->load->model("Cliente");
+				$this->Cliente->update(
+					$this->input->post()['nombreE'],
+					$this->input->post()['direccionE'],
+					$this->input->post()['telefonoE'],
+					$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosClientes");
+		}
+		else redirect("/");
+	}
 
-				case 3:
-					$this->load->model("Maquilero");
-					if ($opcion=='Editar')
-						$this->Maquilero->update($this->input->post()['nombre'],$this->input->post()['direccion'],$this->input->post()['telefono'],$this->input->post()['id']);
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$data['direccion']=$this->input->post()['direccion'];
-						$data['telefono']=$this->input->post()['telefono'];
-						$this->Maquilero->insert($data);
-					}
-						break;
-				case 4:
-					$this->load->model("Marca");
-					if ($opcion=='Editar')
-						$this->Marca->update($this->input->post()['nombre'],$this->input->post()['id']);
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$this->Marca->insert($data);
-					}
-					break;
-				case 5:
-					$this->load->model("ProcesoSeco");
-					if ($opcion=='Editar')
-						$this->ProcesoSeco->update($this->input->post()['nombre'],$this->input->post()['costo'],$this->input->post()['abreviatura'],$this->input->post()['id']);
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$data['costo']=$this->input->post()['costo'];
-						$data['abreviatura']=$this->input->post()['abreviatura'];
-						$this->ProcesoSeco->insert($data);
-					}
-						break;
+	public function nuevoLavado()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Lavado");
+			$data['nombre']=$this->input->post()['nombre'];
+			$this->Lavado->insert($data);
+			redirect("/administracion/catalogosLavados");
+		}
+		else redirect("/");
+	}
 
-				case 6:
-					$this->load->model("Usuarios");
-					if ($opcion=='Editar')
-						$this->Usuarios->update($this->input->post()['nombre'],$this->input->post()['pass'],$this->input->post()['tipo_usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono'],$this->input->post()['id']);
-					else
-					{
-						$data['nombre']=$this->input->post()['nombre'];
-						$data['pass']=md5($this->input->post()['pass']);
-						$data['tipo_usuario_id']=$this->input->post()['tipo_usuario_id'];
-						$data['nombre_completo']=$this->input->post()['nombre_completo'];
-						$data['direccion']=$this->input->post()['direccion'];
-						$data['telefono']=$this->input->post()['telefono'];
-						$this->Usuarios->insert($data);
-					}
-						break;
+	public function editarLavado()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Lavado");
+			$this->Lavado->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosLavados");
+		}
+		else redirect("/");
+	}
 
-					case 7:
-						$this->load->model("Tipo_pantalon");
-						if ($opcion=='Editar')
-							$this->Tipo_pantalon->update($this->input->post()['nombre'],$this->input->post()['id']);
-						else
-						{
-							$data['nombre']=$this->input->post()['nombre'];
-							$this->Tipo_pantalon->insert($data);
-						}
-						break;
-				}
-				redirect('/administracion/index/-1');
+	public function nuevoMaquilero()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Maquilero");
+			$data['nombre']=$this->input->post()['nombre'];
+			$data['direccion']=$this->input->post()['direccion'];
+			$data['telefono']=$this->input->post()['telefono'];
+			$this->Maquilero->insert($data);
+			redirect("/administracion/catalogosMaquileros");
+		}
+		else redirect("/");
+	}
+
+	public function editarMaquilero()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Maquilero");
+			$this->Maquilero->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['direccionE'],
+				$this->input->post()['telefonoE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosMaquileros");
+		}
+		else redirect("/");
+	}
+
+	public function nuevoMarca()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Marca");
+			$data['nombre']=$this->input->post()['nombre'];
+			$this->Marca->insert($data);
+			redirect("/administracion/catalogosMarcas");
+		}
+		else redirect("/");
+	}
+
+	public function editarMarca()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Marca");
+			$this->Marca->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosMarcas");
+		}
+		else redirect("/");
+	}
+
+	public function nuevoProceso()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("ProcesoSeco");
+			$data['nombre']=$this->input->post()['nombre'];
+			$data['costo']=$this->input->post()['costo'];
+			$data['abreviatura']=$this->input->post()['abreviatura'];
+			$this->ProcesoSeco->insert($data);
+			redirect("/administracion/catalogosProcesos");
+		}
+		else redirect("/");
+	}
+
+	public function editarProceso()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("ProcesoSeco");
+			$this->ProcesoSeco->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['costoE'],
+				$this->input->post()['abreviaturaE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosProcesos");
+		}
+		else redirect("/");
+	}
+
+	public function nuevoTipo()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Tipo_pantalon");
+			$data['nombre']=$this->input->post()['nombre'];
+			$this->Tipo_pantalon->insert($data);
+			redirect("/administracion/catalogosTipos");
+		}
+		else redirect("/");
+	}
+
+	public function editarTipo()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Tipo_pantalon");
+			$this->Tipo_pantalon->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosTipos");
+		}
+		else redirect("/");
+	}
+
+	public function nuevoUsuario()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Usuarios");
+			$data['nombre']=$this->input->post()['nombre'];
+			$data['pass']=$this->input->post()['pass'];
+			$data['tipo_usuario_id']=$this->input->post()['tipo_usuario_id'];
+			$data['nombre_completo']=$this->input->post()['nombre_completo'];
+			$data['direccion']=$this->input->post()['direccion'];
+			$data['telefono']=$this->input->post()['telefono'];
+			$this->Usuarios->insert($data);
+			redirect("/administracion/catalogosUsuarios");
+		}
+		else redirect("/");
+	}
+
+	public function editarUsuario()
+	{
+		if($this->input->post())
+		{
+			$this->load->model("Usuarios");
+			$this->Usuarios->update(
+				$this->input->post()['nombreE'],
+				$this->input->post()['passE'],
+				$this->input->post()['tipo_usuario_idE'],
+				$this->input->post()['nombre_completoE'],
+				$this->input->post()['direccionE'],
+				$this->input->post()['telefonoE'],
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosUsuarios");
+		}
+		else redirect("/");
+	}
+
+	public function cambiarPass()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/administracion/index/-1');
 		}
 		else
 		{
-			redirect('/');
+			$data['link']=base_url().'index.php/administracion/cambiarPass';
+			$this->load->view('head');
+			$this->load->view('administracion/menu');
+			$this->load->view('cambiarPass',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function datos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/administracion/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/administracion/datos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('administracion/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
 		}
 	}
 }

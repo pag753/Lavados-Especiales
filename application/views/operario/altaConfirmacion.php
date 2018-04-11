@@ -1,170 +1,105 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-    <?php
-      $input_folio = array('type'    => 'text',
-                           'name'    => 'folio',
-                           'id'      => 'folio',
-                           'class'   => 'bootstrap',
-                           'value'   => set_value('folio',@$folio),);
-    ?>
-    <script>
-      $(document).ready(function(){
-        $("form").submit(function( event ){
-          var total=parseInt($("#total").val());
-          var trabajadas=parseInt($("#piezas_trabajadas").val());
-          var defectos=parseInt($("#defectos").val());
-          if($("#siguente")!=null){
-            if(parseInt($("#siguente").val())==-1){
-              alert("Seleccione una opción válida en siguente");
-              return false;
-            }
-            else
-              return true;
-          }
-        });
-      });
-    </script>
-    <div class="container">
-      <div class="table">
-        <div class="header-text">
-          <div class="modal-dialog">
-            <h3 class="blue">Datos generales</h3>
-            <form action="<?php echo base_url(); ?>index.php/operario/registro" method="post" enctype="multipart/form-data">
-              <center>
-                <table class="table table-bordered">
-                  <tr class="danger">
-                    <th>
-                      <label class="blue">Folio</label>
-                    </th>
-                    <th>
-                      <center>
-                        <label class="blue">Carga</label>
-                      </center>
-                    </th>
-                    <th>
-                      <center>
-                        <label class="blue">Proceso</label>
-                      </center>
-                    </th>
-                    <th>
-                      <center>
-                        <label class="blue">Trabajadas</label>
-                      </center>
-                    </th>
-                    <th>
-                      <center>
-                        <label class="blue">Defectos</label>
-                      </center>
-                    </th>
-                    <th>
-                      <center>
-                        <label class="blue">Total</label>
-                      </center>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th>
-                      <label class="blue" name="folio" id="folio"><?php echo $folio; ?></label>
-                    </th>
-                    <th>
-                      <label class="blue"><?php echo strtoupper($nombreCarga); ?></label>
-                    </th>
-                    <th>
-                      <label class="blue"><?php echo strtoupper($nombreProceso); ?></label>
-                    </th>
-                    <th>
-                      <label class="blue"><?php echo $trabajadas ?></label>
-                    </th>
-                    <th>
-                      <label class="blue"><?php echo $defectos ?></label>
-                    </th>
-                    <th>
-                      <label class="blue"><?php echo $piezas ?></label>
-                    </th>
-                  </tr>
-                </table>
-                <table>
-                  <?php
-                    if ($trabajadas+$defectos==$piezas)
-                    {
-                      if(count($faltantes)!=0)
-                      {
-                        echo "
-                        <tr>
-                          <th class='blue'>
-                            Siguente:
-                          </th>
-                          <th>
-                            <select name='siguente' id='siguente'>
-                              <option value=-1>
-                                SELECCIONE UNA OPCIÓN
-                                </option>";
-                        foreach ($faltantes as $key => $value)
-                        {
-                          echo "
-                              <option value=".$value['idproceso'].">
-                                ".strtoupper($value['proceso'])."
-                              </option>";
-                        }
-                        echo "
-                            </select>
-                          </th>
-                        </tr>";
-                      }
-                    }
-                  ?>
-                </table>
-              </center>
-              <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
-              <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
-              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
-              <br />
-              <?php if ($trabajadas+$defectos==$piezas) {?>
-                <input type="submit" name="aceptar" id="aceptar" value="Aceptar"/>
-              <?php } else {?>
-                <h6 class="blue">La suma de las piezas de producción y defecectos no son iguales al total. Favor de revisar con los operarios</h6>
-              <?php } ?>
-              <h3 class="blue">Para ver los datos epecíficos siga bajando</h3>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="table">
-        <div class="header-text">
-          <div class="modal-dialog">
-            <h3 class="blue">Datos específicos</h3>
-            <table class="table table-bordered">
-              <tr class="danger">
+<?php
+$input_folio = array('type'    => 'text',
+                     'name'    => 'folio',
+                     'id'      => 'folio',
+                     'class'   => 'bootstrap',
+                     'value'   => set_value('folio',@$folio),);
+?>
+<script>
+$(document).ready(function(){
+  $("form").submit(function( event ){
+    var total=parseInt($("#total").val());
+    var trabajadas=parseInt($("#piezas_trabajadas").val());
+    var defectos=parseInt($("#defectos").val());
+    if($("#siguente")!=null){
+      if(parseInt($("#siguente").val())==-1){
+        alert("Seleccione una opción válida en siguente");
+        return false;
+      }
+      else
+        return true;
+    }
+  });
+});
+</script>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+      <h3>Datos generales</h3>
+      <form action="<?php echo base_url(); ?>index.php/operario/registro" method="post" enctype="multipart/form-data">
+        <table class="table table-bordered">
+          <tr class="danger">
+            <th>Folio</th>
+            <th>Carga</th>
+            <th>Proceso</th>
+            <th>Trabajadas</th>
+            <th>Defectos</th>
+            <th>Total</th>
+          </tr>
+          <tr>
+            <th><?php echo $folio; ?></th>
+            <th><?php echo strtoupper($nombreCarga); ?></th>
+            <th><?php echo strtoupper($nombreProceso); ?></th>
+            <th><?php echo $trabajadas ?></th>
+            <th><?php echo $defectos ?></th>
+            <th><?php echo $piezas ?></th>
+          </tr>
+        </table>
+        <table>
+          <?php if ($trabajadas+$defectos==$piezas): ?>
+            <?php if (count($faltantes)!=0): ?>
+              <tr>
+                <th class="blue">Siguente:</th>
                 <th>
-                  <label class="blue">Empleado</label>
-                </th>
-                <th>
-                  <label class="blue">Piezas</label>
-                </th>
-                <th>
-                  <label class="blue">Defectos</label>
-                </th>
-                <th>
-                  <label class="blue">Fecha</label>
+                  <select name='siguente' id='siguente' class="form-control">
+                    <option value="-1">SELECCIONE UNA OPCIÓN</option>";
+                    <?php foreach ($faltantes as $key => $value): ?>
+                      <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>;
+                    <?php endforeach; ?>
+                  </select>
                 </th>
               </tr>
-              <?php
-                foreach ($query as $key => $value)
-                {
-                  echo "<tr>
-                  <th><label class='blue'>".$value['usuario']."</label></th>
-                  <th><label class='blue'>".$value['piezas']."</label></th>
-                  <th><label class='blue'>".$value['defectos']."</label></th>
-                  <th><label class='blue'>".$value['fecha']."</label></th>
-                  </tr>";
-                }
-              ?>
-            </table>
-          </div>
-        </div>
+            <?php endif; ?>
+          <?php endif; ?>
+        </table>
+        <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
+        <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
+        <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
+        <?php if ($trabajadas+$defectos==$piezas): ?>
+          <input type="submit" name="aceptar" id="aceptar" value="Aceptar"/>
+        <?php else: ?>
+          <h6 class="blue">La suma de las piezas de producción y defecectos no son iguales al total. Favor de revisar con los operarios</h6>
+        <?php endif; ?>
+        <h3>Para ver los datos epecíficos siga bajando</h3>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+      <h3>Datos específicos</h3>
+      <div class="form-group row">
+        <table class="table table-bordered">
+          <tr class="danger">
+            <th>Empleado</th>
+            <th>Piezas</th>
+            <th>Defectos</th>
+            <th>Fecha</th>
+          </tr>
+          <?php foreach ($query as $key => $value): ?>
+            <tr>
+              <th><?php echo $value['usuario'] ?></th>
+              <th><?php echo $value['piezas'] ?></th>
+              <th><?php echo $value['defectos'] ?></th>
+              <th><?php echo $value['fecha'] ?></th>
+            </tr>
+          <?php endforeach; ?>
+        </table>
       </div>
     </div>
-    
+  </div>
+</div>

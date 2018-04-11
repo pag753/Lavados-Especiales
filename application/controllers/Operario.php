@@ -18,25 +18,18 @@ class Operario extends CI_Controller
 	{
 		if($datos==null)
 		{
-			$datos['texto1']="Bienvenido(a) usuario";
-			$datos['texto2']=$_SESSION['username'];
+			$data['texto1']="Bienvenido(a) usuario";
+			$data['texto2']=$_SESSION['username'];
 		}
 		else
 		{
-			$datos['texto1']="Los datos";
-			$datos['texto2']="Se han registrado con éxito";
+			$data['texto1']="Los datos";
+			$data['texto2']="Se han registrado con éxito";
 		}
-		$datos['folio']=$this->input->post()['folio'];
 		$this->load->view('head');
 		$this->load->view('operario/menu');
-		$this->load->view('operario/index',$datos);
+		$this->load->view('operario/index',$data);
 		$this->load->view('foot');
-
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('operarioBase');
-		$this->load->view('operarioPrincipal',$data);
-		$this->load->view('footer');*/
 	}
 
 	public function alta($id=null)
@@ -58,26 +51,15 @@ class Operario extends CI_Controller
 			$data['query']=$query;
 			$this->load->view('head');
 			$this->load->view('operario/menu');
-			$this->load->view('operariops/altaConfirmacion',$data);
+			$this->load->view('operario/altaConfirmacion',$data);
 			$this->load->view('foot');
-
-			/*
-			$this->load->view('encabezado_principal');
-			$this->load->view('operarioBase');
-			$this->load->view('operarioAltaConfirmacion',$data);
-			$this->load->view('footer');*/
 		}
 		else
 		{
 			$this->load->view('head');
 			$this->load->view('operario/menu');
-			$this->loas->view('operario/alta');
+			$this->load->view('operario/alta');
 			$this->load->view('foot');
-			/*
-			$this->load->view('encabezado_principal');
-			$this->load->view('operarioBase');
-			$this->load->view('operarioAlta');
-			$this->load->view('footer');*/
 		}
 	}
 
@@ -96,6 +78,44 @@ class Operario extends CI_Controller
 		else
 		{
 			redirect("/");
+		}
+	}
+
+	public function cambiarPass()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/operario/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/operario/cambiarPass';
+			$this->load->view('head');
+			$this->load->view('operario/menu');
+			$this->load->view('cambiarPass',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function datos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/operario/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/operario/datos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('operario/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
 		}
 	}
 

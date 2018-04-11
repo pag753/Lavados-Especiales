@@ -30,11 +30,6 @@ class Operariops extends CI_Controller
 		$this->load->view('operariops/menu');
 		$this->load->view('operariops/index',$data);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('operariopsBase');
-		$this->load->view('operarioPrincipal',$data);
-		$this->load->view('footer');*/
 	}
 
 	public function cerrar_sesion()
@@ -75,12 +70,6 @@ class Operariops extends CI_Controller
 			$this->load->view('operariops/menu');
 			$this->load->view('operariops/insertar',$data);
 			$this->load->view('foot');
-
-			/*
-			$this->load->view('encabezado_principal');
-			$this->load->view('operariopsBase');
-			$this->load->view('operariopsInsertar',$data);
-			$this->load->view('footer');*/
 		}
 		else
 		{
@@ -94,6 +83,44 @@ class Operariops extends CI_Controller
 				$n=1;
 			}
 			redirect("/operariops/index/2");
+		}
+	}
+
+	public function cambiarPass()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/operariops/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/Operariops/cambiarPass';
+			$this->load->view('head');
+			$this->load->view('operariops/menu');
+			$this->load->view('cambiarPass',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function datos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/operariops/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/Operariops/datos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('operariops/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
 		}
 	}
 }

@@ -17,9 +17,8 @@ class Corte extends CI_Model
 
 	public function agregar($datos=null)
 	{
-		$fecha=DateTime::createFromFormat('d/m/Y',$datos['fecha']);
 		$data['folio']=$datos['folio'];
-		$data['fecha_entrada']=$fecha->format('Y/m/d');
+		$data['fecha_entrada']=substr($datos['fecha'],0,10);
 		$data['corte']=$datos['corte'];
 		$data['marca_id']=$datos['marca'];
 		$data['maquilero_id']=$datos['maquilero'];
@@ -58,10 +57,8 @@ class Corte extends CI_Model
 
 	public function reporte1($datos)
 	{
-		$f=explode("/",$datos['fechai']);
-		$fechai=$f[2]."/".$f[1]."/".$f[0];
-		$f=explode("/",$datos['fechaf']);
-		$fechaf=$f[2]."/".$f[1]."/".$f[0];
+		$fechai=substr($datos['fechai'],0,10);
+		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
@@ -105,10 +102,8 @@ class Corte extends CI_Model
 
 	public function reporte2($datos)
 	{
-		$f=explode("/",$datos['fechai']);
-		$fechai=$f[2]."/".$f[1]."/".$f[0];
-		$f=explode("/",$datos['fechaf']);
-		$fechaf=$f[2]."/".$f[1]."/".$f[0];
+		$fechai=substr($datos['fechai'],0,10);
+		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
@@ -155,10 +150,8 @@ class Corte extends CI_Model
 
 	public function reporte3($datos)
 	{
-		$f=explode("/",$datos['fechai']);
-		$fechai=$f[2]."/".$f[1]."/".$f[0];
-		$f=explode("/",$datos['fechaf']);
-		$fechaf=$f[2]."/".$f[1]."/".$f[0];
+		$fechai=substr($datos['fechai'],0,10);
+		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
@@ -205,14 +198,12 @@ class Corte extends CI_Model
 		->where('corte.fecha_entrada<=',$fechaf)
 		->order_by('corte.folio','ASC');
 		return $this->db->get()->result_array();
-	} 
+	}
 
 	public function reporte4($datos)
 	{
-		$f=explode("/",$datos['fechai']);
-		$fechai=$f[2]."/".$f[1]."/".$f[0];
-		$f=explode("/",$datos['fechaf']);
-		$fechaf=$f[2]."/".$f[1]."/".$f[0];
+		$fechai=substr($datos['fechai'],0,10);
+		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
 		unset($datos['fechaf']);
 		unset($datos['reporte']);

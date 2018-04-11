@@ -38,6 +38,16 @@ class Usuarios extends CI_Model
     $this->db->update('usuario', $data);
   }
 
+  public function updateD($id,$nombre_completo,$direccion,$telefono)
+  {
+    $data = array('nombre_completo'=>$nombre_completo,
+                  'direccion'      =>$direccion,
+                  'telefono'       =>$telefono,
+                );
+    $this->db->where('id', $id);
+    $this->db->update('usuario', $data);
+  }
+
   public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$id)
   {
     if($pass==null)
@@ -66,5 +76,14 @@ class Usuarios extends CI_Model
   {
     $this->db->insert('usuario', $data);
     return $this->db->insert_id();
+  }
+
+  function exists($usuario)
+  {
+    $this->db->where('nombre', $usuario);
+    $query = $this->db->get("usuario");
+    if(count($query->result_array())>0)
+      echo "yes";
+    else echo "no";
   }
 }

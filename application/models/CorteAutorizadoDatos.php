@@ -23,7 +23,8 @@ class CorteAutorizadoDatos extends CI_Model
 
   public function joinLavado($folio)
   {
-    $this->db->select('
+    $this->db->distinct()
+        ->select('
              corte_autorizado_datos.id_carga,
              corte_autorizado_datos.lavado_id,
              lavado.id,
@@ -31,25 +32,22 @@ class CorteAutorizadoDatos extends CI_Model
             ')
         ->from('corte_autorizado_datos')
         ->join('lavado','corte_autorizado_datos.lavado_id=lavado.id')
-        ->where('corte_autorizado_datos.corte_folio',$folio)
-        ->group_by("corte_autorizado_datos.id_carga");
+        ->where('corte_autorizado_datos.corte_folio',$folio);
       return $this->db->get()->result_array();
   }
 
   public function joinLavadoProcesos($folio)
   {
-    $this->db->select('
+    $this->db->distinct()
+        ->select('
              lavado.id as idlavado,
              lavado.nombre as lavado,
-             proceso_seco.nombre as proceso,
-             proceso_seco.id as idproceso,
-             proceso_seco.costo as costo
             ')
         ->from('corte_autorizado_datos')
         ->join('lavado','corte_autorizado_datos.lavado_id=lavado.id')
         ->join('proceso_seco','corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-        ->where('corte_autorizado_datos.corte_folio',$folio)
-        ->group_by("corte_autorizado_datos.id_carga");
+        ->where('corte_autorizado_datos.corte_folio',$folio);
+        //->group_by("corte_autorizado_datos.id_carga");
       return $this->db->get()->result_array();
   }
 

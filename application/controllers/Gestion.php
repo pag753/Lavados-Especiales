@@ -34,12 +34,6 @@ class Gestion extends CI_Controller
 			$data['texto1']="Bienvenido(a) usuario de gestión";
 			$data['texto2']=$_SESSION['username'];
 		}
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('gestion_base');
- 		$this->load->view('gestion_principal',$data);
-		$this->load->view('footer');*/
-
 		$this->load->view('head');
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
@@ -67,8 +61,7 @@ class Gestion extends CI_Controller
 			$config['max_height'] = "20000";
 
 			$this->load->library('upload', $config);
-
-      			if (!$this->upload->do_upload($mi_imagen))
+			if (!$this->upload->do_upload($mi_imagen))
 			{
 				// ocurrio un error
 				$data['uploadError'] = $this->upload->display_errors();
@@ -79,10 +72,9 @@ class Gestion extends CI_Controller
 			$this->load->model('corte');
 			$this->corte->agregar($datos['datos_corte']);
 			redirect('/gestion/index/'.$datos['datos_corte']['folio']);
-			}
-
-			else
-			{
+		}
+		else
+		{
 			$this->load->model(array('marca','maquilero','cliente','tipo_pantalon','corte'));
 			$c=$this->corte->get();
 			if(count($c)==0)
@@ -105,12 +97,6 @@ class Gestion extends CI_Controller
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/alta',$datos);
 			$this->load->view('foot');
-
-			/*
-			$this->load->view('encabezado_principal');
-			$this->load->view('gestion_base');
-			$this->load->view('gestion_alta_corte',$datos);
-			$this->load->view('footer');*/
 		}
 	}
 
@@ -140,18 +126,10 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$datos['fecha']=date("d/m/Y");
-
 			$this->load->view('head');
 			$this->load->view('gestion/menu');
-			$this->load->view('gestion/salidaInterna',$datos);
+			$this->load->view('gestion/salidaInterna');
 			$this->load->view('foot');
-
-			/*
-			$this->load->view('encabezado_principal');
-			$this->load->view('gestion_base');
-			$this->load->view('gestion_salidaInterna',$datos);
-			$this->load->view('footer');*/
 		}
 	}
 
@@ -167,14 +145,6 @@ class Gestion extends CI_Controller
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/reportes',$datos);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		if($_SESSION['id']!=5)
-			$this->load->view('gestion_base');
-		else
-			$this->load->view('rootBase');
-		$this->load->view('gestion_reportes',$datos);
-		$this->load->view('footer');*/
 	}
 
 	public function generaReporte()
@@ -232,6 +202,7 @@ class Gestion extends CI_Controller
     		$pdf->AliasNbPages();
 		//$pdf->Open();
 		$pdf->AddPage();
+
 		/* Se define el titulo, márgenes izquierdo, derecho y
      		* el color de relleno predeterminado
      		*/
@@ -294,7 +265,6 @@ class Gestion extends CI_Controller
 		$pdf->Output("Reporte.pdf", 'I');
 	}
 
-	/*
 	public function reporte2()
 	{
 		//reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
@@ -306,7 +276,7 @@ class Gestion extends CI_Controller
 			$check=TRUE;
 		else
 			$check=FALSE;
-    		$this->load->library('pdf');
+			$this->load->library('pdf');
 		// Creacion del PDF
 		/*
      		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
@@ -314,7 +284,6 @@ class Gestion extends CI_Controller
      		*/
 		//$pdf=new PDF('L','mm','Letter');
 		//$pdf->Open();
-		/*
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
 		//print_r($cortes);
@@ -330,7 +299,7 @@ class Gestion extends CI_Controller
 		/* Se define el titulo, márgenes izquierdo, derecho y
      		* el color de relleno predeterminado
      	*/
-/*
+
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
 		$cortes=$this->corte->reporte2($this->input->post());
@@ -338,7 +307,7 @@ class Gestion extends CI_Controller
 		//190 vertical
 		if ($check)
 		{
-			$valor=42.769230769
+			$valor=42.769230769;
 			$arregloPrincipal=array($valor,8.769230769,10.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769);
 			$pdf->SetWidths($arregloPrincipal);
 			$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Lavado")));
@@ -442,9 +411,8 @@ class Gestion extends CI_Controller
 		* D = Envia el pdf para descarga
 		*
 		*/
-		/*
 		$pdf->Output("Reporte.pdf", 'I');
-	}*/
+	}
 
 	public function reporte3()
 	{
@@ -773,45 +741,40 @@ class Gestion extends CI_Controller
 
 	public function cambiarPass()
 	{
-		$this->load->view('head');
-		$this->load->view('gestion/menu');
-		$this->load->view('gestion/cambiarPass');
-		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('gestion_base');
-		$this->load->view('generalCambiarContraseña.php');
-		$this->load->view('footer');*/
-	}
-
-	private function errorSalidaInterna1($texto2,$autorizado)
-	{
-		$datos['autorizado']=$autorizado;
-		$datos['texto1']="Salida Interna";
-		$datos['texto2']=$texto2;
-		$datos['folio']=$this->input->post()['folio'];
-		$datos['piezas']=$this->input->post()['piezas'];
-		$datos['fecha']=$this->input->post()['fecha'];
-		$datos['muestras']=$this->input->post()['muestras'];
-		$datos['piezas_parcial']=$this->input->post()['piezas_parcial'];
-		$this->cargaSalidaInterna1($datos);
-	}
-
-	private function cargaSalidaInterna1Validacion($datos=null)
-	{
-		if(isset($this->input->post()['folio']))
+		if($this->input->post())
 		{
-			$datos['folio']=$this->input->post()['folio'];
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/gestion/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/Gestion/cambiarPass';
 			$this->load->view('head');
 			$this->load->view('gestion/menu');
-			$this->load->view('gestion/cargaSalidaInterna1Validacion',$datos);
+			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
 		}
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('gestion_base');
-		$this->load->view('gestion_salidaInterna1Validacion',$datos);
-		$this->load->view('footer');*/
+	}
+
+	public function cambiarDatos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/gestion/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/gestion/cambiarDatos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
+		}
 	}
 }
 ?>

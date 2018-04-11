@@ -1,144 +1,114 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-  <?php if (!isset($folio): ?>
-      <?php
-        $input_folio = array('type'    => 'text',
-                             'name'    => 'folio',
-                             'id'      => 'folio',
-                             'class'   => 'bootstrap',
-                             'value'   => set_value('folio',@$folio),);
-      ?>
-      <script>
-        $(document).ready(function(){
-          $('#folio').keyup(function(){
-            $('#procesos').html('');
-            $('#valida').html('');
-            $.ajax({url: "<?php echo base_url() ?>index.php/ajax/operarioCargas/"+$('#folio').val(), success: function(result){
-              $("#cargas").html(result);
-              $( '#carga' ).change(function(){
-                $('#valida').html('');
-                $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
-                  $('#procesos').html(result);
-                  $( '#proceso' ).change(function(){
-                    $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
-                      $('#valida').html(result);
-                    }});
-                  });
-                }});
-              });
-            }});
-          });
-          $( '#carga' ).change(function(){
-            $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
-              $('#procesos').html(result);
-            }});
-          });
-          $( '#proceso' ).change(function(){
-            $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
-              $('#valida').html(result);
-            }});
-          });
+<?php if(!isset($folio)): ?>
+  <?php
+  $input_folio = array('type'       => 'text',
+                       'name'       => 'folio',
+                       'id'         => 'folio',
+                       'class'      => 'form-control',
+                       'value'      => set_value('folio',@$folio),
+                       'placeholder'=>'Inserte número de folio',
+                       );
+  ?>
+  <script>
+  $(document).ready(function(){
+    $('#folio').keyup(function(){
+      $('#procesos').html('');
+      $('#valida').html('');
+      $.ajax({url: "<?php echo base_url() ?>index.php/ajax/operarioCargas/"+$('#folio').val(), success: function(result){
+        $("#cargas").html(result);
+        $( '#carga' ).change(function(){
+          $('#valida').html('');
+          $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
+            $('#procesos').html(result);
+            $( '#proceso' ).change(function(){
+              $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
+                $('#valida').html(result);
+              }});
+            });
+          }});
         });
-      </script>
-      <div class="container">
-        <div class="table">
-          <div class="header-text">
-            <div class="modal-dialog">
-              <div class="modal-content modal-popup">
-                <h3 class="white">Alta de producción</h3>
-                <h4 class="white">Ingrese número de folio</h4>
-                <form action="<?php echo base_url(); ?>index.php/operariops/insertar" method="post" enctype="multipart/form-data">
-                  <center>
-                    <table>
-                      <tr>
-                        <th>
-                          <label>Folio:</label>
-                        </th>
-                        <th>
-                          <?php echo form_input($input_folio); ?>
-                        </th>
-                      </tr>
-                    </table>
-                    <div id="cargas" name="cargas">
-                    </div>
-                    <div id="procesos" name="procesos">
-                    </div>
-                    <div id="valida" name="valida">
-                    </div>
-                  </center>
-                  <br />
-                </form>
-              </div>
+      }});
+    });
+    $( '#carga' ).change(function(){
+      $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
+        $('#procesos').html(result);
+      }});
+    });
+    $( '#proceso' ).change(function(){
+      $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
+        $('#valida').html(result);
+      }});
+    });
+  });
+  </script>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+        <h3>Alta de producción</h3>
+        <form action="<?php echo base_url(); ?>index.php/operariops/insertar" method="post" enctype="multipart/form-data">
+          <div class="form-group row">
+            <label for="folio" class="col-3 col-form-label">Folio</label>
+            <div class="col-9">
+              <?php echo form_input($input_folio); ?>
             </div>
           </div>
-        </div>
+          <div id="cargas" name="cargas" class="form-group row">
+          </div>
+          <div id="procesos" name="procesos" class="form-group row">
+          </div>
+          <div id="valida" name="valida" class="form-group row">
+          </div>
+        </form>
       </div>
-    <?php else: ?>
-      <div class="container">
-        <div class="table">
-          <div class="header-text">
-            <div class="modal-dialog">
-              <div class="modal-content modal-popup">
-                <h3 class="white">Alta de producción</h3>
-                <h4 class="white">Ingrese los datos</h4>
-                <form action="<?php echo base_url(); ?>index.php/operariops/insertar/1" method="post" enctype="multipart/form-data">
-                  <center>
-                    <table>
-                      <tr>
-                        <th>
-                          <label>Folio:</label>
-                        </th>
-                        <th>
-                          <input type="text" name="folio" readonly="true" value="<?php echo $folio ?>"/>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          <label>Carga:</label>
-                        </th>
-                        <th>
-                          <input type="text" name="nombreCarga" readonly="true" value="<?php echo strtoupper($nombreCarga) ?>"/>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          <label>Proceso:</label>
-                        </th>
-                        <th>
-                          <input type="text" name="nombreProceso" readonly="true" value="<?php echo strtoupper($nombreProceso) ?>"/>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          <label>Piezas de producción:</label>
-                        </th>
-                        <th>
-                          <input type="number" name="piezas"  id="piezas"  required="true" placeholder="Inserte el valor" value="<?php echo $piezas ?>"/>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th>
-                          <label>Defectos:</label>
-                        </th>
-                        <th>
-                          <input type="number" name="defectos" id="defectos"  required="true" placeholder="Inserte el valor" value="<?php echo $defectos ?>"/>
-                        </th>
-                      </tr>
-                    </table>
-                  </center>
-                  <br />
-                  <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
-                  <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
-                  <input type="hidden" name="nuevo" id="nuevo" value="<?php echo $nuevo ?>"/>
-                  <input type="hidden" name="idprod" id="idprod" value="<?php echo $idprod ?>"/>
-                  <input type="hidden" name="usuarioid" id="usuarioid" value="<?php echo $usuarioid ?>"/>
-                  <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $idlavado ?>"/>
-                  <input type="submit" value="Aceptar"/>
-                </form>
-              </div>
+    </div>
+  </div>
+<?php else: ?>.
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+        <h3>Alta de producción</h3>
+        <form action="<?php echo base_url(); ?>index.php/operariops/insertar/1" method="post" enctype="multipart/form-data">
+          <div class="form-group row">
+            <label for="folio" class="col-3 col-form-label">Folio</label>
+            <div class="col-9">
+              <input type="text" name="folio" readonly="true" class="form-control" value="<?php echo $folio ?>"/>
             </div>
           </div>
-        </div>
+          <div class="form-group row">
+            <label for="nombreCarga" class="col-3 col-form-label">Carga</label>
+            <div class="col-9">
+              <input type="text" name="nombreCarga" readonly="true" class="form-control" value="<?php echo strtoupper($nombreCarga) ?>"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="nombreProceso" class="col-3 col-form-label">Proceso:</label>
+            <div class="col-9">
+              <input type="text" name="nombreProceso" readonly="true" class="form-control" value="<?php echo strtoupper($nombreProceso) ?>"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="piezas" class="col-3 col-form-label">Piezas de producción:</label>
+            <div class="col-9">
+              <input type="number" name="piezas"  id="piezas"  required="true" class="form-control" placeholder="Inserte el valor" value="<?php echo $piezas ?>"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="defectos" class="col-3 col-form-label">Defectos:</label>
+            <div class="col-9">
+              <input type="number" name="defectos" id="defectos"  required="true" class="form-control" placeholder="Inserte el valor" value="<?php echo $defectos ?>"/>
+            </div>
+          </div>
+          <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
+          <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
+          <input type="hidden" name="nuevo" id="nuevo" value="<?php echo $nuevo ?>"/>
+          <input type="hidden" name="idprod" id="idprod" value="<?php echo $idprod ?>"/>
+          <input type="hidden" name="usuarioid" id="usuarioid" value="<?php echo $usuarioid ?>"/>
+          <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $idlavado ?>"/>
+          <input type="submit" value="Aceptar" class="btn btn-primary"/>
+        </form>
       </div>
-    <?php endif; ?>
+    </div>
+  </div>
+<?php endif; ?>

@@ -23,18 +23,21 @@ class Produccion extends CI_Controller
 		}
 		else
 		{
-			$data['texto1']="El corte con folio ".$datos;
-			$data['texto2']="Se ha autorizado con éxito";
+			if ($datos<0)
+			{
+				$data['texto1']="Los datos";
+				$data['texto2']="Se han actualizado con éxito";
+			}
+			else
+			{
+				$data['texto1']="El corte con folio ".$datos;
+				$data['texto2']="Se ha autorizado con éxito";
+			}
 		}
 		$this->load->view('head');
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/index',$data);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('produccion_base');
-		$this->load->view('produccion_principal',$data);
-		$this->load->view('footer');*/
 	}
 
 	public function cerrar_sesion()
@@ -52,48 +55,38 @@ class Produccion extends CI_Controller
 			$resultado=$this->corte->getByFolio($datos['datos_corte']['folio']);
 			$this->load->model('corteAutorizado');
 			$resultado2=$this->corteAutorizado->getByFolio($datos['datos_corte']['folio']);
-			$fecha_plantilla=DateTime::createFromFormat('d/m/Y',$datos['datos_corte']['fecha']);
-			$fecha_bd=DateTime::createFromFormat('Y/m/d',$resultado[0]['fecha_entrada']);
-			$fecha_plantilla=date_create($fecha_plantilla->format('Y-m-d'));
-			$fecha_bd=date_create($resultado[0]['fecha_entrada']);
-			if($fecha_bd>$fecha_plantilla)
-				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','La fecha que ingresó no puede ser anterior a la fecha de ingreso del corte');
-			else
+			$data['corte_folio']=$datos['datos_corte']['folio'];
+			$data['fecha_autorizado']=substr($datos['datos_corte']['fecha'],0,10);
+			if($this->input->post()['numero']!=0)
 			{
+				$data['cargas']=count($this->input->post()['lavado']);
+				$this->load->model('corteAutorizadoDatos');
+				$this->corteAutorizado->agregar($data);
+				$data=null;
 				$data['corte_folio']=$datos['datos_corte']['folio'];
-				$data['fecha_autorizado']=$fecha_plantilla->format('Y-m-d');
-				if($this->input->post()['numero']!=0)
+				$contador=1;
+				foreach ($this->input->post()['lavado'] as $key => $value)
 				{
-					$data['cargas']=count($this->input->post()['lavado']);
-					$this->load->model('corteAutorizadoDatos');
-					$this->corteAutorizado->agregar($data);
-					$data=null;
-					$data['corte_folio']=$datos['datos_corte']['folio'];
-					$contador=1;
-					foreach ($this->input->post()['lavado'] as $key => $value)
+					$this->load->model('procesoSeco');
+					$ps=$this->procesoSeco->get();
+					foreach ($ps as $key2 => $value)
+						$precios[$value['id']]=$value['costo'];
+
+					$data['id_carga']=$contador;
+					$data['lavado_id']=$this->input->post()['lavado'][$key];
+					foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
 					{
-						$this->load->model('procesoSeco');
-						$ps=$this->procesoSeco->get();
-						foreach ($ps as $key2 => $value)
-						{
-							$precios[$value['id']]=$value['costo'];
-						}
-						$data['id_carga']=$contador;
-						$data['lavado_id']=$this->input->post()['lavado'][$key];
-						foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
-						{
-							$data['proceso_seco_id']=$valor;
-							$data['costo']=$precios[$valor];
-							$n=$this->corteAutorizadoDatos->agregar($data);
-							print_r($n);
-						}
-						$contador++;
+						$data['proceso_seco_id']=$valor;
+						$data['costo']=$precios[$valor];
+						$n=$this->corteAutorizadoDatos->agregar($data);
+						print_r($n);
 					}
-					redirect('/produccion/index/'.$datos['datos_corte']['folio']);
+					$contador++;
 				}
-				else
-					$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
+				redirect('/produccion/index/'.$datos['datos_corte']['folio']);
 			}
+			else
+				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
 		}
 		else
 		{
@@ -114,10 +107,43 @@ class Produccion extends CI_Controller
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/cargarAutorizacion',$datos);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('produccion_base');
-		$this->load->view('produccion_autorizacion_corte',$datos);
-		$this->load->view('footer');*/
+	}
+
+	public function cambiarPass()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/produccion/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/produccion/cambiarPass';
+			$this->load->view('head');
+			$this->load->view('produccion/menu');
+			$this->load->view('cambiarPass',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function datos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/produccion/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/produccion/datos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('produccion/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
+		}
 	}
 }
