@@ -366,7 +366,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$data['nombre']=$this->input->post()['nombre'];
-			$data['pass']=$this->input->post()['pass'];
+			$data['pass']=md5($this->input->post()['pass']);
 			$data['tipo_usuario_id']=$this->input->post()['tipo_usuario_id'];
 			$data['nombre_completo']=$this->input->post()['nombre_completo'];
 			$data['direccion']=$this->input->post()['direccion'];

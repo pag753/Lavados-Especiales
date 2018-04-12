@@ -5,7 +5,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav">
-      <a class="nav-link" href="#" data-toggle="modal" data-target="#modal1" name="login" id="login" class="btn btn-blue">Iniciar Sesión</a>
+      <a class="nav-link" href="#" data-toggle="modal" data-target="#modal1" name="login" id="login" class="btn btn-blue"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
     </ul>
   </div>
 </nav>

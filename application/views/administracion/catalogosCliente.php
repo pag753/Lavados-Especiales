@@ -60,7 +60,7 @@ $(document).ready(function() {
             <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
             <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
             <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit">Editar</i></a></td>
+            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
           </tr>
         <?php endforeach; ?>
         </tbody>

@@ -89,7 +89,7 @@ $input_fecha = array('name'    => 'fecha',
         <div class="form-group row">
           <div class="col-12">
             <center>
-              <button type="button" name="boton" id="boton" class="btn btn-success">Agregar Lavado</button>
+              <button type="button" name="boton" id="boton" class="btn btn-success"><i class="fas fa-plus"></i> Agregar Lavado</button>
             </center>
           </div>
         </div>

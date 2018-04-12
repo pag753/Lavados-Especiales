@@ -120,52 +120,57 @@ class Ajax extends CI_Controller
 					if(count($query)==0)
 					{
 						echo "
-						<div class='form-group row'>
-							<label for='Piezas' class='col-3 col-form-label'>Piezas</label>
-							<div class='col-9'>
-								<input type='text' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input>
+							<div class='form-group row'>
+								<label for='Piezas' class='col-3 col-form-label'>Piezas</label>
+								<div class='col-9'>
+									<input type='text' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input>
+								</div>
 							</div>
-						</div>
-						<div class='form-group row'>
-							<label for='Muestras' class='col-3 col-form-label'>Muestras</label>
-							<div class='col-9'>
-								<input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input>
+							<div class='form-group row'>
+								<label for='Muestras' class='col-3 col-form-label'>Muestras</label>
+								<div class='col-9'>
+									<input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input>
+								</div>
 							</div>
-						</div>
-						<div class='form-group row'>
-		          <div class='col-12'>
-		            <table name='tabla' id='tabla' class='table'>
-									<thead>
-										<tr>
-											<th>Lavado</th>
-											<th>Piezas</th>
-											<th>Abrir con</th>
-										</tr>
-									</thead>
-									<tbody>";
+							<div class='form-group row'>
+		          	<div class='col-12'>
+		            	<table name='tabla' id='tabla' class='table'>
+										<thead>
+											<tr>
+												<th>Lavado</th>
+												<th>Piezas</th>
+												<th>Abrir con</th>
+											</tr>
+										</thead>
+										<tbody>";
 						$this->load->model('corteAutorizadoDatos');
 						$autorizado=$this->corteAutorizadoDatos->joinLavado($folio);
 						foreach ($autorizado as $key => $value)
 						{
 							echo "
-							<tr>
-							<td>".$value['id_carga']." ".strtoupper($value['nombre'])."</td>
-							<td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
-								$query10=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros($folio,$key+1);
-								echo "
-								<td>
-									<select name='primero[$key]' class='form-control'>";
-										foreach ($query10 as $key => $value)
-											echo "<option value='".$value['idproceso']."'>".$value['proceso']."</option>";
-										echo "
-										</select>
-										</td>
-										</tr>";
+											<tr>
+												<td>".$value['id_carga']." ".strtoupper($value['nombre'])."</td>
+												<td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
+							$query10=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros($folio,$key+1);
+							echo "
+												<td>
+													<select name='primero[$key]' class='form-control'>";
+							foreach ($query10 as $key => $value)
+							echo "
+														<option value='".$value['idproceso']."'>".$value['proceso']."</option>";
+							echo "
+													</select>
+												</td>
+											</tr>";
 						}
-						echo "</tbody></table>
-						<input type='submit' class='btn btn-primary' value='Aceptar'/>";
-						echo "<input type='hidden' name='fechabd' id='fechabd' value='".$query2[0]['fecha_entrada']."'/>";
-						echo "<input type='hidden' name='cargas' id='cargas' value='".count($autorizado)."'/>";
+						echo "
+										</tbody>
+									</table>
+									<input type='submit' class='btn btn-primary' value='Aceptar'/>";
+						echo "
+									<input type='hidden' name='fechabd' id='fechabd' value='".$query2[0]['fecha_entrada']."'/>";
+						echo "
+									<input type='hidden' name='cargas' id='cargas' value='".count($autorizado)."'/>";
 					}
 
 					else
@@ -218,7 +223,7 @@ class Ajax extends CI_Controller
 		$procesos=$this->ProcesoSeco->get();
 		foreach ($procesos as $key => $value)
 			echo "<option value='".$value['id']."'>".$value['nombre']."</option>";
-		echo "</select></center></td><td><button type='button' name='eliminar$numero' id='eliminar$numero' class='btn btn-danger'>Eliminar</button></td></tr>";
+		echo "</select></center></td><td><button type='button' name='eliminar$numero' id='eliminar$numero' class='btn btn-danger'><i class='far fa-trash-alt'></i> Eliminar</button></td></tr>";
 	}
 
 	//OPERARIO Y OPERARIO VALIDA

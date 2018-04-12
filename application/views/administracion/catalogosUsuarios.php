@@ -12,22 +12,19 @@ function editar(id){
   $('#editar').modal('show');
 }
 $(document).ready(function() {
-
-  $( "#nuevo" ).submit(function( event ) {
-    var r;
+  var r='';
+  $( "#guardar" ).click(function( event ) {
     $.ajax({
       url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario/"+$("#nombre").val(),
       success: function(result){
-        r=result;
-      }});
-      if (r="yes") {
-        alert("El nombre de usuario ya existe, intente con otro por favor");
-        return false;
+        if (result=="yes")
+          alert("El nombre de usuario ya existe, intente con otro por favor");
+        else
+          $("#new").submit();
       }
-      else
-        return true;
+    });
   });
-
+nuevo
   $('#tabla').DataTable({
     language: {
       "sProcessing":     "Procesando...",
@@ -57,6 +54,7 @@ $(document).ready(function() {
   });
 });
 </script>
+<input type="hidden" name="bandera" id="bandera" value="">
 <div class="container">
   <div class="row">
     <div class="col-lg-12 col-md-12">
@@ -94,7 +92,7 @@ $(document).ready(function() {
             <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
             <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
             <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit">Editar</i></a></td>
+            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
           </tr>
         <?php endforeach; ?>
         </tbody>
@@ -115,7 +113,7 @@ $(document).ready(function() {
         </button>
       </div>
       <div class="modal-body">
-        <form  id="nuevo" name="nuevo" action="<?php echo base_url(); ?>index.php/administracion/nuevoUsuario" method="post" enctype="multipart/form-data">
+        <form  id="new" name="new" action="<?php echo base_url(); ?>index.php/administracion/nuevoUsuario" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Usuario</label>
             <div class="col-9">
@@ -158,7 +156,7 @@ $(document).ready(function() {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button name="guardar" id="guardar" type="button" class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>
