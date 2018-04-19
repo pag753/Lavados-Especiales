@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <form action="<?php echo $link ?>" method="post" enctype="multipart/form-data">
         <h1>Cambiar datos personales</h1>
         <div class="form-group row">
-          <label for="nombre_completo" class="col-3 col-form-label">Nombre Completo</label>
+          <label for="nombre_completo" class="col-3 col-form-label">Nombre completo</label>
           <div class="col-9">
             <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Escribe el nombre completo" required class="form-control" value="<?php echo $data[0]['nombre_completo'] ?>">
           </div>
@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <div class="offset-sm-2 col-sm-10">
-          <input type="submit" class="btn btn-primary" value="Aceptar"/>
+          <button type="submit" class="btn btn-success" value="Aceptar"><i class="far fa-save"></i> Guardar</button>
         </div>
       </form>
     </div>

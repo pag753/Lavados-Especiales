@@ -62,9 +62,15 @@ $select_tipo=array('name'  => 'tipo',
 <script type="text/javascript">
 $(document).ready(function(){
   $('#cliente').change(function(){
-    $.ajax({url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas/"+$('#cliente').val(), success: function(result){
-      $('#marcas').html(result);
-    }});
+    $.ajax({
+      url : "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
+      data : { cliente : $('#cliente').val() },
+      type : 'POST',
+      dataType : 'text',
+      success : function(result){
+        $('#marcas').html(result);
+      }
+    });
   });
   $( "form" ).submit(function( event ){
     var val=$("#cliente").val();

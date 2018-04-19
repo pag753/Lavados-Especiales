@@ -13,16 +13,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/cambiarPass">Cambiar contraseña</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/datos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/cerrar_sesion">Cerrar Sesión</a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/alta">Insertar información</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/alta">Cerrar proceso</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/insertar">Insertar producción</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operario/ver">Ver producción</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url()?>index.php/operario/cerrar_sesion">Cerrar Sesión</a>
       </li>
     </ul>
   </div>

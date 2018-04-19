@@ -48,28 +48,30 @@ $(document).ready(function() {
       <div class="col-12">
         <h3>Catálogo de Procesos Secos</h3>
       </div>
-      <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Costo $</th>
-            <th>Abreviatura</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($data as $key => $value): ?>
-          <tr>
-            <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-            <td name="costo<?php echo $value['id'] ?>" id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
-            <td name="abreviatura<?php echo $value['id'] ?>" id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
+      <div class='table-responsive'>
+        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Costo $</th>
+              <th>Abreviatura</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($data as $key => $value): ?>
+            <tr>
+              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td name="costo<?php echo $value['id'] ?>" id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
+              <td name="abreviatura<?php echo $value['id'] ?>" id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
+              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
       <center>
-        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo</button>
+        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fas fa-plus"></i> Nuevo</button>
       </center>
     </div>
   </div>

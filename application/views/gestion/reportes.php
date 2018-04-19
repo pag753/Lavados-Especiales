@@ -60,7 +60,7 @@ $input_fechaf = array('name'    => 'fechaf',
           <label for="cliente_id" class="col-3 col-form-label">Cliente</label>
           <div class="col-9">
             <select name="cliente_id" class="form-control">
-              <option value="0">ESCOJA SOLO SI ES NECESARIO</option>
+              <option value="0">Escoja si es necesario</option>
               <?php foreach ($clientes as $key => $value): ?>
                 <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
               <?php endforeach ?>
@@ -71,7 +71,7 @@ $input_fechaf = array('name'    => 'fechaf',
           <label for="marca_id" class="col-3 col-form-label">Marca</label>
           <div class="col-9">
             <select name="marca_id" class="form-control">
-              <option value="0">ESCOJA SOLO SI ES NECESARIO</option>
+              <option value="0">Escoja si es necesario</option>
               <?php foreach ($marcas as $key => $value): ?>
                 <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
               <?php endforeach ?>
@@ -82,7 +82,7 @@ $input_fechaf = array('name'    => 'fechaf',
           <label for="maquilero_id" class="col-3 col-form-label">Maquilero</label>
           <div class="col-9">
             <select name="maquilero_id" class="form-control">
-              <option value="0">ESCOJA SOLO SI ES NECESARIO</option>
+              <option value="0">Escoja si es necesario</option>
               <?php foreach ($maquileros as $key => $value): ?>
                 <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
               <?php endforeach ?>
@@ -93,7 +93,7 @@ $input_fechaf = array('name'    => 'fechaf',
           <label for="tipo_pantalon_id" class="col-3 col-form-label">Tipo de pantalón</label>
           <div class="col-9">
             <select name="tipo_pantalon_id" class="form-control">
-              <option value="0">ESCOJA SOLO SI ES NECESARIO</option>
+              <option value="0">Escoja si es necesario</option>
               <?php foreach ($tipos as $key => $value): ?>
                 <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
               <?php endforeach ?>

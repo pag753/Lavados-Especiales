@@ -30,7 +30,6 @@ class Welcome extends CI_Controller
 				{
 					$info = array('texto1' => 'Error en usuario o contraseña',
 												'texto2' => 'Intente de nuevo');
-
 					$this->load->view('head');
 					$this->load->view('welcome/menu');
 					$this->load->view('welcome/index',$info);
@@ -42,7 +41,6 @@ class Welcome extends CI_Controller
 			{
 				$info = array('texto1' => 'Bienvenido',
 			 								'texto2' => 'Lavados especiales');
-
 				$this->load->view('head');
 				$this->load->view('welcome/menu');
 				$this->load->view('welcome/index',$info);
@@ -50,10 +48,8 @@ class Welcome extends CI_Controller
 			}
 		}
 		else
-		{
 			$this->sesion();
 		}
-	}
 
 	function sesion()
 	{
@@ -79,5 +75,5 @@ class Welcome extends CI_Controller
 			redirect('/operariops');
 				break;
 		}
-	}	
+	}
 }

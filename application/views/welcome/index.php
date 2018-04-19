@@ -1,8 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$data=array('type'        => 'text',
+            'class' 			=> 'form-control',
+            'placeholder' => 'Usuario',
+            'name'    		=> 'nombre',
+            'id'       		=> 'nombre',
+            'required'		=> 'true');
+
+$data1=array('type' 				=>  'password',
+             'class' 			=>  'form-control',
+             'placeholder' =>  'Contraseña',
+             'name'    		=>  'pass',
+             'id'    			=>  'pass',
+             'required'		=> 	'true');
+$data2=array('class' =>  'btn btn-primary',
+             'value' =>  'Aceptar',
+             'name'  =>  'boton',
+             'id'    =>  'boton',);
 ?>
 <style media="screen">
-
 .main-section{
 margin: 0 auto;
 margin-top:100px;
@@ -44,13 +60,10 @@ border-top:1px solid #c2c2c2;
 margin-top:100px !important;
 }
 </style>
-
 <div class="jumbotron">
   <h1><?php echo $texto1; ?></h1>
   <h2><?php echo $texto2; ?></h2>
 </div>
-
-
 <div id="modal1" class="modal fade text-center">
   <div class="modal-dialog">
     <div class="col-lg-8 col-sm-8 col-12 main-section">
@@ -68,35 +81,15 @@ margin-top:100px !important;
             echo form_open('',$attributes);
           ?>
           <div class="form-group">
-            <?php
-              $data=array('type'        => 'text',
-                          'class' 			=> 'form-control',
-                          'placeholder' => 'Usuario',
-                          'name'    		=> 'nombre',
-                          'id'       		=> 'nombre',
-                          'required'		=> 'true');
-            ?>
             <?php echo form_submit($data);?>
           </div>
           <div class="form-group">
-            <?php $data=array('type' 				=>  'password',
-                              'class' 			=>  'form-control',
-                              'placeholder' =>  'Contraseña',
-                               'name'    		=>  'pass',
-                               'id'    			=>  'pass',
-                               'required'		=> 	'true');
-            ?>
-            <?php echo form_submit($data); ?>
+            <?php echo form_submit($data1); ?>
           </div>
-            <?php $data=array('class' =>  'btn btn-primary',
-                              'value' =>  'Aceptar',
-                              'name'  =>  'boton',
-                              'id'    =>  'boton',); ?>
-            <?php echo form_submit($data); ?>
+            <?php echo form_submit($data2); ?>
           <?php echo form_close();?>
         </div>
         <div class="modal-footer">
-
         </div>
       </div>
     </div>

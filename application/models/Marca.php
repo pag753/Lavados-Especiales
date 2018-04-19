@@ -20,15 +20,40 @@ class Marca extends CI_Model
     return $query->result_array();
   }
 
+  public function getJoin()
+  {
+    $this->db->select('
+      cliente.nombre as clienteNombre,
+      cliente.id as clienteId,
+      marca.id as marcaId,
+      marca.nombre as marcaNombre')
+      ->from('marca')
+      ->join('cliente','marca.cliente_id=cliente.id','left');
+      return $this->db->get()->result_array();
+  }
+
   public function getById($id)
   {
     $query = $this->db->get_where('marca', array('id' => $id ));
     return $query->result_array();
   }
 
-  public function update($nombre,$id)
+  public function getByCliente($cliente)
   {
-    $data = array('nombre' => $nombre);
+    $this->db->select('
+      cliente.nombre as clienteNombre,
+      cliente.id as clienteId,
+      marca.id as marcaId,
+      marca.nombre as marcaNombre')
+      ->from('marca')
+      ->join('cliente','marca.cliente_id=cliente.id')
+      ->where('marca.cliente_id',$cliente);
+      return $this->db->get()->result_array();
+    }
+
+  public function update($nombre,$cliente,$id)
+  {
+    $data = array('nombre' => $nombre, 'cliente_id'=>$cliente);
     $this->db->where('id', $id);
     $this->db->update('marca', $data);
   }

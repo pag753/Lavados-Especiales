@@ -31,7 +31,7 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$data['texto1']="Bienvenido(a) usuario de gestión";
+			$data['texto1']="Bienvenido(a)";
 			$data['texto2']=$_SESSION['username'];
 		}
 		$this->load->view('head');
@@ -133,6 +133,40 @@ class Gestion extends CI_Controller
 		}
 	}
 
+	public function salidaAlmacen()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('entregaAlmacen');
+			$this->entregaAlmacen->agregar(array('corte_folio' =>$this->input->post()['folio'] , 'fecha'=>date("Y-m-d")));
+			redirect("/");
+		}
+		else
+		{
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
+			$this->load->view('gestion/salidaAlmacen');
+			$this->load->view('foot');
+		}
+	}
+
+	public function salidaExterna()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('entregaExterna');
+			$this->entregaExterna->agregar(array('corte_folio' =>$this->input->post()['folio'] , 'fecha'=>date("Y-m-d")));
+			redirect("/");
+		}
+		else
+		{
+			$this->load->view('head');
+			$this->load->view('gestion/menu');
+			$this->load->view('gestion/salidaExterna');
+			$this->load->view('foot');
+		}
+	}
+
 	public function reportes()
 	{
 		$this->load->model( array('Cliente', 'Marca', 'Maquilero', 'Tipo_pantalon' ));
@@ -192,9 +226,6 @@ class Gestion extends CI_Controller
 		//$pdf->Open();
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
-		//print_r($cortes);
-		//print_r($this->input->post());
-
 		$pdf = new Pdf("REPORTE DE CORTES EN ALMACEN");
     		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
@@ -202,13 +233,10 @@ class Gestion extends CI_Controller
     		$pdf->AliasNbPages();
 		//$pdf->Open();
 		$pdf->AddPage();
-
 		/* Se define el titulo, márgenes izquierdo, derecho y
      		* el color de relleno predeterminado
      		*/
-    		$pdf->SetTitle("Reporte");
-		$this->load->model('corte');
-		$cortes=$this->corte->reporte1($this->input->post());
+    $pdf->SetTitle("Reporte");
 		//190 vertical
 		if ($check)
 		{
@@ -776,5 +804,6 @@ class Gestion extends CI_Controller
 			$this->load->view('foot');
 		}
 	}
+
 }
 ?>

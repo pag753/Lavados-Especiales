@@ -47,16 +47,17 @@ class Corte extends CI_Model
 			corte.piezas as piezas,
 			corte.fecha_entrada as fecha')
 		->from('corte')
-		->join('marca','corte.marca_id=marca.id')
+		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
 		->where('corte.folio',$folio);
-		return $this->db->get()->result_array();
+			return $this->db->get()->result_array();
 	}
 
 	public function reporte1($datos)
 	{
+		//Cortes en almacen
 		$fechai=substr($datos['fechai'],0,10);
 		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
@@ -88,20 +89,22 @@ class Corte extends CI_Model
 			corte.fecha_entrada as fecha
 			')
 		->from('corte')
-		->join('marca','corte.marca_id=marca.id')
+		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
 		->where($datos)
 		->where('corte.fecha_entrada>=',$fechai)
 		->where('corte.fecha_entrada<=',$fechaf)
-		->where('corte.folio!=','corte_autorizado.corte_folio')
+		->where('corte.folio==','entrega_almacen.corte_folio')
+		->where('corte.folio!=','entrega_externa.corte_folio')
 		->order_by('corte.folio','ASC');
 		return $this->db->get()->result_array();
 	}
 
 	public function reporte2($datos)
 	{
+		//Cortes autorizados
 		$fechai=substr($datos['fechai'],0,10);
 		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
@@ -135,7 +138,7 @@ class Corte extends CI_Model
 			corte.fecha_entrada as fecha
 			')
 		->from('corte')
-		->join('marca','corte.marca_id=marca.id')
+		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
@@ -150,6 +153,7 @@ class Corte extends CI_Model
 
 	public function reporte3($datos)
 	{
+		//Cortes entregados
 		$fechai=substr($datos['fechai'],0,10);
 		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
@@ -186,13 +190,13 @@ class Corte extends CI_Model
 			corte.fecha_entrada as fecha
 			')
 		->from('corte')
-		->join('marca','corte.marca_id=marca.id')
+		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
 		->join('corte_autorizado','corte.folio=corte_autorizado.corte_folio')
 		->join('salida_interna1','corte.folio=salida_interna1.corte_folio')
-		->join('entrega_almacen','corte.folio=entrega_almacen.corte_folio')
+		->join('entrega_externa','corte.folio=entrega_externa.corte_folio')
 		->where($datos)
 		->where('corte.fecha_entrada>=',$fechai)
 		->where('corte.fecha_entrada<=',$fechaf)
@@ -202,6 +206,7 @@ class Corte extends CI_Model
 
 	public function reporte4($datos)
 	{
+		//Cortes en proceso
 		$fechai=substr($datos['fechai'],0,10);
 		$fechaf=substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
@@ -237,7 +242,7 @@ class Corte extends CI_Model
 			corte.fecha_entrada as fecha
 			')
 		->from('corte')
-		->join('marca','corte.marca_id=marca.id')
+		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')

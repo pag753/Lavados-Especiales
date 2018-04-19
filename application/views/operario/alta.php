@@ -15,30 +15,60 @@ $(document).ready(function(){
   $('#folio').keyup(function(){
     $('#procesos').html('');
     $('#valida').html('');
-    $.ajax({url: "<?php echo base_url() ?>index.php/ajax/operarioCargas/"+$('#folio').val(), success: function(result){
-      $("#cargas").html(result);
-      $( '#carga' ).change(function(){
-        $('#valida').html('');
-        $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
-          $('#procesos').html(result);
-          $( '#proceso' ).change(function(){
-            $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
-              $('#valida').html(result);
-            }});
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/operarioCargas",
+      data : { folio : $('#folio').val() },
+      dataType : 'text',
+      type : 'POST',
+      success : function(result){
+        $("#cargas").html(result);
+        $( '#carga' ).change(function(){
+          $('#valida').html('');
+          $.ajax({
+            url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
+            data : { folio : $('#folio').val() , carga : $('#carga').val() },
+            dataType : 'text',
+            type : 'POST',
+            success : function(result){
+              $('#procesos').html(result);
+              $( '#proceso' ).change(function(){
+                $.ajax({
+                  url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
+                  data : { folio : $('#folio').val() , carga : $('#carga').val() , proceso : $('#proceso').val() },
+                  type : "POST",
+                  dataType : "text",
+                  success: function(result){
+                    $('#valida').html(result);
+                  }
+                });
+              });
+            }
           });
-        }});
-      });
-    }});
+        });
+      }
+    });
   });
   $( '#carga' ).change(function(){
-    $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos/'+$('#folio').val()+'_'+$('#carga').val(), success: function(result){
-      $('#procesos').html(result);
-    }});
+    $.ajax({
+      url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
+      data : { folio : $('#folio').val() , carga : $('#carga').val() },
+      dataType : "text",
+      type : "POST",
+      success: function(result){
+        $('#procesos').html(result);
+      }
+    });
   });
   $( '#proceso' ).change(function(){
-    $.ajax({url: '<?php echo base_url() ?>index.php/ajax/operarioValida/'+$('#folio').val()+'_'+$('#carga').val()+'_'+$('#proceso').val(), success: function(result){
-      $('#valida').html(result);
-    }});
+    $.ajax({
+      url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
+      data : { folio : $('#folio').val() , carga : $('#carga').val() , proceso : $('#proceso').val() },
+      dataType : 'text',
+      type : "POST",
+      success: function(result){
+        $('#valida').html(result);
+      }
+    });
   });
 });
 </script>
@@ -54,7 +84,11 @@ $(document).ready(function(){
           </div>
         </div>
         <div id="cargas" name="cargas" class="form-group row">
-          <h5 class="col-12">Escriba el número de folio</h5>
+          <div class="col-12">
+            <div class="alert alert-info" role="alert">
+              Escriba el número de folio.
+            </div>
+          </div>
         </div>
         <div id="procesos" name="procesos" class="form-group row">
         </div>

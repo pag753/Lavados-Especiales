@@ -6,19 +6,18 @@ var ban=false;
 $(document).ready(function(){
   $('input').keyup(function(){
     if($('#pass2').val()==$('#pass1').val()){
+      $('#mensaje').html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
       ban=true;
-      $('#mensaje').html("Las contraseñas son iguales");
     }
     else{
+      $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
       ban=false;
-      $('#mensaje').html("Las contraseñas no son iguales");
     }
-    if(ban)
-      $('#mensaje').css("color","green");
-    else
-    $('#mensaje').css("color","red");
   });
   $( "form" ).submit(function(){
+    if(!ban){
+      alert("¡Las contraseñas no son iguales! Favor de verificar.")
+    }
     return ban;
   });
 });
@@ -29,24 +28,25 @@ $(document).ready(function(){
       <form action="<?php echo $link ?>" method="post" enctype="multipart/form-data">
         <h1>Cambiar contraseña</h1>
         <div class="form-group row">
-          <label for="pass1" class="col-3 col-form-label">Contraseña nueva</label>
-          <div class="col-9">
+          <div class="input-group mb-2 col-12">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fas fa-lock"></i></div>
+            </div>
             <input type="password" name="pass1" id="pass1" placeholder="Escribe la contraseña" required class="form-control">
           </div>
         </div>
         <div class="form-group row">
-          <label for="pass2" class="col-3 col-form-label">Repetir Contraseña</label>
-          <div class="col-9">
+          <div class="input-group mb-2 col-12">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><i class="fas fa-lock"></i></div>
+            </div>
             <input type="password" name="pass2" id="pass2" placeholder="Vuelve a escribir la contraseña" required class="form-control">
           </div>
         </div>
-        <div class="col-12">
-          <div class="form-group row">
-            <h3 name="mensaje" id="mensaje"></h3>
-          </div>
+        <div id="mensaje" name="mensaje">
         </div>
         <div class="offset-sm-2 col-sm-10">
-          <input type="submit" class="btn btn-primary" value="Aceptar"/>
+          <button type="submit" class="btn btn-success" value="Aceptar"><i class="far fa-save"></i> Guardar</button>
         </div>
       </form>
     </div>

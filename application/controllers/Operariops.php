@@ -18,7 +18,7 @@ class Operariops extends CI_Controller
 	{
 		if($datos==null)
 		{
-			$data['texto1']="Bienvenido(a) usuario de proceso seco";
+			$data['texto1']="Bienvenido(a)";
 			$data['texto2']=$_SESSION['username'];
 		}
 		else
@@ -65,10 +65,10 @@ class Operariops extends CI_Controller
 			}
 			else
 				$data=null;
-
+			$data['url']=base_url()."index.php/operariops/insertar";
 			$this->load->view('head');
 			$this->load->view('operariops/menu');
-			$this->load->view('operariops/insertar',$data);
+			$this->load->view('operarios/insertar',$data);
 			$this->load->view('foot');
 		}
 		else

@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CorteAutorizadoDatos extends CI_Model
 {
+  /*
+  STATUS:
+  0 no registrado
+  1 para registrar
+  2 registrado
+  */
   function __construct()
   {
     parent::__construct();
@@ -13,6 +19,28 @@ class CorteAutorizadoDatos extends CI_Model
   {
     $query = $this->db->get_where('corte_autorizado_datos', array('corte_folio' => $folio));
     return $query->result_array();
+  }
+
+  public function getByFolioEspecifico($folio=null)
+  {
+    $this->db->select('
+      corte_autorizado_datos.id_carga as idcarga,
+      lavado.nombre as lavado,
+      proceso_seco.nombre as proceso,
+      corte_autorizado_datos.piezas_trabajadas as piezas,
+      corte_autorizado_datos.defectos as defectos,
+      corte_autorizado_datos.status as status,
+      corte_autorizado_datos.orden as orden,
+      corte_autorizado_datos.fecha_registro as fecha,
+      usuario.nombre as usuario,
+      ')
+      ->from('corte_autorizado_datos')
+      ->join('lavado','corte_autorizado_datos.lavado_id=lavado.id')
+      ->join('usuario','corte_autorizado_datos.usuario_id=usuario.id')
+      ->join('proceso_seco','corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+      ->where('corte_autorizado_datos.corte_folio',$folio)
+      ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.orden');
+      return $this->db->get()->result_array();
   }
 
   public function agregar($datos=null)
@@ -195,12 +223,6 @@ class CorteAutorizadoDatos extends CI_Model
     $this->db->where('id_carga', $id_carga);
     $this->db->update('corte_autorizado_datos', $data);
   }
-/*
-STATUS:
-0 no registrado
-1 para registrar
-2 registrado
-*/
 
   public function actualiza2($id_proceso,$folio,$id_carga,$trabajadas,$defectos,$fecha,$usuario)
   {
@@ -242,5 +264,12 @@ STATUS:
       ->where('corte_autorizado_datos.corte_folio',$folio)
       ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.orden');
       return $this->db->get()->result_array();
+  }
+
+  public function getByFolioStatus2($folio=null)
+  {
+    $data = array('corte_folio' => $folio,'status!='=>2);
+    $query = $this->db->get_where('corte_autorizado_datos',$data);
+    return $query->result_array();
   }
 }

@@ -18,7 +18,7 @@ class Produccion extends CI_Controller
 	{
 		if($datos==null)
 		{
-			$data['texto1']="Bienvenido(a) usuario de producción";
+			$data['texto1']="Bienvenido(a)";
 			$data['texto2']=$_SESSION['username'];
 		}
 		else
@@ -89,9 +89,7 @@ class Produccion extends CI_Controller
 				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
 		}
 		else
-		{
 			$this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
-		}
 	}
 
 	private function cargarAutorizacion($entrada=null,$texto1,$texto2)

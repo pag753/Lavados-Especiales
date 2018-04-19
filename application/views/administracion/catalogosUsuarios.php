@@ -15,8 +15,11 @@ $(document).ready(function() {
   var r='';
   $( "#guardar" ).click(function( event ) {
     $.ajax({
-      url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario/"+$("#nombre").val(),
-      success: function(result){
+      url : "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
+      data : { nombre: $("#nombre").val() },
+      type : "POST",
+      dataType : "text",
+      success : function(result){
         if (result=="yes")
           alert("El nombre de usuario ya existe, intente con otro por favor");
         else
@@ -24,7 +27,6 @@ $(document).ready(function() {
       }
     });
   });
-nuevo
   $('#tabla').DataTable({
     language: {
       "sProcessing":     "Procesando...",
@@ -61,42 +63,44 @@ nuevo
       <div class="col-12">
         <h3>Catálogo de Usuarios</h3>
       </div>
-      <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
-        <thead>
-          <tr>
-            <th>Usuario</th>
-            <th>Tipo de usuario</th>
-            <th>Nombre Completo</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($data as $key => $value): ?>
-          <tr>
-            <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-            <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
-              <?php
-                  foreach ($TipoUsuario as $key2 => $value2)
-                  {
-                    if ($value['tipo_usuario_id']==$value2['id'])
+      <div class='table-responsive'>
+        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Tipo de usuario</th>
+              <th>Nombre Completo</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($data as $key => $value): ?>
+            <tr>
+              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
+                <?php
+                    foreach ($TipoUsuario as $key2 => $value2)
                     {
-                      echo $value2['tipo_usuariocol'];
-                      echo "<input type='hidden' name='idTipoUsuario_".$value['id']."' id='idTipoUsuario_".$value['id']."' value=".$value2['id'].">";
-                      break;
+                      if ($value['tipo_usuario_id']==$value2['id'])
+                      {
+                        echo $value2['tipo_usuariocol'];
+                        echo "<input type='hidden' name='idTipoUsuario_".$value['id']."' id='idTipoUsuario_".$value['id']."' value=".$value2['id'].">";
+                        break;
+                      }
                     }
-                  }
-              ?>
-            </td>
-            <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
-            <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-            <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
+                ?>
+              </td>
+              <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
+              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
       <center>
         <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo</button>
       </center>

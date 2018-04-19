@@ -4,7 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function(){
   $('#folio').keyup(function(){
-    $.ajax({url: "<?php echo base_url() ?>index.php/ajax/salidaInterna/"+$('#folio').val(), success: function(result){
+    $.ajax({
+      url : "<?php echo base_url() ?>index.php/ajax/salidaInterna",
+      data : { folio : $('#folio').val() },
+      dataType : 'text',
+      type : 'POST',
+      success: function(result){
       $("#complemento").html(result);
     }});
   });
@@ -50,7 +55,9 @@ $(document).ready(function(){
           </div>
         </div>
         <div id="complemento" name="complemento">
-          <h5>Ingresa el número de folio</h5>
+          <div class="alert alert-info" role="alert">
+            Ingresa el número de folio.
+          </div>
         </div>
       </form>
     </div>

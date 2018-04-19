@@ -4,24 +4,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 $(document).ready(function(){
   $('#folio').keyup(function(){
-    $.ajax({url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte/"+$('#folio').val(), success: function(result){
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
+      data : { folio : $('#folio').val() },
+      dataType : 'text',
+      type : 'POST',
+      success: function(result){
       $("#respuesta").html(result);
     }});
   });
   $( "form" ).on( "click", "button", function(){
     if(this.name=="boton"){
       var numero=$( "#numero" );
-      $.ajax({url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion/"+numero.val(), success: function(result){
-        $( '#tabla tbody' ).append(result);
-        $( '#proceso_seco'+numero.val() ).multiselect({
-          nonSelectedText: '¡Selecciona!',
-          buttonWidth: '100%',
-          dropRight: true,
-          maxHeight: 300,
-          numberDisplayed: 1
-        });
-        numero.val(parseInt(numero.val())+1);
-      }});
+      var numero2=$( "#numero2" );
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
+        data : { numero : numero2.val() },
+        dataType : 'text',
+        type : 'POST',
+        success: function(result){
+          $( '#tabla tbody' ).append(result);
+          $( '#proceso_seco'+numero2.val() ).multiselect({
+            nonSelectedText: '¡Selecciona!',
+            buttonWidth: '100%',
+            dropRight: true,
+            maxHeight: 300,
+            numberDisplayed: 1
+          });
+          numero2.val(parseInt(numero2.val())+1);
+          numero.val(parseInt(numero.val())+1);
+        }
+      });
     }
     else{
       if(this.id.substring(0,8)=="eliminar"){
@@ -30,6 +43,22 @@ $(document).ready(function(){
         var numero=$( "#numero" );
         numero.val(parseInt(numero.val())-1);
       }
+    }
+  });
+  $('#autorizar').submit(function(){
+    var numero=$( "#numero" ).val();
+    if(numero==0){
+      alert("Debe agregar por lo menos un lavado.");
+      return false;
+    }
+    else {
+      for (var i = 0; i < numero; i++) {
+        if ($("#proceso_seco"+i).val()=="") {
+          alert("Existe uno o varios lavados sin proceso.");
+          return false;
+        }
+      }
+      return true;
     }
   });
 });
@@ -56,9 +85,10 @@ $input_fecha = array('name'    => 'fecha',
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="<?php echo base_url(); ?>index.php/produccion/autorizar" method="post">
+      <form name="autorizar" id="autorizar" action="<?php echo base_url(); ?>index.php/produccion/autorizar" method="post">
         <h1>Autorizar Corte</h1>
         <input type="hidden" name="numero" id="numero" value="0">
+        <input type="hidden" name="numero2" id="numero2" value="0">
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
@@ -73,17 +103,19 @@ $input_fecha = array('name'    => 'fecha',
         </div>
         <div class="form-group row">
           <div class="col-12">
-            <table name="tabla" id="tabla" class="table">
-              <thead>
-                <tr>
-                  <th>Lavado</th>
-                  <th>Proceso Seco</th>
-                  <th>Eliminar</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+            <div class='table-responsive'>
+              <table name="tabla" id="tabla" class="table">
+                <thead>
+                  <tr>
+                    <th>Lavado</th>
+                    <th>Proceso Seco</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div class="form-group row">
@@ -94,8 +126,10 @@ $input_fecha = array('name'    => 'fecha',
           </div>
         </div>
         <div class="form-group">
-          <div name='respuesta' id='respuesta' class="row col-12">
-            <h3>Escriba el número del corte</h3>
+          <div name='respuesta' id='respuesta'>
+            <div class="alert alert-info" role="alert">
+              Escriba el número del corte.
+            </div>
           </div>
         </div>
       </form>

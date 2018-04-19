@@ -14,16 +14,48 @@ class Root extends CI_Controller
 	{
 		$data['texto1']="Bienvenido(a) usuario";
 		$data['texto2']=$_SESSION['username'];
-
 		$this->load->view('head');
 		$this->load->view('root/menu');
-		$this->load->view('root/index');
+		$this->load->view('root/index',$data);
 		$this->load->view('foot');
-		/*
-		$this->load->view('encabezado_principal');
-		$this->load->view('rootBase');
-		$this->load->view('rootPrincipal',$data);
-		$this->load->view('footer');*/
+	}
+
+	public function cambiarPass()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
+			redirect('/root/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/root/cambiarPass';
+			$this->load->view('head');
+			$this->load->view('root/menu');
+			$this->load->view('cambiarPass',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function cambiarDatos()
+	{
+		if($this->input->post())
+		{
+			$this->load->model('Usuarios');
+			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			redirect('/root/index/-1');
+		}
+		else
+		{
+			$data['link']=base_url().'index.php/root/cambiarDatos';
+			$this->load->model('Usuarios');
+			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$this->load->view('head');
+			$this->load->view('root/menu');
+			$this->load->view('cambiarDatos',$data);
+			$this->load->view('foot');
+		}
 	}
 
 	public function cerrar_sesion()

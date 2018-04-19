@@ -7,6 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
 function editar(id){
   $('#nombreE').val($('#nombre'+id).text());
+  $('#clienteE').val($('#clienteID_'+id).val());
   $('#id').val(id);
   $('#editar').modal('show');
 }
@@ -46,24 +47,29 @@ $(document).ready(function() {
       <div class="col-12">
         <h3>Catálogo de Marcas</h3>
       </div>
-      <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Editar</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($data as $key => $value): ?>
-          <tr>
-            <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-          </tr>
-        <?php endforeach; ?>
-        </tbody>
-      </table>
+      <div class='table-responsive'>
+        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cliente</th>
+              <th>Editar</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php foreach ($data as $key => $value): ?>
+            <tr>
+              <td name="nombre<?php echo $value['marcaId'] ?>" id="nombre<?php echo $value['marcaId'] ?>"><?php echo $value['marcaNombre']; ?></td>
+              <td><?php echo $value['clienteNombre'] ?></td>
+              <td><a href="#" onclick="editar(<?php echo $value['marcaId']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              <input type="hidden" name="clienteID_<?php echo $value['marcaId'] ?>" id="clienteID_<?php echo $value['marcaId'] ?>" value="<?php echo $value['clienteId'] ?>">
+            </tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+      </div>
       <center>
-        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo</button>
+        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fas fa-plus"></i> Nuevo</button>
       </center>
     </div>
   </div>
@@ -82,7 +88,17 @@ $(document).ready(function() {
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Nombre</label>
             <div class="col-9">
-              <input type="text" name="nombre" id="nombre" placeholder="Nombre del marca" required class="form-control">
+              <input type="text" name="nombre" id="nombre" placeholder="Nombre de la marca" required class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="cliente" class="col-3 col-form-label">Cliente</label>
+            <div class="col-9">
+              <select class="form-control" name="cliente" id="cliente">
+                <?php foreach ($clientes as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
           <div class="modal-footer">
@@ -109,7 +125,17 @@ $(document).ready(function() {
           <div class="form-group row">
             <label for="nombreE" class="col-3 col-form-label">Nombre</label>
             <div class="col-9">
-              <input type="text" name="nombreE" id="nombreE" placeholder="Nombre del marca" required class="form-control">
+              <input type="text" name="nombreE" id="nombreE" placeholder="Nombre de la marca" required class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="clienteE" class="col-3 col-form-label">Cliente</label>
+            <div class="col-9">
+              <select class="form-control" name="clienteE" id="clienteE">
+                <?php foreach ($clientes as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach; ?>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

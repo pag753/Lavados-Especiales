@@ -17,7 +17,7 @@ class Administracion extends CI_Controller
 	{
 		if($datos==null)
 		{
-			$data['texto1']="Bienvenido(a) usuario de administración";
+			$data['texto1']="Bienvenido(a)";
 			$data['texto2']=$_SESSION['username'];
 		}
 		else
@@ -46,35 +46,20 @@ class Administracion extends CI_Controller
 		redirect('/');
 	}
 
-	public function costos($folio=null)
+	public function costos()
 	{
-		if($folio==null)
+		if ($this->input->post())
 		{
-			$textos['texto1']="Costos del corte";
-			$textos['texto2']="Ingrese el numero de folio";
-			$this->cargaCostoValidacion($textos);
-			if($this->input->post())
-			{
-				$folio=$this->input->post()['folio'];
-				redirect('/administracion/costos/'.$folio."_".$this->input->post()['carga']);
-			}
+			$this->load->model('corteAutorizadoDatos');
+			foreach ($this->input->post()['costo'] as $key => $value)
+				$query=$this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'],$this->input->post()['carga'],$key,$value,$this->input->post()['idlavado']);
+			redirect('/administracion/index/'.$this->input->post()['folio']);
 		}
 		else
-		{
-			$a=explode("_", $folio);
-			$folio=$a[0];
-			$cargaid=$a[1];
-			if($this->input->post())
+			if ($this->input->get())
 			{
-				$this->load->model('corteAutorizadoDatos');
-				foreach ($this->input->post()['costo'] as $key => $value)
-				{
-					$query=$this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'],$this->input->post()['carga'],$key,$value,$this->input->post()['idlavado']);
-				}
-				redirect('/administracion/index/'.$this->input->post()['folio']);
-			}
-			else
-			{
+				$folio=$this->input->get()['folio'];
+				$cargaid=$this->input->get()['carga'];
 				$datos['carga']=$cargaid;
 				$this->load->model('corte');
 				$datos['texto1']="Asignación de costos";
@@ -97,26 +82,19 @@ class Administracion extends CI_Controller
 					$datos['procesos'][$value['idproceso']]=$value['proceso'];
 					$datos['costos'][$value['idproceso']]=$value['costo'];
 				}
-				$this->cargaCosto($datos);
+				$this->load->view('head');
+				$this->load->view('administracion/menu');
+				$this->load->view('administracion/cargaCosto',$datos);
+				$this->load->view('foot');
 			}
-		}
-	}
-
-	private function cargaCosto($datos)
-	{
-		$this->load->view('head');
-		$this->load->view('administracion/menu');
-		$this->load->view('administracion/cargaCosto',$datos);
-		$this->load->view('foot');
-	}
-
-
-	private function cargaCostoValidacion($textos)
-	{
-		$this->load->view('head');
-		$this->load->view('administracion/menu');
-		$this->load->view('administracion/cargaCostoValidacion',$textos);
-		$this->load->view('foot');
+			else
+			{
+				$textos['texto1']="Costos del corte";
+				$this->load->view('head');
+				$this->load->view('administracion/menu');
+				$this->load->view('administracion/cargaCostoValidacion',$textos);
+				$this->load->view('foot');
+			}
 	}
 
 	//CATÁLOGOS
@@ -153,7 +131,9 @@ class Administracion extends CI_Controller
 	public function catalogosMarcas()
 	{
 		$this->load->model("Marca");
-		$data['data']=$this->Marca->get();
+		$data['data']=$this->Marca->getJoin();
+		$this->load->model("Cliente");
+		$data['clientes']=$this->Cliente->get();
 		$this->load->view('head');
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosMarca',$data);
@@ -284,6 +264,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Marca");
 			$data['nombre']=$this->input->post()['nombre'];
+			$data['cliente_id']=$this->input->post()['cliente'];
 			$this->Marca->insert($data);
 			redirect("/administracion/catalogosMarcas");
 		}
@@ -297,6 +278,7 @@ class Administracion extends CI_Controller
 			$this->load->model("Marca");
 			$this->Marca->update(
 				$this->input->post()['nombreE'],
+				$this->input->post()['clienteE'],
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosMarcas");

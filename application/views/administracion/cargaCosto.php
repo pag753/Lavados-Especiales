@@ -33,22 +33,24 @@ $cadena= $folio.'_'.$corte.'_'.$marca.'_'.$maquilero.'_'.$cliente.'_'.$tipo.'_'.
         </div>
         <div class="form-group row">
           <div class="col-12">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Proceso</th>
-                  <th>Costo $</th>
-                </tr>
-              </thead>
-              <tbody>
-              <?php foreach ($procesos as $key => $value): ?>
-                <tr>
-                  <td><input type="text" readonly="true" class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>"/></td>
-                  <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
-                </tr>
-              <?php endforeach; ?>
-              </tbody>
-            </table>
+            <div class='table-responsive'>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Proceso</th>
+                    <th>Costo $</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($procesos as $key => $value): ?>
+                  <tr>
+                    <td><input type="text" readonly="true" class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>"/></td>
+                    <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
+                  </tr>
+                <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">Ver detalles</button>

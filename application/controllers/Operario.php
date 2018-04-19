@@ -36,13 +36,14 @@ class Operario extends CI_Controller
 	{
 		if($this->input->post())
 		{
+			//print_r($this->input->post());
 			$this->load->model('corteAutorizadoDatos');
 			$data=$this->input->post();
 			$data['faltantes']=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->post()['folio'],$this->input->post()['carga']);
 			$data['trabajadas']=0;
 			$data['defectos']=0;
 			$this->load->model('produccionProcesoSeco');
-			$query=$this->produccionProcesoSeco->seleccionDefinida2($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga']);
+			$query=$this->produccionProcesoSeco->seleccionDefinida3($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
 			foreach ($query as $key => $value)
 			{
 				$data['trabajadas']+=$value['piezas'];
@@ -68,10 +69,12 @@ class Operario extends CI_Controller
 		if($this->input->post())
 		{
 			$this->load->model('corteAutorizadoDatos');
+			//Actualizando datos de proceso actual
 			$this->corteAutorizadoDatos->actualiza2($this->input->post()['proceso'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['defectos'],date("Y/m/d"),$_SESSION['usuario_id']);
-			if(isset($this->input->post()['siguente']))
+			//Actualizando datos de proceso siguiente
+			if(isset($this->input->post()['siguiente']))
 			{
-				$this->corteAutorizadoDatos->actualiza($this->input->post()['siguente'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['orden']+1);
+				$this->corteAutorizadoDatos->actualiza($this->input->post()['siguiente'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['orden']+1);
 			}
 		  redirect("/operario/index/2");
 		}
@@ -116,6 +119,54 @@ class Operario extends CI_Controller
 			$this->load->view('operario/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');
+		}
+	}
+
+	public function insertar($id=null)
+	{
+		if($id==null)
+		{
+			if($this->input->post())
+			{
+				$data=$this->input->post();
+				$this->load->model('produccionProcesoSeco');
+				$query=$this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
+				$data['usuarioid']=$_SESSION['usuario_id'];
+				if(count($query)==0)
+				{
+					$data['piezas']=0;
+					$data['defectos']=0;
+					$data['nuevo']=1;
+					$data['idprod']=0;
+				}
+				else
+				{
+					$data['piezas']=$query[0]['piezas'];
+					$data['defectos']=$query[0]['defectos'];
+					$data['nuevo']=0;
+					$data['idprod']=$query[0]['id'];
+				}
+			}
+			else
+				$data=null;
+			$data['url']=base_url()."index.php/operario/insertar";
+			$this->load->view('head');
+			$this->load->view('operario/menu');
+			$this->load->view('operarios/insertar',$data);
+			$this->load->view('foot');
+		}
+		else
+		{
+			if($this->input->post())
+			{
+				$this->load->model('produccionProcesoSeco');
+				if($this->input->post()['nuevo']==1)
+					$this->produccionProcesoSeco->insertar($this->input->post());
+				else
+					$this->produccionProcesoSeco->editar($this->input->post());
+				$n=1;
+			}
+			redirect("/operario/index/2");
 		}
 	}
 

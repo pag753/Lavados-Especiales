@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/cambiarPass">Cambiar contraseña</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/datos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/cerrar_sesion">Cerrar Sesión</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -32,9 +33,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/catalogosUsuarios">Usuarios</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/catalogosTipos">Tipos de pantalón</a>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?php echo base_url()?>index.php/administracion/cerrar_sesion">Cerrar Sesión</a>
       </li>
     </ul>
   </div>
