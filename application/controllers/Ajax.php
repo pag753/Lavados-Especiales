@@ -335,7 +335,7 @@ class Ajax extends CI_Controller
 			$lavados=$this->Lavado->get();
 			foreach ($lavados as $key => $value)
 				echo "<option value='".$value['id']."'>".$value['nombre']."</option>";
-			echo "</select></center></td><td><center><select name='proceso_seco[$numero][]' id='proceso_seco$numero' class='form-control' multiple='multiple' size='3'>";
+			echo "</select></center></td><td><center><select name='proceso_seco[$numero][]' id='proceso_seco$numero' class='form-control' multiple='multiple'>";
 			$this->load->Model('ProcesoSeco');
 			$procesos=$this->ProcesoSeco->get();
 			foreach ($procesos as $key => $value)
