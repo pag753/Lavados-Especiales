@@ -1,9 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<?php
-$cadena= $folio.'_'.$corte.'_'.$marca.'_'.$maquilero.'_'.$cliente.'_'.$tipo.'_'.$piezas.'_'.$fecha;
-?>
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
