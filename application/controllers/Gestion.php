@@ -6,38 +6,33 @@ class Gestion extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-    	$idusuario=$_SESSION['id'];
-		if($idusuario!=2 && $idusuario!=5)
-		else
-			redirect('/');
+    $idusuario=$_SESSION['id'];
+		if($idusuario!=2 && $idusuario!=5) redirect('/');
 	}
 
 	public function index($datos=null)
 	{
 		if($datos!=null)
-		{
 			if($datos==-1)
-			{
-				$data['texto1']="Los datos";
-				$data['texto2']="Se han actualizado con éxito";
-			}
+				$data = array(
+					'texto1' => "Los datos",
+					'texto2' => "Se han actualizado con éxito"
+				);
 			else
-			{
-				$data['texto1']="El corte con folio ".$datos;
-				$data['texto2']="Se ha registrado con éxito";
-			}
-		}
+				$data = array(
+					'texto1' => "El corte con folio ".$datos,
+					'texto2' => "Se ha registrado con éxito"
+				);
 		else
-		{
-			$data['texto1']="Bienvenido(a)";
-			$data['texto2']=$_SESSION['username'];
-		}
+			$data = array(
+				'texto1' => "Bienvenido(a)",
+				'texto2' => $_SESSION['username']
+			);
 		$titulo['titulo']='Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
 		$this->load->view('foot');
-
 	}
 
 	public function cerrar_sesion()
@@ -52,13 +47,14 @@ class Gestion extends CI_Controller
 		{
 			$datos['datos_corte']=$this->input->post();
 			$mi_imagen = 'mi_imagen';
-      			$config['upload_path'] = "img/fotos";
-			$config['file_name'] = $datos['datos_corte']['folio'];
-			$config['allowed_types'] = "gif|jpg|jpeg|png";
-			$config['max_size'] = "500000";
-			$config['max_width'] = "20000";
-			$config['max_height'] = "20000";
-
+			$config = array(
+				'upload_path' => "img/fotos",
+				'file_name' => $datos['datos_corte']['folio'],
+				'allowed_types' => "gif|jpg|jpeg|png",
+				'max_size' => "500000",
+				'max_width' => "20000",
+				'max_height' => "20000"
+			);
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload($mi_imagen))
 				// ocurrio un error
@@ -79,11 +75,13 @@ class Gestion extends CI_Controller
 					$id_corte=0;
 				else
 					$id_corte=$this->corte->get()[count($this->corte->get())-1]['folio']+1;
-			$datos['marcas']=$this->marca->get();
-			$datos['maquileros']=$this->maquilero->get();
-			$datos['clientes']=$this->cliente->get();
-			$datos['tipos']=$this->tipo_pantalon->get();
-			$datos['corte']=$id_corte;
+			$datos = array(
+				'marcas' => $this->marca->get(),
+				'maquileros' => $this->maquilero->get(),
+				'clientes' => $this->cliente->get(),
+				'tipos' => $this->tipo_pantalon->get(),
+				'corte' => $id_corte
+			);
 			$titulo['titulo']='Alta de corte';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');

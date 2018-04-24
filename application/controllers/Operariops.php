@@ -13,15 +13,15 @@ class Operariops extends CI_Controller
 	public function index($datos=null)
 	{
 		if($datos==null)
-		{
-			$data['texto1']="Bienvenido(a)";
-			$data['texto2']=$_SESSION['username'];
-		}
+			$data = array(
+				'texto1' => "Bienvenido(a)",
+				'texto2' => $_SESSION['username']
+			);
 		else
-		{
-			$data['texto1']="Los datos";
-			$data['texto2']="Se han registrado con éxito";
-		}
+			$data = array(
+				'texto1' =>"Los datos" ,
+				'texto2' =>"Se han registrado con éxito"
+			);
 		$titulo['titulo']='Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('operariops/menu');
@@ -46,19 +46,19 @@ class Operariops extends CI_Controller
 				$query=$this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
 				$data['usuarioid']=$_SESSION['usuario_id'];
 				if(count($query)==0)
-				{
-					$data['piezas']=0;
-					$data['defectos']=0;
-					$data['nuevo']=1;
-					$data['idprod']=0;
-				}
+					$data = array(
+						'piezas' => 0,
+						'defectos' => 0,
+						'nuevo' => 1,
+						'idprod' => 0
+					);
 				else
-				{
-					$data['piezas']=$query[0]['piezas'];
-					$data['defectos']=$query[0]['defectos'];
-					$data['nuevo']=0;
-					$data['idprod']=$query[0]['id'];
-				}
+					$data = array(
+						'piezas' => $query[0]['piezas'] ,
+						'defectos' => $query[0]['defectos'] ,
+						'nuevo' => 0 ,
+						'idprod' => $query[0]['id']
+					);
 			}
 			else
 				$data=null;

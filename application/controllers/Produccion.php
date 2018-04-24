@@ -13,23 +13,21 @@ class Produccion extends CI_Controller
 	public function index($datos=null)
 	{
 		if($datos==null)
-		{
-			$data['texto1']="Bienvenido(a)";
-			$data['texto2']=$_SESSION['username'];
-		}
+			$data = array(
+				'texto1' => "Bienvenido(a)",
+				'texto2' => $_SESSION['username']
+			);
 		else
-		{
 			if ($datos<0)
-			{
-				$data['texto1']="Los datos";
-				$data['texto2']="Se han actualizado con éxito";
-			}
+				$data = array(
+					'texto1' => "Los datos",
+					'texto2' => "Se han actualizado con éxito"
+				);
 			else
-			{
-				$data['texto1']="El corte con folio ".$datos;
-				$data['texto2']="Se ha autorizado con éxito";
-			}
-		}
+				$data = array(
+					'texto1' => "El corte con folio ".$datos,
+					'texto2' => "Se ha autorizado con éxito"
+				);
 		$titulo['titulo']='Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
@@ -92,11 +90,13 @@ class Produccion extends CI_Controller
 	{
 		$this->load->model('lavado');
 		$this->load->model('procesoSeco');
-		$datos['lavados']=$this->lavado->get();
-		$datos['procesos']=$this->procesoSeco->get();
-		$datos['datos_corte']=$entrada;
-		$datos['texto1']=$texto1;
-		$datos['texto2']=$texto2;
+		$datos = array(
+			'lavados' => $this->lavado->get(),
+			'procesos' => $this->procesoSeco->get(),
+			'datos_corte' => $entrada,
+			'texto1' => $texto1,
+			'texto2' => $texto2
+		);
 		$titulo['titulo']='Autorizar corte';
 		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');

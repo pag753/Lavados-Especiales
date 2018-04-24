@@ -12,8 +12,10 @@ class Root extends CI_Controller
 
 	public function index()
 	{
-		$data['texto1']="Bienvenido(a) usuario";
-		$data['texto2']=$_SESSION['username'];
+		$data = array(
+			'texto1' => "Bienvenido(a) usuario",
+			'texto2' => $_SESSION['username']
+		);
 		$titulo['titulo']='Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('root/menu');
@@ -50,9 +52,11 @@ class Root extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/root/cambiarDatos';
 			$this->load->model('Usuarios');
-			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
+			$data = array(
+				'link' => base_url().'index.php/root/cambiarDatos',
+				'data' => $this->Usuarios->getById($_SESSION['usuario_id'])
+			);
 			$titulo['titulo']='Cambiar datos personales';
 			$this->load->view('head',$titulo);
 			$this->load->view('root/menu');
