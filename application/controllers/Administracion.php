@@ -7,11 +7,7 @@ class Administracion extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
-		if($idusuario==1 || $idusuario==5)
-		{
-		}
-		else
-			redirect('/');
+		if($idusuario!=1 && $idusuario!=5) redirect('/');
 	}
 	public function index($datos=null)
 	{
@@ -32,9 +28,9 @@ class Administracion extends CI_Controller
 				$data['texto1']="El corte con folio ".$datos;
 				$data['texto2']="Se ha registrado con éxito";
 			}
-
 		}
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/index',$data);
 		$this->load->view('foot');
@@ -82,15 +78,17 @@ class Administracion extends CI_Controller
 					$datos['procesos'][$value['idproceso']]=$value['proceso'];
 					$datos['costos'][$value['idproceso']]=$value['costo'];
 				}
-				$this->load->view('head');
-				$this->load->view('administracion/menu');
+				$titulo['titulo']='Cambiar costos';
+				$this->load->view('head',$titulo);
+				$this->load->view('administracion/menu',$titulo);
 				$this->load->view('administracion/cargaCosto',$datos);
 				$this->load->view('foot');
 			}
 			else
 			{
+				$titulo['titulo']='Bienvenido a lavados especiales';
 				$textos['texto1']="Costos del corte";
-				$this->load->view('head');
+				$this->load->view('head',$titulo);
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/cargaCostoValidacion',$textos);
 				$this->load->view('foot');
@@ -102,7 +100,8 @@ class Administracion extends CI_Controller
 	{
 		$this->load->model("Cliente");
 		$data['data']=$this->Cliente->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de clientes';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosCliente',$data);
 		$this->load->view('foot');
@@ -112,7 +111,8 @@ class Administracion extends CI_Controller
 	{
 		$this->load->model("Lavado");
 		$data['data']=$this->Lavado->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de lavados';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosLavado',$data);
 		$this->load->view('foot');
@@ -122,7 +122,8 @@ class Administracion extends CI_Controller
 	{
 		$this->load->model("Maquilero");
 		$data['data']=$this->Maquilero->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de maquileros';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosMaquilero',$data);
 		$this->load->view('foot');
@@ -134,7 +135,8 @@ class Administracion extends CI_Controller
 		$data['data']=$this->Marca->getJoin();
 		$this->load->model("Cliente");
 		$data['clientes']=$this->Cliente->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de marcas';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosMarca',$data);
 		$this->load->view('foot');
@@ -144,7 +146,8 @@ class Administracion extends CI_Controller
 	{
 		$this->load->model("ProcesoSeco");
 		$data['data']=$this->ProcesoSeco->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de procesos';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosProcesos',$data);
 		$this->load->view('foot');
@@ -156,7 +159,8 @@ class Administracion extends CI_Controller
 		$this->load->model("TipoUsuario");
 		$data['data']=$this->Usuarios->get();
 		$data['TipoUsuario']=$this->TipoUsuario->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de usuarios';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosUsuarios',$data);
 		$this->load->view('foot');
@@ -166,7 +170,8 @@ class Administracion extends CI_Controller
 	{
 		$this->load->model("Tipo_pantalon");
 		$data['data']=$this->Tipo_pantalon->get();
-		$this->load->view('head');
+		$titulo['titulo']='Catálogo de tipos de pantalón';
+		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosTipoPantalon',$data);
 		$this->load->view('foot');
@@ -196,7 +201,7 @@ class Administracion extends CI_Controller
 					$this->input->post()['direccionE'],
 					$this->input->post()['telefonoE'],
 					$this->input->post()['id']
-			);
+				);
 			redirect("/administracion/catalogosClientes");
 		}
 		else redirect("/");
@@ -389,7 +394,8 @@ class Administracion extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/administracion/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -409,7 +415,8 @@ class Administracion extends CI_Controller
 			$data['link']=base_url().'index.php/administracion/datos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');

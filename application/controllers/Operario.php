@@ -7,11 +7,7 @@ class Operario extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
-		if($idusuario==4 || $idusuario==5)
-		{
-		}
-		else
-			redirect('/');
+		if($idusuario!=4 && $idusuario!=5) redirect('/');
 	}
 
 	public function index($datos=null)
@@ -26,7 +22,8 @@ class Operario extends CI_Controller
 			$data['texto1']="Los datos";
 			$data['texto2']="Se han registrado con éxito";
 		}
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('operario/menu');
 		$this->load->view('operario/index',$data);
 		$this->load->view('foot');
@@ -36,7 +33,6 @@ class Operario extends CI_Controller
 	{
 		if($this->input->post())
 		{
-			//print_r($this->input->post());
 			$this->load->model('corteAutorizadoDatos');
 			$data=$this->input->post();
 			$data['faltantes']=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->post()['folio'],$this->input->post()['carga']);
@@ -50,14 +46,16 @@ class Operario extends CI_Controller
 				$data['defectos']+=$value['defectos'];
 			}
 			$data['query']=$query;
-			$this->load->view('head');
+			$titulo['titulo']='Cerrar proceso';
+			$this->load->view('head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operario/altaConfirmacion',$data);
 			$this->load->view('foot');
 		}
 		else
 		{
-			$this->load->view('head');
+			$titulo['titulo']='Cerrar proceso';
+			$this->load->view('head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operario/alta');
 			$this->load->view('foot');
@@ -73,15 +71,10 @@ class Operario extends CI_Controller
 			$this->corteAutorizadoDatos->actualiza2($this->input->post()['proceso'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['defectos'],date("Y/m/d"),$_SESSION['usuario_id']);
 			//Actualizando datos de proceso siguiente
 			if(isset($this->input->post()['siguiente']))
-			{
 				$this->corteAutorizadoDatos->actualiza($this->input->post()['siguiente'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['orden']+1);
-			}
-		  redirect("/operario/index/2");
+			redirect("/operario/index/2");
 		}
-		else
-		{
-			redirect("/");
-		}
+		else redirect("/");
 	}
 
 	public function cambiarPass()
@@ -95,7 +88,8 @@ class Operario extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/operario/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -115,7 +109,8 @@ class Operario extends CI_Controller
 			$data['link']=base_url().'index.php/operario/datos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');
@@ -147,10 +142,10 @@ class Operario extends CI_Controller
 					$data['idprod']=$query[0]['id'];
 				}
 			}
-			else
-				$data=null;
+			else $data=null;
 			$data['url']=base_url()."index.php/operario/insertar";
-			$this->load->view('head');
+			$titulo['titulo']='Insertar producción';
+			$this->load->view('head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operarios/insertar',$data);
 			$this->load->view('foot');

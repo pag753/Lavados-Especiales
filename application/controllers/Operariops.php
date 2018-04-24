@@ -7,11 +7,7 @@ class Operariops extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
-		if($idusuario==6 || $idusuario==5)
-		{
-		}
-		else
-			redirect('/');
+		if($idusuario!=6 && $idusuario!=5) redirect('/');
 	}
 
 	public function index($datos=null)
@@ -26,7 +22,8 @@ class Operariops extends CI_Controller
 			$data['texto1']="Los datos";
 			$data['texto2']="Se han registrado con éxito";
 		}
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('operariops/menu');
 		$this->load->view('operariops/index',$data);
 		$this->load->view('foot');
@@ -66,7 +63,8 @@ class Operariops extends CI_Controller
 			else
 				$data=null;
 			$data['url']=base_url()."index.php/operariops/insertar";
-			$this->load->view('head');
+			$titulo['titulo']='Insertar producción';
+			$this->load->view('head',$titulo);
 			$this->load->view('operariops/menu');
 			$this->load->view('operarios/insertar',$data);
 			$this->load->view('foot');
@@ -97,7 +95,8 @@ class Operariops extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/Operariops/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('operariops/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -117,7 +116,8 @@ class Operariops extends CI_Controller
 			$data['link']=base_url().'index.php/Operariops/datos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('operariops/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');

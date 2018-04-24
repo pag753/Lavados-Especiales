@@ -7,11 +7,7 @@ class Produccion extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
-		if($idusuario==3 || $idusuario==5)
-		{
-		}
-		else
-			redirect('/');
+		if($idusuario!=3 && $idusuario!=5) redirect('/');
 	}
 
 	public function index($datos=null)
@@ -34,7 +30,8 @@ class Produccion extends CI_Controller
 				$data['texto2']="Se ha autorizado con éxito";
 			}
 		}
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/index',$data);
 		$this->load->view('foot');
@@ -71,7 +68,6 @@ class Produccion extends CI_Controller
 					$ps=$this->procesoSeco->get();
 					foreach ($ps as $key2 => $value)
 						$precios[$value['id']]=$value['costo'];
-
 					$data['id_carga']=$contador;
 					$data['lavado_id']=$this->input->post()['lavado'][$key];
 					foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
@@ -101,7 +97,8 @@ class Produccion extends CI_Controller
 		$datos['datos_corte']=$entrada;
 		$datos['texto1']=$texto1;
 		$datos['texto2']=$texto2;
-		$this->load->view('head');
+		$titulo['titulo']='Autorizar corte';
+		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/cargarAutorizacion',$datos);
 		$this->load->view('foot');
@@ -118,7 +115,8 @@ class Produccion extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/produccion/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('produccion/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -138,7 +136,8 @@ class Produccion extends CI_Controller
 			$data['link']=base_url().'index.php/produccion/datos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('produccion/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');

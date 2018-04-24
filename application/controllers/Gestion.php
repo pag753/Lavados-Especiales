@@ -7,9 +7,7 @@ class Gestion extends CI_Controller
 	{
 		parent::__construct();
     	$idusuario=$_SESSION['id'];
-		if($idusuario==2 || $idusuario==5)
-		{
-		}
+		if($idusuario!=2 && $idusuario!=5)
 		else
 			redirect('/');
 	}
@@ -34,7 +32,8 @@ class Gestion extends CI_Controller
 			$data['texto1']="Bienvenido(a)";
 			$data['texto2']=$_SESSION['username'];
 		}
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
 		$this->load->view('foot');
@@ -62,13 +61,9 @@ class Gestion extends CI_Controller
 
 			$this->load->library('upload', $config);
 			if (!$this->upload->do_upload($mi_imagen))
-			{
 				// ocurrio un error
 				$data['uploadError'] = $this->upload->display_errors();
-				//echo $this->upload->display_errors();
-			}
 			$data['uploadSuccess'] = $this->upload->data();
-
 			$this->load->model('corte');
 			$this->corte->agregar($datos['datos_corte']);
 			redirect('/gestion/index/'.$datos['datos_corte']['folio']);
@@ -79,21 +74,18 @@ class Gestion extends CI_Controller
 			$c=$this->corte->get();
 			if(count($c)==0)
 				$id_corte=1;
-
 			else
-			{
 				if(count(count($c)-1)==0)
 					$id_corte=0;
 				else
 					$id_corte=$this->corte->get()[count($this->corte->get())-1]['folio']+1;
-			}
 			$datos['marcas']=$this->marca->get();
 			$datos['maquileros']=$this->maquilero->get();
 			$datos['clientes']=$this->cliente->get();
 			$datos['tipos']=$this->tipo_pantalon->get();
 			$datos['corte']=$id_corte;
-
-			$this->load->view('head');
+			$titulo['titulo']='Alta de corte';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/alta',$datos);
 			$this->load->view('foot');
@@ -126,7 +118,8 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$this->load->view('head');
+			$titulo['titulo']='Salida interna';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaInterna');
 			$this->load->view('foot');
@@ -143,7 +136,8 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$this->load->view('head');
+			$titulo['titulo']='Salida a almacen';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaAlmacen');
 			$this->load->view('foot');
@@ -160,7 +154,8 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$this->load->view('head');
+			$titulo['titulo']='Salida externa';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaExterna');
 			$this->load->view('foot');
@@ -174,8 +169,8 @@ class Gestion extends CI_Controller
 		$datos['marcas']=$this->Marca->get();
 		$datos['maquileros']=$this->Maquilero->get();
 		$datos['tipos']=$this->Tipo_pantalon->get();
-
-		$this->load->view('head');
+		$titulo['titulo']='Reportes';
+		$this->load->view('head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/reportes',$datos);
 		$this->load->view('foot');
@@ -216,26 +211,23 @@ class Gestion extends CI_Controller
 			$check=TRUE;
 		else
 			$check=FALSE;
-    		$this->load->library('pdf');
+    $this->load->library('pdf');
 		// Creacion del PDF
 		/*
-     		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-     		* heredó todos las variables y métodos de fpdf
-     		*/
-		//$pdf=new PDF('L','mm','Letter');
-		//$pdf->Open();
+    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+    	* heredó todos las variables y métodos de fpdf
+    */
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
 		$pdf = new Pdf("REPORTE DE CORTES EN ALMACEN");
     		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
 	    	// Define el alias para el número de página que se imprimirá en el pie
-    		$pdf->AliasNbPages();
-		//$pdf->Open();
+    $pdf->AliasNbPages();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
-     		* el color de relleno predeterminado
-     		*/
+    	* el color de relleno predeterminado
+  	*/
     $pdf->SetTitle("Reporte");
 		//190 vertical
 		if ($check)
@@ -243,7 +235,6 @@ class Gestion extends CI_Controller
 			$pdf->SetWidths(array(52.44,10,10,21.11,21.11,21.11,21.11,11,21.11));
 			$pdf->Row(array(utf8_decode("Imágen"),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha")));
 			$extensiones = array("jpg","jpeg","png");
-
 			foreach ($cortes as $key => $value)
 			{
 				if($key>0 && $key%6==0)
@@ -252,9 +243,7 @@ class Gestion extends CI_Controller
 					$pdf->AddPage();
 					$pdf->Row(array(utf8_decode("Imágen"),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha")));
 				}
-
 				$pdf->SetFont('Arial','',8);
-
 				foreach ($extensiones as $key2 => $extension)
 				{
 					$file="/var/www/html/lavanderia/img/fotos/".$value['folio'].".".$extension;
@@ -280,7 +269,6 @@ class Gestion extends CI_Controller
 				utf8_decode($value['cliente']),utf8_decode($value['tipo']),utf8_decode($value['piezas']),utf8_decode($value['fecha'])));
 			}
 		}
-
 		/*
 		* Se manda el pdf al navegador
 		*
@@ -307,31 +295,24 @@ class Gestion extends CI_Controller
 			$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-     		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-     		* heredó todos las variables y métodos de fpdf
-     		*/
-		//$pdf=new PDF('L','mm','Letter');
-		//$pdf->Open();
+    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+    	* heredó todos las variables y métodos de fpdf
+    */
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
-		//print_r($cortes);
-		//print_r($this->input->post());
-
 		$pdf = new Pdf("REPORTE DE CORTES AUTORIZADOS",'L');
-    		// Agregamos una página
+  	// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
-	    	// Define el alias para el número de página que se imprimirá en el pie
-    	$pdf->AliasNbPages();
+	  // Define el alias para el número de página que se imprimirá en el pie
+    $pdf->AliasNbPages();
 		//$pdf->Open();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
      		* el color de relleno predeterminado
-     	*/
-
+    */
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
 		$cortes=$this->corte->reporte2($this->input->post());
-
 		//190 vertical
 		if ($check)
 		{
@@ -340,7 +321,6 @@ class Gestion extends CI_Controller
 			$pdf->SetWidths($arregloPrincipal);
 			$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Lavado")));
 			$extensiones = array("jpg","jpeg","png");
-
 			foreach ($cortes as $key => $value)
 			{
 				$cargas=$value['cargas'];
@@ -353,7 +333,6 @@ class Gestion extends CI_Controller
 				$piezas=$value['piezas'];
 				$fecha=$value['fecha'];
 				$fechaAutorizado=$value['fechaAutorizado'];
-
 				if($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
@@ -361,11 +340,8 @@ class Gestion extends CI_Controller
 					$pdf->SetWidths($arregloPrincipal);
 					$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Lavado")));
 				}
-
 				$pdf->SetWidths(array(8.769230769,10.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
-
 				$pdf->SetFont('Arial','',9);
-
 				foreach ($extensiones as $key2 => $extension)
 				{
 					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
@@ -385,7 +361,6 @@ class Gestion extends CI_Controller
 						$lavado=$value2['lavado'];
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
-
 					$pdf->SetX($pdf->GetX()+$valor);
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($lavado),utf8_decode($proceso)));
 				}
@@ -397,7 +372,6 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','B',9);
 			$pdf->SetWidths(array(22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5,22.5));
 			$pdf->Row(array(utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Lavado"),utf8_decode("Procesos")));
-
 			$pdf->SetFont('Arial','',9);
 			foreach ($cortes as $key => $value)
 			{
@@ -423,49 +397,38 @@ class Gestion extends CI_Controller
 						$lavado=$value2['lavado'];
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
-
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($lavado),utf8_decode($proceso)));
 				}
 				$pdf->SetY($pdf->GetY()+5);
 			}
 		}
-
 		/*
-		* Se manda el pdf al navegador
-		*
-		* $this->pdf->Output(nombredelarchivo, destino);
-		*
-		* I = Muestra el pdf en el navegador
-		* D = Envia el pdf para descarga
-		*
+			* Se manda el pdf al navegador
+			*
+			*
+			* I = Muestra el pdf en el navegador
+			* D = Envia el pdf para descarga
+			*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
 
 	public function reporte3()
 	{
+		if(!$this->input->post()) redirect("/");
 		//reporte de cortes en proceso -> cortes que están en proceso sin salida externa
 		//campos: todos los de corte, datos de autorización y salida interna
-		if(!$this->input->post())
-			redirect("/");
 		// Se carga la libreria fpdf
-		if(isset($this->input->post()['check']))
-			$check=TRUE;
-		else
-			$check=FALSE;
-    		$this->load->library('pdf');
+		if(isset($this->input->post()['check'])) $check=TRUE;
+		else $check=FALSE;
+		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-     		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-     		* heredó todos las variables y métodos de fpdf
-     		*/
-		//$pdf=new PDF('L','mm','Letter');
-		//$pdf->Open();
+    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+    	* heredó todos las variables y métodos de fpdf
+    */
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
-		//print_r($cortes);
-		//print_r($this->input->post());
-
 		$pdf = new Pdf("REPORTE DE CORTES EN PROCESO",'L');
 		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
@@ -476,18 +439,15 @@ class Gestion extends CI_Controller
 		/* Se define el titulo, márgenes izquierdo, derecho y
 		* el color de relleno predeterminado
 		*/
-
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
 		$cortes=$this->corte->reporte3($this->input->post());
-
 		//190 vertical
 		if ($check)
 		{
 			$pdf->SetWidths(array(38,9,9.5,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,15,16.875,16.875,16.875));
 			$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Fecha entrega"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
 			$extensiones = array("jpg","jpeg","png");
-
 			foreach ($cortes as $key => $value)
 			{
 				$cargas=$value['cargas'];
@@ -503,7 +463,6 @@ class Gestion extends CI_Controller
 				$fechaSalidaInterna=$value['fechaSalidaInterna'];
 				$muestras=$value['muestras'];
 				$fechaSalida=$value['fechaSalida'];
-
 				if($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
@@ -511,11 +470,8 @@ class Gestion extends CI_Controller
 					$pdf->SetWidths(array(38,9,9.5,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,15,16.875,16.875,16.875));
 					$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Fecha entrega"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
 				}
-
 				$pdf->SetWidths(array(9,9.5,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,15,16.875,16.875,16.875));
-
 				$pdf->SetFont('Arial','',8);
-
 				foreach ($extensiones as $key2 => $extension)
 				{
 					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
@@ -525,7 +481,6 @@ class Gestion extends CI_Controller
 						break;
 					}
 				}
-
 				$this->load->model('salidaInterna1Datos');
 				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
@@ -541,7 +496,6 @@ class Gestion extends CI_Controller
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
 					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
-
 					$pdf->SetX($pdf->GetX()+38);
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($fechaSalidaInterna),utf8_decode($fechaSalida),utf8_decode($muestras),utf8_decode($lavado),utf8_decode($proceso),utf8_decode($piezasCarga)));
 				}
@@ -553,7 +507,6 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','B',8);
 			$pdf->SetWidths(array(16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875,16.875));
 			$pdf->Row(array(utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Fecha entrega"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
-
 			$pdf->SetFont('Arial','',8);
 			foreach ($cortes as $key => $value)
 			{
@@ -570,7 +523,6 @@ class Gestion extends CI_Controller
 				$fechaSalidaInterna=$value['fechaSalidaInterna'];
 				$muestras=$value['muestras'];
 				$fechaSalida=$value['fechaSalida'];
-
 				$this->load->model('salidaInterna1Datos');
 				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
@@ -584,21 +536,19 @@ class Gestion extends CI_Controller
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
 					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
-
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($fechaSalidaInterna),utf8_decode($fechaSalida),utf8_decode($muestras),utf8_decode($lavado),utf8_decode($proceso),utf8_decode($piezasCarga)));
 				}
 				$pdf->SetY($pdf->GetY()+5);
 			}
 		}
-
 		/*
-		* Se manda el pdf al navegador
-		*
-		* $this->pdf->Output(nombredelarchivo, destino);
-		*
-		* I = Muestra el pdf en el navegador
-		* D = Envia el pdf para descarga
-		*
+			* Se manda el pdf al navegador
+			*
+			* $this->pdf->Output(nombredelarchivo, destino);
+			*
+			* I = Muestra el pdf en el navegador
+			* D = Envia el pdf para descarga
+			*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
@@ -617,16 +567,11 @@ class Gestion extends CI_Controller
     		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-     		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-     		* heredó todos las variables y métodos de fpdf
-     		*/
-		//$pdf=new PDF('L','mm','Letter');
-		//$pdf->Open();
+			* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+     	* heredó todos las variables y métodos de fpdf
+    */
 		$this->load->model('Corte');
 		$cortes=$this->Corte->reporte1($this->input->post());
-		//print_r($cortes);
-		//print_r($this->input->post());
-
 		$pdf = new Pdf("REPORTE DE CORTES EN PROCESO",'L');
 		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
@@ -635,20 +580,17 @@ class Gestion extends CI_Controller
 		//$pdf->Open();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
-		* el color de relleno predeterminado
+			* el color de relleno predeterminado
 		*/
-
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
 		$cortes=$this->corte->reporte4($this->input->post());
-
 		//190 vertical
 		if ($check)
 		{
 			$pdf->SetWidths(array(49.75,9,10.875,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,16.875,16.875,16.875));
 			$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
 			$extensiones = array("jpg","jpeg","png");
-
 			foreach ($cortes as $key => $value)
 			{
 				$cargas=$value['cargas'];
@@ -661,7 +603,6 @@ class Gestion extends CI_Controller
 				$piezas=$value['piezas'];
 				$fecha=$value['fecha'];
 				$fechaAutorizado=$value['fechaAutorizado'];
-
 				if($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
@@ -669,11 +610,8 @@ class Gestion extends CI_Controller
 					$pdf->SetWidths(array(49.75,9,10.875,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,16.875,16.875,16.875));
 					$pdf->Row(array(utf8_decode('Imágen'),utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
 				}
-
 				$pdf->SetWidths(array(9,10.875,16.875,16.875,16.875,16.875,10.875,16.875,12.875,16.875,16.875,16.875,16.875,16.875,16.875));
-
 				$pdf->SetFont('Arial','',8);
-
 				foreach ($extensiones as $key2 => $extension)
 				{
 					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
@@ -683,11 +621,8 @@ class Gestion extends CI_Controller
 						break;
 					}
 				}
-
 				$fechaSalidaInterna=$value['fechaSalidaInterna'];
 				$muestras=$value['muestras'];
-
-
 				$this->load->model('salidaInterna1Datos');
 				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
@@ -703,7 +638,6 @@ class Gestion extends CI_Controller
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
 					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
-
 					$pdf->SetX($pdf->GetX()+49.75);
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($fechaSalidaInterna),utf8_decode($muestras),utf8_decode($lavado),utf8_decode($proceso),utf8_decode($piezasCarga)));
 				}
@@ -715,7 +649,6 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','B',8);
 			$pdf->SetWidths(array(18,18,18,18,18,18,18,18,18,18,18,18,18,18,18));
 			$pdf->Row(array(utf8_decode("Folio"),utf8_decode("Corte"),utf8_decode("Marca"),utf8_decode("Maquilero"),utf8_decode("Cliente"),utf8_decode("Tipo"),utf8_decode("Piezas"),utf8_decode("Fecha entrada"),utf8_decode("Cargas"),utf8_decode("Fecha autorización"),utf8_decode("Fecha salida interna"),utf8_decode("Muestras"),utf8_decode("Lavado"),utf8_decode("Procesos"),utf8_decode("Piezas de carga")));
-
 			$pdf->SetFont('Arial','',8);
 			foreach ($cortes as $key => $value)
 			{
@@ -729,10 +662,8 @@ class Gestion extends CI_Controller
 				$piezas=$value['piezas'];
 				$fecha=$value['fecha'];
 				$fechaAutorizado=$value['fechaAutorizado'];
-
 				$fechaSalidaInterna=$value['fechaSalidaInterna'];
 				$muestras=$value['muestras'];
-
 				$this->load->model('salidaInterna1Datos');
 				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
@@ -748,21 +679,19 @@ class Gestion extends CI_Controller
 						$proceso=$proceso.$value2['proceso'].", ";
 					}
 					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
-
 					$pdf->Row(array(utf8_decode($folio),utf8_decode($corte),utf8_decode($marca),utf8_decode($maquilero),utf8_decode($cliente),utf8_decode($tipo),utf8_decode($piezas),utf8_decode($fecha),utf8_decode($cargas),utf8_decode($fechaAutorizado),utf8_decode($fechaSalidaInterna),utf8_decode($muestras),utf8_decode($lavado),utf8_decode($proceso),utf8_decode($piezasCarga)));
 				}
 				$pdf->SetY($pdf->GetY()+5);
 			}
 		}
-
 		/*
-		* Se manda el pdf al navegador
-		*
-		* $this->pdf->Output(nombredelarchivo, destino);
-		*
-		* I = Muestra el pdf en el navegador
-		* D = Envia el pdf para descarga
-		*
+			* Se manda el pdf al navegador
+			*
+			* $this->pdf->Output(nombredelarchivo, destino);
+			*
+			* I = Muestra el pdf en el navegador
+			* D = Envia el pdf para descarga
+			*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
@@ -778,7 +707,8 @@ class Gestion extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/Gestion/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -798,12 +728,12 @@ class Gestion extends CI_Controller
 			$data['link']=base_url().'index.php/gestion/cambiarDatos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');
 		}
 	}
-
 }
 ?>

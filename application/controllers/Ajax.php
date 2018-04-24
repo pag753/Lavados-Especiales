@@ -136,7 +136,7 @@ class Ajax extends CI_Controller
 								echo "<td><select name='primero[$key]' class='form-control'>";
 								foreach ($query10 as $key => $value)
 									echo "<option value='".$value['idproceso']."'>".$value['proceso']."</option>";
-									echo "</select></td></tr>";
+								echo "</select></td></tr>";
 							}
 							echo "</tbody></table></div><input type='submit' class='btn btn-primary' value='Aceptar'/><input type='hidden' name='fechabd' id='fechabd' value='".$query2[0]['fecha_entrada']."'/><input type='hidden' name='cargas' id='cargas' value='".count($autorizado)."'/></div></div>";
 						}

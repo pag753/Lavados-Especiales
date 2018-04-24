@@ -14,7 +14,8 @@ class Root extends CI_Controller
 	{
 		$data['texto1']="Bienvenido(a) usuario";
 		$data['texto2']=$_SESSION['username'];
-		$this->load->view('head');
+		$titulo['titulo']='Bienvenido a lavados especiales';
+		$this->load->view('head',$titulo);
 		$this->load->view('root/menu');
 		$this->load->view('root/index',$data);
 		$this->load->view('foot');
@@ -31,7 +32,8 @@ class Root extends CI_Controller
 		else
 		{
 			$data['link']=base_url().'index.php/root/cambiarPass';
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar contraseña';
+			$this->load->view('head',$titulo);
 			$this->load->view('root/menu');
 			$this->load->view('cambiarPass',$data);
 			$this->load->view('foot');
@@ -51,7 +53,8 @@ class Root extends CI_Controller
 			$data['link']=base_url().'index.php/root/cambiarDatos';
 			$this->load->model('Usuarios');
 			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$this->load->view('head');
+			$titulo['titulo']='Cambiar datos personales';
+			$this->load->view('head',$titulo);
 			$this->load->view('root/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');

@@ -1,10 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+if (!isset($titulo)) $titulo='Bienvenido a lavados especiales';
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Lavados especiales</title>
+  <title><?php echo $titulo ?></title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"/>

@@ -19,36 +19,41 @@ class Welcome extends CI_Controller
 				if(!empty($query))
 				{
 					$data= array(
-					'username'  => $query[0]['nombre'],
-	      			'id' => $query[0]["tipo_usuario_id"],
-					'usuario_id' => $query[0]["id"],
-	      			'logged_in' => TRUE);
+						'username'  => $query[0]['nombre'],
+						'id' => $query[0]["tipo_usuario_id"],
+						'usuario_id' => $query[0]["id"],
+						'logged_in' => TRUE
+					);
 					$this->session->set_userdata($data);
 					$this->sesion();
 				}
 				else
 				{
-					$info = array('texto1' => 'Error en usuario o contraseña',
-												'texto2' => 'Intente de nuevo');
-					$this->load->view('head');
+					$info = array(
+						'texto1' => 'Error en usuario o contraseña',
+						'texto2' => 'Intente de nuevo'
+					);
+					$titulo['titulo']='Error de entrada de usuario';
+					$this->load->view('head',$titulo);
 					$this->load->view('welcome/menu');
 					$this->load->view('welcome/index',$info);
 					$this->load->view('foot');
-
 				}
 			}
 			else
 			{
-				$info = array('texto1' => 'Bienvenido',
-			 								'texto2' => 'Lavados especiales');
-				$this->load->view('head');
+				$info = array(
+					'texto1' => 'Bienvenido',
+			 		'texto2' => 'Lavados especiales'
+				);
+				$titulo['titulo']='Bienvenido a lavados especiales';
+				$this->load->view('head',$titulo);
 				$this->load->view('welcome/menu');
 				$this->load->view('welcome/index',$info);
 				$this->load->view('foot');
 			}
 		}
-		else
-			$this->sesion();
+		else $this->sesion();
 		}
 
 	function sesion()
