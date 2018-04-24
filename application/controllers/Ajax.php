@@ -206,11 +206,13 @@ class Ajax extends CI_Controller
 											//rojo
 												$status="No registrado";
 												$clase="table-danger";
+												$piezas=0;
 												break;
 											case 1:
 											//azul
 												$status="Listo para registrar";
 												$clase="table-primary";
+												$piezas=0;
 												break;
 											case 2:
 											//verde

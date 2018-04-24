@@ -4,13 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
 var ban=false;
 $(document).ready(function(){
-  $('input').keyup(function(){
-    if($('#pass2').val()==$('#pass1').val()){
-      $('#mensaje').html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
-      ban=true;
+  $( 'input' ).keyup(function(){
+    if($( '#pass2' ).val()==$( '#pass1' ).val()){
+      if ( $( '#pass2' ).val() =='' )
+        $( '#mensaje' ).html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas están vacías.</div>");
+      else {
+        $( '#mensaje' ).html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
+        ban=true;
+      }
     }
     else{
-      $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
+      $( '#mensaje' ).html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
       ban=false;
     }
   });
