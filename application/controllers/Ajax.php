@@ -85,7 +85,7 @@ class Ajax extends CI_Controller
 		else
 		{
 			$cliente=$this->input->post()["cliente"];
-			if($cliente==-1) echo "<label>Escoja primero el cliente</label>";
+			if($cliente==-1) echo "<div class='alert alert-warning' role='alert'>Escoja primero el cliente.</div>";
 			else
 			{
 				$this->load->model('marca');

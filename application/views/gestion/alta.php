@@ -75,7 +75,7 @@ $(document).ready(function(){
   $( "form" ).submit(function( event ){
     var val=$("#cliente").val();
     if(parseInt(val)==-1){
-      alert("Por favor escoja un cliente");
+      alert("Por favor escoja un cliente.");
       return false;
     }
     else
@@ -121,7 +121,11 @@ $(document).ready(function(){
         <div class="form-group row">
           <label for="marca" class="col-3 col-form-label">Marca</label>
           <div class="col-9">
-            <label id='marcas' value='marcas' class="col-form-label">Escoja primero el cliente</label>
+            <div id='marcas' value='marcas'>
+              <div class="alert alert-warning" role="alert">
+                Escoja primero el cliente.
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-group row">
