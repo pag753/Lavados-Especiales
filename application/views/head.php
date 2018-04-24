@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-if (!isset($titulo)) $titulo='Bienvenido a lavados especiales';
+if (!isset($titulo)) $titulo='Lavados Especiales';
 ?>
 <!DOCTYPE html>
 <html>
