@@ -13,7 +13,7 @@ $(document).ready(function() {
       $("#complemento").html(result);
     }});
   });
-  $( "form" ).submit(function( event ) {
+  $("form").submit(function( event ) {
     var suma=0;
     for (var i = 0; i < $('#cargas').val(); i++)
     suma+=parseInt($('#piezas_parcial'+i).val());

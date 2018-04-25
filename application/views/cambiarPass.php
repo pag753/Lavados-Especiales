@@ -14,11 +14,11 @@ $(document).ready(function() {
       }
     }
     else {
-      $( '#mensaje' ).html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
+      $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
       ban=false;
     }
   });
-  $( "form" ).submit(function() {
+  $("form").submit(function() {
     if (!ban)
       alert("¡Las contraseñas no son iguales! Favor de verificar.")
     return ban;

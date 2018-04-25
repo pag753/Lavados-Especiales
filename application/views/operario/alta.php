@@ -47,7 +47,7 @@ $(document).ready(function() {
       }
     });
   });
-  $( '#carga' ).change(function(){
+  $('#carga').change(function(){
     $.ajax({
       url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
       data: { folio: $('#folio').val(), carga: $('#carga').val() },
@@ -58,7 +58,7 @@ $(document).ready(function() {
       }
     });
   });
-  $( '#proceso' ).change(function() {
+  $('#proceso').change(function() {
     $.ajax({
       url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
       data: { folio: $('#folio').val(), carga: $('#carga').val(), proceso: $('#proceso').val() },

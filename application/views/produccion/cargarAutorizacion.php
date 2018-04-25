@@ -1,7 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<?php
 $input_folio = array(
   'name' => 'folio',
   'id' => 'folio',
@@ -33,18 +31,18 @@ $(document).ready(function() {
       $("#respuesta").html(result);
     }});
   });
-  $( "form" ).on( "click", "button", function() {
+  $("form").on( "click", "button", function() {
     if (this.name=="boton") {
-      var numero=$( "#numero" );
-      var numero2=$( "#numero2" );
+      var numero=$("#numero");
+      var numero2=$("#numero2");
       $.ajax({
         url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
         data: { numero: numero2.val() },
         dataType: 'text',
         type: 'POST',
         success: function(result){
-          $( '#tabla tbody' ).append(result);
-          $( '#proceso_seco'+numero2.val() ).multiselect({
+          $('#tabla tbody').append(result);
+          $('#proceso_seco'+numero2.val() ).multiselect({
             nonSelectedText: '¡Selecciona!',
             buttonWidth: '100%',
             maxHeight: '150',
@@ -67,8 +65,8 @@ $(document).ready(function() {
     else {
       if (this.id.substring(0,8)=="eliminar") {
         var renglon=this.id.substring(8);
-        $( "#renglon"+renglon ).remove();
-        var numero=$( "#numero" );
+        $("#renglon"+renglon).remove();
+        var numero=$("#numero");
         numero.val(parseInt(numero.val())-1);
       }
     }
