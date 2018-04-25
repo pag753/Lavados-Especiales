@@ -128,7 +128,10 @@ class Produccion extends CI_Controller
 		if($this->input->post())
 		{
 			$this->load->model('Usuarios');
-			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			$this->Usuarios->updateD(
+				$_SESSION['usuario_id'],$this->input->post()['nombre_completo'],
+				$this->input->post()['direccion'],$this->input->post()['telefono']
+			);
 			redirect('/produccion/index/-1');
 		}
 		else

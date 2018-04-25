@@ -2,77 +2,81 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <?php
-$input_folio = array('name'    => 'folio',
-                     'id'      => 'folio',
-                     'readonly'=> 'true',
-                     'type'    => 'text',
-                     'class'   => 'form-control',
-                     'value'   => $corte,);
-
-$input_fecha = array('name'    => 'fecha',
-                     'id'      => 'fecha',
-                     'type'    => 'datetime-local',
-                     'class'   => 'form-control',
-                     'value'   => set_value('fecha',date("Y-m-d")."T00:00"),
-                     'readonly'=> 'true',
-                   );
-
-$input_corte = array('name'       => 'corte',
-                     'id'         => 'corte',
-                     'type'       => 'text',
-                     'class'      => 'form-control',
-                     'placeholder'=> 'Inserte corte',
-                     'required'   => 'true');
-
-$input_piezas = array('name'      => 'piezas',
-                     'id'         => 'piezas',
-                     'type'       => 'number',
-                     'class'      => 'form-control',
-                     'placeholder'=> 'Inserte # de piezas',
-                     'required'   => 'true');
-
-$input_imagen = array('name'      => 'mi_imagen',
-                     'id'         => 'mi_imagen',
-                     'type'       => 'file',
-                     'class'      => 'form-control-file',);
-
+$input_folio = array(
+  'name' => 'folio',
+  'id' => 'folio',
+  'readonly' => 'true',
+  'type' => 'text',
+  'class' => 'form-control',
+  'value' => $corte,
+);
+$input_fecha = array(
+  'name' => 'fecha',
+  'id' => 'fecha',
+  'type' => 'datetime-local',
+  'class' => 'form-control',
+  'value' => set_value('fecha',date("Y-m-d")."T00:00"),
+  'readonly' => 'true',
+);
+$input_corte = array(
+  'name' => 'corte',
+  'id' => 'corte',
+  'type' => 'text',
+  'class' => 'form-control',
+  'placeholder' => 'Inserte corte',
+  'required' => 'true'
+);
+$input_piezas = array(
+  'name' => 'piezas',
+  'id' => 'piezas',
+  'type' => 'number',
+  'class' => 'form-control',
+  'placeholder' => 'Inserte # de piezas',
+  'required' => 'true'
+);
+$input_imagen = array(
+  'name' => 'mi_imagen',
+  'id' => 'mi_imagen',
+  'type' => 'file',
+  'class' => 'form-control-file',
+);
 foreach ($maquileros as $key => $value)
   $opciones_maquilero[$value['id']]=$value['nombre'];
-
-$select_maquilero=array('name'   => 'maquilero',
-                        'id'     => 'maquilero',
-                        'class'  => 'form-control',);
-
+$select_maquilero=array(
+  'name' => 'maquilero',
+  'id' => 'maquilero',
+  'class' => 'form-control',
+);
 $opciones_cliente[-1]="Seleccione el cliente";
-
 foreach ($clientes as $key => $value)
   $opciones_cliente[$value['id']]=$value['nombre'];
-
-  $select_cliente=array('name'    => 'cliente',
-                        'id'    => 'cliente',
-                        'class' => 'form-control',);
-
+$select_cliente=array(
+  'name' => 'cliente',
+  'id' => 'cliente',
+  'class' => 'form-control',
+);
 foreach ($tipos as $key => $value)
   $opciones_tipo[$value['id']]=$value['nombre'];
-
-$select_tipo=array('name'  => 'tipo',
-                   'id'    => 'tipo',
-                   'class' => 'form-control',);
+$select_tipo=array(
+  'name' => 'tipo',
+  'id' => 'tipo',
+  'class' => 'form-control',
+);
 ?>
 <script type="text/javascript">
-$(document).ready(function(){
-  $('#cliente').change(function(){
+$(document).ready(function() {
+  $('#cliente').change(function() {
     $.ajax({
-      url : "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
-      data : { cliente : $('#cliente').val() },
-      type : 'POST',
-      dataType : 'text',
-      success : function(result){
+      url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
+      data: { cliente: $('#cliente').val() },
+      type: 'POST',
+      dataType: 'text',
+      success: function(result){
         $('#marcas').html(result);
       }
     });
   });
-  $( "form" ).submit(function( event ){
+  $("form").submit(function( event ) {
     var val=$("#cliente").val();
     if(parseInt(val)==-1){
       alert("Por favor escoja un cliente.");

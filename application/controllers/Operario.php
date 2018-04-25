@@ -35,11 +35,19 @@ class Operario extends CI_Controller
 		{
 			$this->load->model('corteAutorizadoDatos');
 			$data=$this->input->post();
-			$data['faltantes']=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->post()['folio'],$this->input->post()['carga']);
+			$data['faltantes']=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4(
+				$this->input->post()['folio'],
+				$this->input->post()['carga']
+			);
 			$data['trabajadas']=0;
 			$data['defectos']=0;
 			$this->load->model('produccionProcesoSeco');
-			$query=$this->produccionProcesoSeco->seleccionDefinida3($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
+			$query=$this->produccionProcesoSeco->seleccionDefinida3(
+				$_SESSION['usuario_id'],
+				$this->input->post()['folio'],
+				$this->input->post()['carga'],
+				$this->input->post()['proceso']
+			);
 			foreach ($query as $key => $value)
 			{
 				$data['trabajadas']+=$value['piezas'];
@@ -68,10 +76,24 @@ class Operario extends CI_Controller
 		{
 			$this->load->model('corteAutorizadoDatos');
 			//Actualizando datos de proceso actual
-			$this->corteAutorizadoDatos->actualiza2($this->input->post()['proceso'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['defectos'],date("Y/m/d"),$_SESSION['usuario_id']);
+			$this->corteAutorizadoDatos->actualiza2(
+				$this->input->post()['proceso'],
+				$this->input->post()['folio'],
+				$this->input->post()['carga'],
+				$this->input->post()['piezas_trabajadas'],
+				$this->input->post()['defectos'],
+				date("Y/m/d"),
+				$_SESSION['usuario_id']
+			);
 			//Actualizando datos de proceso siguiente
 			if(isset($this->input->post()['siguiente']))
-				$this->corteAutorizadoDatos->actualiza($this->input->post()['siguiente'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['piezas_trabajadas'],$this->input->post()['orden']+1);
+				$this->corteAutorizadoDatos->actualiza(
+					$this->input->post()['siguiente'],
+					$this->input->post()['folio'],
+					$this->input->post()['carga'],
+					$this->input->post()['piezas_trabajadas'],
+					$this->input->post()['orden']+1
+				);
 			redirect("/operario/index/2");
 		}
 		else redirect("/");
@@ -101,7 +123,12 @@ class Operario extends CI_Controller
 		if($this->input->post())
 		{
 			$this->load->model('Usuarios');
-			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			$this->Usuarios->updateD(
+				$_SESSION['usuario_id'],
+				$this->input->post()['nombre_completo'],
+				$this->input->post()['direccion'],
+				$this->input->post()['telefono']
+			);
 			redirect('/operario/index/-1');
 		}
 		else
@@ -125,7 +152,12 @@ class Operario extends CI_Controller
 			{
 				$data=$this->input->post();
 				$this->load->model('produccionProcesoSeco');
-				$query=$this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
+				$query=$this->produccionProcesoSeco->seleccionDefinida(
+					$_SESSION['usuario_id'],
+					$this->input->post()['folio'],
+					$this->input->post()['carga'],
+					$this->input->post()['proceso']
+				);
 				$data['usuarioid']=$_SESSION['usuario_id'];
 				if(count($query)==0)
 					$data = array(

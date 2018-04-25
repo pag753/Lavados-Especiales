@@ -1,22 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-$data=array('type'        => 'text',
-            'class' 			=> 'form-control',
-            'placeholder' => 'Usuario',
-            'name'    		=> 'nombre',
-            'id'       		=> 'nombre',
-            'required'		=> 'true');
-
-$data1=array('type' 				=>  'password',
-             'class' 			=>  'form-control',
-             'placeholder' =>  'Contraseña',
-             'name'    		=>  'pass',
-             'id'    			=>  'pass',
-             'required'		=> 	'true');
-$data2=array('class' =>  'btn btn-primary',
-             'value' =>  'Aceptar',
-             'name'  =>  'boton',
-             'id'    =>  'boton',);
+$data=array(
+  'type' => 'text',
+  'class' => 'form-control',
+  'placeholder' => 'Usuario',
+  'name' => 'nombre',
+  'id' => 'nombre',
+  'required' => 'true'
+);
+$data1=array(
+  'type' => 'password',
+  'class' => 'form-control',
+  'placeholder' => 'Contraseña',
+  'name' => 'pass',
+  'id' => 'pass',
+  'required' => 'true'
+);
+$data2=array(
+  'class' => 'btn btn-primary',
+  'value' => 'Aceptar',
+  'name' => 'boton',
+  'id' => 'boton',
+);
 ?>
 <style media="screen">
 .main-section{

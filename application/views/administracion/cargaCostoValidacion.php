@@ -2,26 +2,26 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <?php
-$input_folio = array('type'    => 'text',
-                     'name'    => 'folio',
-                     'id'      => 'folio',
-                     'class'   => 'form-control',
-                     'value'   => set_value('folio',@$folio),
-                   );
+$input_folio = array(
+  'type' => 'text',
+  'name' => 'folio',
+  'id' => 'folio',
+  'class' => 'form-control',
+  'value' => set_value('folio',@$folio),
+);
 ?>
 <script>
-$(document).ready(function(){
-  $('#folio').keyup(function(){
+$(document).ready(function() {
+  $('#folio').keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
-      data : { folio : $('#folio').val() },
-      type : 'POST',
-      dataType : "text",
-      success:
-        function(result){
-          $("#cargas").html(result);
-        }
-      });
+      data: { folio : $('#folio').val() },
+      type: 'POST',
+      dataType: "text",
+      success: function(result) {
+        $( "#cargas" ).html(result);
+      }
+    });
   });
 });
 </script>

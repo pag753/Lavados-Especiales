@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-function editar(id){
+function editar(id) {
   $('#nombreE').val($('#nombre'+id).text());
   $('#tipo_usuario_idE').val($('#idTipoUsuario_'+id).val());
   $('#nombre_completoE').val($('#nombre_completo'+id).text());
@@ -13,13 +13,13 @@ function editar(id){
 }
 $(document).ready(function() {
   var r='';
-  $( "#guardar" ).click(function( event ) {
+  $("#guardar").click(function(event) {
     $.ajax({
-      url : "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
-      data : { nombre: $("#nombre").val() },
-      type : "POST",
-      dataType : "text",
-      success : function(result){
+      url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
+      data: { nombre: $("#nombre").val() },
+      type: "POST",
+      dataType: "text",
+      success: function(result){
         if (result=="yes")
           alert("El nombre de usuario ya existe, intente con otro por favor");
         else
@@ -29,26 +29,26 @@ $(document).ready(function() {
   });
   $('#tabla').DataTable({
     language: {
-      "sProcessing":     "Procesando...",
-      "sLengthMenu":     "Mostrar _MENU_ registros",
-      "sZeroRecords":    "No se encontraron resultados",
-      "sEmptyTable":     "Ningún dato disponible en esta tabla",
-      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix":    "",
-      "sSearch":         "Buscar:",
-      "sUrl":            "",
-      "sInfoThousands":  ",",
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
       "sLoadingRecords": "Cargando...",
       "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Último",
-        "sNext":     "Siguiente",
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
         "sPrevious": "Anterior"
       },
       "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
       }
     },
@@ -76,28 +76,24 @@ $(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <?php foreach ($data as $key => $value): ?>
+            <?php foreach ($data as $key => $value): ?>
             <tr>
               <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
               <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
-                <?php
-                    foreach ($TipoUsuario as $key2 => $value2)
-                    {
-                      if ($value['tipo_usuario_id']==$value2['id'])
-                      {
-                        echo $value2['tipo_usuariocol'];
-                        echo "<input type='hidden' name='idTipoUsuario_".$value['id']."' id='idTipoUsuario_".$value['id']."' value=".$value2['id'].">";
-                        break;
-                      }
-                    }
-                ?>
+                <?php foreach ($TipoUsuario as $key2 => $value2): ?>
+                  <?php if ($value['tipo_usuario_id']==$value2['id']): ?>
+                    <?php echo $value2['tipo_usuariocol']; ?>
+                    <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
+                    <?php break; ?>
+                  <?php endif; ?>
+                <?php endforeach; ?>
               </td>
               <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
               <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
               <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
               <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
             </tr>
-          <?php endforeach; ?>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

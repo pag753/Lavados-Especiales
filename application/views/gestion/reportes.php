@@ -1,20 +1,21 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<?php
-$input_fechai = array('name'    => 'fechai',
-                      'id'      => 'fechai',
-                      'type'    => 'datetime-local',
-                      'class'   => 'tcal',
-                      'value'   => set_value('fecha',date("Y-m-d")."T00:00:00"),
-                      'class'=> 'form-control',);
-
-$input_fechaf = array('name'    => 'fechaf',
-                      'id'      => 'fechaf',
-                      'type'    => 'datetime-local',
-                      'class'   => 'tcal',
-                      'value'   => set_value('fecha',date("Y-m-d")."T00:00:00"),
-                      'class'=> 'form-control',);
+$input_fechai = array(
+  'name' => 'fechai',
+  'id' => 'fechai',
+  'type' => 'datetime-local',
+  'class' => 'tcal',
+  'value' => set_value('fecha',date("Y-m-d")."T00:00:00"),
+  'class' => 'form-control',
+);
+$input_fechaf = array(
+  'name' => 'fechaf',
+  'id' => 'fechaf',
+  'type' => 'datetime-local',
+  'class' => 'tcal',
+  'value' => set_value('fecha',date("Y-m-d")."T00:00:00"),
+  'class' => 'form-control',
+);
 ?>
 <div class="container">
   <div class="row">

@@ -6,10 +6,10 @@ $(document).ready(function(){
   $('#folio').keyup(function(){
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/salidaAlmacen",
-      data : { folio : $('#folio').val() },
-      type : 'POST',
-      dataType : 'text',
-      success : function(result) {
+      data: { folio: $('#folio').val() },
+      type: 'POST',
+      dataType: 'text',
+      success: function(result) {
         $("#complemento").html(result);
       }
     });

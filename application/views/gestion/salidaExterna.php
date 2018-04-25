@@ -2,14 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-$(document).ready(function(){
-  $('#folio').keyup(function(){
+$(document).ready(function() {
+  $('#folio').keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/salidaExterna",
-      data : { folio : $('#folio').val() },
-      type : 'POST',
-      dataType : 'text',
-      success : function(result) {
+      data: { folio: $('#folio').val() },
+      type: 'POST',
+      dataType: 'text',
+      success: function(result) {
         $("#complemento").html(result);
       }
     });

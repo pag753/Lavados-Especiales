@@ -2,51 +2,51 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <?php
-$input_folio = array('name'       => 'folio',
-                     'id'         => 'folio',
-                     'type'       => 'text',
-                     'class'      => 'form-control',
-                     'placeholder'=> 'Ingresa folio de corte',
-                     'value'      => set_value('folio',@$datos_corte->folio),
-                     'required'   => 'true',
-                   );
-
-$input_fecha = array('name'    => 'fecha',
-                     'id'      => 'fecha',
-                     'type'    => 'datetime-local',
-                     'class'   => 'form-control',
-                     'value'   => set_value('fecha',date("Y-m-d")."T00:00"),
-                     'readonly'=> 'true',
-                  'required'   => 'true',
-                );
+$input_folio = array(
+  'name' => 'folio',
+  'id' => 'folio',
+  'type' => 'text',
+  'class' => 'form-control',
+  'placeholder' => 'Ingresa folio de corte',
+  'value' => set_value('folio',@$datos_corte->folio),
+  'required' => 'true',
+);
+$input_fecha = array(
+  'name' => 'fecha',
+  'id' => 'fecha',
+  'type' => 'datetime-local',
+  'class' => 'form-control',
+  'value' => set_value('fecha',date("Y-m-d")."T00:00"),
+  'readonly' => 'true',
+  'required' => 'true',
+);
 ?>
 <script>
-$(document).ready(function(){
-  $('#folio').keyup(function(){
+$(document).ready(function() {
+  $('#folio').keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
-      data : { folio : $('#folio').val() },
-      dataType : 'text',
-      type : 'POST',
-      success: function(result){
+      data: { folio: $('#folio').val() },
+      dataType: 'text',
+      type: 'POST',
+      success: function(result) {
       $("#respuesta").html(result);
     }});
   });
-  $( "form" ).on( "click", "button", function(){
-    if(this.name=="boton"){
+  $( "form" ).on( "click", "button", function() {
+    if (this.name=="boton") {
       var numero=$( "#numero" );
       var numero2=$( "#numero2" );
       $.ajax({
         url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
-        data : { numero : numero2.val() },
-        dataType : 'text',
-        type : 'POST',
+        data: { numero: numero2.val() },
+        dataType: 'text',
+        type: 'POST',
         success: function(result){
           $( '#tabla tbody' ).append(result);
           $( '#proceso_seco'+numero2.val() ).multiselect({
             nonSelectedText: '¡Selecciona!',
             buttonWidth: '100%',
-            //dropRight: true,
             maxHeight: '150',
             numberDisplayed: 1,
             templates: {
@@ -64,8 +64,8 @@ $(document).ready(function(){
         }
       });
     }
-    else{
-      if(this.id.substring(0,8)=="eliminar"){
+    else {
+      if (this.id.substring(0,8)=="eliminar") {
         var renglon=this.id.substring(8);
         $( "#renglon"+renglon ).remove();
         var numero=$( "#numero" );
@@ -73,9 +73,9 @@ $(document).ready(function(){
       }
     }
   });
-  $('#autorizar').submit(function(){
-    var numero=$( "#numero" ).val();
-    if(numero==0){
+  $('#autorizar').submit(function() {
+    var numero=$("#numero").val();
+    if (numero==0) {
       alert("Debe agregar por lo menos un lavado.");
       return false;
     }

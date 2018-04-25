@@ -46,7 +46,13 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model('corteAutorizadoDatos');
 			foreach ($this->input->post()['costo'] as $key => $value)
-				$query=$this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'],$this->input->post()['carga'],$key,$value,$this->input->post()['idlavado']);
+				$query=$this->corteAutorizadoDatos->actualizaCosto(
+					$this->input->post()['folio'],
+					$this->input->post()['carga'],
+					$key,
+					$value,
+					$this->input->post()['idlavado']
+				);
 			redirect('/administracion/index/'.$this->input->post()['folio']);
 		}
 		else
@@ -421,7 +427,12 @@ class Administracion extends CI_Controller
 		if($this->input->post())
 		{
 			$this->load->model('Usuarios');
-			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			$this->Usuarios->updateD(
+				$_SESSION['usuario_id'],
+				$this->input->post()['nombre_completo'],
+				$this->input->post()['direccion'],
+				$this->input->post()['telefono']
+			);
 			redirect('/administracion/index/-1');
 		}
 		else

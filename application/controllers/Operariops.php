@@ -43,7 +43,12 @@ class Operariops extends CI_Controller
 			{
 				$data=$this->input->post();
 				$this->load->model('produccionProcesoSeco');
-				$query=$this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'],$this->input->post()['folio'],$this->input->post()['carga'],$this->input->post()['proceso']);
+				$query=$this->produccionProcesoSeco->seleccionDefinida(
+					$_SESSION['usuario_id'],
+					$this->input->post()['folio'],
+					$this->input->post()['carga'],
+					$this->input->post()['proceso']
+				);
 				$data['usuarioid']=$_SESSION['usuario_id'];
 				if(count($query)==0)
 					$data = array(
@@ -108,7 +113,12 @@ class Operariops extends CI_Controller
 		if($this->input->post())
 		{
 			$this->load->model('Usuarios');
-			$this->Usuarios->updateD($_SESSION['usuario_id'],$this->input->post()['nombre_completo'],$this->input->post()['direccion'],$this->input->post()['telefono']);
+			$this->Usuarios->updateD(
+				$_SESSION['usuario_id'],
+				$this->input->post()['nombre_completo'],
+				$this->input->post()['direccion'],
+				$this->input->post()['telefono']
+			);
 			redirect('/operariops/index/-1');
 		}
 		else
