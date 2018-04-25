@@ -60,26 +60,19 @@ class Corte extends CI_Model
 	public function reporte1($datos)
 	{
 		//Cortes en almacen
-		$fechai=substr($datos['fechai'],0,10);
-		$fechaf=substr($datos['fechaf'],0,10);
+		$fechai = substr($datos['fechai'],0,10);
+		$fechaf = substr($datos['fechaf'],0,10);
 		unset($datos['fechai']);
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
-		if($datos['corte']==null)
-		unset($datos['corte']);
-		if($datos['folio']==null)
-		unset($datos['folio']);
-		if($datos['cliente_id']==0)
-		unset($datos['cliente_id']);
-		if($datos['marca_id']==0)
-		unset($datos['marca_id']);
-		if($datos['maquilero_id']==0)
-		unset($datos['maquilero_id']);
-		if($datos['tipo_pantalon_id']==0)
-		unset($datos['tipo_pantalon_id']);
-		if(isset($datos['check']))
-		unset($datos['check']);
+		if ($datos['corte'] == null) unset($datos['corte']);
+		if ($datos['folio'] == null)	unset($datos['folio']);
+		if ($datos['cliente_id'] == 0)	unset($datos['cliente_id']);
+		if ($datos['marca_id'] == 0)	unset($datos['marca_id']);
+		if ($datos['maquilero_id'] == 0) unset($datos['maquilero_id']);
+		if ($datos['tipo_pantalon_id'] == 0)	unset($datos['tipo_pantalon_id']);
+		if (isset($datos['check'])) unset($datos['check']);
 		$this->db->select('
 		corte.folio as folio,
 		corte.corte as corte,
@@ -96,10 +89,10 @@ class Corte extends CI_Model
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
 		->where($datos)
-		->where('corte.fecha_entrada>=',$fechai)
-		->where('corte.fecha_entrada<=',$fechaf)
-		->where('corte.folio==','entrega_almacen.corte_folio')
-		->where('corte.folio!=','entrega_externa.corte_folio')
+		->where('corte.fecha_entrada >= ',$fechai)
+		->where('corte.fecha_entrada <= ',$fechaf)
+		->where('corte.folio == ','entrega_almacen.corte_folio')
+		->where('corte.folio != ','entrega_externa.corte_folio')
 		->order_by('corte.folio','ASC');
 		return $this->db->get()->result_array();
 	}
@@ -113,20 +106,13 @@ class Corte extends CI_Model
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
-		if($datos['corte']==null)
-		unset($datos['corte']);
-		if($datos['folio']==null)
-		unset($datos['folio']);
-		if($datos['cliente_id']==0)
-		unset($datos['cliente_id']);
-		if($datos['marca_id']==0)
-		unset($datos['marca_id']);
-		if($datos['maquilero_id']==0)
-		unset($datos['maquilero_id']);
-		if($datos['tipo_pantalon_id']==0)
-		unset($datos['tipo_pantalon_id']);
-		if(isset($datos['check']))
-		unset($datos['check']);
+		if ($datos['corte'] == null) unset($datos['corte']);
+		if ($datos['folio'] == null) unset($datos['folio']);
+		if ($datos['cliente_id'] == 0) unset($datos['cliente_id']);
+		if ($datos['marca_id'] == 0) unset($datos['marca_id']);
+		if ($datos['maquilero_id'] == 0) unset($datos['maquilero_id']);
+		if ($datos['tipo_pantalon_id'] == 0) unset($datos['tipo_pantalon_id']);
+		if (isset($datos['check'])) unset($datos['check']);
 		$this->db->select('
 		corte_autorizado.cargas as cargas,
 		corte_autorizado.fecha_autorizado as fechaAutorizado,
@@ -162,20 +148,13 @@ class Corte extends CI_Model
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
-		if($datos['corte']==null)
-		unset($datos['corte']);
-		if($datos['folio']==null)
-		unset($datos['folio']);
-		if($datos['cliente_id']==0)
-		unset($datos['cliente_id']);
-		if($datos['marca_id']==0)
-		unset($datos['marca_id']);
-		if($datos['maquilero_id']==0)
-		unset($datos['maquilero_id']);
-		if($datos['tipo_pantalon_id']==0)
-		unset($datos['tipo_pantalon_id']);
-		if(isset($datos['check']))
-		unset($datos['check']);
+		if ($datos['corte'] == null) unset($datos['corte']);
+		if ($datos['folio'] == null) unset($datos['folio']);
+		if ($datos['cliente_id'] == 0) unset($datos['cliente_id']);
+		if ($datos['marca_id'] == 0) unset($datos['marca_id']);
+		if ($datos['maquilero_id'] == 0) unset($datos['maquilero_id']);
+		if ($datos['tipo_pantalon_id'] == 0) unset($datos['tipo_pantalon_id']);
+		if (isset($datos['check'])) unset($datos['check']);
 		$this->db->select('
 		salida_interna1.fecha as fechaSalidaInterna,
 		salida_interna1.muestras as muestras,
@@ -215,20 +194,13 @@ class Corte extends CI_Model
 		unset($datos['fechaf']);
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
-		if($datos['corte']==null)
-		unset($datos['corte']);
-		if($datos['folio']==null)
-		unset($datos['folio']);
-		if($datos['cliente_id']==0)
-		unset($datos['cliente_id']);
-		if($datos['marca_id']==0)
-		unset($datos['marca_id']);
-		if($datos['maquilero_id']==0)
-		unset($datos['maquilero_id']);
-		if($datos['tipo_pantalon_id']==0)
-		unset($datos['tipo_pantalon_id']);
-		if(isset($datos['check']))
-		unset($datos['check']);
+		if ($datos['corte'] == null) unset($datos['corte']);
+		if ($datos['folio'] == null) unset($datos['folio']);
+		if ($datos['cliente_id'] == 0) unset($datos['cliente_id']);
+		if ($datos['marca_id'] == 0) unset($datos['marca_id']);
+		if ($datos['maquilero_id'] == 0) unset($datos['maquilero_id']);
+		if ($datos['tipo_pantalon_id'] == 0) unset($datos['tipo_pantalon_id']);
+		if (isset($datos['check'])) unset($datos['check']);
 		$this->db->select('
 		salida_interna1.fecha as fechaSalidaInterna,
 		salida_interna1.muestras as muestras,

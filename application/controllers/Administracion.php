@@ -14,7 +14,7 @@ class Administracion extends CI_Controller
 		if ($datos == null) $data = array('texto1' => 'Bienvenido(a)','texto2' => $_SESSION['username']);
 		elseif ($datos == -1) $data = array('texto1' => 'Los datos','texto2' => 'Se han registrado con éxito');
 		else $data = array('texto1' => "El corte con folio ".$datos,'texto2' => "Se ha registrado con éxito");
-		$titulo['titulo']='Bienvenido a lavados especiales';
+		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/index',$data);
@@ -141,8 +141,8 @@ class Administracion extends CI_Controller
 	public function catalogosProcesos()
 	{
 		$this->load->model("ProcesoSeco");
-		$data['data']=$this->ProcesoSeco->get();
-		$titulo['titulo']='Catálogo de procesos';
+		$data['data'] = $this->ProcesoSeco->get();
+		$titulo['titulo'] = 'Catálogo de procesos';
 		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosProcesos',$data);
@@ -157,7 +157,7 @@ class Administracion extends CI_Controller
 			'data' => $this->Usuarios->get(),
 			'TipoUsuario' => $this->TipoUsuario->get(),
 		);
-		$titulo['titulo']='Catálogo de usuarios';
+		$titulo['titulo'] = 'Catálogo de usuarios';
 		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosUsuarios',$data);
@@ -167,8 +167,8 @@ class Administracion extends CI_Controller
 	public function catalogosTipos()
 	{
 		$this->load->model("Tipo_pantalon");
-		$data['data']=$this->Tipo_pantalon->get();
-		$titulo['titulo']='Catálogo de tipos de pantalón';
+		$data['data'] = $this->Tipo_pantalon->get();
+		$titulo['titulo'] = 'Catálogo de tipos de pantalón';
 		$this->load->view('head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosTipoPantalon',$data);
