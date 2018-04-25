@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 /**
- *
- */
+*
+*/
 class Marca extends CI_Model
 {
 
@@ -23,13 +23,13 @@ class Marca extends CI_Model
   public function getJoin()
   {
     $this->db->select('
-      cliente.nombre as clienteNombre,
-      cliente.id as clienteId,
-      marca.id as marcaId,
-      marca.nombre as marcaNombre')
-      ->from('marca')
-      ->join('cliente','marca.cliente_id=cliente.id','left');
-      return $this->db->get()->result_array();
+    cliente.nombre as clienteNombre,
+    cliente.id as clienteId,
+    marca.id as marcaId,
+    marca.nombre as marcaNombre')
+    ->from('marca')
+    ->join('cliente','marca.cliente_id=cliente.id','left');
+    return $this->db->get()->result_array();
   }
 
   public function getById($id)
@@ -41,15 +41,15 @@ class Marca extends CI_Model
   public function getByCliente($cliente)
   {
     $this->db->select('
-      cliente.nombre as clienteNombre,
-      cliente.id as clienteId,
-      marca.id as marcaId,
-      marca.nombre as marcaNombre')
-      ->from('marca')
-      ->join('cliente','marca.cliente_id=cliente.id')
-      ->where('marca.cliente_id',$cliente);
-      return $this->db->get()->result_array();
-    }
+    cliente.nombre as clienteNombre,
+    cliente.id as clienteId,
+    marca.id as marcaId,
+    marca.nombre as marcaNombre')
+    ->from('marca')
+    ->join('cliente','marca.cliente_id=cliente.id')
+    ->where('marca.cliente_id',$cliente);
+    return $this->db->get()->result_array();
+  }
 
   public function update($nombre,$cliente,$id)
   {

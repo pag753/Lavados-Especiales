@@ -20,10 +20,8 @@ $(document).ready(function() {
       type: "POST",
       dataType: "text",
       success: function(result){
-        if (result=="yes")
-          alert("El nombre de usuario ya existe, intente con otro por favor");
-        else
-          $("#new").submit();
+        if (result=="yes")  alert("El nombre de usuario ya existe, intente con otro por favor");
+        else $("#new").submit();
       }
     });
   });
@@ -77,22 +75,22 @@ $(document).ready(function() {
           </thead>
           <tbody>
             <?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
-                <?php foreach ($TipoUsuario as $key2 => $value2): ?>
-                  <?php if ($value['tipo_usuario_id']==$value2['id']): ?>
-                    <?php echo $value2['tipo_usuariocol']; ?>
-                    <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
-                    <?php break; ?>
-                  <?php endif; ?>
-                <?php endforeach; ?>
-              </td>
-              <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
-              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-            </tr>
+              <tr>
+                <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+                <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
+                  <?php foreach ($TipoUsuario as $key2 => $value2): ?>
+                    <?php if ($value['tipo_usuario_id']==$value2['id']): ?>
+                      <?php echo $value2['tipo_usuariocol']; ?>
+                      <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
+                      <?php break; ?>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                </td>
+                <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
+                <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+                <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+                <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              </tr>
             <?php endforeach; ?>
           </tbody>
         </table>

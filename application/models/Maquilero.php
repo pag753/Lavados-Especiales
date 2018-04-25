@@ -25,9 +25,10 @@ class Maquilero extends CI_Model
 
   public function update($nombre,$direccion,$telefono,$id)
   {
-    $data = array('nombre' => $nombre,
-                  'direccion'=>$direccion,
-                  'telefono'=>$telefono);
+    $data = array(
+      'nombre' => $nombre,
+      'direccion'=>$direccion,
+      'telefono'=>$telefono);
     $this->db->where('id', $id);
     $this->db->update('maquilero', $data);
   }

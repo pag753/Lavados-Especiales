@@ -12,8 +12,7 @@ $(document).ready(function() {
         alert("Seleccione una opción válida en siguiente");
         return false;
       }
-      else
-        return true;
+      else return true;
     }
   });
   $('#especificos').DataTable({
@@ -54,7 +53,7 @@ $(document).ready(function() {
         </div>
         <div class="card-body">
           <div class='table-responsive'>
-          <table class="table table-bordered">
+            <table class="table table-bordered">
               <thead>
                 <tr class="danger">
                   <th>Folio</th>
@@ -116,37 +115,37 @@ $(document).ready(function() {
       </div>
       <?php if ($trabajadas+$defectos==$piezas): ?>
         <div class="card">
-        <?php if (count($faltantes)!=0): ?>
-          <div class="card-header">
-            <strong>Seleccione el siguiente proceso.</strong>
+          <?php if (count($faltantes)!=0): ?>
+            <div class="card-header">
+              <strong>Seleccione el siguiente proceso.</strong>
+            </div>
+          <?php else: ?>
+            <div class="card-header">
+              <strong>Cerrar el último proceso de la carga.</strong>
+            </div>
+          <?php endif; ?>
+          <div class="card-body">
+            <form action="<?php echo base_url(); ?>index.php/operario/registro" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
+              <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
+              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
+              <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>">
+              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
+              <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
+              <?php if (count($faltantes)!=0): ?>
+                <div class="form-group row">
+                  <select name='siguiente' id='siguiente' class="form-control">
+                    <option value="-1">SELECCIONE UNA OPCIÓN</option>
+                    <?php foreach ($faltantes as $key => $value): ?>
+                      <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              <?php endif; ?>
+              <input type="submit" name="aceptar" id="aceptar" value="Aceptar" class="btn btn-primary"/>
+            </form>
           </div>
-        <?php else: ?>
-          <div class="card-header">
-            <strong>Cerrar el último proceso de la carga.</strong>
-          </div>
-        <?php endif; ?>
-        <div class="card-body">
-          <form action="<?php echo base_url(); ?>index.php/operario/registro" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
-            <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
-            <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
-            <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>">
-            <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
-            <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
-            <?php if (count($faltantes)!=0): ?>
-              <div class="form-group row">
-                <select name='siguiente' id='siguiente' class="form-control">
-                  <option value="-1">SELECCIONE UNA OPCIÓN</option>
-                  <?php foreach ($faltantes as $key => $value): ?>
-                    <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            <?php endif; ?>
-            <input type="submit" name="aceptar" id="aceptar" value="Aceptar" class="btn btn-primary"/>
-          </form>
         </div>
-      </div>
       <?php else: ?>
         <div class="alert alert-danger" role="alert">
           La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.

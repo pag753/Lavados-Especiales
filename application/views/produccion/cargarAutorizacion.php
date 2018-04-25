@@ -28,8 +28,9 @@ $(document).ready(function() {
       dataType: 'text',
       type: 'POST',
       success: function(result) {
-      $("#respuesta").html(result);
-    }});
+        $("#respuesta").html(result);
+      }
+    });
   });
   $("form").on( "click", "button", function() {
     if (this.name=="boton") {

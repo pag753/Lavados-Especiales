@@ -9,13 +9,13 @@ class CorteAutorizado extends CI_Model
 		$this->load->database();
 	}
 
-	public function getByFolio($folio=null)
+	public function getByFolio($folio = null)
 	{
 		$query = $this->db->get_where('corte_autorizado', array('corte_folio' => $folio));
 		return $query->result_array();
 	}
 
-	public function agregar($datos=null)
+	public function agregar($datos = null)
 	{
 		$data=$this->db->insert('corte_autorizado',$datos);
 		return $data;

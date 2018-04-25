@@ -10,13 +10,13 @@ class Welcome extends CI_Controller
 
 	public function index()
 	{
-		if(!isset($_SESSION['username']))
+		if (!isset($_SESSION['username']))
 		{
-			if($this->input->post())
+			if ($this->input->post())
 			{
 				$this->load->model('usuarios');
 				$query=$this->usuarios->login();
-				if(!empty($query))
+				if (!empty($query))
 				{
 					$data= array(
 						'username'  => $query[0]['nombre'],
@@ -33,7 +33,7 @@ class Welcome extends CI_Controller
 						'texto1' => 'Error en usuario o contraseña',
 						'texto2' => 'Intente de nuevo'
 					);
-					$titulo['titulo']='Error de entrada de usuario';
+					$titulo['titulo'] = 'Error de entrada de usuario';
 					$this->load->view('head',$titulo);
 					$this->load->view('welcome/menu');
 					$this->load->view('welcome/index',$info);
@@ -44,9 +44,9 @@ class Welcome extends CI_Controller
 			{
 				$info = array(
 					'texto1' => 'Bienvenido',
-			 		'texto2' => 'Lavados especiales'
+					'texto2' => 'Lavados especiales'
 				);
-				$titulo['titulo']='Bienvenido a lavados especiales';
+				$titulo['titulo'] = 'Bienvenido a lavados especiales';
 				$this->load->view('head',$titulo);
 				$this->load->view('welcome/menu');
 				$this->load->view('welcome/index',$info);
@@ -54,31 +54,31 @@ class Welcome extends CI_Controller
 			}
 		}
 		else $this->sesion();
-		}
+	}
 
 	function sesion()
 	{
-		$id=$_SESSION['id'];
+		$id = $_SESSION['id'];
 		switch ($id)
 		{
 			case 1://administrador
 			redirect('/administracion');
-				break;
+			break;
 			case 2://gestion
 			redirect('/gestion');
-				break;
+			break;
 			case 3://producción
 			redirect('/produccion');
-				break;
+			break;
 			case 4://encargado de proceso seco
 			redirect('/operario');
-			 	break;
+			break;
 			case 5://root
 			redirect('/root');
-				break;
+			break;
 			case 6://operario de proceso seco
 			redirect('/operariops');
-				break;
+			break;
 		}
 	}
 }

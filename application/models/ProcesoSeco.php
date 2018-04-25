@@ -25,9 +25,11 @@ class ProcesoSeco extends CI_Model
 
   public function update($nombre,$costo,$abreviatura,$id)
   {
-    $data = array('nombre' => $nombre,
-                  'costo'=> $costo,
-                  'abreviatura'=> $abreviatura);
+    $data = array(
+      'nombre' => $nombre,
+      'costo'=> $costo,
+      'abreviatura'=> $abreviatura
+    );
     $this->db->where('id', $id);
     $this->db->update('proceso_seco', $data);
   }

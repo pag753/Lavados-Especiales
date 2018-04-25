@@ -6,29 +6,19 @@ class Gestion extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-    $idusuario=$_SESSION['id'];
-		if($idusuario!=2 && $idusuario!=5) redirect('/');
+		$idusuario = $_SESSION['id'];
+		if ($idusuario != 2 && $idusuario != 5) redirect('/');
 	}
 
-	public function index($datos=null)
+	public function index($datos = null)
 	{
-		if($datos!=null)
-			if($datos==-1)
-				$data = array(
-					'texto1' => "Los datos",
-					'texto2' => "Se han actualizado con éxito"
-				);
-			else
-				$data = array(
-					'texto1' => "El corte con folio ".$datos,
-					'texto2' => "Se ha registrado con éxito"
-				);
-		else
-			$data = array(
-				'texto1' => "Bienvenido(a)",
-				'texto2' => $_SESSION['username']
-			);
-		$titulo['titulo']='Bienvenido a lavados especiales';
+		if ($datos != null)
+		{
+			if ($datos == -1) $data = array('texto1' => "Los datos",'texto2' => "Se han actualizado con éxito");
+			else $data = array('texto1' => "El corte con folio ".$datos,'texto2' => "Se ha registrado con éxito");
+		}
+		else $data = array('texto1' => "Bienvenido(a)",'texto2' => $_SESSION['username']);
+		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
@@ -43,9 +33,9 @@ class Gestion extends CI_Controller
 
 	public function alta()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
-			$datos['datos_corte']=$this->input->post();
+			$datos['datos_corte'] = $this->input->post();
 			$mi_imagen = 'mi_imagen';
 			$config = array(
 				'upload_path' => "img/fotos",
@@ -56,9 +46,7 @@ class Gestion extends CI_Controller
 				'max_height' => "20000"
 			);
 			$this->load->library('upload', $config);
-			if (!$this->upload->do_upload($mi_imagen))
-				// ocurrio un error
-				$data['uploadError'] = $this->upload->display_errors();
+			if (!$this->upload->do_upload($mi_imagen)) $data['uploadError'] = $this->upload->display_errors();
 			$data['uploadSuccess'] = $this->upload->data();
 			$this->load->model('corte');
 			$this->corte->agregar($datos['datos_corte']);
@@ -67,14 +55,11 @@ class Gestion extends CI_Controller
 		else
 		{
 			$this->load->model(array('marca','maquilero','cliente','tipo_pantalon','corte'));
-			$c=$this->corte->get();
-			if(count($c)==0)
-				$id_corte=1;
+			$c = $this->corte->get();
+			if (count($c) == 0) $id_corte = 1;
 			else
-				if(count(count($c)-1)==0)
-					$id_corte=0;
-				else
-					$id_corte=$this->corte->get()[count($this->corte->get())-1]['folio']+1;
+			if (count(count($c)-1) == 0) $id_corte = 0;
+			else $id_corte = $this->corte->get()[count($this->corte->get())-1]['folio']+1;
 			$datos = array(
 				'marcas' => $this->marca->get(),
 				'maquileros' => $this->maquilero->get(),
@@ -82,7 +67,7 @@ class Gestion extends CI_Controller
 				'tipos' => $this->tipo_pantalon->get(),
 				'corte' => $id_corte
 			);
-			$titulo['titulo']='Alta de corte';
+			$titulo['titulo'] = 'Alta de corte';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/alta',$datos);
@@ -92,23 +77,23 @@ class Gestion extends CI_Controller
 
 	public function salidaInterna()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('corteAutorizadoDatos');
-			$query=$this->corteAutorizadoDatos->joinLavado($this->input->post()['folio']);
-			$data['corte_folio']=$this->input->post()['folio'];
-			$f=explode("/",$this->input->post()['fecha']);
-			$data['fecha']=$f[2]."/".$f[1]."/".$f[0]."/";
-			$data['muestras']=$this->input->post()['muestras'];
+			$query = $this->corteAutorizadoDatos->joinLavado($this->input->post()['folio']);
+			$data['corte_folio'] = $this->input->post()['folio'];
+			$f = explode("/",$this->input->post()['fecha']);
+			$data['fecha'] = $f[2]."/".$f[1]."/".$f[0]."/";
+			$data['muestras'] = $this->input->post()['muestras'];
 			$this->load->model('salidaInterna1');
 			$this->salidaInterna1->agregar($data);
-			$data=null;
+			$data = null;
 			$this->load->model('salidaInterna1Datos');
-			$data['corte_folio']=$this->input->post()['folio'];
+			$data['corte_folio'] = $this->input->post()['folio'];
 			for ($i=0; $i <$this->input->post()['cargas'] ; $i++)
 			{
-				$data['id_carga']=$query[$i]['id_carga'];
-				$data['piezas']=$this->input->post()['piezas_parcial'.$i];
+				$data['id_carga'] = $query[$i]['id_carga'];
+				$data['piezas'] = $this->input->post()['piezas_parcial'.$i];
 				$this->salidaInterna1Datos->agregar($data);
 				$this->corteAutorizadoDatos->actualiza(
 					$this->input->post()['primero'][$i],
@@ -122,7 +107,7 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$titulo['titulo']='Salida interna';
+			$titulo['titulo'] = 'Salida interna';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaInterna');
@@ -132,18 +117,18 @@ class Gestion extends CI_Controller
 
 	public function salidaAlmacen()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('entregaAlmacen');
-			$this->entregaAlmacen->agregar(
-				array('corte_folio' =>$this->input->post()['folio'] ,
-				'fecha'=>date("Y-m-d"))
-			);
+			$this->entregaAlmacen->agregar(array(
+				'corte_folio' => $this->input->post()['folio'] ,
+				'fecha' => date("Y-m-d")
+			));
 			redirect("/");
 		}
 		else
 		{
-			$titulo['titulo']='Salida a almacen';
+			$titulo['titulo'] = 'Salida a almacen';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaAlmacen');
@@ -153,18 +138,18 @@ class Gestion extends CI_Controller
 
 	public function salidaExterna()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('entregaExterna');
-			$this->entregaExterna->agregar(
-				array('corte_folio' =>$this->input->post()['folio'],
-				'fecha'=>date("Y-m-d"))
+			$this->entregaExterna->agregar(array(
+				'corte_folio' => $this->input->post()['folio'],
+				'fecha' => date("Y-m-d"))
 			);
 			redirect("/");
 		}
 		else
 		{
-			$titulo['titulo']='Salida externa';
+			$titulo['titulo'] = 'Salida externa';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaExterna');
@@ -174,12 +159,14 @@ class Gestion extends CI_Controller
 
 	public function reportes()
 	{
-		$this->load->model( array('Cliente', 'Marca', 'Maquilero', 'Tipo_pantalon' ));
-		$datos['clientes']=$this->Cliente->get();
-		$datos['marcas']=$this->Marca->get();
-		$datos['maquileros']=$this->Maquilero->get();
-		$datos['tipos']=$this->Tipo_pantalon->get();
-		$titulo['titulo']='Reportes';
+		$this->load->model(array('Cliente', 'Marca', 'Maquilero', 'Tipo_pantalon'));
+		$datos = array(
+			'clientes' => $this->Cliente->get(),
+			'marcas' => $this->Marca->get(),
+			'maquileros' => $this->Maquilero->get(),
+			'tipos' => $this->Tipo_pantalon->get(),
+		);
+		$titulo['titulo'] = 'Reportes';
 		$this->load->view('head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/reportes',$datos);
@@ -188,57 +175,55 @@ class Gestion extends CI_Controller
 
 	public function generaReporte()
 	{
-		if(!$this->input->post())
-			redirect('/');
+		if (!$this->input->post())
+		redirect('/');
 		switch ($this->input->post()['reporte'])
 		{
 			case 1://reporte de cortes en almacen -> cortes no autorizados
-				//campos: todos los de de corte
-				$this->reporte1();
-				break;
+			//campos: todos los de de corte
+			$this->reporte1();
+			break;
 			case 2://reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
-				//campos: todos los de corte, datos de autorización y si hay de salida interna
-				$this->reporte2();
-				break;
+			//campos: todos los de corte, datos de autorización y si hay de salida interna
+			$this->reporte2();
+			break;
 			case 3://reporte de cortes entregados -> cortes que ya se entregaron
-				//campos: TODOS
-				$this->reporte3();
-				break;
+			//campos: TODOS
+			$this->reporte3();
+			break;
 			case 4://reporte de cortes en proceso -> cortes que están en proceso sin salida externa
-				//campos: todos los de corte, datos de autorización y salida interna
-				$this->reporte4();
-				break;
+			//campos: todos los de corte, datos de autorización y salida interna
+			$this->reporte4();
+			break;
 		}
 		//print_r($this->input->post());
 	}
 
 	public function reporte1()
 	{
-		if(!$this->input->post())
-			redirect("/");
+		if (!$this->input->post())
+		redirect("/");
 		// Se carga la libreria fpdf
-		if(isset($this->input->post()['check']))
-			$check=TRUE;
-		else
-			$check=FALSE;
-    $this->load->library('pdf');
+		if (isset($this->input->post()['check'])) $check = TRUE;
+		else $check = FALSE;
+		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    	* heredó todos las variables y métodos de fpdf
-    */
+		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+		* heredó todos las variables y métodos de fpdf
+		*/
 		$this->load->model('Corte');
-		$cortes=$this->Corte->reporte1($this->input->post());
+		$cortes = $this->Corte->reporte1($this->input->post());
 		$pdf = new Pdf("REPORTE DE CORTES EN ALMACEN");
-    		// Agregamos una página
+		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
-	    	// Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
+		// Define el alias para el número de página que se imprimirá en el pie
+		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
-    	* el color de relleno predeterminado
-  	*/
-    $pdf->SetTitle("Reporte");
+		* el color de relleno predeterminado
+		*/
+		$pdf->SetTitle("Reporte");
 		//190 vertical
 		if ($check)
 		{
@@ -257,7 +242,7 @@ class Gestion extends CI_Controller
 			$extensiones = array("jpg","jpeg","png");
 			foreach ($cortes as $key => $value)
 			{
-				if($key>0 && $key%6==0)
+				if ($key>0 && $key%6 == 0)
 				{
 					$pdf->SetFont('Arial','B',8);
 					$pdf->AddPage();
@@ -270,13 +255,14 @@ class Gestion extends CI_Controller
 						utf8_decode("Cliente"),
 						utf8_decode("Tipo"),
 						utf8_decode("Piezas"),
-						utf8_decode("Fecha")));
+						utf8_decode("Fecha")
+					));
 				}
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file="/var/www/html/lavanderia/img/fotos/".$value['folio'].".".$extension;
-					if(is_file($file))
+					$file = "/var/www/html/lavanderia/img/fotos/".$value['folio'].".".$extension;
+					if (is_file($file))
 					{
 						$pdf->Image(
 							base_url()."img/fotos/".$value['folio'].".".$extension,$pdf->GetX(),
@@ -287,7 +273,7 @@ class Gestion extends CI_Controller
 						break;
 					}
 				}
-				$peso="\n\n\n\n\n\n";
+				$peso = "\n\n\n\n\n\n";
 				$pdf->Row(array(
 					$peso,
 					utf8_decode($value['folio']),
@@ -297,8 +283,8 @@ class Gestion extends CI_Controller
 					utf8_decode($value['cliente']),
 					utf8_decode($value['tipo']),
 					utf8_decode($value['piezas']),
-					utf8_decode($value['fecha']))
-				);
+					utf8_decode($value['fecha'])
+				));
 			}
 		}
 		else
@@ -312,9 +298,10 @@ class Gestion extends CI_Controller
 				utf8_decode("Cliente"),
 				utf8_decode("Tipo"),
 				utf8_decode("Piezas"),
-				utf8_decode("Fecha")));
+				utf8_decode("Fecha")
+			));
 			$pdf->SetFont('Arial','',8);
-			foreach ($cortes as $key => $value)
+			foreach ($cortes as $key => $value):
 				$pdf->Row(array(
 					utf8_decode($value['folio']),
 					utf8_decode($value['corte']),
@@ -325,6 +312,7 @@ class Gestion extends CI_Controller
 					utf8_decode($value['piezas']),
 					utf8_decode($value['fecha']))
 				);
+			endforeach;
 		}
 		/*
 		* Se manda el pdf al navegador
@@ -342,39 +330,36 @@ class Gestion extends CI_Controller
 	{
 		//reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
 		//campos: todos los de corte, datos de autorización y si hay de salida interna
-		if(!$this->input->post())
-			redirect("/");
+		if (!$this->input->post()) redirect("/");
 		// Se carga la libreria fpdf
-		if(isset($this->input->post()['check']))
-			$check=TRUE;
-		else
-			$check=FALSE;
-			$this->load->library('pdf');
+		if (isset($this->input->post()['check'])) $check = TRUE;
+		else $check = FALSE;
+		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    	* heredó todos las variables y métodos de fpdf
-    */
+		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+		* heredó todos las variables y métodos de fpdf
+		*/
 		$this->load->model('Corte');
-		$cortes=$this->Corte->reporte1($this->input->post());
+		$cortes = $this->Corte->reporte1($this->input->post());
 		$pdf = new Pdf("REPORTE DE CORTES AUTORIZADOS",'L');
-  	// Agregamos una página
+		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
-	  // Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
+		// Define el alias para el número de página que se imprimirá en el pie
+		$pdf->AliasNbPages();
 		//$pdf->Open();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
-     		* el color de relleno predeterminado
-    */
+		* el color de relleno predeterminado
+		*/
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
-		$cortes=$this->corte->reporte2($this->input->post());
+		$cortes = $this->corte->reporte2($this->input->post());
 		//190 vertical
 		if ($check)
 		{
 			$valor=42.769230769;
-			$arregloPrincipal=array(
+			$arregloPrincipal = array(
 				$valor,
 				8.769230769,
 				10.769230769,
@@ -387,7 +372,7 @@ class Gestion extends CI_Controller
 				20.769230769,
 				20.769230769,
 				20.769230769,
-				20.769230769
+				20.769230769,
 			);
 			$pdf->SetWidths($arregloPrincipal);
 			$pdf->Row(array(
@@ -408,17 +393,17 @@ class Gestion extends CI_Controller
 			$extensiones = array("jpg","jpeg","png");
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
-				if($pdf->GetY()+($cargas*15)>170)
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
+				if ($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
 					$pdf->SetFont('Arial','B',9);
@@ -456,22 +441,22 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',9);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if(is_file($file))
+					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
+					if (is_file($file))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),49.75,30);
 						break;
 					}
 				}
 				$this->load->model('corteAutorizadoDatos');
-				for ($carga=1; $carga <=$cargas ; $carga++)
+				for ($carga=1; $carga <= $cargas ; $carga++)
 				{
 					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
 					$pdf->SetX($pdf->GetX()+$valor);
 					$pdf->Row(array(
@@ -513,27 +498,27 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','',9);
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
 				$this->load->model('corteAutorizadoDatos');
-				$lavado='';
-				$proceso='';
+				$lavado = '';
+				$proceso = '';
 				for ($carga=1; $carga <=$cargas ; $carga++)
 				{
-					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
 					$pdf->Row(array(
 						utf8_decode($folio),
@@ -554,32 +539,32 @@ class Gestion extends CI_Controller
 			}
 		}
 		/*
-			* Se manda el pdf al navegador
-			*
-			*
-			* I = Muestra el pdf en el navegador
-			* D = Envia el pdf para descarga
-			*
+		* Se manda el pdf al navegador
+		*
+		*
+		* I = Muestra el pdf en el navegador
+		* D = Envia el pdf para descarga
+		*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
 
 	public function reporte3()
 	{
-		if(!$this->input->post()) redirect("/");
+		if (!$this->input->post()) redirect("/");
 		//reporte de cortes en proceso -> cortes que están en proceso sin salida externa
 		//campos: todos los de corte, datos de autorización y salida interna
 		// Se carga la libreria fpdf
-		if(isset($this->input->post()['check'])) $check=TRUE;
-		else $check=FALSE;
+		if (isset($this->input->post()['check'])) $check = TRUE;
+		else $check = FALSE;
 		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-    	* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    	* heredó todos las variables y métodos de fpdf
-    */
+		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+		* heredó todos las variables y métodos de fpdf
+		*/
 		$this->load->model('Corte');
-		$cortes=$this->Corte->reporte1($this->input->post());
+		$cortes = $this->Corte->reporte1($this->input->post());
 		$pdf = new Pdf("REPORTE DE CORTES EN PROCESO",'L');
 		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
@@ -592,7 +577,7 @@ class Gestion extends CI_Controller
 		*/
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
-		$cortes=$this->corte->reporte3($this->input->post());
+		$cortes = $this->corte->reporte3($this->input->post());
 		//190 vertical
 		if ($check)
 		{
@@ -637,20 +622,20 @@ class Gestion extends CI_Controller
 			$extensiones = array("jpg","jpeg","png");
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
-				$fechaSalidaInterna=$value['fechaSalidaInterna'];
-				$muestras=$value['muestras'];
-				$fechaSalida=$value['fechaSalida'];
-				if($pdf->GetY()+($cargas*15)>170)
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
+				$fechaSalidaInterna = $value['fechaSalidaInterna'];
+				$muestras = $value['muestras'];
+				$fechaSalida = $value['fechaSalida'];
+				if ($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
 					$pdf->SetFont('Arial','B',8);
@@ -714,26 +699,26 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if(is_file($file))
+					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
+					if (is_file($file))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),38,21.4);
 						break;
 					}
 				}
 				$this->load->model('salidaInterna1Datos');
-				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
+				$salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
-				$lavado='';
-				$proceso='';
+				$lavado = '';
+				$proceso = '';
 				for ($carga=1; $carga <=$cargas ; $carga++)
 				{
 					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
 					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
 					$pdf->SetX($pdf->GetX()+38);
@@ -801,32 +786,32 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','',8);
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
-				$fechaSalidaInterna=$value['fechaSalidaInterna'];
-				$muestras=$value['muestras'];
-				$fechaSalida=$value['fechaSalida'];
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
+				$fechaSalidaInterna = $value['fechaSalidaInterna'];
+				$muestras = $value['muestras'];
+				$fechaSalida = $value['fechaSalida'];
 				$this->load->model('salidaInterna1Datos');
-				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
+				$salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
 				for ($carga=1; $carga <=$cargas ; $carga++)
 				{
 					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
-					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
+					$piezasCarga = $salidaInterna[$carga-1]['piezas'];
 					$pdf->Row(array(
 						utf8_decode($folio),
 						utf8_decode($corte),
@@ -850,13 +835,13 @@ class Gestion extends CI_Controller
 			}
 		}
 		/*
-			* Se manda el pdf al navegador
-			*
-			* $this->pdf->Output(nombredelarchivo, destino);
-			*
-			* I = Muestra el pdf en el navegador
-			* D = Envia el pdf para descarga
-			*
+		* Se manda el pdf al navegador
+		*
+		* $this->pdf->Output(nombredelarchivo, destino);
+		*
+		* I = Muestra el pdf en el navegador
+		* D = Envia el pdf para descarga
+		*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
@@ -865,21 +850,19 @@ class Gestion extends CI_Controller
 	{
 		//reporte de cortes en proceso -> cortes que están en proceso sin salida externa
 		//campos: todos los de corte, datos de autorización y salida interna
-		if(!$this->input->post())
-			redirect("/");
+		if (!$this->input->post())
+		redirect("/");
 		// Se carga la libreria fpdf
-		if(isset($this->input->post()['check']))
-			$check=TRUE;
-		else
-			$check=FALSE;
-    		$this->load->library('pdf');
+		if (isset($this->input->post()['check'])) $check = TRUE;
+		else $check = FALSE;
+		$this->load->library('pdf');
 		// Creacion del PDF
 		/*
-			* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-     	* heredó todos las variables y métodos de fpdf
-    */
+		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+		* heredó todos las variables y métodos de fpdf
+		*/
 		$this->load->model('Corte');
-		$cortes=$this->Corte->reporte1($this->input->post());
+		$cortes = $this->Corte->reporte1($this->input->post());
 		$pdf = new Pdf("REPORTE DE CORTES EN PROCESO",'L');
 		// Agregamos una página
 		$pdf->SetAutoPageBreak(1,20);
@@ -888,11 +871,11 @@ class Gestion extends CI_Controller
 		//$pdf->Open();
 		$pdf->AddPage();
 		/* Se define el titulo, márgenes izquierdo, derecho y
-			* el color de relleno predeterminado
+		* el color de relleno predeterminado
 		*/
 		$pdf->SetTitle("Reporte");
 		$this->load->model('corte');
-		$cortes=$this->corte->reporte4($this->input->post());
+		$cortes = $this->corte->reporte4($this->input->post());
 		//190 vertical
 		if ($check)
 		{
@@ -935,17 +918,17 @@ class Gestion extends CI_Controller
 			$extensiones = array("jpg","jpeg","png");
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
-				if($pdf->GetY()+($cargas*15)>170)
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
+				if ($pdf->GetY()+($cargas*15)>170)
 				{
 					$pdf->AddPage();
 					$pdf->SetFont('Arial','B',8);
@@ -1006,30 +989,30 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file="/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if(is_file($file))
+					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
+					if (is_file($file))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),49.75,30);
 						break;
 					}
 				}
-				$fechaSalidaInterna=$value['fechaSalidaInterna'];
-				$muestras=$value['muestras'];
+				$fechaSalidaInterna = $value['fechaSalidaInterna'];
+				$muestras = $value['muestras'];
 				$this->load->model('salidaInterna1Datos');
-				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
+				$salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
-				$lavado='';
-				$proceso='';
+				$lavado = '';
+				$proceso =  '';
 				for ($carga=1; $carga <=$cargas ; $carga++)
 				{
-					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
-					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
+					$piezasCarga = $salidaInterna[$carga-1]['piezas'];
 					$pdf->SetX($pdf->GetX()+49.75);
 					$pdf->Row(array(
 						utf8_decode($folio),
@@ -1074,33 +1057,33 @@ class Gestion extends CI_Controller
 			$pdf->SetFont('Arial','',8);
 			foreach ($cortes as $key => $value)
 			{
-				$cargas=$value['cargas'];
-				$folio=$value['folio'];
-				$corte=$value['corte'];
-				$marca=$value['marca'];
-				$maquilero=$value['maquilero'];
-				$cliente=$value['cliente'];
-				$tipo=$value['tipo'];
-				$piezas=$value['piezas'];
-				$fecha=$value['fecha'];
-				$fechaAutorizado=$value['fechaAutorizado'];
-				$fechaSalidaInterna=$value['fechaSalidaInterna'];
-				$muestras=$value['muestras'];
+				$cargas = $value['cargas'];
+				$folio = $value['folio'];
+				$corte = $value['corte'];
+				$marca = $value['marca'];
+				$maquilero = $value['maquilero'];
+				$cliente = $value['cliente'];
+				$tipo = $value['tipo'];
+				$piezas = $value['piezas'];
+				$fecha = $value['fecha'];
+				$fechaAutorizado = $value['fechaAutorizado'];
+				$fechaSalidaInterna = $value['fechaSalidaInterna'];
+				$muestras = $value['muestras'];
 				$this->load->model('salidaInterna1Datos');
-				$salidaInterna=$this->salidaInterna1Datos->getByFolio($folio);
+				$salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
 				$this->load->model('corteAutorizadoDatos');
-				$lavado='';
-				$proceso='';
+				$lavado = '';
+				$proceso = '';
 				for ($carga=1; $carga <=$cargas ; $carga++)
 				{
-					$corteAutorizado=$this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
-					$proceso='';
+					$corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio,$carga);
+					$proceso = '';
 					foreach ($corteAutorizado as $key2 => $value2)
 					{
-						$lavado=$value2['lavado'];
-						$proceso=$proceso.$value2['proceso'].", ";
+						$lavado = $value2['lavado'];
+						$proceso = $proceso.$value2['proceso'].", ";
 					}
-					$piezasCarga=$salidaInterna[$carga-1]['piezas'];
+					$piezasCarga = $salidaInterna[$carga-1]['piezas'];
 					$pdf->Row(array(
 						utf8_decode($folio),
 						utf8_decode($corte),
@@ -1123,20 +1106,20 @@ class Gestion extends CI_Controller
 			}
 		}
 		/*
-			* Se manda el pdf al navegador
-			*
-			* $this->pdf->Output(nombredelarchivo, destino);
-			*
-			* I = Muestra el pdf en el navegador
-			* D = Envia el pdf para descarga
-			*
+		* Se manda el pdf al navegador
+		*
+		* $this->pdf->Output(nombredelarchivo, destino);
+		*
+		* I = Muestra el pdf en el navegador
+		* D = Envia el pdf para descarga
+		*
 		*/
 		$pdf->Output("Reporte.pdf", 'I');
 	}
 
 	public function cambiarPass()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
@@ -1144,8 +1127,8 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/Gestion/cambiarPass';
-			$titulo['titulo']='Cambiar contraseña';
+			$data['link'] = base_url().'index.php/Gestion/cambiarPass';
+			$titulo['titulo'] = 'Cambiar contraseña';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('cambiarPass',$data);
@@ -1155,7 +1138,7 @@ class Gestion extends CI_Controller
 
 	public function cambiarDatos()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateD(
@@ -1168,10 +1151,10 @@ class Gestion extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/gestion/cambiarDatos';
+			$data['link'] = base_url().'index.php/gestion/cambiarDatos';
 			$this->load->model('Usuarios');
-			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$titulo['titulo']='Cambiar datos personales';
+			$data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
+			$titulo['titulo'] = 'Cambiar datos personales';
 			$this->load->view('head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('cambiarDatos',$data);
@@ -1179,4 +1162,3 @@ class Gestion extends CI_Controller
 		}
 	}
 }
-?>

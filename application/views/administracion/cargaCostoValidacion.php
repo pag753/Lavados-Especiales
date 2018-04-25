@@ -1,7 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<?php
 $input_folio = array(
   'type' => 'text',
   'name' => 'folio',
@@ -15,7 +13,7 @@ $(document).ready(function() {
   $('#folio').keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
-      data: { folio : $('#folio').val() },
+      data: { folio: $('#folio').val() },
       type: 'POST',
       dataType: "text",
       success: function(result) {

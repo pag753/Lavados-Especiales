@@ -6,17 +6,13 @@ class Root extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if($_SESSION['id']!=5)
-			redirect('/');
+		if ($_SESSION['id'] != 5) redirect('/');
 	}
 
 	public function index()
 	{
-		$data = array(
-			'texto1' => "Bienvenido(a) usuario",
-			'texto2' => $_SESSION['username']
-		);
-		$titulo['titulo']='Bienvenido a lavados especiales';
+		$data = array('texto1' => "Bienvenido(a) usuario", 'texto2' => $_SESSION['username']);
+		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('root/menu');
 		$this->load->view('root/index',$data);
@@ -25,7 +21,7 @@ class Root extends CI_Controller
 
 	public function cambiarPass()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
@@ -33,8 +29,8 @@ class Root extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/root/cambiarPass';
-			$titulo['titulo']='Cambiar contraseña';
+			$data['link'] = base_url().'index.php/root/cambiarPass';
+			$titulo['titulo'] = 'Cambiar contraseña';
 			$this->load->view('head',$titulo);
 			$this->load->view('root/menu');
 			$this->load->view('cambiarPass',$data);
@@ -44,7 +40,7 @@ class Root extends CI_Controller
 
 	public function cambiarDatos()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateD(
@@ -62,7 +58,7 @@ class Root extends CI_Controller
 				'link' => base_url().'index.php/root/cambiarDatos',
 				'data' => $this->Usuarios->getById($_SESSION['usuario_id'])
 			);
-			$titulo['titulo']='Cambiar datos personales';
+			$titulo['titulo'] = 'Cambiar datos personales';
 			$this->load->view('head',$titulo);
 			$this->load->view('root/menu');
 			$this->load->view('cambiarDatos',$data);

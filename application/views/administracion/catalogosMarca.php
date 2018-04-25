@@ -54,14 +54,14 @@ $(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td name="nombre<?php echo $value['marcaId'] ?>" id="nombre<?php echo $value['marcaId'] ?>"><?php echo $value['marcaNombre']; ?></td>
-              <td><?php echo $value['clienteNombre'] ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['marcaId']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-              <input type="hidden" name="clienteID_<?php echo $value['marcaId'] ?>" id="clienteID_<?php echo $value['marcaId'] ?>" value="<?php echo $value['clienteId'] ?>">
-            </tr>
-          <?php endforeach; ?>
+            <?php foreach ($data as $key => $value): ?>
+              <tr>
+                <td name="nombre<?php echo $value['marcaId'] ?>" id="nombre<?php echo $value['marcaId'] ?>"><?php echo $value['marcaNombre']; ?></td>
+                <td><?php echo $value['clienteNombre'] ?></td>
+                <td><a href="#" onclick="editar(<?php echo $value['marcaId']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+                <input type="hidden" name="clienteID_<?php echo $value['marcaId'] ?>" id="clienteID_<?php echo $value['marcaId'] ?>" value="<?php echo $value['clienteId'] ?>">
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

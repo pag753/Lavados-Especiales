@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 /**
- *
- */
+*
+*/
 class Tipo_pantalon extends CI_Model
 {
 

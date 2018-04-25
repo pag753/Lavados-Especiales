@@ -17,14 +17,16 @@ class Corte extends CI_Model
 
 	public function agregar($datos=null)
 	{
-		$data['folio']=$datos['folio'];
-		$data['fecha_entrada']=substr($datos['fecha'],0,10);
-		$data['corte']=$datos['corte'];
-		$data['marca_id']=$datos['marca'];
-		$data['maquilero_id']=$datos['maquilero'];
-		$data['cliente_id']=$datos['cliente'];
-		$data['tipo_pantalon_id']=$datos['tipo'];
-		$data['piezas']=$datos['piezas'];
+		$data = array(
+			'folio' => $datos['folio'],
+			'fecha_entrada' => substr($datos['fecha'],0,10),
+			'corte' => $datos['corte'],
+			'marca_id' => $datos['marca'],
+			'maquilero_id' => $datos['maquilero'],
+			'cliente_id' => $datos['cliente'],
+			'tipo_pantalon_id' => $datos['tipo'],
+			'piezas' => $datos['piezas'],
+		);
 		$this->db->insert('corte',$data);
 		return $data;
 	}
@@ -38,21 +40,21 @@ class Corte extends CI_Model
 	public function getByFolioGeneral($folio)
 	{
 		$this->db->select('
-			corte.folio as folio,
-			corte.corte as corte,
-			marca.nombre as marca,
-			maquilero.nombre as maquilero,
-			cliente.nombre as cliente,
-			tipo_pantalon.nombre as tipo,
-			corte.piezas as piezas,
-			corte.fecha_entrada as fecha')
+		corte.folio as folio,
+		corte.corte as corte,
+		marca.nombre as marca,
+		maquilero.nombre as maquilero,
+		cliente.nombre as cliente,
+		tipo_pantalon.nombre as tipo,
+		corte.piezas as piezas,
+		corte.fecha_entrada as fecha')
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
 		->join('cliente','corte.cliente_id=cliente.id')
 		->join('tipo_pantalon','corte.tipo_pantalon_id=tipo_pantalon.id')
 		->where('corte.folio',$folio);
-			return $this->db->get()->result_array();
+		return $this->db->get()->result_array();
 	}
 
 	public function reporte1($datos)
@@ -65,29 +67,29 @@ class Corte extends CI_Model
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
 		if($datos['corte']==null)
-			unset($datos['corte']);
+		unset($datos['corte']);
 		if($datos['folio']==null)
-			unset($datos['folio']);
+		unset($datos['folio']);
 		if($datos['cliente_id']==0)
-			unset($datos['cliente_id']);
+		unset($datos['cliente_id']);
 		if($datos['marca_id']==0)
-			unset($datos['marca_id']);
+		unset($datos['marca_id']);
 		if($datos['maquilero_id']==0)
-			unset($datos['maquilero_id']);
+		unset($datos['maquilero_id']);
 		if($datos['tipo_pantalon_id']==0)
-			unset($datos['tipo_pantalon_id']);
+		unset($datos['tipo_pantalon_id']);
 		if(isset($datos['check']))
-			unset($datos['check']);
+		unset($datos['check']);
 		$this->db->select('
-			corte.folio as folio,
-			corte.corte as corte,
-			marca.nombre as marca,
-			maquilero.nombre as maquilero,
-			cliente.nombre as cliente,
-			tipo_pantalon.nombre as tipo,
-			corte.piezas as piezas,
-			corte.fecha_entrada as fecha
-			')
+		corte.folio as folio,
+		corte.corte as corte,
+		marca.nombre as marca,
+		maquilero.nombre as maquilero,
+		cliente.nombre as cliente,
+		tipo_pantalon.nombre as tipo,
+		corte.piezas as piezas,
+		corte.fecha_entrada as fecha
+		')
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
@@ -112,31 +114,31 @@ class Corte extends CI_Model
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
 		if($datos['corte']==null)
-			unset($datos['corte']);
+		unset($datos['corte']);
 		if($datos['folio']==null)
-			unset($datos['folio']);
+		unset($datos['folio']);
 		if($datos['cliente_id']==0)
-			unset($datos['cliente_id']);
+		unset($datos['cliente_id']);
 		if($datos['marca_id']==0)
-			unset($datos['marca_id']);
+		unset($datos['marca_id']);
 		if($datos['maquilero_id']==0)
-			unset($datos['maquilero_id']);
+		unset($datos['maquilero_id']);
 		if($datos['tipo_pantalon_id']==0)
-			unset($datos['tipo_pantalon_id']);
+		unset($datos['tipo_pantalon_id']);
 		if(isset($datos['check']))
-			unset($datos['check']);
+		unset($datos['check']);
 		$this->db->select('
-			corte_autorizado.cargas as cargas,
-			corte_autorizado.fecha_autorizado as fechaAutorizado,
-			corte.folio as folio,
-			corte.corte as corte,
-			marca.nombre as marca,
-			maquilero.nombre as maquilero,
-			cliente.nombre as cliente,
-			tipo_pantalon.nombre as tipo,
-			corte.piezas as piezas,
-			corte.fecha_entrada as fecha
-			')
+		corte_autorizado.cargas as cargas,
+		corte_autorizado.fecha_autorizado as fechaAutorizado,
+		corte.folio as folio,
+		corte.corte as corte,
+		marca.nombre as marca,
+		maquilero.nombre as maquilero,
+		cliente.nombre as cliente,
+		tipo_pantalon.nombre as tipo,
+		corte.piezas as piezas,
+		corte.fecha_entrada as fecha
+		')
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
@@ -161,34 +163,34 @@ class Corte extends CI_Model
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
 		if($datos['corte']==null)
-			unset($datos['corte']);
+		unset($datos['corte']);
 		if($datos['folio']==null)
-			unset($datos['folio']);
+		unset($datos['folio']);
 		if($datos['cliente_id']==0)
-			unset($datos['cliente_id']);
+		unset($datos['cliente_id']);
 		if($datos['marca_id']==0)
-			unset($datos['marca_id']);
+		unset($datos['marca_id']);
 		if($datos['maquilero_id']==0)
-			unset($datos['maquilero_id']);
+		unset($datos['maquilero_id']);
 		if($datos['tipo_pantalon_id']==0)
-			unset($datos['tipo_pantalon_id']);
+		unset($datos['tipo_pantalon_id']);
 		if(isset($datos['check']))
-			unset($datos['check']);
+		unset($datos['check']);
 		$this->db->select('
-			salida_interna1.fecha as fechaSalidaInterna,
-			salida_interna1.muestras as muestras,
-			entrega_almacen.fecha as fechaSalida,
-			corte_autorizado.cargas as cargas,
-			corte_autorizado.fecha_autorizado as fechaAutorizado,
-			corte.folio as folio,
-			corte.corte as corte,
-			marca.nombre as marca,
-			maquilero.nombre as maquilero,
-			cliente.nombre as cliente,
-			tipo_pantalon.nombre as tipo,
-			corte.piezas as piezas,
-			corte.fecha_entrada as fecha
-			')
+		salida_interna1.fecha as fechaSalidaInterna,
+		salida_interna1.muestras as muestras,
+		entrega_almacen.fecha as fechaSalida,
+		corte_autorizado.cargas as cargas,
+		corte_autorizado.fecha_autorizado as fechaAutorizado,
+		corte.folio as folio,
+		corte.corte as corte,
+		marca.nombre as marca,
+		maquilero.nombre as maquilero,
+		cliente.nombre as cliente,
+		tipo_pantalon.nombre as tipo,
+		corte.piezas as piezas,
+		corte.fecha_entrada as fecha
+		')
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')
@@ -214,33 +216,33 @@ class Corte extends CI_Model
 		unset($datos['reporte']);
 		unset($datos['aceptar']);
 		if($datos['corte']==null)
-			unset($datos['corte']);
+		unset($datos['corte']);
 		if($datos['folio']==null)
-			unset($datos['folio']);
+		unset($datos['folio']);
 		if($datos['cliente_id']==0)
-			unset($datos['cliente_id']);
+		unset($datos['cliente_id']);
 		if($datos['marca_id']==0)
-			unset($datos['marca_id']);
+		unset($datos['marca_id']);
 		if($datos['maquilero_id']==0)
-			unset($datos['maquilero_id']);
+		unset($datos['maquilero_id']);
 		if($datos['tipo_pantalon_id']==0)
-			unset($datos['tipo_pantalon_id']);
+		unset($datos['tipo_pantalon_id']);
 		if(isset($datos['check']))
-			unset($datos['check']);
+		unset($datos['check']);
 		$this->db->select('
-			salida_interna1.fecha as fechaSalidaInterna,
-			salida_interna1.muestras as muestras,
-			corte_autorizado.cargas as cargas,
-			corte_autorizado.fecha_autorizado as fechaAutorizado,
-			corte.folio as folio,
-			corte.corte as corte,
-			marca.nombre as marca,
-			maquilero.nombre as maquilero,
-			cliente.nombre as cliente,
-			tipo_pantalon.nombre as tipo,
-			corte.piezas as piezas,
-			corte.fecha_entrada as fecha
-			')
+		salida_interna1.fecha as fechaSalidaInterna,
+		salida_interna1.muestras as muestras,
+		corte_autorizado.cargas as cargas,
+		corte_autorizado.fecha_autorizado as fechaAutorizado,
+		corte.folio as folio,
+		corte.corte as corte,
+		marca.nombre as marca,
+		maquilero.nombre as maquilero,
+		cliente.nombre as cliente,
+		tipo_pantalon.nombre as tipo,
+		corte.piezas as piezas,
+		corte.fecha_entrada as fecha
+		')
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')

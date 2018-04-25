@@ -6,8 +6,7 @@ var ban=false;
 $(document).ready(function() {
   $('input').keyup(function() {
     if ($('#pass2').val()==$( '#pass1' ).val()) {
-      if ($( '#pass2' ).val() =='')
-        $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas están vacías.</div>");
+      if ($( '#pass2' ).val() =='') $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas están vacías.</div>");
       else {
         $('#mensaje').html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
         ban=true;
@@ -19,8 +18,7 @@ $(document).ready(function() {
     }
   });
   $("form").submit(function() {
-    if (!ban)
-      alert("¡Las contraseñas no son iguales! Favor de verificar.")
+    if (!ban) alert("¡Las contraseñas no son iguales! Favor de verificar.")
     return ban;
   });
 });

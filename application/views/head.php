@@ -25,26 +25,26 @@ if (!isset($titulo)) $titulo='Lavados Especiales';
   <script src="<?php echo base_url()?>js/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url()?>js/dataTables.bootstrap4.min.js"></script>
   <style media="screen">
-    body {
-      height: 591px;
-      background: url("<?php echo base_url()?>img/fondo2.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      font-family: -apple-system, BlinkMacSystemFont,
+  body {
+    height: 591px;
+    background: url("<?php echo base_url()?>img/fondo2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-    }
-    .jumbotron {
-      background: rgba(255, 255, 255, .5);
-    }
-    nav{
-      background-color: #0180ff4f!important;
-    }
-    form{
-      background-color: rgba(255, 255, 255, .9);
-    }
+  }
+  .jumbotron {
+    background: rgba(255, 255, 255, .5);
+  }
+  nav{
+    background-color: #0180ff4f!important;
+  }
+  form{
+    background-color: rgba(255, 255, 255, .9);
+  }
   </style>
 </head>
 <body>

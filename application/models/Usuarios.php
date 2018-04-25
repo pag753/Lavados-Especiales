@@ -40,34 +40,38 @@ class Usuarios extends CI_Model
 
   public function updateD($id,$nombre_completo,$direccion,$telefono)
   {
-    $data = array('nombre_completo'=>$nombre_completo,
-                  'direccion'      =>$direccion,
-                  'telefono'       =>$telefono,
-                );
+    $data = array(
+      'nombre_completo' => $nombre_completo,
+      'direccion' => $direccion,
+      'telefono' => $telefono,
+    );
     $this->db->where('id', $id);
     $this->db->update('usuario', $data);
   }
 
   public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$id)
   {
-    if($pass==null)
+    if($pass == null)
     {
-      $data = array('nombre' => $nombre,
-                    'tipo_usuario_id'=>$tipo_usuario_id,
-                    'nombre_completo'=>$nombre_completo,
-                    'direccion'=>$direccion,
-                    'telefono'=>$telefono,);
+      $data = array(
+        'nombre' => $nombre,
+        'tipo_usuario_id' => $tipo_usuario_id,
+        'nombre_completo' => $nombre_completo,
+        'direccion'=>$direccion,
+        'telefono'=>$telefono,
+      );
     }
     else
     {
-      $data = array('nombre' => $nombre,
-                    'pass'=> md5($pass),
-                    'tipo_usuario_id'=>$tipo_usuario_id,
-                    'nombre_completo'=>$nombre_completo,
-                    'direccion'=>$direccion,
-                    'telefono'=>$telefono,);
+      $data = array(
+        'nombre' => $nombre,
+        'pass' => md5($pass),
+        'tipo_usuario_id' => $tipo_usuario_id,
+        'nombre_completo' => $nombre_completo,
+        'direccion' => $direccion,
+        'telefono' => $telefono,
+      );
     }
-
     $this->db->where('id', $id);
     $this->db->update('usuario', $data);
   }
@@ -82,8 +86,7 @@ class Usuarios extends CI_Model
   {
     $this->db->where('nombre', $usuario);
     $query = $this->db->get("usuario");
-    if(count($query->result_array())>0)
-      echo "yes";
+    if(count($query->result_array()) > 0) echo "yes";
     else echo "no";
   }
 }

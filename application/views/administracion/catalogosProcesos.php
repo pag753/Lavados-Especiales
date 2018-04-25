@@ -56,14 +56,14 @@ $(document).ready(function() {
             </tr>
           </thead>
           <tbody>
-          <?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td name="costo<?php echo $value['id'] ?>" id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
-              <td name="abreviatura<?php echo $value['id'] ?>" id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-            </tr>
-          <?php endforeach; ?>
+            <?php foreach ($data as $key => $value): ?>
+              <tr>
+                <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+                <td name="costo<?php echo $value['id'] ?>" id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
+                <td name="abreviatura<?php echo $value['id'] ?>" id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
+                <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

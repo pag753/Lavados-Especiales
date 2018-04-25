@@ -10,8 +10,9 @@ $(document).ready(function() {
       dataType: 'text',
       type: 'POST',
       success: function(result) {
-      $("#complemento").html(result);
-    }});
+        $("#complemento").html(result);
+      }
+    });
   });
   $("form").submit(function( event ) {
     var suma=0;
@@ -27,8 +28,7 @@ $(document).ready(function() {
       var fecha=$('#fecha').val().substr(0,10);
       var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
       var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
-      if (f>=fbd)
-        return true;
+      if (f>=fbd) return true;
       else {
         alert("La fecha que ingresó no puede ser anterior a la de su autorización");
         return false;

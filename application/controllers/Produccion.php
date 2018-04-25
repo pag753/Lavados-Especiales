@@ -6,29 +6,16 @@ class Produccion extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$idusuario=$_SESSION['id'];
-		if($idusuario!=3 && $idusuario!=5) redirect('/');
+		$idusuario = $_SESSION['id'];
+		if ($idusuario != 3 && $idusuario != 5) redirect('/');
 	}
 
-	public function index($datos=null)
+	public function index($datos = null)
 	{
-		if($datos==null)
-			$data = array(
-				'texto1' => "Bienvenido(a)",
-				'texto2' => $_SESSION['username']
-			);
-		else
-			if ($datos<0)
-				$data = array(
-					'texto1' => "Los datos",
-					'texto2' => "Se han actualizado con éxito"
-				);
-			else
-				$data = array(
-					'texto1' => "El corte con folio ".$datos,
-					'texto2' => "Se ha autorizado con éxito"
-				);
-		$titulo['titulo']='Bienvenido a lavados especiales';
+		if ($datos == null) $data = array( 'texto1' => "Bienvenido(a)", 'texto2' => $_SESSION['username']);
+		elseif ($datos<0) $data = array('texto1' => "Los datos", 'texto2' => "Se han actualizado con éxito");
+		else $data = array('texto1' => "El corte con folio ".$datos, 'texto2' => "Se ha autorizado con éxito");
+		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/index',$data);
@@ -43,50 +30,47 @@ class Produccion extends CI_Controller
 
 	public function autorizar()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
-			$datos['datos_corte']=$this->input->post();
+			$datos['datos_corte'] = $this->input->post();
 			$this->load->model('corte');
-			$resultado=$this->corte->getByFolio($datos['datos_corte']['folio']);
+			$resultado = $this->corte->getByFolio($datos['datos_corte']['folio']);
 			$this->load->model('corteAutorizado');
-			$resultado2=$this->corteAutorizado->getByFolio($datos['datos_corte']['folio']);
-			$data['corte_folio']=$datos['datos_corte']['folio'];
-			$data['fecha_autorizado']=substr($datos['datos_corte']['fecha'],0,10);
-			if($this->input->post()['numero']!=0)
+			$resultado2 = $this->corteAutorizado->getByFolio($datos['datos_corte']['folio']);
+			$data['corte_folio'] = $datos['datos_corte']['folio'];
+			$data['fecha_autorizado'] = substr($datos['datos_corte']['fecha'],0,10);
+			if ($this->input->post()['numero'] != 0)
 			{
-				$data['cargas']=count($this->input->post()['lavado']);
+				$data['cargas'] = count($this->input->post()['lavado']);
 				$this->load->model('corteAutorizadoDatos');
 				$this->corteAutorizado->agregar($data);
-				$data=null;
-				$data['corte_folio']=$datos['datos_corte']['folio'];
-				$contador=1;
+				$data = null;
+				$data['corte_folio'] = $datos['datos_corte']['folio'];
+				$contador = 1;
 				foreach ($this->input->post()['lavado'] as $key => $value)
 				{
 					$this->load->model('procesoSeco');
-					$ps=$this->procesoSeco->get();
-					foreach ($ps as $key2 => $value)
-						$precios[$value['id']]=$value['costo'];
-					$data['id_carga']=$contador;
-					$data['lavado_id']=$this->input->post()['lavado'][$key];
+					$ps = $this->procesoSeco->get();
+					foreach ($ps as $key2 => $value) $precios[$value['id']]=$value['costo'];
+					$data['id_carga'] = $contador;
+					$data['lavado_id'] = $this->input->post()['lavado'][$key];
 					foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
 					{
-						$data['proceso_seco_id']=$valor;
-						$data['costo']=$precios[$valor];
-						$n=$this->corteAutorizadoDatos->agregar($data);
+						$data['proceso_seco_id'] = $valor;
+						$data['costo'] = $precios[$valor];
+						$n = $this->corteAutorizadoDatos->agregar($data);
 						print_r($n);
 					}
 					$contador++;
 				}
 				redirect('/produccion/index/'.$datos['datos_corte']['folio']);
 			}
-			else
-				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
+			else $this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
 		}
-		else
-			$this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
+		else $this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
 	}
 
-	private function cargarAutorizacion($entrada=null,$texto1,$texto2)
+	private function cargarAutorizacion($entrada = null,$texto1,$texto2)
 	{
 		$this->load->model('lavado');
 		$this->load->model('procesoSeco');
@@ -97,7 +81,7 @@ class Produccion extends CI_Controller
 			'texto1' => $texto1,
 			'texto2' => $texto2
 		);
-		$titulo['titulo']='Autorizar corte';
+		$titulo['titulo'] = 'Autorizar corte';
 		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/cargarAutorizacion',$datos);
@@ -106,7 +90,7 @@ class Produccion extends CI_Controller
 
 	public function cambiarPass()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
@@ -114,8 +98,8 @@ class Produccion extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/produccion/cambiarPass';
-			$titulo['titulo']='Cambiar contraseña';
+			$data['link'] = base_url().'index.php/produccion/cambiarPass';
+			$titulo['titulo'] = 'Cambiar contraseña';
 			$this->load->view('head',$titulo);
 			$this->load->view('produccion/menu');
 			$this->load->view('cambiarPass',$data);
@@ -125,7 +109,7 @@ class Produccion extends CI_Controller
 
 	public function datos()
 	{
-		if($this->input->post())
+		if ($this->input->post())
 		{
 			$this->load->model('Usuarios');
 			$this->Usuarios->updateD(
@@ -136,10 +120,10 @@ class Produccion extends CI_Controller
 		}
 		else
 		{
-			$data['link']=base_url().'index.php/produccion/datos';
+			$data['link'] = base_url().'index.php/produccion/datos';
 			$this->load->model('Usuarios');
-			$data['data']=$this->Usuarios->getById($_SESSION['usuario_id']);
-			$titulo['titulo']='Cambiar datos personales';
+			$data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
+			$titulo['titulo'] = 'Cambiar datos personales';
 			$this->load->view('head',$titulo);
 			$this->load->view('produccion/menu');
 			$this->load->view('cambiarDatos',$data);
