@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <h1>Entrega a Almacen</h1>
         </div>
         <div class="card-body">
-          <input type="text" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
+          <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
         </div>
       </div>
       <div id="complemento" name="complemento">

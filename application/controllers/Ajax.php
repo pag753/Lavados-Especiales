@@ -131,7 +131,7 @@ class Ajax extends CI_Controller
 							echo "<div class='alert alert-warning' role='alert'>El corte ya tiene salida interna.</div>";
 						else
 						{
-							echo "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='text' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th>Lavado</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
+							echo "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th>Lavado</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
 							$this->load->model('corteAutorizadoDatos');
 							$autorizado = $this->corteAutorizadoDatos->joinLavado($folio);
 							foreach ($autorizado as $key => $value)

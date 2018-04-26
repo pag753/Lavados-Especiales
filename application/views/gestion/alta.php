@@ -4,7 +4,7 @@ $input_folio = array(
   'name' => 'folio',
   'id' => 'folio',
   'readonly' => 'true',
-  'type' => 'text',
+  'type' => 'number',
   'class' => 'form-control',
   'value' => $corte,
 );

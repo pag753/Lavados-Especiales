@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $input_folio = array(
   'name' => 'folio',
   'id' => 'folio',
-  'type' => 'text',
+  'type' => 'number',
   'class' => 'form-control',
   'placeholder' => 'Ingresa folio de corte',
   'value' => set_value('folio',@$datos_corte->folio),

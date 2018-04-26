@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="text" name="folio" class="form-control" readonly value="<?php echo $folio; ?>">
+            <input type="number" name="folio" class="form-control" readonly value="<?php echo $folio; ?>">
           </div>
         </div>
         <div class="form-group row">

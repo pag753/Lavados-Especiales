@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $input_folio = array(
-  'type' => 'text',
+  'type' => 'number',
   'name' => 'folio',
   'id' => 'folio',
   'class' => 'form-control',

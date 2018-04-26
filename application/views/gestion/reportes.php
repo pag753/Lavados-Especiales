@@ -54,7 +54,7 @@ $input_fechaf = array(
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="text" name="folio" placeholder="Escribir si es necesario" class="form-control">
+            <input type="number" name="folio" placeholder="Escribir si es necesario" class="form-control">
           </div>
         </div>
         <div class="form-group row">

@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="text" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
+            <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
           </div>
         </div>
         <div class="form-group row">
