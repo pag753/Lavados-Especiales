@@ -2,57 +2,57 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-function editar(id) {
-  $('#nombreE').val($('#nombre'+id).text());
-  $('#tipo_usuario_idE').val($('#idTipoUsuario_'+id).val());
-  $('#nombre_completoE').val($('#nombre_completo'+id).text());
-  $('#direccionE').val($('#direccion'+id).text());
-  $('#telefonoE').val($('#telefono'+id).text());
-  $('#id').val(id);
-  $('#editar').modal('show');
-}
-$(document).ready(function() {
-  var r='';
-  $("#guardar").click(function(event) {
-    $.ajax({
-      url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
-      data: { nombre: $("#nombre").val() },
-      type: "POST",
-      dataType: "text",
-      success: function(result){
-        if (result=="yes")  alert("El nombre de usuario ya existe, intente con otro por favor");
-        else $("#new").submit();
-      }
+  function editar(id) {
+    $('#nombreE').val($('#nombre'+id).text());
+    $('#tipo_usuario_idE').val($('#idTipoUsuario_'+id).val());
+    $('#nombre_completoE').val($('#nombre_completo'+id).text());
+    $('#direccionE').val($('#direccion'+id).text());
+    $('#telefonoE').val($('#telefono'+id).text());
+    $('#id').val(id);
+    $('#editar').modal('show');
+  }
+  $(document).ready(function() {
+    var r='';
+    $("#guardar").click(function(event) {
+      $.ajax({
+        url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
+        data: { nombre: $("#nombre").val() },
+        type: "POST",
+        dataType: "text",
+        success: function(result){
+          if (result=="yes")  alert("El nombre de usuario ya existe, intente con otro por favor");
+          else $("#new").submit();
+        }
+      });
+    });
+    $('#tabla').DataTable({
+      language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+      },
+      "lengthMenu": [ 5, 10, 20, 50, 100 ],
     });
   });
-  $('#tabla').DataTable({
-    language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
-      },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    },
-    "lengthMenu": [ 5, 10, 20, 50, 100 ],
-  });
-});
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
 <div class="container">

@@ -6,7 +6,8 @@ class Root extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if ($_SESSION['id'] != 5) redirect('/');
+		if ($_SESSION['id'] != 5)
+			redirect('/');
 	}
 
 	public function index()

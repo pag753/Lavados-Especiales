@@ -23,10 +23,10 @@ class Marca extends CI_Model
   public function getJoin()
   {
     $this->db->select('
-    cliente.nombre as clienteNombre,
-    cliente.id as clienteId,
-    marca.id as marcaId,
-    marca.nombre as marcaNombre')
+      cliente.nombre as clienteNombre,
+      cliente.id as clienteId,
+      marca.id as marcaId,
+      marca.nombre as marcaNombre')
     ->from('marca')
     ->join('cliente','marca.cliente_id=cliente.id','left');
     return $this->db->get()->result_array();
@@ -41,10 +41,10 @@ class Marca extends CI_Model
   public function getByCliente($cliente)
   {
     $this->db->select('
-    cliente.nombre as clienteNombre,
-    cliente.id as clienteId,
-    marca.id as marcaId,
-    marca.nombre as marcaNombre')
+      cliente.nombre as clienteNombre,
+      cliente.id as clienteId,
+      marca.id as marcaId,
+      marca.nombre as marcaNombre')
     ->from('marca')
     ->join('cliente','marca.cliente_id=cliente.id')
     ->where('marca.cliente_id',$cliente);

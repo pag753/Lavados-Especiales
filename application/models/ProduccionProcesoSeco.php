@@ -21,15 +21,15 @@ class ProduccionProcesoSeco extends CI_Model
   public function seleccionDefinida2($usuario,$folio,$carga)
   {
     $this->db->select('
-    usuario.nombre as usuario,
-    lavado.id as idlavado,
-    lavado.nombre as lavado,
-    proceso_seco.nombre as proceso,
-    proceso_seco.id as idproceso,
-    produccion_proceso_seco.corte_folio as folio,
-    produccion_proceso_seco.piezas as piezas,
-    produccion_proceso_seco.defectos as defectos,
-    produccion_proceso_seco.fecha as fecha')
+      usuario.nombre as usuario,
+      lavado.id as idlavado,
+      lavado.nombre as lavado,
+      proceso_seco.nombre as proceso,
+      proceso_seco.id as idproceso,
+      produccion_proceso_seco.corte_folio as folio,
+      produccion_proceso_seco.piezas as piezas,
+      produccion_proceso_seco.defectos as defectos,
+      produccion_proceso_seco.fecha as fecha')
     ->from('produccion_proceso_seco')
     ->join('lavado','produccion_proceso_seco.lavado_id=lavado.id')
     ->join('usuario','produccion_proceso_seco.usuario_id=usuario.id')
@@ -42,15 +42,15 @@ class ProduccionProcesoSeco extends CI_Model
   public function seleccionDefinida3($usuario,$folio,$carga,$proceso)
   {
     $this->db->select('
-    usuario.nombre as usuario,
-    lavado.id as idlavado,
-    lavado.nombre as lavado,
-    proceso_seco.nombre as proceso,
-    proceso_seco.id as idproceso,
-    produccion_proceso_seco.corte_folio as folio,
-    produccion_proceso_seco.piezas as piezas,
-    produccion_proceso_seco.defectos as defectos,
-    produccion_proceso_seco.fecha as fecha')
+      usuario.nombre as usuario,
+      lavado.id as idlavado,
+      lavado.nombre as lavado,
+      proceso_seco.nombre as proceso,
+      proceso_seco.id as idproceso,
+      produccion_proceso_seco.corte_folio as folio,
+      produccion_proceso_seco.piezas as piezas,
+      produccion_proceso_seco.defectos as defectos,
+      produccion_proceso_seco.fecha as fecha')
     ->from('produccion_proceso_seco')
     ->join('lavado','produccion_proceso_seco.lavado_id=lavado.id')
     ->join('usuario','produccion_proceso_seco.usuario_id=usuario.id')
@@ -90,17 +90,17 @@ class ProduccionProcesoSeco extends CI_Model
   public function seleccionReporte($folio)
   {
     $this->db->select('
-    usuario.nombre as usuario,
-    lavado.id as idlavado,
-    lavado.nombre as lavado,
-    round(proceso_seco.costo,2) as costo,
-    proceso_seco.nombre as proceso,
-    proceso_seco.id as idproceso,
-    produccion_proceso_seco.corte_folio as folio,
-    produccion_proceso_seco.piezas as piezas,
-    produccion_proceso_seco.defectos as defectos,
-    round((proceso_seco.costo*produccion_proceso_seco.piezas),2) as total,
-    produccion_proceso_seco.fecha as fecha')
+      usuario.nombre as usuario,
+      lavado.id as idlavado,
+      lavado.nombre as lavado,
+      round(proceso_seco.costo,2) as costo,
+      proceso_seco.nombre as proceso,
+      proceso_seco.id as idproceso,
+      produccion_proceso_seco.corte_folio as folio,
+      produccion_proceso_seco.piezas as piezas,
+      produccion_proceso_seco.defectos as defectos,
+      round((proceso_seco.costo*produccion_proceso_seco.piezas),2) as total,
+      produccion_proceso_seco.fecha as fecha')
     ->from('produccion_proceso_seco')
     ->join('lavado','produccion_proceso_seco.lavado_id=lavado.id')
     ->join('usuario','produccion_proceso_seco.usuario_id=usuario.id')

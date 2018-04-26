@@ -9,19 +9,19 @@ $input_folio = array(
 );
 ?>
 <script>
-$(document).ready(function() {
-  $('#folio').keyup(function() {
-    $.ajax({
-      url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
-      data: { folio: $('#folio').val() },
-      type: 'POST',
-      dataType: "text",
-      success: function(result) {
-        $( "#cargas" ).html(result);
-      }
+  $(document).ready(function() {
+    $('#folio').keyup(function() {
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
+        data: { folio: $('#folio').val() },
+        type: 'POST',
+        dataType: "text",
+        success: function(result) {
+          $( "#cargas" ).html(result);
+        }
+      });
     });
   });
-});
 </script>
 <div class="container">
   <div class="table">

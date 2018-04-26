@@ -38,20 +38,23 @@ $input_imagen = array(
   'type' => 'file',
   'class' => 'form-control-file',
 );
-foreach ($maquileros as $key => $value) $opciones_maquilero[$value['id']]=$value['nombre'];
+foreach ($maquileros as $key => $value)
+  $opciones_maquilero[$value['id']]=$value['nombre'];
 $select_maquilero=array(
   'name' => 'maquilero',
   'id' => 'maquilero',
   'class' => 'form-control',
 );
 $opciones_cliente[-1]="Seleccione el cliente";
-foreach ($clientes as $key => $value) $opciones_cliente[$value['id']]=$value['nombre'];
+foreach ($clientes as $key => $value)
+  $opciones_cliente[$value['id']]=$value['nombre'];
 $select_cliente=array(
   'name' => 'cliente',
   'id' => 'cliente',
   'class' => 'form-control',
 );
-foreach ($tipos as $key => $value) $opciones_tipo[$value['id']]=$value['nombre'];
+foreach ($tipos as $key => $value)
+  $opciones_tipo[$value['id']]=$value['nombre'];
 $select_tipo=array(
   'name' => 'tipo',
   'id' => 'tipo',
@@ -59,27 +62,28 @@ $select_tipo=array(
 );
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
-  $('#cliente').change(function() {
-    $.ajax({
-      url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
-      data: { cliente: $('#cliente').val() },
-      type: 'POST',
-      dataType: 'text',
-      success: function(result){
-        $('#marcas').html(result);
+  $(document).ready(function() {
+    $('#cliente').change(function() {
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
+        data: { cliente: $('#cliente').val() },
+        type: 'POST',
+        dataType: 'text',
+        success: function(result){
+          $('#marcas').html(result);
+        }
+      });
+    });
+    $("form").submit(function( event ) {
+      var val=$("#cliente").val();
+      if(parseInt(val)==-1){
+        alert("Por favor escoja un cliente.");
+        return false;
       }
+      else
+        return true;
     });
   });
-  $("form").submit(function( event ) {
-    var val=$("#cliente").val();
-    if(parseInt(val)==-1){
-      alert("Por favor escoja un cliente.");
-      return false;
-    }
-    else return true;
-  });
-});
 </script>
 <div class="container">
   <div class="row">

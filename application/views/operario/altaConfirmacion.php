@@ -2,47 +2,48 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-$(document).ready(function() {
-  $("form").submit(function( event ) {
-    var total=parseInt($("#total").val());
-    var trabajadas=parseInt($("#piezas_trabajadas").val());
-    var defectos=parseInt($("#defectos").val());
-    if ($("#siguiente")!=null) {
-      if (parseInt($("#siguiente").val())==-1) {
-        alert("Seleccione una opción válida en siguiente");
-        return false;
+  $(document).ready(function() {
+    $("form").submit(function( event ) {
+      var total=parseInt($("#total").val());
+      var trabajadas=parseInt($("#piezas_trabajadas").val());
+      var defectos=parseInt($("#defectos").val());
+      if ($("#siguiente")!=null) {
+        if (parseInt($("#siguiente").val())==-1) {
+          alert("Seleccione una opción válida en siguiente");
+          return false;
+        }
+        else
+          return true;
       }
-      else return true;
-    }
-  });
-  $('#especificos').DataTable({
-    language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+    });
+    $('#especificos').DataTable({
+      language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    },
-    "lengthMenu": [ 5, 10, 20, 50, 100 ],
+      "lengthMenu": [ 5, 10, 20, 50, 100 ],
+    });
   });
-});
 </script>
 <div class="container">
   <div class="row">

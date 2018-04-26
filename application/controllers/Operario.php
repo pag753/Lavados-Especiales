@@ -12,8 +12,16 @@ class Operario extends CI_Controller
 
 	public function index($datos = null)
 	{
-		if ($datos == null) $data = array('texto1' => "Bienvenido(a) usuario",'texto2' => $_SESSION['username']);
-		else $data = array('texto1' => "Los datos", 'texto2' => "Se han registrado con éxito");
+		if ($datos == null)
+			$data = array(
+				'texto1' => "Bienvenido(a) usuario",
+				'texto2' => $_SESSION['username']
+			);
+		else
+			$data = array(
+				'texto1' => "Los datos",
+				'texto2' => "Se han registrado con éxito"
+			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('operario/menu');
@@ -79,13 +87,13 @@ class Operario extends CI_Controller
 			);
 			//Actualizando datos de proceso siguiente
 			if (isset($this->input->post()['siguiente']))
-			$this->corteAutorizadoDatos->actualiza(
-				$this->input->post()['siguiente'],
-				$this->input->post()['folio'],
-				$this->input->post()['carga'],
-				$this->input->post()['piezas_trabajadas'],
-				$this->input->post()['orden']+1
-			);
+				$this->corteAutorizadoDatos->actualiza(
+					$this->input->post()['siguiente'],
+					$this->input->post()['folio'],
+					$this->input->post()['carga'],
+					$this->input->post()['piezas_trabajadas'],
+					$this->input->post()['orden']+1
+				);
 			redirect("/operario/index/2");
 		}
 		else redirect("/");
@@ -152,19 +160,19 @@ class Operario extends CI_Controller
 				);
 				$data['usuarioid'] = $_SESSION['usuario_id'];
 				if (count($query) == 0)
-				$data = array(
-					'piezas' => 0,
-					'defectos' => 0,
-					'nuevo' => 1,
-					'idprod' => 0
-				);
+				{
+					$data['piezas'] = 0;
+					$data['defectos'] = 0;
+					$data['nuevo'] = 1;
+					$data['idprod'] = 0;
+				}
 				else
-				$data = array(
-					'piezas' => $query[0]['piezas'],
-					'defectos' => $query[0]['defectos'],
-					'nuevo' => 0,
-					'idprod' => $query[0]['id']
-				);
+				{
+					$data['piezas'] = $query[0]['piezas'];
+					$data['defectos'] = $query[0]['defectos'];
+					$data['nuevo'] = 0;
+					$data['idprod'] = $query[0]['id'];
+				}
 			}
 			else $data = null;
 			$data['url'] = base_url()."index.php/operario/insertar";
@@ -179,8 +187,10 @@ class Operario extends CI_Controller
 			if ($this->input->post())
 			{
 				$this->load->model('produccionProcesoSeco');
-				if ($this->input->post()['nuevo'] == 1) $this->produccionProcesoSeco->insertar($this->input->post());
-				else $this->produccionProcesoSeco->editar($this->input->post());
+				if ($this->input->post()['nuevo'] == 1)
+					$this->produccionProcesoSeco->insertar($this->input->post());
+				else
+					$this->produccionProcesoSeco->editar($this->input->post());
 				$n = 1;
 			}
 			redirect("/operario/index/2");

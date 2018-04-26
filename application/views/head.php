@@ -45,6 +45,6 @@ if (!isset($titulo)) $titulo='Lavados Especiales';
   form{
     background-color: rgba(255, 255, 255, .9);
   }
-  </style>
+</style>
 </head>
 <body>

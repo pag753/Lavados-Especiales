@@ -7,14 +7,27 @@ class Produccion extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario = $_SESSION['id'];
-		if ($idusuario != 3 && $idusuario != 5) redirect('/');
+		if ($idusuario != 3 && $idusuario != 5)
+			redirect('/');
 	}
 
 	public function index($datos = null)
 	{
-		if ($datos == null) $data = array( 'texto1' => "Bienvenido(a)", 'texto2' => $_SESSION['username']);
-		elseif ($datos<0) $data = array('texto1' => "Los datos", 'texto2' => "Se han actualizado con éxito");
-		else $data = array('texto1' => "El corte con folio ".$datos, 'texto2' => "Se ha autorizado con éxito");
+		if ($datos == null)
+			$data = array(
+				'texto1' => "Bienvenido(a)",
+				'texto2' => $_SESSION['username']
+			);
+		elseif ($datos<0)
+			$data = array(
+				'texto1' => "Los datos", 
+				'texto2' => "Se han actualizado con éxito"
+			);
+		else
+			$data = array(
+				'texto1' => "El corte con folio ".$datos,
+				'texto2' => "Se ha autorizado con éxito"
+			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('head',$titulo);
 		$this->load->view('produccion/menu');
