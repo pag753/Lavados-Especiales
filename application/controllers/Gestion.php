@@ -74,10 +74,7 @@ class Gestion extends CI_Controller
 				$id_corte = 1;
 			else
 			{
-				if (count(count($c)-1) == 0)
-					$id_corte = 0;
-				else
-					$id_corte = $this->corte->get()[count($this->corte->get())-1]['folio']+1;
+				$id_corte = $this->corte->get()[count($this->corte->get())-1]['folio']+1;
 			}
 			$datos = array(
 				'marcas' => $this->marca->get(),

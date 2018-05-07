@@ -192,9 +192,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Cliente");
 			$data = array(
-				'nombre' => $this->input->post()['nombre'],
-				'direccion' => $this->input->post()['direccion'],
-				'telefono' => $this->input->post()['telefono'],
+				'nombre' => trim($this->input->post()['nombre']),
+				'direccion' => trim($this->input->post()['direccion']),
+				'telefono' => trim($this->input->post()['telefono']),
 			);
 			$this->Cliente->insert($data);
 			redirect("/administracion/catalogosClientes");
@@ -209,9 +209,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Cliente");
 			$this->Cliente->update(
-				$this->input->post()['nombreE'],
-				$this->input->post()['direccionE'],
-				$this->input->post()['telefonoE'],
+				trim($this->input->post()['nombreE']),
+				trim($this->input->post()['direccionE']),
+				trim($this->input->post()['telefonoE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosClientes");
@@ -225,7 +225,7 @@ class Administracion extends CI_Controller
 		if ($this->input->post())
 		{
 			$this->load->model("Lavado");
-			$data['nombre'] = $this->input->post()['nombre'];
+			$data['nombre'] = trim($this->input->post()['nombre']);
 			$this->Lavado->insert($data);
 			redirect("/administracion/catalogosLavados");
 		}
@@ -239,7 +239,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Lavado");
 			$this->Lavado->update(
-				$this->input->post()['nombreE'],
+				trim($this->input->post()['nombreE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosLavados");
@@ -254,9 +254,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Maquilero");
 			$data = array(
-				'nombre' => $this->input->post()['nombre'],
-				'direccion' => $this->input->post()['direccion'],
-				'telefono' => $this->input->post()['telefono'],
+				'nombre' => trim($this->input->post()['nombre']),
+				'direccion' => trim($this->input->post()['direccion']),
+				'telefono' => trim($this->input->post()['telefono']),
 			);
 			$this->Maquilero->insert($data);
 			redirect("/administracion/catalogosMaquileros");
@@ -271,9 +271,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Maquilero");
 			$this->Maquilero->update(
-				$this->input->post()['nombreE'],
-				$this->input->post()['direccionE'],
-				$this->input->post()['telefonoE'],
+				trim($this->input->post()['nombreE']),
+				trim($this->input->post()['direccionE']),
+				trim($this->input->post()['telefonoE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosMaquileros");
@@ -288,8 +288,8 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Marca");
 			$data = array(
-				'nombre' => $this->input->post()['nombre'],
-				'cliente_id' => $this->input->post()['cliente'],
+				'nombre' => trim($this->input->post()['nombre']),
+				'cliente_id' => trim($this->input->post()['cliente']),
 			);
 			$this->Marca->insert($data);
 			redirect("/administracion/catalogosMarcas");
@@ -304,8 +304,8 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Marca");
 			$this->Marca->update(
-				$this->input->post()['nombreE'],
-				$this->input->post()['clienteE'],
+				trim($this->input->post()['nombreE']),
+				trim($this->input->post()['clienteE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosMarcas");
@@ -320,9 +320,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("ProcesoSeco");
 			$data = array(
-				'nombre' => $this->input->post()['nombre'],
-				'costo' => $this->input->post()['costo'],
-				'abreviatura' => $this->input->post()['abreviatura'],
+				'nombre' => trim($this->input->post()['nombre']),
+				'costo' => trim($this->input->post()['costo']),
+				'abreviatura' => trim($this->input->post()['abreviatura']),
 			);
 			$this->ProcesoSeco->insert($data);
 			redirect("/administracion/catalogosProcesos");
@@ -337,9 +337,9 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("ProcesoSeco");
 			$this->ProcesoSeco->update(
-				$this->input->post()['nombreE'],
-				$this->input->post()['costoE'],
-				$this->input->post()['abreviaturaE'],
+				trim($this->input->post()['nombreE']),
+				trim($this->input->post()['costoE']),
+				trim($this->input->post()['abreviaturaE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosProcesos");
@@ -353,7 +353,7 @@ class Administracion extends CI_Controller
 		if ($this->input->post())
 		{
 			$this->load->model("Tipo_pantalon");
-			$data['nombre'] = $this->input->post()['nombre'];
+			$data['nombre'] = trim($this->input->post()['nombre']);
 			$this->Tipo_pantalon->insert($data);
 			redirect("/administracion/catalogosTipos");
 		}
@@ -367,7 +367,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Tipo_pantalon");
 			$this->Tipo_pantalon->update(
-				$this->input->post()['nombreE'],
+				trim($this->input->post()['nombreE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosTipos");
@@ -382,12 +382,12 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$data = array(
-				'nombre' => $this->input->post()['nombre'],
 				'pass' => md5($this->input->post()['pass']),
 				'tipo_usuario_id' => $this->input->post()['tipo_usuario_id'],
-				'nombre_completo' => $this->input->post()['nombre_completo'],
-				'direccion' => $this->input->post()['direccion'],
-				'telefono' => $this->input->post()['telefono'],
+				'nombre' => $this->input->post()['nombre'],				
+				'nombre_completo' => trim($this->input->post()['nombre_completo']),
+				'direccion' => trim($this->input->post()['direccion']),
+				'telefono' => trim($this->input->post()['telefono']),
 			);
 			$this->Usuarios->insert($data);
 			redirect("/administracion/catalogosUsuarios");
@@ -402,12 +402,12 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$this->Usuarios->update(
-				$this->input->post()['nombreE'],
-				$this->input->post()['passE'],
-				$this->input->post()['tipo_usuario_idE'],
-				$this->input->post()['nombre_completoE'],
-				$this->input->post()['direccionE'],
-				$this->input->post()['telefonoE'],
+				trim($this->input->post()['nombreE']),
+				trim($this->input->post()['passE']),
+				trim($this->input->post()['tipo_usuario_idE']),
+				trim($this->input->post()['nombre_completoE']),
+				trim($this->input->post()['direccionE']),
+				trim($this->input->post()['telefonoE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosUsuarios");
