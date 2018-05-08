@@ -90,11 +90,11 @@ class Ajax extends CI_Controller
 				$query = $this->marca->getByCliente($cliente);
 				echo "<select class='form-control' name='marca' id='marca'>";
 				if ($query == null)
-					echo "<option value=''>Ninguna</option>";
+					echo "<option value='0'>Ninguna</option>";
 				else
 				{
 					foreach ($query as $key => $value)
-						echo "<option value='".$value['marcaID']."'>".$value['marcaNombre']."</option>";
+						echo "<option value='".$value['marcaId']."'>".$value['marcaNombre']."</option>";
 				}
 				echo "</select>";
 			}

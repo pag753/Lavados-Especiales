@@ -10,6 +10,7 @@ class Administracion extends CI_Controller
 		if ($idusuario!=1 && $idusuario!=5)
 			redirect('/');
 	}
+
 	public function index($datos=null)
 	{
 		if ($datos == null)
@@ -460,6 +461,90 @@ class Administracion extends CI_Controller
 			$this->load->view('administracion/menu');
 			$this->load->view('cambiarDatos',$data);
 			$this->load->view('foot');
+		}
+	}
+
+	public function descuentos()
+	{
+		if ($this->input->get())
+		{
+			$id=$this->input->get()['id'];
+			if ($id=='')
+				redirect("/");
+			else
+			{
+				$this->load->model("Descuentos");
+				$this->load->model("Usuarios");
+				$data['descuentos'] = $this->Descuentos->getByIdUsuario($id);
+				$data['usuario'] = $this->Usuarios->getById($id);;
+				if (count($data['usuario'])==0)
+					redirect("/");
+				else
+				{
+					$titulo="Descuentos del operario ".$data['usuario'][0]['nombre'];
+					$this->load->view('head',$titulo);
+					$this->load->view('administracion/menu');
+					$this->load->view('administracion/descuentosEspecifico',$data);
+					$this->load->view('foot');
+				}
+			}
+		}
+		else
+		{
+			$this->load->model("Usuarios");
+			$data['data'] = $this->Usuarios->getOperarios();
+			$titulo="Descuentos";
+			$this->load->view('head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/descuentos',$data);
+			$this->load->view('foot');
+		}
+	}
+
+	public function editarDescuento()
+	{
+		if (!$this->input->post())
+			redirect("/");
+		else
+		{
+			$this->load->model("Descuentos");
+			$this->Descuentos->update(
+				trim($this->input->post()['razonE']),
+				trim($this->input->post()['fechaE']),
+				trim($this->input->post()['cantidadE']),
+				trim($this->input->post()['idE'])
+			);
+			redirect('/administracion/descuentos/?id='.$this->input->post()['idUsuario']);
+		}
+	}
+
+	public function nuevoDescuento()
+	{
+		if (!$this->input->post())
+			redirect("/");
+		else
+		{
+			$this->load->model("Descuentos");
+			$data = array(
+				'fecha' => $this->input->post()['fecha'],
+				'razon' => trim( $this->input->post()['razon']),
+				'usuario_id' => $this->input->post()['id'],
+				'cantidad' => $this->input->post()['cantidad'] 
+			);
+			$this->Descuentos->insert($data);
+			redirect('/administracion/descuentos/?id='.$data['usuario_id']);
+		}
+	}
+
+	public function eliminarDescuento()
+	{
+		if (!$this->input->post()) 
+			redirect("/");
+		else
+		{
+			$id=$this->input->post()['id'];
+			$this->load->model("Descuentos");
+			$this->Descuentos->delete($id);
 		}
 	}
 }

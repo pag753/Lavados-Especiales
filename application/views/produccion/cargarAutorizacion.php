@@ -78,15 +78,8 @@ $input_fecha = array(
         alert("Debe agregar por lo menos un lavado.");
         return false;
       }
-      else {
-        for (var i = 0; i < numero; i++) {
-          if ($("#proceso_seco"+i).val()=="") {
-            alert("Existe uno o varios lavados sin proceso.");
-            return false;
-          }
-        }
+      else
         return true;
-      }
     });
   });
 </script>

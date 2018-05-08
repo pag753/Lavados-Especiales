@@ -64,23 +64,29 @@ class Produccion extends CI_Controller
 				{
 					$this->load->model('procesoSeco');
 					$ps = $this->procesoSeco->get();
-					foreach ($ps as $key2 => $value) $precios[$value['id']]=$value['costo'];
+					foreach ($ps as $key2 => $value)
+						$precios[$value['id']]=$value['costo'];
 					$data['id_carga'] = $contador;
 					$data['lavado_id'] = $this->input->post()['lavado'][$key];
 					foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
 					{
 						$data['proceso_seco_id'] = $valor;
 						$data['costo'] = $precios[$valor];
+						if ($data['costo'] == 0)
+							$data['status'] = 2;
+						else
+							$data['status'] = 0;
 						$n = $this->corteAutorizadoDatos->agregar($data);
-						print_r($n);
 					}
 					$contador++;
 				}
 				redirect('/produccion/index/'.$datos['datos_corte']['folio']);
 			}
-			else $this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
+			else
+				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
 		}
-		else $this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
+		else
+			$this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
 	}
 
 	private function cargarAutorizacion($entrada = null,$texto1,$texto2)

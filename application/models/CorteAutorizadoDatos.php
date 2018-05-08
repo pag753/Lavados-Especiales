@@ -268,7 +268,10 @@ class CorteAutorizadoDatos extends CI_Model
 
   public function getByFolioStatus2($folio=null)
   {
-    $data = array('corte_folio' => $folio,'status!='=>2);
+    $data = array(
+      'corte_folio' => $folio,
+      'status!='=>2,
+    );
     $query = $this->db->get_where('corte_autorizado_datos',$data);
     return $query->result_array();
   }
