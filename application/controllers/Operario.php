@@ -210,7 +210,7 @@ class Operario extends CI_Controller
 			$data['data']="operario";
 			$titulo['titulo']="Ver Producción";
 			$this->load->view('head',$titulo);
-			$this->load->view('operariops/menu');
+			$this->load->view('operario/menu');
 			$this->load->view('operarios/verProduccion',$data);
 			$this->load->view('foot');
 		}
