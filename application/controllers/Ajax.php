@@ -322,23 +322,79 @@ class Ajax extends CI_Controller
 		{
 			$folio = $this->input->post()["folio"];
 			if ($folio == null)
-				echo "<div class='alert alert-info' role='alert'>Escriba el número del corte.</div>";
+			{
+				$info = array(
+					'respuesta' => utf8_encode("<div class='alert alert-info' role='alert'>Escriba el número del corte.</div>"),
+					'info' => '',
+				);
+				$info = json_encode($info);
+				echo $info;
+			}
 			else
 			{
 				$this->load->model('corte');
 				$resultado = $this->corte->getByFolio($folio);
 				if (count($resultado) == 0)
-					echo "<div class='alert alert-warning' role='alert'>El corte no existe en la base de datos.</div>";
+				{
+					$info = array(
+						'respuesta' => "<div class='alert alert-info' role='alert'>El corte no se encuentra en la base de datos.</div>",
+						'info' => '',
+					);
+					$info = json_encode($info);
+					echo $info;
+				}
 				else
 				{
 					$this->load->model('corteAutorizado');
 					$resultado2 = $this->corteAutorizado->getByFolio($folio);
 					if (count($resultado2) != 0)
-						echo "<div class='alert alert-warning' role='alert'>El corte ya fue autorizado.</div>";
+					{
+						$info = array(
+							'respuesta' => "<div class='alert alert-warning' role='alert'>El corte ya fue autorizado.</div>",
+							'info' => '',
+						);
+						$info = json_encode($info);
+						echo $info;
+					}
 					else
-						echo "<input type='submit' class='btn btn-primary' value='Aceptar'/>";
+					{
+						//Buscar la imágen
+						$extensiones = array("jpg","jpeg","png");
+						$ban=false;
+						foreach ($extensiones as $key2 => $extension)
+						{
+							$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
+							if (is_file($file))
+							{
+								$ban=true;
+								$imagen="<img src='".base_url()."img/fotos/".$folio.".".$extension."' class='img-fluid' alt='Responsive image'>";
+								break;
+							}
+						}
+						if (!$ban)
+							$imagen="No hay imagen";
+						//Información del corte
+						$query = $this->corte->getByFolioGeneral($folio);
+						$info = array(
+							'respuesta' => "<input type='submit' class='btn btn-primary' value='Aceptar'/>",
+							'info' => array(
+								'imagen' => $imagen,
+								'folio' => $query[0]['folio'],
+								'corte' => $query[0]['corte'],
+								'marca' => $query[0]['marca'],
+								'maquilero' => $query[0]['maquilero'],
+								'cliente' => $query[0]['cliente'],
+								'tipo' => $query[0]['tipo'],
+								'fecha' => $query[0]['fecha'],
+								'piezas' => $query[0]['piezas'],
+							)
+						);
+						$info = json_encode($info);
+						echo $info;
+					}
 				}
 			}
+			
 		}
 	}
 

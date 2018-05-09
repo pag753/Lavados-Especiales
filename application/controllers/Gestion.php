@@ -48,7 +48,9 @@ class Gestion extends CI_Controller
 	{
 		if ($this->input->post())
 		{
+			//Recuperando datos de post
 			$datos['datos_corte'] = $this->input->post();
+			//Sección de para subir imágen
 			$mi_imagen = 'mi_imagen';
 			$config = array(
 				'upload_path' => "img/fotos",
@@ -62,6 +64,9 @@ class Gestion extends CI_Controller
 			if (!$this->upload->do_upload($mi_imagen))
 				$data['uploadError'] = $this->upload->display_errors();
 			$data['uploadSuccess'] = $this->upload->data();
+			//Cuestion del ojal
+			if (!isset($datos['datos_corte']['ojal']))
+				$datos['datos_corte']['cantidadOjales'] = 0;
 			$this->load->model('corte');
 			$this->corte->agregar($datos['datos_corte']);
 			redirect('/gestion/index/'.$datos['datos_corte']['folio']);

@@ -63,6 +63,15 @@ $select_tipo=array(
 ?>
 <script type="text/javascript">
   $(document).ready(function() {
+    $("#ojales").hide();
+    $("#ojal").click(function(){
+      if ($(this).is(":checked"))
+        $("#ojales").show();
+      else{
+        $("#ojales").hide();
+        $("#cantidadOjales").val(0);
+      }
+    });
     $('#cliente').change(function() {
       $.ajax({
         url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
@@ -143,7 +152,24 @@ $select_tipo=array(
           </div>
         </div>
         <div class="form-group row">
-          <label for="imagen" class="col-3 col-form-label">Imágen:</label>
+          <label for="ojal" class="col-3 col-form-label">¿Lleva ojal?</label>
+          <div class="col-9">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="ojal" id="ojal">
+                  Sí
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" id="ojales" name="ojales">
+          <label for="ojales" class="col-3 col-form-label">Cantidad de ojales</label>
+          <div class="col-9">
+            <input class="form-control" placeholder="Escribe cantidad de ojales" type="number" name="cantidadOjales" id="cantidadOjales" value="0">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="imagen" class="col-3 col-form-label">Imágen</label>
           <div class="col-9">
             <?php echo form_input($input_imagen); ?>
           </div>

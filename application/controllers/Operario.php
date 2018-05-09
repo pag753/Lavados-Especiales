@@ -224,7 +224,7 @@ class Operario extends CI_Controller
 			*/
 			$this->load->model('ProduccionProcesoSeco');
 			$reporte = $this->ProduccionProcesoSeco->verProduccion(
-				$_SESSION['id'],
+				$_SESSION['usuario_id'],
 				$this->input->post()['fechaInicio'],
 				$this->input->post()['fechaFinal']
 			);
@@ -281,7 +281,7 @@ class Operario extends CI_Controller
 			$pdf->SetFont('Arial','B',8);
 			$this->load->model("Descuentos");
 			$descuentos=$this->Descuentos->consulta1(
-				$_SESSION['id'],
+				$_SESSION['usuario_id'],
 				$this->input->post()['fechaInicio'],
 				$this->input->post()['fechaFinal']
 			);

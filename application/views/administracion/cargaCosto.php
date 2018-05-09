@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </div>
         </div>
-        <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">Ver detalles</button>
+        <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-eye"></i> Detalles</button>
         <center>
           <a href="<?php echo base_url() ?>index.php/administracion/costos/"><button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button></a>
           <input type="submit" class="btn btn-primary" value="Aceptar"/>
@@ -74,6 +74,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="col-12">
               <table class="table table-striped table-bordered">
                 <tbody>
+                  <tr>
+                    <td>Imágen</td>
+                    <td><?php echo $imagen; ?></td>
+                  </tr>
                   <tr>
                     <td>Folio</td>
                     <td><?php echo $folio; ?></td>
@@ -105,6 +109,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <tr>
                     <td>Piezas</td>
                     <td><?php echo $piezas; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Ojales</td>
+                    <td><?php echo $ojales; ?></td>
                   </tr>
                 </tbody>
               </table>

@@ -23,6 +23,7 @@ class Corte extends CI_Model
 			'cliente_id' => $datos['cliente'],
 			'tipo_pantalon_id' => $datos['tipo'],
 			'piezas' => $datos['piezas'],
+			'ojales' => $datos['cantidadOjales'],
 		);
 		$this->db->insert('corte',$data);
 		return $data;
@@ -42,7 +43,10 @@ class Corte extends CI_Model
 			cliente.nombre as cliente,
 			tipo_pantalon.nombre as tipo,
 			corte.piezas as piezas,
-			corte.fecha_entrada as fecha')
+			corte.fecha_entrada as fecha,
+			corte.ojales as ojales
+			'
+		)
 		->from('corte')
 		->join('marca','corte.marca_id=marca.id','left')
 		->join('maquilero','corte.maquilero_id=maquilero.id')

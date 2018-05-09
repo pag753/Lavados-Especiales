@@ -75,15 +75,32 @@ class Administracion extends CI_Controller
 				$datos['tipo'] = $query[0]['tipo'];
 				$datos['piezas'] = $query[0]['piezas'];
 				$datos['fecha'] = $query[0]['fecha'];
+				$datos['ojales'] = $query[0]['ojales'];
 				$this->load->model('corteAutorizadoDatos');
 				$query = $this->corteAutorizadoDatos->joinLavadoProcesosCarga($folio,$cargaid);
 				$datos['lavado'] = $query[0]['lavado'];
-				$datos['idlavado'] = $query[0]['idlavado'];
+				$datos['idlavado'] = $query[0]['idlavado'];				
 				foreach ($query as $key => $value)
 				{
 					$datos['procesos'][$value['idproceso']] = $value['proceso'];
 					$datos['costos'][$value['idproceso']] = $value['costo'];
 				}
+				//Buscar la imágen
+				$extensiones = array("jpg","jpeg","png");
+				$ban=false;
+				foreach ($extensiones as $key2 => $extension)
+				{
+					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
+					if (is_file($file))
+					{
+						$ban=true;
+						$imagen="<img src='".base_url()."img/fotos/".$folio.".".$extension."' class='img-fluid' alt='Responsive image'>";
+						break;
+					}
+				}
+				if (!$ban)
+					$imagen = "No hay imagen";
+				$datos['imagen'] = $imagen;
 				$this->load->view('head');
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/cargaCosto',$datos);
