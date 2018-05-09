@@ -389,6 +389,7 @@ class Administracion extends CI_Controller
 				'nombre_completo' => trim($this->input->post()['nombre_completo']),
 				'direccion' => trim($this->input->post()['direccion']),
 				'telefono' => trim($this->input->post()['telefono']),
+				'activo' => trim($this->input->post()['activo']),
 			);
 			$this->Usuarios->insert($data);
 			redirect("/administracion/catalogosUsuarios");
@@ -409,6 +410,7 @@ class Administracion extends CI_Controller
 				trim($this->input->post()['nombre_completoE']),
 				trim($this->input->post()['direccionE']),
 				trim($this->input->post()['telefonoE']),
+				trim($this->input->post()['activoE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosUsuarios");

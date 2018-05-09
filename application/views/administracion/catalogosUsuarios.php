@@ -8,6 +8,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#nombre_completoE').val($('#nombre_completo'+id).text());
     $('#direccionE').val($('#direccion'+id).text());
     $('#telefonoE').val($('#telefono'+id).text());
+    if ($('#activo'+id).text() == 'No')
+      $('#activoE').val(0);  
+    else
+      $('#activoE').val(1);
     $('#id').val(id);
     $('#editar').modal('show');
   }
@@ -70,6 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <th>Nombre Completo</th>
               <th>Dirección</th>
               <th>Teléfono</th>
+              <th>Activo</th>
               <th>Editar</th>
             </tr>
           </thead>
@@ -89,6 +94,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
                 <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
                 <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+                <?php if ($value['activo'] == 1): ?>
+                  <td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">Sí</td>
+                <?php else: ?>
+                  <td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">No</td>
+                <?php endif ?>
                 <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
               </tr>
             <?php endforeach; ?>
@@ -152,6 +162,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <input type="text" name="telefono" id="telefono" placeholder="Teléfono del usuario" required class="form-control">
             </div>
           </div>
+          <div class="form-group row">
+            <label for="activo" class="col-3 col-form-label">Activo</label>
+            <div class="col-9">
+              <select id="activo" name="activo" class="form-control">
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+              </select>
+            </div>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button name="guardar" id="guardar" type="button" class="btn btn-primary">Guardar</button>
@@ -211,6 +230,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="telefonoE" class="col-3 col-form-label">Teléfono</label>
             <div class="col-9">
               <input type="text" name="telefonoE" id="telefonoE" placeholder="Teléfono del usuario" required class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="activoE" class="col-3 col-form-label">Activo</label>
+            <div class="col-9">
+              <select id="activoE" name="activoE" class="form-control">
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+              </select>
             </div>
           </div>
           <div class="modal-footer">

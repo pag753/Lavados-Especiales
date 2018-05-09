@@ -12,6 +12,7 @@ class Usuarios extends CI_Model
   {
     $this->db->where('nombre', $this->input->post('nombre'));
     $this->db->where('pass', md5($this->input->post('pass')));
+    $this->db->where('activo', 1);
     $query = $this->db->get("usuario");
     return $query->result_array();
   }
@@ -59,7 +60,7 @@ class Usuarios extends CI_Model
     $this->db->update('usuario', $data);
   }
 
-  public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$id)
+  public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$activo,$id)
   {
     if($pass == null)
     {
@@ -69,6 +70,7 @@ class Usuarios extends CI_Model
         'nombre_completo' => $nombre_completo,
         'direccion'=>$direccion,
         'telefono'=>$telefono,
+        'activo'=>$activo,
       );
     }
     else

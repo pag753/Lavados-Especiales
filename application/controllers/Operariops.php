@@ -260,5 +260,4 @@ class Operariops extends CI_Controller
 			$pdf->Output("Reporte.pdf", 'I');
 		}
 	}
-
 }
