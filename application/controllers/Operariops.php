@@ -133,4 +133,81 @@ class Operariops extends CI_Controller
 			$this->load->view('foot');
 		}
 	}
+
+	public function ver()
+	{
+		if (!$this->input->post())
+		{
+			$data['data']="operariops";
+			$titulo['titulo']="Ver Producción";
+			$this->load->view('head',$titulo);
+			$this->load->view('operariops/menu');
+			$this->load->view('operarios/verProduccion');
+			$this->load->view('foot');
+		}
+		else 
+		{
+			$this->load->library('pdf');
+			// Creacion del PDF
+			/*
+			* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+			* heredó todos las variables y métodos de fpdf
+			*/
+			$this->load->model('ProduccionProcesoSeco');
+			$reporte = $this->ProduccionProcesoSeco->verProduccion(
+				$_SESSION['id'],
+				$this->input->post()['fechaInicio'],
+				$this->input->post()['fechaFinal']
+			);
+			$pdf = new Pdf(utf8_decode("Ver producción"));
+			// Agregamos una página
+			$pdf->SetAutoPageBreak(1,20);
+			// Define el alias para el número de página que se imprimirá en el pie
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			/* Se define el titulo, márgenes izquierdo, derecho y
+			* el color de relleno predeterminado
+			*/
+			$pdf->SetTitle("Ver Producción");
+			$pdf->SetWidths(array(27.142857143,27.142857143,27.142857143,27.142857143,27.142857143,27.142857143,27.142857143));
+			$pdf->Row(array(
+				utf8_decode("Fecha"),
+				utf8_decode("Folio"),
+				utf8_decode("Carga"),
+				utf8_decode("Proceso"),
+				utf8_decode("Piezas"),
+				utf8_decode("Precio"),
+				utf8_decode("Costo")
+			));
+			$pdf->SetFont('Arial','',8);
+			$total=0;
+			foreach ($reporte as $key => $value)
+			{
+				$pdf->Row(array(
+					utf8_decode($value['fecha']),
+					utf8_decode($value['folio']),
+					utf8_decode($value['carga']),
+					utf8_decode($value['proceso']),
+					utf8_decode($value['piezas']),
+					utf8_decode($value['precio']),
+					utf8_decode($value['costo'])
+				));
+				$total += $value['costo'];
+			}
+			$pdf->SetX(145.714285715);
+			$pdf->SetWidths(array(27.142857143,27.142857143));
+			$pdf->Row(array('Total',$total));
+			/*
+			* Se manda el pdf al navegador
+			*
+			* $this->pdf->Output(nombredelarchivo, destino);
+			*
+			* I = Muestra el pdf en el navegador
+			* D = Envia el pdf para descarga
+			*
+			*/
+			$pdf->Output("Reporte.pdf", 'I');
+		}
+	}
+
 }

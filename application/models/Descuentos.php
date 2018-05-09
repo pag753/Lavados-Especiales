@@ -49,4 +49,17 @@ class Descuentos extends CI_Model
   {
     $this->db->delete('descuento', array('id' => $id));
   }
+
+  //Consulta para los operarios
+  public function consulta1($idUsuario,$fechaInicial,$fechaFinal)
+  {
+    $this->db->select('fecha, razon, cantidad')
+    ->from('descuento')
+    ->where('usuario_id',$idUsuario)
+    ->where('fecha>=',$fechaInicial)
+    ->where('fecha<=',$fechaFinal)
+    ->order_by('fecha');
+    return $this->db->get()->result_array();
+  }
+
 }

@@ -109,4 +109,30 @@ class ProduccionProcesoSeco extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  //Consulta para ver la producción de los usuarios de los cortes con cargas cerradas
+  public function verProduccion($usuario,$fechaInicial,$fechaFinal)
+  {
+    $this->db->select('
+      t1.fecha as fecha,
+      t1.corte_folio as folio,
+      t2.nombre as carga,
+      t3.nombre as proceso,
+      t1.piezas as piezas,
+      t4.costo as precio,
+      TRUNCATE((t1.piezas*t4.costo),2) as costo'
+    )
+    ->from('produccion_proceso_seco as t1')
+    ->join('lavado t2','t2.id=t1.lavado_id')
+    ->join('proceso_seco t3','t3.id=t1.proceso_seco_id')
+    ->join('corte_autorizado_datos t4','t4.lavado_id=t1.lavado_id AND t4.proceso_seco_id=t1.proceso_seco_id AND t4.corte_folio=t1.corte_folio')
+    ->where('t1.fecha<=',$fechaFinal)
+    ->where('t1.fecha>=',$fechaInicial)
+    ->where('t1.usuario_id',$usuario)
+    ->where('t4.status=',2)
+    ->order_by('t1.corte_folio')
+    ->order_by('t2.nombre')
+    ->order_by('t3.nombre');;    
+    return $this->db->get()->result_array();
+  }
+
 }
