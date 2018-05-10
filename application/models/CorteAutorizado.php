@@ -17,6 +17,7 @@ class CorteAutorizado extends CI_Model
 
 	public function agregar($datos = null)
 	{
+		$datos['usuario_id'] = $_SESSION['usuario_id'];
 		$data=$this->db->insert('corte_autorizado',$datos);
 		return $data;
 	}
