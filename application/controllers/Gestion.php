@@ -284,8 +284,9 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file = "/var/www/html/lavanderia/img/fotos/".$value['folio'].".".$extension;
-					if (is_file($file))
+					$url = base_url()."img/fotos/".$folio.".".$extension;
+					$headers = get_headers($url);
+					if (stripos($headers[0],"200 OK"))
 					{
 						$pdf->Image(
 							base_url()."img/fotos/".$value['folio'].".".$extension,$pdf->GetX(),
@@ -466,8 +467,9 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',9);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if (is_file($file))
+					$url = base_url()."img/fotos/".$folio.".".$extension;
+					$headers = get_headers($url);
+					if (stripos($headers[0],"200 OK"))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),49.75,30);
 						break;
@@ -727,8 +729,9 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if (is_file($file))
+					$url = base_url()."img/fotos/".$folio.".".$extension;
+					$headers = get_headers($url);
+					if (stripos($headers[0],"200 OK"))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),38,21.4);
 						break;
@@ -1019,8 +1022,9 @@ class Gestion extends CI_Controller
 				$pdf->SetFont('Arial','',8);
 				foreach ($extensiones as $key2 => $extension)
 				{
-					$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-					if (is_file($file))
+					$url = base_url()."img/fotos/".$folio.".".$extension;
+					$headers = get_headers($url);
+					if (stripos($headers[0],"200 OK"))
 					{
 						$pdf->Image(base_url()."img/fotos/".$folio.".".$extension,$pdf->GetX(),$pdf->GetY(),49.75,30);
 						break;

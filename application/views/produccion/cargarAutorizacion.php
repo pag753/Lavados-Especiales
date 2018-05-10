@@ -47,8 +47,7 @@ $input_fecha = array(
             $("#info").show();
           }
           else
-            $("#info").hide();
-          
+            $("#info").hide();          
           $("#respuesta").html(decodeURIComponent(escape(result.respuesta)));
         }
       });

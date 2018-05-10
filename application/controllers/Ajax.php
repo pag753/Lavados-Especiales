@@ -109,41 +109,76 @@ class Ajax extends CI_Controller
 		{
 			$folio=$this->input->post()["folio"];
 			if ($folio == null)
-				echo "<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>";
+			{
+				$info = array(
+					'respuesta' => utf8_encode("<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>"),
+					'info' => '',
+				);
+				$info = json_encode($info);
+				echo $info;
+			}
 			else
 			{
 				$this->load->model('corte');
 				$query2 = $this->corte->getByFolio($folio);
 				$datos['folio']=$folio;
 				if (count($query2) == 0)
-					echo "<div class='alert alert-warning' role='alert'>El corte no está en la base de datos.</div>";
+				{
+					$info = array(
+						'respuesta' => utf8_encode("<div class='alert alert-warning' role='alert'>El corte no está en la base de datos.</div>"),
+						'info' => '',
+					);
+					$info = json_encode($info);
+					echo $info;
+				}
 				else
 				{
 					$this->load->model('corteAutorizado');
 					$query = $this->corteAutorizado->getByFolio($folio);
 					if (count($query) == 0)
-						echo "<div class='alert alert-warning' role='alert'>El corte no se ha autorizado.</div>";
+					{
+						$info = array(
+							'respuesta' => utf8_encode("<div class='alert alert-warning' role='alert'>El corte no se ha autorizado.</div>"),
+							'info' => '',
+						);
+						$info = json_encode($info);
+						echo $info;
+					}
 					else
 					{
 						$this->load->model('salidaInterna1');
 						$query = $this->salidaInterna1->getByFolio($folio);
 						if (count($query) != 0)
-							echo "<div class='alert alert-warning' role='alert'>El corte ya tiene salida interna.</div>";
+						{
+							$info = array(
+								'respuesta' => utf8_encode("<div class='alert alert-warning' role='alert'>El corte ya tiene salida interna.</div>"),
+								'info' => '',
+							);
+							$info = json_encode($info);
+							echo $info;
+						}
 						else
 						{
-							echo "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th>Lavado</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
+							$cadena = "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='".$query2[0]['piezas']."'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th>Lavado</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
 							$this->load->model('corteAutorizadoDatos');
 							$autorizado = $this->corteAutorizadoDatos->joinLavado($folio);
 							foreach ($autorizado as $key => $value)
 							{
-								echo "<tr><td>".$value['id_carga']." ".strtoupper($value['nombre'])."</td><td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
+								$cadena .= "<tr><td>".$value['id_carga']." ".strtoupper($value['nombre'])."</td><td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
 								$query10 = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros($folio,$key+1);
-								echo "<td><select name='primero[$key]' class='form-control'>";
+								$cadena .= "<td><select name='primero[$key]' class='form-control'>";
 								foreach ($query10 as $key => $value)
-									echo "<option value='".$value['idproceso']."'>".$value['proceso']."</option>";
-								echo "</select></td></tr>";
+									$cadena .= "<option value='".$value['idproceso']."'>".$value['proceso']."</option>";
+								$cadena .= "</select></td></tr>";
 							}
-							echo "</tbody></table></div><input type='submit' class='btn btn-primary' value='Aceptar'/><input type='hidden' name='fechabd' id='fechabd' value='".$query2[0]['fecha_entrada']."'/><input type='hidden' name='cargas' id='cargas' value='".count($autorizado)."'/></div></div>";
+							$cadena .= "</tbody></table></div><div class='col-6'><input type='submit' class='btn btn-primary' value='Aceptar'/></div><input type='hidden' name='fechabd' id='fechabd' value='".$query2[0]['fecha_entrada']."'/><input type='hidden' name='cargas' id='cargas' value='".count($autorizado)."'/></div></div>";
+							$infoCorte = $this->infoCorte($folio);
+							$info = array(
+								'respuesta' => utf8_encode($cadena),
+								'info' => $infoCorte,
+							);
+							$info = json_encode($info);
+							echo $info;
 						}
 					}
 				}
@@ -159,7 +194,14 @@ class Ajax extends CI_Controller
 			$folio = $this->input->post()["folio"];
 			//Verificar si el corte es nulo
 			if ($folio == "")
-				echo "<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>";
+			{
+				$info = array(
+					'respuesta' => "<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>",
+					'info' => '',
+				);
+				$info = json_encode($info);
+				echo $info;
+			}
 			else
 			{
 				//Verificar si el corte existe en la base de datos
@@ -167,41 +209,76 @@ class Ajax extends CI_Controller
 				$query2 = $this->corte->getByFolio($folio);
 				$datos['folio'] = $folio;
 				if (count($query2) == 0)
-					echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>";
+				{
+					$info = array(
+						'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>",
+						'info' => '',
+					);
+					$info = json_encode($info);
+					echo $info;
+				}
 				else
 				{
 					//Verificar si el corte está autorizado
 					$this->load->model('corteAutorizado');
 					$query = $this->corteAutorizado->getByFolio($folio);
 					if (count($query) == 0)
-						echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no está autorizado.</div>";
+					{
+						$info = array(
+							'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no está autorizado.</div>",
+							'info' => '',
+						);
+						$info = json_encode($info);
+						echo $info;
+					}
 					else
 					{
 						//Verificar si el corte tiene salida interna
 						$this->load->model('salidaInterna1');
 						$query = $this->salidaInterna1->getByFolio($folio);
 						if (count($query) == 0)
-							echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene salida interna.</div>";
+						{
+							$info = array(
+								'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene salida interna.</div>",
+								'info' => '',
+							);
+							$info = json_encode($info);
+							echo $info;
+						}
 						else
 						{
 							//Verificar si el corte ya tiene salida externa
 							$this->load->model('entregaExterna');
 							$query = $this->entregaExterna->getByFolio($folio);
 							if (count($query) != 0)
-								echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega externa.</div>";
+							{
+								$info = array(
+									'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega externa.</div>",
+									'info' => '',
+								);
+								$info = json_encode($info);
+								echo $info;
+							}
 							else
 							{
 								//Verificar si el corte ya tiene entrega a almacen
 								$this->load->model('entregaAlmacen');
 								$query = $this->entregaAlmacen->getByFolio($folio);
 								if (count($query) != 0)
-									echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega a almacen.</div>";
+								{
+									$info = array(
+										'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega a almacen.</div>",
+										'info' => '',
+									);
+								$info = json_encode($info);
+								echo $info;
+								}
 								else
 								{
 									$this->load->model('corteAutorizadoDatos');
 									$query = $this->corteAutorizadoDatos->getByFolioEspecifico($folio);
 									$query2 = $this->corteAutorizadoDatos->getByFolioStatus2($folio);
-									echo "<div class='card'><a data-toggle='collapse' href='#ver' role='button' aria-expanded='true' aria-controls='ver'><div class='card-header'><strong>Datos específicos del folio ".$folio."</strong></div></a><div class='collapse' id='ver'><div class='card-body'><div class='table-responsive'><table class='table table-bordered'><thead><tr><th>Carga</th><th>Lavado</th><th>Proceso</th><th>Piezas Trabajdas</th><th>Defectos</th><th>Estado</th><th>Orden</th><th>Fecha de registro</th><th>Usuario que registró</th></tr></thead><tbody>";
+									$cadena = "<div class='card'><a data-toggle='collapse' href='#ver' role='button' aria-expanded='true' aria-controls='ver'><div class='card-header'><strong>Datos específicos del folio ".$folio."</strong></div></a><div class='collapse' id='ver'><div class='card-body'><div class='table-responsive'><table class='table table-bordered'><thead><tr><th>Carga</th><th>Lavado</th><th>Proceso</th><th>Piezas Trabajdas</th><th>Defectos</th><th>Estado</th><th>Orden</th><th>Fecha de registro</th><th>Usuario que registró</th></tr></thead><tbody>";
 									foreach ($query as $key => $value)
 									{
 										$idcarga = $value['idcarga'];
@@ -238,17 +315,24 @@ class Ajax extends CI_Controller
 										$usuario = $value['usuario'];
 										if ($usuario == "DEFAULT")
 											$usuario = "Por defecto";
-										echo "<tr class='".$clase."'><td>".$idcarga."</td><td>".$lavado."</td><td>".$proceso."</td><td>".$piezas."</td><td>".$defectos."</td><td>".$status."</td><td>".$orden."</td><td>".$fecha."</td><td>".$usuario."</td></tr>";
+										$cadena .= "<tr class='".$clase."'><td>".$idcarga."</td><td>".$lavado."</td><td>".$proceso."</td><td>".$piezas."</td><td>".$defectos."</td><td>".$status."</td><td>".$orden."</td><td>".$fecha."</td><td>".$usuario."</td></tr>";
 									}
-									echo"</tbody></table></div></div></div></div>";
+									$cadena .= "</tbody></table></div></div></div></div>";
 									//No existen procesos con estatus 2
 									//No hacer submit
 									if (count($query2) != 0)
-										echo "<div class='alert alert-danger' role='alert'>No puede dar de alta este corte en almacén porque existen procesos que no se han registrado. Favor de revisar con los operarios y encargados.</div>";
+										$cadena .= "<div class='alert alert-danger' role='alert'>No puede dar de alta este corte en almacén porque existen procesos que no se han registrado. Favor de revisar con los operarios y encargados.</div>";
 									//No existen procesos con status 2
 									//Hacer submit
 									else
-										echo "<form method='post' action='".base_url()."index.php/gestion/salidaAlmacen'><input type='hidden' name='folio' value='$folio'><div class='card'><div class='card-header'>¿Desea dar de alta este corte en almacén?</div><div class='card-body'><input type='submit' class='btn btn-primary' value='Aceptar'></div></div></form>";
+										$cadena .= "<form method='post' action='".base_url()."index.php/gestion/salidaAlmacen'><input type='hidden' name='folio' value='$folio'><div class='card'><div class='card-header'>¿Desea dar de alta este corte en almacén?</div><div class='card-body'><input type='submit' class='btn btn-primary' value='Aceptar'></div></div></form>";
+									$datos = $this->infoCorte($folio);
+									$info = array(
+										'respuesta' => $cadena,
+										'info' => $datos,
+									);
+									$info = json_encode($info);
+									echo $info;
 								}
 							}
 						}
@@ -267,7 +351,14 @@ class Ajax extends CI_Controller
 			$folio = $this->input->post()["folio"];
 			//Verificar si el corte es nulo
 			if ($folio == "")
-				echo "<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>";
+			{
+				$info = array(
+					'respuesta' => "<div class='alert alert-info' role='alert'>Ingresa el número de folio.</div>",
+					'info' => '',
+				);
+				$info = json_encode($info);
+				echo $info;
+			}
 			else
 			{
 				//Verificar si el corte existe en la base de datos
@@ -275,37 +366,72 @@ class Ajax extends CI_Controller
 				$query2 = $this->corte->getByFolio($folio);
 				$datos['folio']=$folio;
 				if (count($query2) == 0)
-					echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>";
+				{
+					$info = array(
+						'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>",
+						'info' => '',
+					);
+					$info = json_encode($info);
+					echo $info;
+				}
 				else
 				{
 					//Verificar si el corte está autorizado
 					$this->load->model('corteAutorizado');
 					$query = $this->corteAutorizado->getByFolio($folio);
 					if (count($query) == 0)
-						echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no está autorizado.</div>";
+					{
+						$info = array(
+							'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no está autorizado.</div>",
+							'info' => '',
+						);
+						$info = json_encode($info);
+						echo $info;
+					}
 					else
 					{
 						//Verificar si el corte tiene salida interna
 						$this->load->model('salidaInterna1');
 						$query = $this->salidaInterna1->getByFolio($folio);
 						if (count($query) == 0)
-							echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene salida interna.</div>";
+						{
+							$info = array(
+								'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene salida interna.</div>",
+								'info' => '',
+							);
+							$info = json_encode($info);
+							echo $info;
+						}
 						else
 						{
 							//Verificar si el corte ya tiene entrega a almacen
 							$this->load->model('entregaAlmacen');
 							$query = $this->entregaAlmacen->getByFolio($folio);
 							if (count($query) == 0)
-								echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene entrega a almacen.</div>";
+							{
+								$info = array(
+									'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no tiene entrega a almacen.</div>",
+									'info' => '',
+								);
+								$info = json_encode($info);
+								echo $info;
+							}
 							else
 							{
 								//Verificar si el corte ya tiene salida externa
 								$this->load->model('entregaExterna');
 								$query = $this->entregaExterna->getByFolio($folio);
 								if (count($query) != 0)
-									echo "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega externa.</div>";
+									$cadena = "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." ya tiene entrega externa.</div>";
 								else
-									echo "<div class='card'><div class='card-header'>¿Desea dar salida externa a este corte?</div><div class='card-body'><input type='submit' class='btn btn-primary' value='Aceptar'></div></div>";
+									$cadena = "<div class='card'><div class='card-header'>¿Desea dar salida externa a este corte?</div><div class='card-body'><input type='submit' class='btn btn-primary' value='Aceptar'></div></div>";
+								$infoCorte = $this->infoCorte($folio);
+								$info = array(
+									'respuesta' => $cadena,
+									'info' => $infoCorte,
+								);
+								$info = json_encode($info);
+								echo $info;
 							}
 						}
 					}
@@ -357,37 +483,12 @@ class Ajax extends CI_Controller
 						echo $info;
 					}
 					else
-					{
-						//Buscar la imágen
-						$extensiones = array("jpg","jpeg","png");
-						$ban=false;
-						foreach ($extensiones as $key2 => $extension)
-						{
-							$file = "/var/www/html/lavanderia/img/fotos/".$folio.".".$extension;
-							if (is_file($file))
-							{
-								$ban=true;
-								$imagen="<img src='".base_url()."img/fotos/".$folio.".".$extension."' class='img-fluid' alt='Responsive image'>";
-								break;
-							}
-						}
-						if (!$ban)
-							$imagen="No hay imagen";
-						//Información del corte
-						$query = $this->corte->getByFolioGeneral($folio);
+					{						
+						$corte = $this->infoCorte($folio);
+						unset($corte['ojales']);
 						$info = array(
 							'respuesta' => "<input type='submit' class='btn btn-primary' value='Aceptar'/>",
-							'info' => array(
-								'imagen' => $imagen,
-								'folio' => $query[0]['folio'],
-								'corte' => $query[0]['corte'],
-								'marca' => $query[0]['marca'],
-								'maquilero' => $query[0]['maquilero'],
-								'cliente' => $query[0]['cliente'],
-								'tipo' => $query[0]['tipo'],
-								'fecha' => $query[0]['fecha'],
-								'piezas' => $query[0]['piezas'],
-							)
+							'info' => $corte,
 						);
 						$info = json_encode($info);
 						echo $info;
@@ -545,5 +646,30 @@ class Ajax extends CI_Controller
 			$this->load->model("Usuarios");
 			return $this->Usuarios->exists($nombre);
 		}
+	}
+
+	//Método para recuperar datos del corte
+	private function infoCorte($folio)
+	{
+		$extensiones = array("jpg","jpeg","png");
+		$ban=false;
+		foreach ($extensiones as $key2 => $extension)
+		{
+			$url = base_url()."img/fotos/".$folio.".".$extension;
+			$headers = get_headers($url);
+			if (stripos($headers[0],"200 OK"))
+			{
+				$ban=true;
+				$imagen="<img src='".base_url()."img/fotos/".$folio.".".$extension."' class='img-fluid' alt='Responsive image'>";
+				break;
+			}
+		}
+		if (!$ban)
+			$imagen="No hay imagen";
+		//Información del corte
+		$this->load->model("corte");
+		$corte = $this->corte->getByFolioGeneral($folio)[0];
+		$corte['imagen'] = $imagen;
+		return $corte;
 	}
 }
