@@ -566,4 +566,23 @@ class Administracion extends CI_Controller
 			$this->Descuentos->delete($id);
 		}
 	}
+
+	public function ojal()
+	{
+		$this->load->model("ojal");
+		if (!$this->input->post()) 
+		{
+			$data['costo'] = $this->ojal->get()[0]['costo'];
+			$titulo['titulo'] = "Costo de ojal";
+			$this->load->view('head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/ojal',$data);
+			$this->load->view('foot');
+		} 
+		else 
+		{
+			$this->ojal->update($this->input->post()['costo']);
+			redirect("administracion\index\-1");
+		}		
+	}
 }

@@ -21,6 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/costos">Reasignación de costos</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/descuentos">Descuentos</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/ojal">Costo de ojal</a>
         </div>
       </li>
       <li class="nav-item dropdown">
@@ -33,6 +34,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/catalogosProcesos">Procesos Secos</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/catalogosUsuarios">Usuarios</a>
           <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/catalogosTipos">Tipos de pantalón</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/reporte1">Reporte de corte</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/reporte2">Reporte de periodo de producción</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/reporte3">Nómina</a>
+          <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/reporte4">Reporte de producción de trabajador</a>
         </div>
       </li>
     </ul>
