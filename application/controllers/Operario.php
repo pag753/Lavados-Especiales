@@ -23,10 +23,10 @@ class Operario extends CI_Controller
 				'texto2' => "Se han registrado con éxito"
 			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('operario/menu');
 		$this->load->view('operario/index',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function alta($id = null)
@@ -55,18 +55,18 @@ class Operario extends CI_Controller
 			}
 			$data['query'] = $query;
 			$titulo['titulo'] = 'Cerrar proceso';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operario/altaConfirmacion',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 		else
 		{
 			$titulo['titulo'] = 'Cerrar proceso';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operario/alta');
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -111,10 +111,10 @@ class Operario extends CI_Controller
 		{
 			$data['link'] = base_url().'index.php/operario/cambiarPass';
 			$titulo['titulo'] = 'Cambiar contraseña';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
-			$this->load->view('cambiarPass',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarPass',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -137,10 +137,10 @@ class Operario extends CI_Controller
 			$this->load->model('Usuarios');
 			$data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
 			$titulo['titulo'] = 'Cambiar datos personales';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
-			$this->load->view('cambiarDatos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarDatos',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -177,10 +177,10 @@ class Operario extends CI_Controller
 			else $data = null;
 			$data['url'] = base_url()."index.php/operario/insertar";
 			$titulo['titulo'] = 'Insertar producción';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operarios/insertar',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 		else
 		{
@@ -209,10 +209,10 @@ class Operario extends CI_Controller
 		{
 			$data['data']="operario";
 			$titulo['titulo']="Ver Producción";
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('operario/menu');
 			$this->load->view('operarios/verProduccion',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 		else
 		{

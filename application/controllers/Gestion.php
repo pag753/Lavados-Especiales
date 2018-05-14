@@ -32,10 +32,10 @@ class Gestion extends CI_Controller
 				'texto2' => $_SESSION['username']
 			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/index',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function cerrar_sesion()
@@ -89,11 +89,20 @@ class Gestion extends CI_Controller
 				'corte' => $id_corte
 			);
 			$titulo['titulo'] = 'Alta de corte';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/alta',$datos);
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
+	}
+
+	public function ver()
+	{
+		$titulo['titulo'] = 'Ver detalles de corte';
+		$this->load->view('comunes/head',$titulo);
+		$this->load->view('gestion/menu');
+		$this->load->view('comunes/ver');
+		$this->load->view('comunes/foot');
 	}
 
 	public function salidaInterna()
@@ -129,10 +138,10 @@ class Gestion extends CI_Controller
 		else
 		{
 			$titulo['titulo'] = 'Salida interna';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaInterna');
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -150,10 +159,10 @@ class Gestion extends CI_Controller
 		else
 		{
 			$titulo['titulo'] = 'Salida a almacen';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaAlmacen');
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -171,10 +180,10 @@ class Gestion extends CI_Controller
 		else
 		{
 			$titulo['titulo'] = 'Salida externa';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
 			$this->load->view('gestion/salidaExterna');
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -188,10 +197,10 @@ class Gestion extends CI_Controller
 			'tipos' => $this->Tipo_pantalon->get(),
 		);
 		$titulo['titulo'] = 'Reportes';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('gestion/menu');
 		$this->load->view('gestion/reportes',$datos);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function generaReporte()
@@ -1163,10 +1172,10 @@ class Gestion extends CI_Controller
 		{
 			$data['link'] = base_url().'index.php/Gestion/cambiarPass';
 			$titulo['titulo'] = 'Cambiar contraseña';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
-			$this->load->view('cambiarPass',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarPass',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -1189,10 +1198,10 @@ class Gestion extends CI_Controller
 			$this->load->model('Usuarios');
 			$data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
 			$titulo['titulo'] = 'Cambiar datos personales';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('gestion/menu');
-			$this->load->view('cambiarDatos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarDatos',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 }

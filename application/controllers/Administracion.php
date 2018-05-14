@@ -29,10 +29,10 @@ class Administracion extends CI_Controller
 				'texto2' => "Se ha registrado con éxito"
 			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/index',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function cerrar_sesion()
@@ -79,7 +79,7 @@ class Administracion extends CI_Controller
 				$this->load->model('corteAutorizadoDatos');
 				$query = $this->corteAutorizadoDatos->joinLavadoProcesosCarga($folio,$cargaid);
 				$datos['lavado'] = $query[0]['lavado'];
-				$datos['idlavado'] = $query[0]['idlavado'];				
+				$datos['idlavado'] = $query[0]['idlavado'];
 				foreach ($query as $key => $value)
 				{
 					$datos['procesos'][$value['idproceso']] = $value['proceso'];
@@ -101,19 +101,19 @@ class Administracion extends CI_Controller
 				if (!$ban)
 					$imagen = "No hay imagen";
 				$datos['imagen'] = $imagen;
-				$this->load->view('head');
+				$this->load->view('comunes/head');
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/cargaCosto',$datos);
-				$this->load->view('foot');
+				$this->load->view('comunes/foot');
 			}
 			else
 			{
 				$titulo['titulo'] = 'Cambiar costos';
 				$textos['texto1'] = "Costos del corte";
-				$this->load->view('head',$titulo);
+				$this->load->view('comunes/head',$titulo);
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/cargaCostoValidacion',$textos);
-				$this->load->view('foot');
+				$this->load->view('comunes/foot');
 			}
 		}
 	}
@@ -124,10 +124,10 @@ class Administracion extends CI_Controller
 		$this->load->model("Cliente");
 		$data['data'] = $this->Cliente->get();
 		$titulo['titulo'] = 'Catálogo de clientes';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosCliente',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosLavados()
@@ -135,10 +135,10 @@ class Administracion extends CI_Controller
 		$this->load->model("Lavado");
 		$data['data'] = $this->Lavado->get();
 		$titulo['titulo'] = 'Catálogo de lavados';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosLavado',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosMaquileros()
@@ -146,10 +146,10 @@ class Administracion extends CI_Controller
 		$this->load->model("Maquilero");
 		$data['data'] = $this->Maquilero->get();
 		$titulo['titulo'] = 'Catálogo de maquileros';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosMaquilero',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosMarcas()
@@ -161,10 +161,10 @@ class Administracion extends CI_Controller
 			'clientes' => $this->Cliente->get(),
 		);
 		$titulo['titulo'] = 'Catálogo de marcas';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosMarca',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosProcesos()
@@ -172,10 +172,10 @@ class Administracion extends CI_Controller
 		$this->load->model("ProcesoSeco");
 		$data['data'] = $this->ProcesoSeco->get();
 		$titulo['titulo'] = 'Catálogo de procesos';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosProcesos',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosUsuarios()
@@ -187,10 +187,10 @@ class Administracion extends CI_Controller
 			'TipoUsuario' => $this->TipoUsuario->get(),
 		);
 		$titulo['titulo'] = 'Catálogo de usuarios';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosUsuarios',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function catalogosTipos()
@@ -198,10 +198,10 @@ class Administracion extends CI_Controller
 		$this->load->model("Tipo_pantalon");
 		$data['data'] = $this->Tipo_pantalon->get();
 		$titulo['titulo'] = 'Catálogo de tipos de pantalón';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosTipoPantalon',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function nuevoCliente()
@@ -402,7 +402,7 @@ class Administracion extends CI_Controller
 			$data = array(
 				'pass' => md5($this->input->post()['pass']),
 				'tipo_usuario_id' => $this->input->post()['tipo_usuario_id'],
-				'nombre' => $this->input->post()['nombre'],				
+				'nombre' => $this->input->post()['nombre'],
 				'nombre_completo' => trim($this->input->post()['nombre_completo']),
 				'direccion' => trim($this->input->post()['direccion']),
 				'telefono' => trim($this->input->post()['telefono']),
@@ -448,10 +448,10 @@ class Administracion extends CI_Controller
 		{
 			$data['link'] = base_url().'index.php/administracion/cambiarPass';
 			$titulo['titulo'] = 'Cambiar contraseña';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
-			$this->load->view('cambiarPass',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarPass',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -476,10 +476,10 @@ class Administracion extends CI_Controller
 				'data' => $this->Usuarios->getById($_SESSION['usuario_id']),
 			);
 			$titulo['titulo'] = 'Cambiar datos personales';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
-			$this->load->view('cambiarDatos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarDatos',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -501,10 +501,10 @@ class Administracion extends CI_Controller
 				else
 				{
 					$titulo="Descuentos del operario ".$data['usuario'][0]['nombre'];
-					$this->load->view('head',$titulo);
+					$this->load->view('comunes/head',$titulo);
 					$this->load->view('administracion/menu');
 					$this->load->view('administracion/descuentosEspecifico',$data);
-					$this->load->view('foot');
+					$this->load->view('comunes/foot');
 				}
 			}
 		}
@@ -513,10 +513,10 @@ class Administracion extends CI_Controller
 			$this->load->model("Usuarios");
 			$data['data'] = $this->Usuarios->getOperarios();
 			$titulo="Descuentos";
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('administracion/descuentos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -548,7 +548,7 @@ class Administracion extends CI_Controller
 				'fecha' => $this->input->post()['fecha'],
 				'razon' => trim( $this->input->post()['razon']),
 				'usuario_id' => $this->input->post()['id'],
-				'cantidad' => $this->input->post()['cantidad'] 
+				'cantidad' => $this->input->post()['cantidad']
 			);
 			$this->Descuentos->insert($data);
 			redirect('/administracion/descuentos/?id='.$data['usuario_id']);
@@ -557,7 +557,7 @@ class Administracion extends CI_Controller
 
 	public function eliminarDescuento()
 	{
-		if (!$this->input->post()) 
+		if (!$this->input->post())
 			redirect("/");
 		else
 		{
@@ -570,19 +570,28 @@ class Administracion extends CI_Controller
 	public function ojal()
 	{
 		$this->load->model("ojal");
-		if (!$this->input->post()) 
+		if (!$this->input->post())
 		{
 			$data['costo'] = $this->ojal->get()[0]['costo'];
 			$titulo['titulo'] = "Costo de ojal";
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('administracion/ojal',$data);
-			$this->load->view('foot');
-		} 
-		else 
+			$this->load->view('comunes/foot');
+		}
+		else
 		{
 			$this->ojal->update($this->input->post()['costo']);
 			redirect("administracion\index\-1");
-		}		
+		}
+	}
+
+	public function ver()
+	{
+		$titulo['titulo'] = "Ver detalles de corte";
+		$this->load->view('comunes/head',$titulo);
+		$this->load->view('administracion/menu');
+		$this->load->view('comunes/ver');
+		$this->load->view('comunes/foot');
 	}
 }

@@ -20,7 +20,7 @@ class Produccion extends CI_Controller
 			);
 		elseif ($datos<0)
 			$data = array(
-				'texto1' => "Los datos", 
+				'texto1' => "Los datos",
 				'texto2' => "Se han actualizado con éxito"
 			);
 		else
@@ -29,10 +29,10 @@ class Produccion extends CI_Controller
 				'texto2' => "Se ha autorizado con éxito"
 			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/index',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function cerrar_sesion()
@@ -101,10 +101,10 @@ class Produccion extends CI_Controller
 			'texto2' => $texto2
 		);
 		$titulo['titulo'] = 'Autorizar corte';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('produccion/menu');
 		$this->load->view('produccion/cargarAutorizacion',$datos);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function cambiarPass()
@@ -119,10 +119,10 @@ class Produccion extends CI_Controller
 		{
 			$data['link'] = base_url().'index.php/produccion/cambiarPass';
 			$titulo['titulo'] = 'Cambiar contraseña';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('produccion/menu');
-			$this->load->view('cambiarPass',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarPass',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -143,10 +143,10 @@ class Produccion extends CI_Controller
 			$this->load->model('Usuarios');
 			$data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
 			$titulo['titulo'] = 'Cambiar datos personales';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('produccion/menu');
-			$this->load->view('cambiarDatos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarDatos',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 }

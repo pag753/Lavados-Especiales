@@ -13,13 +13,11 @@ class Ajax extends CI_Controller
 	//ROOT
 	public function rootReporte($folio=null)
 	{
-		if ($folio == null) 
+		if ($folio == null)
 			echo "<div class='alert alert-info' role='alert'>Favor de insertar el número de folio.</div>";
 		else
 		{
-			$this->load->model('corte');
-			$query=$this->corte->getByFolio($folio);
-			if (count($query) != 0)
+			if ($this->existeCorte($folio))
 				echo "<input type='submit' value='aceptar'/>";
 			else
 				echo "<div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div>";
@@ -30,10 +28,7 @@ class Ajax extends CI_Controller
 	{
 		if ($folio != null)
 		{
-			$this->load->model('corte');
-			$query=$this->corte->getByFolio($folio);
-			$datos['folio']=$folio;
-			if (count($query) != 0)
+			if ($this->existeCorte($folio))
 			{
 				$this->load->model('corteAutorizadoDatos');$this->load->model('corteAutorizadoDatos');
 				$query=$this->corteAutorizadoDatos->joinLavadoProcesos($folio);
@@ -205,10 +200,8 @@ class Ajax extends CI_Controller
 			else
 			{
 				//Verificar si el corte existe en la base de datos
-				$this->load->model('corte');
-				$query2 = $this->corte->getByFolio($folio);
 				$datos['folio'] = $folio;
-				if (count($query2) == 0)
+				if ($this->existeCorte($folio))
 				{
 					$info = array(
 						'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>",
@@ -362,10 +355,8 @@ class Ajax extends CI_Controller
 			else
 			{
 				//Verificar si el corte existe en la base de datos
-				$this->load->model('corte');
-				$query2 = $this->corte->getByFolio($folio);
 				$datos['folio']=$folio;
-				if (count($query2) == 0)
+				if ($this->existeCorte($folio))
 				{
 					$info = array(
 						'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>",
@@ -483,7 +474,7 @@ class Ajax extends CI_Controller
 						echo $info;
 					}
 					else
-					{						
+					{
 						$corte = $this->infoCorte($folio);
 						unset($corte['ojales']);
 						$info = array(
@@ -495,7 +486,6 @@ class Ajax extends CI_Controller
 					}
 				}
 			}
-			
 		}
 	}
 
@@ -531,10 +521,8 @@ class Ajax extends CI_Controller
 				echo "<div class='col-12'><div class='alert alert-info' role='alert'>Escriba el número de folio.</div></div>";
 			else
 			{
-				$this->load->model('corte');
-				$query=$this->corte->getByFolio($folio);
 				$datos['folio'] = $folio;
-				if (count($query) == 0)
+				if ($this->existeCorte($folio))
 					echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
 				else
 				{
@@ -598,7 +586,7 @@ class Ajax extends CI_Controller
 				$query = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros2($folio,$carga,$proceso);
 				if ($query[0]['status'] == 1)
 					echo "<div class='col-12'><input type='submit' class='btn btn-primary' value='Aceptar'/></div><input type='hidden' name='piezas' id='piezas' value='".$query[0]['piezas']."'/><input type='hidden' name='nombreCarga' id='nombreCarga' value='".$query[0]['lavado']."'/><input type='hidden' name='nombreProceso' id='nombreProceso' value='".$query[0]['proceso']."'/><input type='hidden' name='idlavado' id='idlavado' value='".$query[0]['idlavado']."'/><input type='hidden' name='orden' id='orden' value='".$query[0]['orden']."'/>";
-				else 
+				else
 					echo "<div class='col-12'><div class='alert alert-info' role='alert'>Éste proceso no está disponible.</div></div>";
 			}
 		}
@@ -614,10 +602,8 @@ class Ajax extends CI_Controller
 			$folio = $this->input->post()["folio"];
 			if ($folio != null)
 			{
-				$this->load->model('corte');
-				$query = $this->corte->getByFolio($folio);
 				$datos['folio'] = $folio;
-				if (count($query) != 0)
+				if ($this->existeCorte($folio))
 				{
 					$this->load->model('corteAutorizadoDatos');$this->load->model('corteAutorizadoDatos');
 					$query = $this->corteAutorizadoDatos->joinLavadoProcesos($folio);
@@ -648,6 +634,20 @@ class Ajax extends CI_Controller
 		}
 	}
 
+	public function detalleCorte($folio=null)
+	{
+		$folio = $this->input->post()['folio'];
+		if (!$this->input->post())
+			redirect('/');
+		else
+		{
+			if ($this->existeCorte($folio))
+				echo json_encode($this->infoCorte($folio));
+			else
+				echo json_encode(array('folio' => '', ));
+		}
+	}
+
 	//Método para recuperar datos del corte
 	private function infoCorte($folio)
 	{
@@ -671,5 +671,13 @@ class Ajax extends CI_Controller
 		$corte = $this->corte->getByFolioGeneral($folio)[0];
 		$corte['imagen'] = $imagen;
 		return $corte;
+	}
+
+	//Método que devuelve true si existe el corte en la base de datos, de lo contrario regresa false
+	private function existeCorte($folio)
+	{
+		$this->load->model('corte');
+		$query = $this->corte->getByFolio($folio);
+		return (count($query) != 0) ? true : false ;
 	}
 }

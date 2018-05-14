@@ -14,10 +14,10 @@ class Root extends CI_Controller
 	{
 		$data = array('texto1' => "Bienvenido(a) usuario", 'texto2' => $_SESSION['username']);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
-		$this->load->view('head',$titulo);
+		$this->load->view('comunes/head',$titulo);
 		$this->load->view('root/menu');
 		$this->load->view('root/index',$data);
-		$this->load->view('foot');
+		$this->load->view('comunes/foot');
 	}
 
 	public function cambiarPass()
@@ -32,10 +32,10 @@ class Root extends CI_Controller
 		{
 			$data['link'] = base_url().'index.php/root/cambiarPass';
 			$titulo['titulo'] = 'Cambiar contraseña';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('root/menu');
-			$this->load->view('cambiarPass',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarPass',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 
@@ -60,10 +60,10 @@ class Root extends CI_Controller
 				'data' => $this->Usuarios->getById($_SESSION['usuario_id'])
 			);
 			$titulo['titulo'] = 'Cambiar datos personales';
-			$this->load->view('head',$titulo);
+			$this->load->view('comunes/head',$titulo);
 			$this->load->view('root/menu');
-			$this->load->view('cambiarDatos',$data);
-			$this->load->view('foot');
+			$this->load->view('comunes/cambiarDatos',$data);
+			$this->load->view('comunes/foot');
 		}
 	}
 

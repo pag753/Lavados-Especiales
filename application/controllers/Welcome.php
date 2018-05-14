@@ -34,10 +34,10 @@ class Welcome extends CI_Controller
 						'texto2' => 'Intente de nuevo'
 					);
 					$titulo['titulo'] = 'Error de entrada de usuario';
-					$this->load->view('head',$titulo);
+					$this->load->view('comunes/head',$titulo);
 					$this->load->view('welcome/menu');
 					$this->load->view('welcome/index',$info);
-					$this->load->view('foot');
+					$this->load->view('comunes/foot');
 				}
 			}
 			else
@@ -47,10 +47,10 @@ class Welcome extends CI_Controller
 					'texto2' => 'Lavados especiales'
 				);
 				$titulo['titulo'] = 'Bienvenido a lavados especiales';
-				$this->load->view('head',$titulo);
+				$this->load->view('comunes/head',$titulo);
 				$this->load->view('welcome/menu');
 				$this->load->view('welcome/index',$info);
-				$this->load->view('foot');
+				$this->load->view('comunes/foot');
 			}
 		}
 		else $this->sesion();
