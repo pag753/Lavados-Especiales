@@ -25,6 +25,8 @@ class Corte extends CI_Model
 			'piezas' => $datos['piezas'],
 			'ojales' => $datos['cantidadOjales'],
 		);
+		if ($data['marca_id'] == 0)
+			unset($data['marca_id']);
 		$this->db->insert('corte',$data);
 		return $data;
 	}
@@ -33,6 +35,8 @@ class Corte extends CI_Model
 		$query = $this->db->get_where('corte', array('folio' => $folio));
 		return $query->result_array();
 	}
+
+	//Método que recupera los datos generales del corte
 	public function getByFolioGeneral($folio)
 	{
 		$this->db->select('
@@ -55,6 +59,16 @@ class Corte extends CI_Model
 		->where('corte.folio',$folio);
 		return $this->db->get()->result_array();
 	}
+
+	//Modificar corte
+	public function update($data)
+    {
+		$this->db->where('folio', $data['folio']);
+		unset($data['folio']);
+      	$this->db->update('corte', $data);
+    }
+
+	//Reportes
 	public function reporte1($datos)
 	{
 		//Cortes en almacen
@@ -146,7 +160,7 @@ class Corte extends CI_Model
 		->join('corte_autorizado','corte.folio = corte_autorizado.corte_folio')
 		->join('salida_interna1','corte.folio = salida_interna1.corte_folio', 'left')
 		->where('salida_interna1.corte_folio IS NULL')
-		->where($datos)		
+		->where($datos)
 		->where('corte.fecha_entrada>=',$fechai)
 		->where('corte.fecha_entrada<=',$fechaf)
 		->order_by('corte.folio','ASC');

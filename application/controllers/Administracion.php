@@ -8,26 +8,26 @@ class Administracion extends CI_Controller
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
 		if ($idusuario!=1 && $idusuario!=5)
-			redirect('/');
+		redirect('/');
 	}
 
 	public function index($datos=null)
 	{
 		if ($datos == null)
-			$data = array(
-				'texto1' => 'Bienvenido(a)',
-				'texto2' => $_SESSION['username']
-			);
+		$data = array(
+			'texto1' => 'Bienvenido(a)',
+			'texto2' => $_SESSION['username']
+		);
 		elseif ($datos == -1)
-			$data = array(
-				'texto1' => 'Los datos',
-				'texto2' => 'Se han registrado con éxito'
-			);
+		$data = array(
+			'texto1' => 'Los datos',
+			'texto2' => 'Se han registrado con éxito'
+		);
 		else
-			$data = array(
-				'texto1' => "El corte con folio ".$datos,
-				'texto2' => "Se ha registrado con éxito"
-			);
+		$data = array(
+			'texto1' => "El corte con folio ".$datos,
+			'texto2' => "Se ha registrado con éxito"
+		);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
@@ -47,13 +47,13 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model('corteAutorizadoDatos');
 			foreach ($this->input->post()['costo'] as $key => $value)
-				$query=$this->corteAutorizadoDatos->actualizaCosto(
-					$this->input->post()['folio'],
-					$this->input->post()['carga'],
-					$key,
-					$value,
-					$this->input->post()['idlavado']
-				);
+			$query=$this->corteAutorizadoDatos->actualizaCosto(
+				$this->input->post()['folio'],
+				$this->input->post()['carga'],
+				$key,
+				$value,
+				$this->input->post()['idlavado']
+			);
 			redirect('/administracion/index/'.$this->input->post()['folio']);
 		}
 		else
@@ -99,7 +99,7 @@ class Administracion extends CI_Controller
 					}
 				}
 				if (!$ban)
-					$imagen = "No hay imagen";
+				$imagen = "No hay imagen";
 				$datos['imagen'] = $imagen;
 				$this->load->view('comunes/head');
 				$this->load->view('administracion/menu');
@@ -218,7 +218,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosClientes");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarCliente()
@@ -235,7 +235,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosClientes");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoLavado()
@@ -248,7 +248,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosLavados");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarLavado()
@@ -263,7 +263,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosLavados");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoMaquilero()
@@ -280,7 +280,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosMaquileros");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarMaquilero()
@@ -297,7 +297,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosMaquileros");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoMarca()
@@ -313,7 +313,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosMarcas");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarMarca()
@@ -329,7 +329,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosMarcas");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoProceso()
@@ -346,7 +346,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosProcesos");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarProceso()
@@ -363,7 +363,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosProcesos");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoTipo()
@@ -376,7 +376,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosTipos");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarTipo()
@@ -391,7 +391,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosTipos");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function nuevoUsuario()
@@ -412,7 +412,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosUsuarios");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function editarUsuario()
@@ -433,7 +433,7 @@ class Administracion extends CI_Controller
 			redirect("/administracion/catalogosUsuarios");
 		}
 		else
-			redirect("/");
+		redirect("/");
 	}
 
 	public function cambiarPass()
@@ -489,7 +489,7 @@ class Administracion extends CI_Controller
 		{
 			$id=$this->input->get()['id'];
 			if ($id=='')
-				redirect("/");
+			redirect("/");
 			else
 			{
 				$this->load->model("Descuentos");
@@ -497,7 +497,7 @@ class Administracion extends CI_Controller
 				$data['descuentos'] = $this->Descuentos->getByIdUsuario($id);
 				$data['usuario'] = $this->Usuarios->getById($id);;
 				if (count($data['usuario'])==0)
-					redirect("/");
+				redirect("/");
 				else
 				{
 					$titulo="Descuentos del operario ".$data['usuario'][0]['nombre'];
@@ -523,7 +523,7 @@ class Administracion extends CI_Controller
 	public function editarDescuento()
 	{
 		if (!$this->input->post())
-			redirect("/");
+		redirect("/");
 		else
 		{
 			$this->load->model("Descuentos");
@@ -540,7 +540,7 @@ class Administracion extends CI_Controller
 	public function nuevoDescuento()
 	{
 		if (!$this->input->post())
-			redirect("/");
+		redirect("/");
 		else
 		{
 			$this->load->model("Descuentos");
@@ -558,7 +558,7 @@ class Administracion extends CI_Controller
 	public function eliminarDescuento()
 	{
 		if (!$this->input->post())
-			redirect("/");
+		redirect("/");
 		else
 		{
 			$id=$this->input->post()['id'];
@@ -593,5 +593,304 @@ class Administracion extends CI_Controller
 		$this->load->view('administracion/menu');
 		$this->load->view('comunes/ver');
 		$this->load->view('comunes/foot');
+	}
+
+	//Funciones para modificar corte
+	public function modificar()
+	{
+		if ($this->input->get())
+		{
+			//Cargar modelos
+			$this->load->model(array('Cliente','Lavado','Maquilero','Marca','ProcesoSeco','Tipo_pantalon','Corte','corteAutorizado','Usuarios','CorteAutorizadoDatos','SalidaInterna1','SalidaInterna1Datos','ProduccionProcesoSeco'));
+			$folio = $this->input->get()['folio'];
+			if($folio == '')
+				redirect('/');
+			//DETALLES DEL CORTE
+			$corte = $this->Corte->getByFolio($folio);
+			if(count($corte) == 0)
+				redirect('/');
+			$corte = $corte[0];
+			$extensiones = array("jpg","jpeg","png");
+			$ban=false;
+			foreach ($extensiones as $key2 => $extension)
+			{
+				$url = base_url()."img/fotos/".$folio.".".$extension;
+				$headers = get_headers($url);
+				if (stripos($headers[0],"200 OK"))
+				{
+					$ban=true;
+					$imagen="<img src='".base_url()."img/fotos/".$folio.".".$extension."' class='img-fluid' alt='Responsive image'>";
+					break;
+				}
+			}
+			if (!$ban)
+				$imagen="No hay imágen";
+			$corte['imagen'] = $imagen;
+			$data['generales'] = $corte;
+			$data['clientes'] = $this->Cliente->get();
+			$data['lavados'] = $this->Lavado->get();
+			$data['maquileros'] = $this->Maquilero->get();
+			$data['marcas'] = $this->Marca->get();
+			$data['procesosecos'] = $this->ProcesoSeco->get();
+			$data['tipo'] = $this->Tipo_pantalon->get();
+			$data['usuarios'] =$this->Usuarios->get();
+			//Cargar datos de autorización de corte
+			$autorizado = $this->corteAutorizado->getByFolio($folio);
+			if (count($autorizado) == 0)
+				$data['autorizado'] = 0;
+			else
+				$data['autorizado'] = $autorizado[0];
+			//Cargar autorización datos de corte
+			$autorizadoDatos = $this->CorteAutorizadoDatos->getByFolio($folio);
+			if (count($autorizadoDatos) == 0)
+				$data['autorizadoDatos'] = 0;
+			else
+				$data['autorizadoDatos'] = $autorizadoDatos;
+			//Cargar Salida Interna
+			$salidaInterna = $this->SalidaInterna1->getByFolio($folio);
+			if (count($salidaInterna) == 0)
+				$data['salidaInterna'] = 0;
+			else
+				$data['salidaInterna'] = $salidaInterna[0];
+			//Cargar Salida Interna Datos
+			$salidaInternaDatos = $this->SalidaInterna1Datos->getByFolioEspecifico($folio);
+			if (count($salidaInternaDatos) == 0)
+				$data['salidaInternaDatos'] = 0;
+			else
+				$data['salidaInternaDatos'] = $salidaInternaDatos;
+			//Cargar datos de producción de proceso seco
+			$produccionProcesoSeco = $this->ProduccionProcesoSeco->seleccionReporte($folio);
+			if (count($produccionProcesoSeco) == 0)
+				$data['produccionProcesoSeco'] = 0;
+			else
+				$data['produccionProcesoSeco'] = $produccionProcesoSeco;
+			//Cargar los lavados del corte con sus cargas
+			$lavadosCorte = $this->CorteAutorizadoDatos->getLavadosByFolio($folio);
+			if (count($lavadosCorte) == 0)
+				$data['lavadosCorte'] = 0;
+			else
+				$data['lavadosCorte'] = $lavadosCorte;
+			//CARGAR VISTAS
+			$titulo['titulo'] = "Modificar Corte con folio ".$this->input->get()['folio'];
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/modificarCorte',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			//Cargar vistas
+			$titulo['titulo'] = "Modificar Corte";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/modificar');
+			$this->load->view('comunes/foot');
+		}
+	}
+
+	public function modificarGenerales()
+	{
+		if (!$this->input->post())
+		redirect('/');
+		$this->load->Model('Corte');
+		$this->Corte->update($this->input->post());
+		return json_encode(array('respuesta' => true, ));
+	}
+
+	public function modificarImagen()
+	{
+		if (!$this->input->post())
+		redirect('/');
+		else {
+			$folio = $this->input->post()['folioCambiarImagen'];
+			//Eliminar la imágen actualizaCosto
+			$extensiones = array("jpg","jpeg","png");
+			foreach ($extensiones as $key2 => $extension)
+			{
+				//$ruta = __DIR__."../../img/fotos/".$folio.".".$extension;
+				$ruta = "img/fotos/".$folio.".".$extension;
+				if (is_file($ruta))
+				{
+					unlink($ruta);
+					break;
+				}
+			}
+			//Subir la imagen nueva
+			$mi_imagen = 'mi_imagen';
+			$config = array(
+				'upload_path' => "img/fotos",
+				'file_name' => $folio,
+				'allowed_types' => "gif|jpg|jpeg|png",
+				'max_size' => "500000",
+				'max_width' => "20000",
+				'max_height' => "20000"
+			);
+			$this->load->library('upload', $config);
+			if (!$this->upload->do_upload($mi_imagen))
+			$data['uploadError'] = $this->upload->display_errors();
+			$data['uploadSuccess'] = $this->upload->data();
+			//Retornar
+			$this->redirigeModificarCorte();
+		}
+	}
+
+	public function editarAutorizacion()
+	{
+		if (!$this->input->post())
+		redirect('/');
+		$this->load->model('CorteAutorizado');
+		$this->CorteAutorizado->update($this->input->post());
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function eliminarAutorizacion()
+	{
+		if (!$this->input->post())
+		redirect('/');
+		$folio = $this->input->post()['folio'];
+		$this->load->model(array('ProduccionProcesoSeco','SalidaInterna1Datos','SalidaInterna1','CorteAutorizadoDatos','CorteAutorizado'));
+		//Eliminar datos de producción de proceso Seco
+		$this->ProduccionProcesoSeco->deleteByFolio($folio);
+		//Eliminar datos de salida interna
+		$this->SalidaInterna1Datos->deleteByFolio($folio);
+		$this->SalidaInterna1->deleteByFolio($folio);
+		//Eliminar datos de corte autorizado
+		$this->CorteAutorizadoDatos->deleteByFolio($folio);
+		$this->CorteAutorizado->deleteByFolio($folio);
+		//Enviar respuesta
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function editarAutorizacionDatos()
+	{
+		if (!$this->input->post())
+		redirect("/");
+		$this->load->model("CorteAutorizadoDatos");
+		$this->CorteAutorizadoDatos->update($this->input->post());
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function eliminarAutorizacionDatos()
+	{
+		if (!$this->input->post())
+		redirect("/");
+		$this->load->model("CorteAutorizadoDatos");
+		$this->CorteAutorizadoDatos->deleteByID($this->input->post()['id']);
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function editarSalidaInterna()
+	{
+		if (!$this->input->post())
+		redirect("/");
+		$this->load->model("SalidaInterna1");
+		$this->SalidaInterna1->update($this->input->post());
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function eliminarSalidaInterna()
+	{
+		if (!$this->input->post())
+		redirect('/');
+		$folio = $this->input->post()['folio'];
+		$this->load->model(array('ProduccionProcesoSeco','SalidaInterna1Datos','SalidaInterna1'));
+		//Eliminar datos de producción de proceso Seco
+		$this->ProduccionProcesoSeco->deleteByFolio($folio);
+		//Eliminar datos de salida interna
+		$this->SalidaInterna1Datos->deleteByFolio($folio);
+		$this->SalidaInterna1->deleteByFolio($folio);
+		//Enviar respuesta
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function editarSalidaInternaDatos()
+	{
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model(array("SalidaInterna1Datos"));
+		//Actualizar salida_interna1_datos(piezas) con : id_carga, corte_folio
+		$data = array(
+			'piezas' => $this->input->post()['piezas'],
+			'id_carga' => $this->input->post()['id_carga'],
+			'corte_folio' => $this->input->post()['folio'],
+		);
+		$this->SalidaInterna1Datos->updateAdministracion($data);
+		//Regresar
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function editarLavadoCorte()
+	{
+		if (!$this->input->post())
+			redirect('/');
+			$this->load->model(array("CorteAutorizadoDatos","SalidaInterna1Datos","ProduccionProcesoSeco"));
+			//Actualizar corte_autorizado_datos(lavado_id) con: corte_folio, id_carga
+			$data  = array(
+				'lavado_id' => $this->input->post()['lavado_id'],
+				'corte_folio' => $this->input->post()['folio'],
+				'id_carga' => $this->input->post()['id_carga'],
+			);
+			$this->CorteAutorizadoDatos->updateAdministracion($data);
+			//Actualizar produccion_proceso_seco(lavado_id) con: carga, corte_folio
+			$data = array(
+				'lavado_id' => $this->input->post()['lavado_id'],
+				'carga' => $this->input->post()['id_carga'],
+				'corte_folio' => $this->input->post()['folio'],
+			);
+			$this->ProduccionProcesoSeco->updateAdministracion($data);
+			//Regresar
+			echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function eliminarLavadoCorte()
+	{
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model(array("CorteAutorizadoDatos","SalidaInterna1Datos","ProduccionProcesoSeco","CorteAutorizado"));
+		//Eliminar corte_autorizado_datos con: corte_folio, id_carga
+		$data  = array(
+			'corte_folio' => $this->input->post()['folio'],
+			'id_carga' => $this->input->post()['id_carga'],
+		);
+		$this->CorteAutorizadoDatos->deleteAdministracion($data);
+		//Eliminar salida_interna1_datos con : id_carga, corte_folio
+		$data = array(
+			'id_carga' => $this->input->post()['id_carga'],
+			'corte_folio' => $this->input->post()['folio'],
+		);
+		$this->SalidaInterna1Datos->deleteAdministracion($data);
+		//Eliminar produccion_proceso_seco con: carga, corte_folio
+		$data = array(
+			'carga' => $this->input->post()['id_carga'],
+			'corte_folio' => $this->input->post()['folio'],
+		);
+		$this->ProduccionProcesoSeco->deleteAdministracion($data);
+		//Disminuir en 1 las cargas
+		$this->CorteAutorizado->disminuyeCargasEn1($this->input->post()['folio']);
+		//Regresar
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function editarProduccion() {
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model("ProduccionProcesoSeco");
+		$this->ProduccionProcesoSeco->updateById($this->input->post());
+		//Regresar
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function eliminarProduccion() {
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model("ProduccionProcesoSeco");
+		$this->ProduccionProcesoSeco->deleteById($this->input->post()['id']);
+		//Regresar
+		echo json_encode(array('respuesta' => true, ));
+	}
+
+	private function redirigeModificarCorte()
+	{
+		redirect('/administracion/modificar?folio='.$this->input->post()['folio']);
 	}
 }

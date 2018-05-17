@@ -115,6 +115,7 @@ class Gestion extends CI_Controller
 			//$f = explode("/",$this->input->post()['fecha']);
 			$data['fecha'] = date("Y-m-d");
 			$data['muestras'] = $this->input->post()['muestras'];
+			$data['usuario_id'] = $_SESSION['usuario_id'];
 			$this->load->model('salidaInterna1');
 			$this->salidaInterna1->agregar($data);
 			$data = null;

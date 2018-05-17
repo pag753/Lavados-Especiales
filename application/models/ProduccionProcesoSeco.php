@@ -17,6 +17,13 @@ class ProduccionProcesoSeco extends CI_Model
     ));
     return $query->result_array();
   }
+  public function getByFolio($folio)
+  {
+    $query = $this->db->get_where(
+      'produccion_proceso_seco',
+      array('corte_folio' => $folio));
+    return $query->result_array();
+  }
 
   public function seleccionDefinida2($usuario,$folio,$carga)
   {
@@ -90,6 +97,7 @@ class ProduccionProcesoSeco extends CI_Model
   public function seleccionReporte($folio)
   {
     $this->db->select('
+      produccion_proceso_seco.id as id,
       usuario.nombre as usuario,
       lavado.id as idlavado,
       lavado.nombre as lavado,
@@ -131,8 +139,43 @@ class ProduccionProcesoSeco extends CI_Model
     ->where('t4.status=',2)
     ->order_by('t1.corte_folio')
     ->order_by('t2.nombre')
-    ->order_by('t3.nombre');;    
+    ->order_by('t3.nombre');;
     return $this->db->get()->result_array();
   }
 
+  public function deleteByFolio($folio)
+  {
+    $this->db->where('corte_folio', $folio);
+    $this->db->delete('produccion_proceso_seco');
+  }
+
+  public function updateAdministracion($data)
+  {
+    $this->db->where('carga', $data['carga']);
+    $this->db->where('corte_folio', $data['corte_folio']);
+    unset($data['carga']);
+    unset($data['corte_folio']);
+    $this->db->set($data);
+    $this->db->update('produccion_proceso_seco');
+  }
+
+  public function deleteAdministracion($data)
+  {
+    $this->db->where($data);
+    $this->db->delete('produccion_proceso_seco');
+  }
+
+  public function updateById($data)
+  {
+    $this->db->where('id', $data['id']);
+    unset($data['id']);
+    $this->db->set($data);
+    $this->db->update('produccion_proceso_seco');
+  }
+
+  public function deleteById($id)
+  {
+    $this->db->where('id', $id);
+    $this->db->delete('produccion_proceso_seco');
+  }
 }

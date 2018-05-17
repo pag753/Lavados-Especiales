@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/ver">Ver detalles de corte</a>
+                    <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/modificar">Modificar corte</a>
                     <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/costos">Reasignación de costos</a>
                     <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/descuentos">Descuentos</a>
                     <a class="dropdown-item" href="<?php echo base_url()?>index.php/administracion/ojal">Costo de ojal</a>

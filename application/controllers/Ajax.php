@@ -522,7 +522,7 @@ class Ajax extends CI_Controller
 			else
 			{
 				$datos['folio'] = $folio;
-				if ($this->existeCorte($folio))
+				if (!$this->existeCorte($folio))
 					echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
 				else
 				{
@@ -636,6 +636,8 @@ class Ajax extends CI_Controller
 
 	public function detalleCorte($folio=null)
 	{
+		if (!$this->input->post())
+			redirect("/");
 		$folio = $this->input->post()['folio'];
 		if (!$this->input->post())
 			redirect('/');
@@ -665,7 +667,7 @@ class Ajax extends CI_Controller
 			}
 		}
 		if (!$ban)
-			$imagen="No hay imagen";
+			$imagen="No hay imágen";
 		//Información del corte
 		$this->load->model("corte");
 		$corte = $this->corte->getByFolioGeneral($folio)[0];
@@ -678,6 +680,6 @@ class Ajax extends CI_Controller
 	{
 		$this->load->model('corte');
 		$query = $this->corte->getByFolio($folio);
-		return (count($query) != 0) ? true : false ;
+		return (count($query) != 0);
 	}
 }

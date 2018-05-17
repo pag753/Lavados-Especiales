@@ -275,4 +275,50 @@ class CorteAutorizadoDatos extends CI_Model
     $query = $this->db->get_where('corte_autorizado_datos',$data);
     return $query->result_array();
   }
+
+  public function deleteByFolio($folio)
+  {
+    $this->db->where('corte_folio', $folio);
+    $this->db->delete('corte_autorizado_datos');
+  }
+
+  public function update($data)
+  {
+    $this->db->where('id', $data['id']);
+    unset($data['id']);
+    $this->db->set($data);
+    $this->db->update('corte_autorizado_datos');
+  }
+
+  public function deleteByID($id)
+  {
+    $this->db->where('id', $id);
+    $this->db->delete('corte_autorizado_datos');
+  }
+
+  public function updateAdministracion($data)
+  {
+    $this->db->where('id_carga', $data['id_carga']);
+    $this->db->where('corte_folio', $data['corte_folio']);
+    unset($data['id_carga']);
+    unset($data['corte_folio']);
+    $this->db->set($data);
+    $this->db->update('corte_autorizado_datos');
+  }
+
+  public function deleteAdministracion($data)
+  {
+    $this->db->where($data);
+    $this->db->delete('corte_autorizado_datos');
+  }
+
+  public function getLavadosByFolio($folio)
+  {
+    $this->db->distinct()
+    ->select('corte_autorizado_datos.id_carga , corte_autorizado_datos.lavado_id, lavado.nombre')
+    ->from('corte_autorizado_datos')
+    ->join('lavado','corte_autorizado_datos.lavado_id = lavado.id')
+    ->where('corte_autorizado_datos.corte_folio',$folio);
+    return $this->db->get()->result_array(); 
+  }
 }

@@ -24,7 +24,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
   }
   $(document).ready(function() {
-
     $('#tabla').DataTable({
       language: {
         "sProcessing": "Procesando...",

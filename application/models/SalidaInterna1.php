@@ -21,4 +21,17 @@ class SalidaInterna1 extends CI_Model
         $data=$this->db->insert('salida_interna1',$datos);
         return $data;
     }
+
+    public function deleteByFolio($folio)
+    {
+      $this->db->where('corte_folio', $folio);
+      $this->db->delete('salida_interna1');
+    }
+
+    public function update($data)
+    {
+      $this->db->where('corte_folio', $data['corte_folio']);
+  		unset($data['corte_folio']);
+      $this->db->update('salida_interna1', $data);
+    }
 }

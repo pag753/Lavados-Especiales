@@ -56,6 +56,7 @@ class Produccion extends CI_Controller
 			{
 				$data['cargas'] = count($this->input->post()['lavado']);
 				$this->load->model('corteAutorizadoDatos');
+				$data['usuario_id'] = $_SESSION['usuario_id'];
 				$this->corteAutorizado->agregar($data);
 				$data = null;
 				$data['corte_folio'] = $datos['datos_corte']['folio'];
@@ -76,6 +77,7 @@ class Produccion extends CI_Controller
 							$data['status'] = 2;
 						else
 							$data['status'] = 0;
+						$data['usuario_id'] = $_SESSION['usuario_id'];
 						$n = $this->corteAutorizadoDatos->agregar($data);
 					}
 					$contador++;
