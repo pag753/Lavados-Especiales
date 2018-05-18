@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   });
 </script>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-10 col-md-12 offset-lg-1">
       <div class="card">
@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           <?php endif; ?>
           <div class="card-body">
-            <form action="<?php echo base_url(); ?>index.php/operario/registro" method="post" enctype="multipart/form-data">
+            <form action="registro" method="post" enctype="multipart/form-data">
               <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
               <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
               <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>

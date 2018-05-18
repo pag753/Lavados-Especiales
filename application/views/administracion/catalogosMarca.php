@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   });
 </script>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-10 col-md-10 col-xs-6 offset-lg-1 offset-md-1 offset-xs-3">
       <div class="col-12">
@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?php echo base_url(); ?>index.php/administracion/nuevoMarca" method="post" enctype="multipart/form-data">
+        <form action="nuevoMarca" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Nombre</label>
             <div class="col-9">
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?php echo base_url(); ?>index.php/administracion/editarMarca" method="post" enctype="multipart/form-data">
+        <form action="editarMarca" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id" id="id">
           <div class="form-group row">
             <label for="nombreE" class="col-3 col-form-label">Nombre</label>

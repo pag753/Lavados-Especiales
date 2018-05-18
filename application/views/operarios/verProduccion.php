@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3>Ver Producción</h3>
@@ -13,7 +13,7 @@
         <div class="form-group row">
          <label for="fechaFinal" class="col-3 col-form-label">Fecha final</label>
          <div class="col-9">
-          <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal"> 
+          <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal">
          </div>
        </div>
        <input type="submit" name="aceptar" value="Generar" class="btn btn-primary">

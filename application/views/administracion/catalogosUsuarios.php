@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#direccionE').val($('#direccion'+id).text());
     $('#telefonoE').val($('#telefono'+id).text());
     if ($('#activo'+id).text() == 'No')
-      $('#activoE').val(0);  
+      $('#activoE').val(0);
     else
       $('#activoE').val(1);
     $('#id').val(id);
@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   });
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-md-12">
       <div class="col-12">
@@ -121,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form  id="new" name="new" action="<?php echo base_url(); ?>index.php/administracion/nuevoUsuario" method="post" enctype="multipart/form-data">
+        <form  id="new" name="new" action="nuevoUsuario" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Usuario</label>
             <div class="col-9">
@@ -190,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form action="<?php echo base_url(); ?>index.php/administracion/editarUsuario" method="post" enctype="multipart/form-data">
+        <form action="editarUsuario" method="post" enctype="multipart/form-data">
           <input type="hidden" name="id" id="id">
           <div class="form-group row">
             <label for="nombreE" class="col-3 col-form-label">Usuario</label>

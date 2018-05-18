@@ -45,7 +45,7 @@ $(document).ready(function(){
     });
 });
 </script>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3 offset-lg-3 offset-xl-3">
             <div class="card">

@@ -72,7 +72,7 @@ if(!isset($folio)):
       });
     });
   </script>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
         <h3>Alta de producción</h3>
@@ -94,7 +94,7 @@ if(!isset($folio)):
     </div>
   </div>
 <?php else: ?>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
         <h3>Alta de producción</h3>

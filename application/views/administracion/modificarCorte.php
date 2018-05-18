@@ -395,7 +395,7 @@ $(document).ready(function() {
 <input type="hidden" name="folio" id="folio" value="<?php echo $this->input->get()['folio']; ?>">
 <div class="container-fluid">
   <div class="row">
-    <div class="col-2 hidden-lg-down" id="myScrollspy" style="background: rgba(255, 255, 255, 0.7)">
+    <div class="hidden-lg-down col-2" id="myScrollspy" style="background: rgba(255, 255, 255, 0.7)">
       <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <li class="nav-item">
           <a class="nav-link" href="#seccion1" aria-controls="seccion1" aria-selected="true">Datos generales</a>
@@ -1090,22 +1090,20 @@ $(document).ready(function() {
                           <table class="table">
                             <tbody>
                               <tr>
-                                <tr>
-                                  <td># Piezas para el lavado</td>
-                                  <td>
-                                    <input value="0" class="form-control" required placeholder="Escribe el número de piezas" type="number" name="piezasLavadoNuevo" id="piezasLavadoNuevo">
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>Abrir con el proceso</td>
-                                  <td>
-                                    <select class="form-control" name="abrirConProceso" id="abrirConProceso">
-                                      <?php foreach ($procesosecos as $key => $value): ?>
-                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                                      <?php endforeach; ?>
-                                    </select>
-                                  </td>
-                                </tr>
+                                <td># Piezas para el lavado</td>
+                                <td>
+                                  <input value="0" class="form-control" required placeholder="Escribe el número de piezas" type="number" name="piezasLavadoNuevo" id="piezasLavadoNuevo">
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Abrir con el proceso</td>
+                                <td>
+                                  <select class="form-control" name="abrirConProceso" id="abrirConProceso">
+                                    <?php foreach ($procesosecos as $key => $value): ?>
+                                      <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                                    <?php endforeach; ?>
+                                  </select>
+                                </td>
                               </tr>
                             </tbody>
                           </table>

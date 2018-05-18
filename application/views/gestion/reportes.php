@@ -17,10 +17,10 @@ $input_fechaf = array(
   'class' => 'form-control',
 );
 ?>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="<?php echo base_url(); ?>index.php/Gestion/generaReporte/" method="post" enctype="multipart/form-data" target="_blank">
+      <form action="generaReporte" method="post" enctype="multipart/form-data" target="_blank">
         <h1>Generar Reporte</h1>
         <div class="form-group row">
           <label for="reporte" class="col-3 col-form-label">Tipo de Reporte</label>

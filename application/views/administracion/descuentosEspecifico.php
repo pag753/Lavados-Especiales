@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     if (r) {
       $.ajax({
         type: "POST",
-        url: "<?php echo base_url() ?>index.php/administracion/eliminarDescuento",
+        url: "eliminarDescuento",
         data: { "id": id },
         success: function(res) {
           location.reload();
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   });
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-md-12">
       <div class="col-12">
@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form  id="new" name="new" action="<?php echo base_url(); ?>index.php/administracion/nuevoDescuento" method="post" enctype="multipart/form-data">
+        <form  id="new" name="new" action="nuevoDescuento" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="razon" class="col-3 col-form-label">Razón</label>
             <div class="col-9">
@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <form  id="edit" name="edit" action="<?php echo base_url(); ?>index.php/administracion/editarDescuento" method="post" enctype="multipart/form-data">
+        <form  id="edit" name="edit" action="editarDescuento" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="razonE" class="col-3 col-form-label">Razón</label>
             <div class="col-9">

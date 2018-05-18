@@ -35,10 +35,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   });
 </script>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="<?php echo base_url(); ?>index.php/Gestion/salidaExterna/" method="post" enctype="multipart/form-data">
+      <form action="salidaExterna" method="post" enctype="multipart/form-data">
         <h1>Salida Externa</h1>
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </button>
       </div>
       <div class="modal-body">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row">
             <div class="col-12">
               <table class="table table-striped table-bordered">
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </div>
         </div>
-      </div>  
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>

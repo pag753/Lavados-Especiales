@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   });
 </script>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-12">
       <div class="card">
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
           </div>
         </div>
-      </div>  
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>

@@ -108,4 +108,14 @@ class Usuarios extends CI_Model
         ->order_by('nombre');
         return $this->db->get()->result_array();
     }
+
+    public function getOperarios()
+    {
+        $this->db->select()
+        ->from('usuario')
+        ->where('tipo_usuario_id',4)
+        ->or_where('tipo_usuario_id',6)
+        ->order_by('nombre');
+        return $this->db->get()->result_array();
+    }
 }

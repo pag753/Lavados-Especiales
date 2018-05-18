@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3><?php echo $texto1 ?></h3>
-      <form action="<?php echo base_url(); ?>index.php/administracion/costos/<?php echo $folio."_".$carga ?>" method="post" enctype="multipart/form-data">
+      <form action="costos/<?php echo $folio."_".$carga ?>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="folio" id="folio" value="<?php echo $folio; ?>"/>
         <input type="hidden" name="corte" id="corte" value="<?php echo $corte; ?>"/>
         <input type="hidden" name="marca" id="marca" value="<?php echo $marca; ?>"/>

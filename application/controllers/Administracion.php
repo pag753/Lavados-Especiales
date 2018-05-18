@@ -894,15 +894,8 @@ class Administracion extends CI_Controller
 	{
 		if (!$this->input->post())
 			redirect("/");
-		/*
-		Array ( [lavadoProcesoNuevo] => 11
-		[procesoNuevo] => Array ( [0] => 27 [1] => 28 [2] => 14 )
-		[checkSalidaInterna] => on
-		[piezasLavadoNuevo] => 100 [abrirConProceso] => 2 [editarDatosCorteAutorizado] => )
-		corteFolioNuevoLavado
-		*/
-		//Aumentar la cargas
 		$this->load->model(array('CorteAutorizado','CorteAutorizadoDatos','ProcesoSeco'));
+		//Aumentar la cargas
 		$this->CorteAutorizado->aumentaCargasEn1($this->input->post()['corteFolioNuevoLavado']);
 		//Agregar en corte_autorizado_datos
 		//Encontrar el id de la carga mas alta

@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   });
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-md-12">
       <div class="col-12">
