@@ -139,7 +139,7 @@ class ProduccionProcesoSeco extends CI_Model
     ->where('t4.status=',2)
     ->order_by('t1.corte_folio')
     ->order_by('t2.nombre')
-    ->order_by('t3.nombre');;
+    ->order_by('t3.nombre');
     return $this->db->get()->result_array();
   }
 

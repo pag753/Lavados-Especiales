@@ -8,26 +8,26 @@ class Administracion extends CI_Controller
 		parent::__construct();
 		$idusuario=$_SESSION['id'];
 		if ($idusuario!=1 && $idusuario!=5)
-		redirect('/');
+			redirect('/');
 	}
 
 	public function index($datos=null)
 	{
 		if ($datos == null)
-		$data = array(
-			'texto1' => 'Bienvenido(a)',
-			'texto2' => $_SESSION['username']
-		);
+			$data = array(
+				'texto1' => 'Bienvenido(a)',
+				'texto2' => $_SESSION['username']
+			);
 		elseif ($datos == -1)
-		$data = array(
-			'texto1' => 'Los datos',
-			'texto2' => 'Se han registrado con éxito'
-		);
+			$data = array(
+				'texto1' => 'Los datos',
+				'texto2' => 'Se han registrado con éxito'
+			);
 		else
-		$data = array(
-			'texto1' => "El corte con folio ".$datos,
-			'texto2' => "Se ha registrado con éxito"
-		);
+			$data = array(
+				'texto1' => "El corte con folio ".$datos,
+				'texto2' => "Se ha registrado con éxito"
+			);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
@@ -38,7 +38,7 @@ class Administracion extends CI_Controller
 	public function cerrar_sesion()
 	{
 		$this->session->sess_destroy();
-		redirect('/');
+			redirect('/');
 	}
 
 	public function costos()
@@ -489,7 +489,7 @@ class Administracion extends CI_Controller
 		{
 			$id=$this->input->get()['id'];
 			if ($id=='')
-			redirect("/");
+				redirect("/");
 			else
 			{
 				$this->load->model("Descuentos");
@@ -497,7 +497,7 @@ class Administracion extends CI_Controller
 				$data['descuentos'] = $this->Descuentos->getByIdUsuario($id);
 				$data['usuario'] = $this->Usuarios->getById($id);;
 				if (count($data['usuario'])==0)
-				redirect("/");
+					redirect("/");
 				else
 				{
 					$titulo="Descuentos del operario ".$data['usuario'][0]['nombre'];
@@ -523,7 +523,7 @@ class Administracion extends CI_Controller
 	public function editarDescuento()
 	{
 		if (!$this->input->post())
-		redirect("/");
+			redirect("/");
 		else
 		{
 			$this->load->model("Descuentos");
@@ -540,7 +540,7 @@ class Administracion extends CI_Controller
 	public function nuevoDescuento()
 	{
 		if (!$this->input->post())
-		redirect("/");
+			redirect("/");
 		else
 		{
 			$this->load->model("Descuentos");
@@ -558,7 +558,7 @@ class Administracion extends CI_Controller
 	public function eliminarDescuento()
 	{
 		if (!$this->input->post())
-		redirect("/");
+			redirect("/");
 		else
 		{
 			$id=$this->input->post()['id'];
@@ -632,6 +632,7 @@ class Administracion extends CI_Controller
 			$data['maquileros'] = $this->Maquilero->get();
 			$data['marcas'] = $this->Marca->get();
 			$data['procesosecos'] = $this->ProcesoSeco->get();
+			$data['jsonProcesos'] = json_encode($data['procesosecos']);
 			$data['tipo'] = $this->Tipo_pantalon->get();
 			$data['usuarios'] =$this->Usuarios->get();
 			//Cargar datos de autorización de corte
@@ -887,6 +888,89 @@ class Administracion extends CI_Controller
 		$this->ProduccionProcesoSeco->deleteById($this->input->post()['id']);
 		//Regresar
 		echo json_encode(array('respuesta' => true, ));
+	}
+
+	public function agregarLavado()
+	{
+		if (!$this->input->post())
+			redirect("/");
+		/*
+		Array ( [lavadoProcesoNuevo] => 11
+		[procesoNuevo] => Array ( [0] => 27 [1] => 28 [2] => 14 )
+		[checkSalidaInterna] => on
+		[piezasLavadoNuevo] => 100 [abrirConProceso] => 2 [editarDatosCorteAutorizado] => )
+		corteFolioNuevoLavado
+		*/
+		//Aumentar la cargas
+		$this->load->model(array('CorteAutorizado','CorteAutorizadoDatos','ProcesoSeco'));
+		$this->CorteAutorizado->aumentaCargasEn1($this->input->post()['corteFolioNuevoLavado']);
+		//Agregar en corte_autorizado_datos
+		//Encontrar el id de la carga mas alta
+		$carga = $this->CorteAutorizadoDatos->getCargaMaxima($this->input->post()['corteFolioNuevoLavado']);
+		$idCarga = (count($carga)!=0) ? $carga[0]['maxima']+1 : 1 ;
+		//recuperar procesos
+		$procesos = $this->input->post()['procesoNuevo'];
+		//si hay salida interna
+		if (isset($this->input->post()['piezasLavadoNuevo']))
+		{
+			$this->load->model('SalidaInterna1Datos');
+			//insertar en corte_autorizado_datos
+			foreach ($procesos as $key => $value)
+			{
+				//Costo del proceso seco
+				$costo=$this->ProcesoSeco->getById($value)[0]['costo'];
+				//Llenar arreglo
+				$data['corte_folio'] = $this->input->post()['corteFolioNuevoLavado'];
+				$data['id_carga'] = $idCarga;
+				$data['lavado_id'] = $this->input->post()['lavadoProcesoNuevo'];
+				$data['proceso_seco_id'] = $value;
+				$data['costo'] = $costo;
+				$data['defectos'] = 0;
+				$data['orden'] = 0;
+				$data['fecha_registro'] = date('Y-m-d');
+				$data['usuario_id'] = $_SESSION['usuario_id'];
+				if ($value == $this->input->post()['abrirConProceso'])
+				{
+					$data['piezas_trabajadas'] = $this->input->post()['piezasLavadoNuevo'];
+					$data['status'] = 1;
+				}
+				else
+				{
+					$data['piezas_trabajadas'] = 0;
+					$data['status'] = 0;
+				}
+				$this->CorteAutorizadoDatos->agregar($data);
+			}
+			//Insrtar en salida_interna1_datos
+			$this->load->model('SalidaInterna1Datos');
+			$data = array(
+				'id_carga' => $idCarga,
+				'piezas' => $this->input->post()['piezasLavadoNuevo'],
+				'corte_folio' => $this->input->post()['corteFolioNuevoLavado'],
+			);
+			$this->SalidaInterna1Datos->agregar($data);
+		}
+		//si no hay salida interna
+		else
+		{
+			foreach ($procesos as $key => $value)
+			{
+				$costo=$this->ProcesoSeco->getById($value)[0]['costo'];
+				//Llenar arreglo
+				$data['corte_folio'] = $this->input->post()['corteFolioNuevoLavado'];
+				$data['id_carga'] = $idCarga;
+				$data['lavado_id'] = $this->input->post()['lavadoProcesoNuevo'];
+				$data['proceso_seco_id'] = $value;
+				$data['costo'] = $costo;
+				$data['defectos'] = 0;
+				$data['orden'] = 0;
+				$data['fecha_registro'] = date('Y-m-d');
+				$data['usuario_id'] = $_SESSION['usuario_id'];
+				$data['piezas_trabajadas'] = 0;
+				$data['status'] = 0;
+			}
+		}
+		$this->redirigeModificarCorte();
 	}
 
 	private function redirigeModificarCorte()

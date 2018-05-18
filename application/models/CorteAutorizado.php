@@ -39,4 +39,9 @@ class CorteAutorizado extends CI_Model
 	{
 		$this->db->query("UPDATE corte_autorizado SET cargas=cargas-1 WHERE corte_folio='".$folio."';");
 	}
+
+	public function aumentaCargasEn1($folio)
+	{
+		$this->db->query("UPDATE corte_autorizado SET cargas=cargas+1 WHERE corte_folio='".$folio."';");
+	}
 }

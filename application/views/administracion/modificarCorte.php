@@ -7,7 +7,22 @@ $input_imagen = array(
   'class' => 'form-control-file',
 );
 ?>
+<style>
+body {
+    position: relative;
+}
+ul.nav-pills {
+    position: fixed;
+}
+</style>
 <script type="text/javascript">
+var procesos = <?php echo $jsonProcesos; ?>;
+var indiceProcesos = 0;
+var contadorProcesos = 0;
+function eliminarRenglonPoceso(id) {
+  $('#renglonNuevoLavado'+id).remove();
+  contadorProcesos--;
+}
 <?php if ($lavadosCorte != 0): //Funciones para los lavados ?>
 function editarLavado(carga){
   if (confirm("¿Está seguro de cambiar el lavado? Afectará cambios en: la autorización del corte y la producción de los operarios.")) {
@@ -21,7 +36,7 @@ function editarLavado(carga){
       },
       success: function(res) {
         if (res.respuesta)
-        location.reload();
+          location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -41,7 +56,7 @@ function eliminarLavado(carga){
       },
       success: function(res) {
         if (res.respuesta)
-        location.reload();
+          location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -76,7 +91,7 @@ function eliminarAutorizadoDatos(id){
       },
       success: function(res) {
         if (res.respuesta)
-        location.reload();
+          location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -89,7 +104,7 @@ function eliminarAutorizadoDatos(id){
 <?php if ($salidaInternaDatos != 0): ?>
 function editarSalidaInternaDatos(id_carga){
   if ($('#piezasSalidaInternaDatos'+id_carga).val() == '')
-  alert("Existen campos en blanco, favor de revisar.");
+    alert("Existen campos en blanco, favor de revisar.");
   else {
     if (confirm("¿Está seguro de querer editar los datos de este proceso? Se actualizarán datos de salida interna, autorización de corte y de la producción de los operarios")) {
       $.ajax({
@@ -102,7 +117,7 @@ function editarSalidaInternaDatos(id_carga){
         },
         success: function(res) {
           if (res.respuesta)
-          location.reload();
+            location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -161,9 +176,16 @@ function eliminarProduccion(id) {
 }
 <?php endif; ?>
 $(document).ready(function() {
+  $('#seccion1').css('min-height',$(window).height());
+  $('#seccion2').css('min-height',$(window).height());
+  $('#seccion3').css('min-height',$(window).height());
+  $('#seccion4').css('min-height',$(window).height());
+  $('#seccion5').css('min-height',$(window).height());
+  $('#seccion6').css('min-height',$(window).height());
+  $('#seccion7').css('min-height',$(window).height());
   $('#botonGenerales').click(function(){
     if ($('#folio').val()=='' || $('#corte').val() == '' || $('#marca_id').val() == '' || $('#maquilero_id').val() == '' || $('#cliente_id').val() == '' || $('#tipo_pantalon_id').val() == '' || $('#fecha_entrada').val() == '' || $('#piezas').val() == '' || $('#ojales').val() == '')
-    alert("Existen campos vacíos, favor de revisar");
+      alert("Existen campos vacíos, favor de revisar");
     else {
       if (confirm('¿Está seguro que desea cambiar los datos del corte?')) {
         $.ajax({
@@ -194,16 +216,31 @@ $(document).ready(function() {
   });
   $('#botonModalImagen').click(function() {
     if ($('#folio').val() == '' || $('#mi_imagen').val() == '')
-    alert("Existen campos vacíos, favor de revisar.");
+      alert("Existen campos vacíos, favor de revisar.");
     else {
       if (confirm('¿Está seguro que desea cambiar la imágen del corte?'))
-      $('#cambiarImagen').submit();
+        $('#cambiarImagen').submit();
     }
+  });
+  //Funciones para nuevo lavado
+  $('#botonAgregarProcesos').click(function() {
+    $('#tablaProcesos tbody').append('<tr name="renglonNuevoLavado'+indiceProcesos+'" id="renglonNuevoLavado'+indiceProcesos+'"></tr>');
+    var cadenaSelect = '<select class="form-control" name="procesoNuevo['+indiceProcesos+']" id="procesoNuevo['+indiceProcesos+']">';
+    $.each(procesos, function(i, item) {
+      cadenaSelect += '<option value="'+item.id+'">'+item.nombre+'</option>';
+    });
+    cadenaSelect += '</select>';
+    $('#renglonNuevoLavado'+indiceProcesos).append('<td>'+cadenaSelect+'</td><td><button type="button" class="btn btn-danger" onclick="eliminarRenglonPoceso('+indiceProcesos+')"><i class="far fa-trash-alt"></i></button></td>');
+    indiceProcesos ++;
+    contadorProcesos ++;
+  });
+  $('#formAgregarLavado').submit(function() {
+    return confirm("¿Está seguro de querer agregar el lavado?");
   });
   <?php if ($autorizado != 0): //Funciones para el corte autorizado?>
   $('#botonAutorizacion').click(function() {
     if ($('#folio').val() == '' || $('#fecha_autorizado').val() == '' || $('#usuarioAutorizo').val() == '')
-    alert("Existen campos vacíos, favor de revisar.");
+      alert("Existen campos vacíos, favor de revisar.");
     else {
       if (confirm('¿Está seguro que desea cambiar la autorización del corte?')) {
         $.ajax({
@@ -216,7 +253,7 @@ $(document).ready(function() {
           },
           success: function(res) {
             if (res.respuesta)
-            location.reload();
+              location.reload();
           },
           dataType: "json",
           error: function (request, status, error) {
@@ -249,7 +286,7 @@ $(document).ready(function() {
   <?php if ($autorizadoDatos != 0): //Funciones para los datos del corte autorizado?>
   $('#editarDatosCorteAutorizado').click(function() {
     if ($('#proceso_id_autorizado_datos').val() == '' || $('#autorizado_datos_costo').val() == '' || $('#autorizado_datos_piezas_trabajadas').val() == '' || $('#autorizado_datos_defectos').val() == '' || $('#autorizado_datos_estatus').val() == '' || $('#autorizado_datos_orden').val() == '' || $('#autorizado_datos_fecha_registro_').val() == '' || $('#autorizado_datos_usuario_id').val() == '')
-    alert("Existen campos vacíos, favor de revisar.")
+      alert("Existen campos vacíos, favor de revisar.")
     else {
       $.ajax({
         type: "POST",
@@ -280,7 +317,7 @@ $(document).ready(function() {
   <?php if ($salidaInterna != 0): //Funciones de salida interna ?>
   $('#botonSalidaInterna').click(function() {
     if ($('#fechaSalidaInterna').val() == '' || $('#muestrasSalidaInterna').val() == '' || $('#usuarioSalidaInterna').val() == '')
-    alert("Existen campos vacíos, favor de revisar.")
+      alert("Existen campos vacíos, favor de revisar.")
     else {
       if (confirm("¿Está seguro que desea cambiar los datos de salida interna?")) {
         $.ajax({
@@ -314,7 +351,7 @@ $(document).ready(function() {
         },
         success: function(res) {
           if (res.respuesta)
-          location.reload();
+            location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -324,465 +361,532 @@ $(document).ready(function() {
     }
   });
   <?php endif; ?>
+  <?php if ($produccionProcesoSeco != 0): ?>
+  $('#tablaProduccion').DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
+  });
+  <?php endif; ?>
 });
 </script>
 <input type="hidden" name="folio" id="folio" value="<?php echo $this->input->get()['folio']; ?>">
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-12">
-      <h3 class="white">Modificar el corte con folio <?php echo $this->input->get()['folio']; ?></h3>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#generales" aria-expanded="true" aria-controls="generales">
+    <div class="col-2 hidden-lg-down" id="myScrollspy" style="background: rgba(255, 255, 255, 0.7)">
+      <ul class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion1" aria-controls="seccion1" aria-selected="true">Datos generales</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion2" aria-controls="seccion2" aria-selected="false">Lavados</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion3" aria-controls="seccion3" aria-selected="false">Autorización</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion4" aria-controls="seccion4" aria-selected="false">Datos de autorización</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion5" aria-controls="seccion5" aria-selected="false">Salida interna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion6" aria-controls="seccion6" aria-selected="false">Datos de salida interna</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#seccion7" aria-controls="seccion7" aria-selected="false">Producción</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-10">
+      <div id="seccion1" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
           <div class="card-header">
-            Datos generales del corte.
+            <center>
+              <h3>Datos generales del corte.</h3>
+            </center>
           </div>
-        </a>
-        <div class="card-body" id="generales" name="generales">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <tbody>
-                <tr>
-                  <td>Imágen</td>
-                  <td>
-                    <a href="#" data-toggle="modal" data-target="#modalImagen"><?php echo $generales['imagen']; ?>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Folio</td>
-                  <td><?php echo $generales['folio']; ?></td>
-                </tr>
-                <tr>
-                  <td>Corte</td>
-                  <td>
-                    <input placeholder="Escribe el corte" name="corte" id="corte" type="text" value="<?php echo $generales['corte']; ?>" class="form-control" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Marca</td>
-                  <td>
-                    <select class="form-control" name="marca_id" id="marca_id">
-                      <?php foreach ($marcas as $key => $value): ?>
-                        <?php if ($value['id'] == $generales['marca_id']): ?>
-                          <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php else: ?>
-                          <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Maquilero</td>
-                  <td>
-                    <select class="form-control" name="maquilero_id" id="maquilero_id">
-                      <?php foreach ($maquileros as $key => $value): ?>
-                        <?php if ($value['id'] == $generales['maquilero_id']): ?>
-                          <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php else: ?>
-                          <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Cliente</td>
-                  <td>
-                    <select class="form-control" name="cliente_id" id="cliente_id">
-                      <?php foreach ($clientes as $key => $value): ?>
-                        <?php if ($value['id'] == $generales['cliente_id']): ?>
-                          <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php else: ?>
-                          <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Tipo</td>
-                  <td>
-                    <select class="form-control" name="tipo_pantalon_id" id="tipo_pantalon_id">
-                      <?php foreach ($tipo as $key => $value): ?>
-                        <?php if ($value['id'] == $generales['tipo_pantalon_id']): ?>
-                          <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php else: ?>
-                          <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Fecha de entrada</td>
-                  <td>
-                    <input placeholder="Escribe la fecha de entrada" class="form-control" type="date" value="<?php echo $generales['fecha_entrada'] ?>" id="fecha_entrada" name="fecha_entrada">
-                  </td>
-                </tr>
-                <tr>
-                  <td>Piezas</td>
-                  <td>
-                    <input placeholder="Escribe el número de piezas" type="number" name="piezas" id="piezas" class="form-control" value="<?php echo $generales['piezas']; ?>">
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ojales</td>
-                  <td>
-                    <input placeholder="Escribe el número de ojales" type="number" name="ojales" id="ojales" class="form-control" value="<?php echo $generales['ojales']; ?>">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="card-body" id="generales" name="generales">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <tbody>
+                  <tr>
+                    <td>Imágen</td>
+                    <td>
+                      <a href="#" data-toggle="modal" data-target="#modalImagen"><?php echo $generales['imagen']; ?>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Folio</td>
+                    <td><?php echo $generales['folio']; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Corte</td>
+                    <td>
+                      <input placeholder="Escribe el corte" name="corte" id="corte" type="text" value="<?php echo $generales['corte']; ?>" class="form-control" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Marca</td>
+                    <td>
+                      <select class="form-control" name="marca_id" id="marca_id">
+                        <?php foreach ($marcas as $key => $value): ?>
+                          <?php if ($value['id'] == $generales['marca_id']): ?>
+                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php else: ?>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Maquilero</td>
+                    <td>
+                      <select class="form-control" name="maquilero_id" id="maquilero_id">
+                        <?php foreach ($maquileros as $key => $value): ?>
+                          <?php if ($value['id'] == $generales['maquilero_id']): ?>
+                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php else: ?>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Cliente</td>
+                    <td>
+                      <select class="form-control" name="cliente_id" id="cliente_id">
+                        <?php foreach ($clientes as $key => $value): ?>
+                          <?php if ($value['id'] == $generales['cliente_id']): ?>
+                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php else: ?>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tipo</td>
+                    <td>
+                      <select class="form-control" name="tipo_pantalon_id" id="tipo_pantalon_id">
+                        <?php foreach ($tipo as $key => $value): ?>
+                          <?php if ($value['id'] == $generales['tipo_pantalon_id']): ?>
+                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php else: ?>
+                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de entrada</td>
+                    <td>
+                      <input placeholder="Escribe la fecha de entrada" class="form-control" type="date" value="<?php echo $generales['fecha_entrada'] ?>" id="fecha_entrada" name="fecha_entrada">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Piezas</td>
+                    <td>
+                      <input placeholder="Escribe el número de piezas" type="number" name="piezas" id="piezas" class="form-control" value="<?php echo $generales['piezas']; ?>">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Ojales</td>
+                    <td>
+                      <input placeholder="Escribe el número de ojales" type="number" name="ojales" id="ojales" class="form-control" value="<?php echo $generales['ojales']; ?>">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ml-auto">
+              <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary"><i class="fas fa-check"></i> Aceptar</button>
+            </div>
           </div>
-          <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary"><i class="fas fa-check"></i> Aceptar</button>
-        </div>
-        <div class="card-footer text-muted">
+          <div class="card-footer text-muted">
+          </div>
         </div>
       </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#lavados" aria-expanded="true" aria-controls="lavados">
+      <div id="seccion2" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
           <div class="card-header">
-            Lavados del corte.
+            <center>
+              <h3>Lavados del corte.</h3>
+            </center>
           </div>
-        </a>
-        <div class="card-body" id="lavados" name="generales">
-          <div class="table-responsive">
-            <?php if ($lavadosCorte !=0): ?>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th># Carga</th>
-                    <th>Nombre del lavado</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($lavadosCorte as $key => $value): ?>
+          <div class="card-body" id="lavados" name="generales">
+            <div class="table-responsive">
+              <?php if ($lavadosCorte != 0): ?>
+                <table class="table table-striped">
+                  <thead>
                     <tr>
-                      <td><?php echo $value['id_carga']; ?></td>
+                      <th># Carga</th>
+                      <th>Nombre del lavado</th>
+                      <th>Editar</th>
+                      <th>Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($lavadosCorte as $key => $value): ?>
+                      <tr>
+                        <td><?php echo $value['id_carga']; ?></td>
+                        <td>
+                          <select class="form-control" id="lavado_<?php echo $value['id_carga']; ?>" name="lavado_<?php echo $value['id_carga']; ?>">
+                            <?php foreach ($lavados as $key2 => $value2): ?>
+                              <?php if ($value2['id'] == $value['lavado_id']): ?>
+                                <option selected value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option>
+                              <?php else: ?>
+                                <option value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option>
+                              <?php endif; ?>
+                            <?php endforeach; ?>
+                          </select>
+                        </td>
+                        <td><button type="button" class="btn btn-warning" onclick="editarLavado(<?php echo $value['id_carga'] ?>)"><i class="far fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-danger" onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)"><i class="far fa-trash-alt"></i></button></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              <?php else: ?>
+                <div class="alert alert-danger" role="alert">
+                  No hay lavados para este corte.
+                </div>
+              <?php endif; ?>
+              <div class="ml-auto">
+                <button type="button" name="botonAgregarLavado" id="botonAgregarLavado" class="btn btn-success" data-toggle="modal" data-target="#agregarLavado"><i class="fas fa-plus"></i> Nuevo</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-muted">
+          </div>
+        </div>
+      </div>
+      <div id="seccion3" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
+          <div class="card-header">
+            <center>
+              <h3>Datos generales de autorización de corte.</h3>
+            </center>
+          </div>
+          <div class="card-body" id="generalesAutorizacion" name="generalesAutorizacion">
+            <?php if ($autorizado != 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Fecha de autorización</td>
+                      <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $autorizado['fecha_autorizado'] ?>" id="fecha_autorizado" name="fecha_autorizado"></td>
+                    </tr>
+                    <tr>
+                      <td>Cargas</td>
+                      <td><?php echo $autorizado['cargas'] ?></td>
+                    </tr>
+                    <tr>
+                      <td>Usuario que autorizó</td>
                       <td>
-                        <select class="form-control" id="lavado_<?php echo $value['id_carga']; ?>" name="lavado_<?php echo $value['id_carga']; ?>">
-                          <?php foreach ($lavados as $key2 => $value2): ?>
-                            <?php if ($value2['id'] == $value['lavado_id']): ?>
-                              <option selected value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option>
+                        <select class="form-control" name="usuarioAutorizo" id="usuarioAutorizo">
+                          <?php foreach ($usuarios as $key => $value): ?>
+                            <?php if ($value['id'] == $autorizado['usuario_id']): ?>
+                              <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                             <?php else: ?>
-                              <option value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option>
+                              <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                             <?php endif; ?>
                           <?php endforeach; ?>
                         </select>
                       </td>
-                      <td><button type="button" class="btn btn-warning" onclick="editarLavado(<?php echo $value['id_carga'] ?>)"><i class="far fa-edit"></i></button></td>
-                      <td><button type="button" class="btn btn-danger" onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)"><i class="far fa-trash-alt"></i></button></td>
                     </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-              <center>
-                <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo</button>
-              </center>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ml-auto">
+                <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion"><i class="fas fa-check"></i> Aceptar</button>
+                <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar"><i class="far fa-trash-alt"></i> Eliminar</button>
+              </div>
             <?php else: ?>
               <div class="alert alert-danger" role="alert">
-                No hay lavados para este corte.
-              </div>
-              <div class="card-footer text-muted">
+                No hay datos de autorización de este corte.
               </div>
             <?php endif; ?>
           </div>
-        </div>
-        <div class="card-footer text-muted">
+          <div class="card-footer text-muted">
+          </div>
         </div>
       </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#generalesAutorizacion" aria-expanded="true" aria-controls="generalesAutorizacion">
+      <div id="seccion4" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
           <div class="card-header">
-            Datos generales de autorización de corte.
+            <center>
+              <h3>Datos específicos de autorización de corte.</h3>
+            </center>
           </div>
-        </a>
-        <div class="card-body" id="generalesAutorizacion" name="generalesAutorizacion">
-          <?php if ($autorizado != 0): ?>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Fecha de autorización</td>
-                    <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $autorizado['fecha_autorizado'] ?>" id="fecha_autorizado" name="fecha_autorizado"></td>
-                  </tr>
-                  <tr>
-                    <td>Cargas</td>
-                    <td><?php echo $autorizado['cargas'] ?></td>
-                  </tr>
-                  <tr>
-                    <td>Usuario que autorizó</td>
-                    <td>
-                      <select class="form-control" name="usuarioAutorizo" id="usuarioAutorizo">
-                        <?php foreach ($usuarios as $key => $value): ?>
-                          <?php if ($value['id'] == $autorizado['usuario_id']): ?>
-                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                          <?php else: ?>
-                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer text-muted">
-              <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion"><i class="fas fa-check"></i> Aceptar</button>
-              <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar"><i class="far fa-trash-alt"></i> Eliminar</button>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">
-              No hay datos de autorización de este corte.
-            </div>
-            <div class="card-footer text-muted">
-            </div>
-          <?php endif; ?>
-        </div>
-      </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#especificosAutorizacion" aria-expanded="true" aria-controls="especificosAutorizacion">
-          <div class="card-header">
-            Datos específicos de autorización de corte.
-          </div>
-        </a>
-        <div class="card-body" id="especificosAutorizacion" name="especificosAutorizacion">
-          <?php if ($autorizadoDatos != 0): ?>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th># Carga</th>
-                    <th>Lavado</th>
-                    <th>Proceso Seco</th>
-                    <th>Estatus</th>
-                    <th>Fecha de registro</th>
-                    <th>Usuario que registró</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($autorizadoDatos as $key => $value): ?>
-                    <input type="hidden" name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['id_carga'] ?>">
-                    <input type="hidden" name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['lavado_id'] ?>">
-                    <input type="hidden" name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['proceso_seco_id'] ?>">
-                    <input type="hidden" name="costo_autorizado_datos_<?php echo $value['id']; ?>" id="costo_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['costo']; ?>">
-                    <input type="hidden" name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas']; ?>">
-                    <input type="hidden" name="defectos_autorizado_datos_<?php echo $value['id']; ?>" id="defectos_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['defectos']; ?>">
-                    <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>">
-                    <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>">
-                    <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>">
-                    <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['usuario_id']; ?>">
+          <div class="card-body" id="especificosAutorizacion" name="especificosAutorizacion">
+            <?php if ($autorizadoDatos != 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
                     <tr>
-                      <td><?php echo $value['id_carga'] ?></td>
-                      <td>
-                        <?php foreach ($lavados as $key2 => $value2): ?>
-                          <?php if ($value2['id'] == $value['lavado_id']): ?>
-                            <?php echo $value2['nombre']; break; ?>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </td>
-                      <td>
-                        <?php foreach ($procesosecos as $key2 => $value2): ?>
-                          <?php if ($value2['id'] == $value['proceso_seco_id']): ?>
-                            <?php echo $value2['nombre']; break; ?>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </td>
-                      <td>
-                        <?php switch ($value['status'])
-                        {
-                          case 0:
-                          echo "No registrado";
-                          break;
-                          case 1:
-                          echo "Para registrar";
-                          break;
-                          case 2:
-                          echo "Registrado";
-                          break;
-                        } ?>
-                      </td>
-                      <td><?php echo $value['fecha_registro'] ?></td>
-                      <td>
-                        <?php foreach ($usuarios as $key2 => $value2): ?>
-                          <?php if ($value2['id'] == $value['usuario_id']): ?>
-                            <?php echo $value2['nombre']; break; ?>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </td>
-                      <td><button type="button" class="btn btn-warning" onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);"><i class="far fa-edit"></i></button></td>
-                      <td><button type="button" class="btn btn-danger" onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
+                      <th># Carga</th>
+                      <th>Lavado</th>
+                      <th>Proceso Seco</th>
+                      <th>Estatus</th>
+                      <th>Fecha de registro</th>
+                      <th>Usuario que registró</th>
+                      <th>Editar</th>
+                      <th>Eliminar</th>
                     </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">
-              No hay datos de autorización de este corte.
-            </div>
-          <?php endif; ?>
-        </div>
-        <div class="card-footer text-muted">
+                  </thead>
+                  <tbody>
+                    <?php foreach ($autorizadoDatos as $key => $value): ?>
+                      <input type="hidden" name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['id_carga'] ?>">
+                      <input type="hidden" name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['lavado_id'] ?>">
+                      <input type="hidden" name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['proceso_seco_id'] ?>">
+                      <input type="hidden" name="costo_autorizado_datos_<?php echo $value['id']; ?>" id="costo_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['costo']; ?>">
+                      <input type="hidden" name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas']; ?>">
+                      <input type="hidden" name="defectos_autorizado_datos_<?php echo $value['id']; ?>" id="defectos_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['defectos']; ?>">
+                      <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>">
+                      <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>">
+                      <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>">
+                      <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['usuario_id']; ?>">
+                      <tr>
+                        <td><?php echo $value['id_carga'] ?></td>
+                        <td>
+                          <?php foreach ($lavados as $key2 => $value2): ?>
+                            <?php if ($value2['id'] == $value['lavado_id']): ?>
+                              <?php echo $value2['nombre']; break; ?>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </td>
+                        <td>
+                          <?php foreach ($procesosecos as $key2 => $value2): ?>
+                            <?php if ($value2['id'] == $value['proceso_seco_id']): ?>
+                              <?php echo $value2['nombre']; break; ?>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </td>
+                        <td>
+                          <?php switch ($value['status'])
+                          {
+                            case 0:
+                            echo "No registrado";
+                            break;
+                            case 1:
+                            echo "Para registrar";
+                            break;
+                            case 2:
+                            echo "Registrado";
+                            break;
+                          } ?>
+                        </td>
+                        <td><?php echo $value['fecha_registro'] ?></td>
+                        <td>
+                          <?php foreach ($usuarios as $key2 => $value2): ?>
+                            <?php if ($value2['id'] == $value['usuario_id']): ?>
+                              <?php echo $value2['nombre']; break; ?>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </td>
+                        <td><button type="button" class="btn btn-warning" onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);"><i class="far fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-danger" onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">
+                No hay datos de autorización de este corte.
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer text-muted">
+          </div>
         </div>
       </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#generalesSalidaInterna" aria-expanded="true" aria-controls="generalesSalidaInterna">
+      <div id="seccion5" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
           <div class="card-header">
-            Datos generales de salida interna.
+            <center>
+              <h3>Datos generales de salida interna.</h3>
+            </center>
           </div>
-        </a>
-        <div class="card-body" id="generalesSalidaInterna" name="generalesSalidaInterna">
-          <?php if ($salidaInterna != 0): ?>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Fecha de salida interna</td>
-                    <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $salidaInterna['fecha'] ?>" id="fechaSalidaInterna" name="fechaSalidaInterna"></td>
-                  </tr>
-                  <tr>
-                    <td>Muestras</td>
-                    <td>
-                      <input placeholder="Escribe el número de muestras" type="number" name="muestrasSalidaInterna" id="muestrasSalidaInterna" class="form-control" value="<?php echo $salidaInterna['muestras'] ?>">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Usuario que dio la salida interna</td>
-                    <td>
-                      <select class="form-control" name="usuarioSalidaInterna" id="usuarioSalidaInterna">
-                        <?php foreach ($usuarios as $key => $value): ?>
-                          <?php if ($value['id'] == $salidaInterna['usuario_id']): ?>
-                            <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                          <?php else: ?>
-                            <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer text-muted">
-              <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna"><i class="fas fa-check"></i> Aceptar</button>
-              <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar"><i class="far fa-trash-alt"></i> Eliminar</button>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">
-              No hay datos de salida interna de este corte.
-            </div>
-            <div class="card-footer text-muted">
-            </div>
-          <?php endif; ?>
-        </div>
-      </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#especificosSalidaInterna" aria-expanded="true" aria-controls="especificosSalidaInterna">
-          <div class="card-header">
-            Datos específicos de salida interna.
-          </div>
-        </a>
-        <div class="card-body" id="especificosSalidaInterna" name="especificosSalidaInterna">
-          <?php if ($salidaInternaDatos != 0): ?>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th># Carga</th>
-                    <th>Proceso</th>
-                    <th>Piezas</th>
-                    <th>Editar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($salidaInternaDatos as $key => $value): ?>
-                    <input type="hidden" name="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" id="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['lavado_id']; ?>">
+          <div class="card-body" id="generalesSalidaInterna" name="generalesSalidaInterna">
+            <?php if ($salidaInterna != 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <tbody>
                     <tr>
-                      <td><?php echo $value['id_carga']; ?></td>
-                      <td>
-                        <?php foreach ($lavados as $key2 => $value2): ?>
-                          <?php if ($value2['id'] == $value['lavado_id']): ?>
-                            <?php echo $value2['nombre'] ?>
-                          <?php endif; ?>
-                        <?php endforeach; ?>
-                      </td>
-                      <td><input placeholder="Inserta número de piezas" class="form-control" type="number" id="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" name="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['piezas'] ?>"></td>
-                      <td><button type="button" class="btn btn-warning" onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)"><i class="far fa-edit"></i></button></td>
+                      <td>Fecha de salida interna</td>
+                      <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $salidaInterna['fecha'] ?>" id="fechaSalidaInterna" name="fechaSalidaInterna"></td>
                     </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">
-              No hay datos de salida interna de este corte.
-            </div>
-          <?php endif; ?>
-        </div>
-        <div class="card-footer text-muted">
+                    <tr>
+                      <td>Muestras</td>
+                      <td>
+                        <input placeholder="Escribe el número de muestras" type="number" name="muestrasSalidaInterna" id="muestrasSalidaInterna" class="form-control" value="<?php echo $salidaInterna['muestras'] ?>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Usuario que dio la salida interna</td>
+                      <td>
+                        <select class="form-control" name="usuarioSalidaInterna" id="usuarioSalidaInterna">
+                          <?php foreach ($usuarios as $key => $value): ?>
+                            <?php if ($value['id'] == $salidaInterna['usuario_id']): ?>
+                              <option selected value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                            <?php else: ?>
+                              <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ml-auto">
+                <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna"><i class="fas fa-check"></i> Aceptar</button>
+                <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar"><i class="far fa-trash-alt"></i> Eliminar</button>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">
+                No hay datos de salida interna de este corte.
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer text-muted">
+          </div>
         </div>
       </div>
-      <div class="card">
-        <a data-toggle="collapse" role="button" href="#produccion" aria-expanded="true" aria-controls="produccion">
+      <div id="seccion6" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
           <div class="card-header">
-            Datos de producción de proceso seco
+            <center>
+              <h3>Datos específicos de salida interna.</h3>
+            </center>
           </div>
-        </a>
-        <div class="card-body" id="produccion" name="produccion">
-          <?php if ($produccionProcesoSeco != 0): ?>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Operario</th>
-                    <th>Lavado</th>
-                    <th>Proceso</th>
-                    <th>Piezas trabajadas</th>
-                    <th>Costo</th>
-                    <th>Total</th>
-                    <th>Defectos</th>
-                    <th>Fecha</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($produccionProcesoSeco as $key => $value): ?>
+          <div class="card-body" id="especificosSalidaInterna" name="especificosSalidaInterna">
+            <?php if ($salidaInternaDatos != 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
                     <tr>
-                      <td><?php echo $value['usuario'] ?></td>
-                      <td><?php echo $value['lavado'] ?></td>
-                      <td><?php echo $value['proceso'] ?></td>
-                      <td>
-                        <input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccion<?php echo $value['id']; ?>" name="piezasProduccion<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>">
-                      </td>
-                      <td>$<?php echo $value['costo'] ?></td>
-                      <td>$<?php echo $value['total'] ?></td>
-                      <td>
-                        <input class="form-control" type="number" id="defectosProduccion<?php echo $value['id'] ?>" name="defectosProduccion<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>">
-                      </td>
-                      <td>
-                        <input class="form-control" type="date" value="<?php echo $value['fecha'] ?>" id="fechaProduccion<?php echo $value['id']; ?>" name="fechaProduccion<?php echo $value['id']; ?>">
-                      </td>
-                      <td><button type="button" class="btn btn-warning" onclick="editarProduccion(<?php echo $value['id']; ?>);"><i class="far fa-edit"></i></button></td>
-                      <td><button type="button" class="btn btn-danger" onclick="eliminarProduccion(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
+                      <th># Carga</th>
+                      <th>Proceso</th>
+                      <th>Piezas</th>
+                      <th>Editar</th>
                     </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">
-              No hay datos de producción de este corte.
-            </div>
-          <?php endif; ?>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($salidaInternaDatos as $key => $value): ?>
+                      <input type="hidden" name="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" id="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['lavado_id']; ?>">
+                      <tr>
+                        <td><?php echo $value['id_carga']; ?></td>
+                        <td>
+                          <?php foreach ($lavados as $key2 => $value2): ?>
+                            <?php if ($value2['id'] == $value['lavado_id']): ?>
+                              <?php echo $value2['nombre'] ?>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </td>
+                        <td><input placeholder="Inserta número de piezas" class="form-control" type="number" id="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" name="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['piezas'] ?>"></td>
+                        <td><button type="button" class="btn btn-warning" onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)"><i class="far fa-edit"></i></button></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">
+                No hay datos de salida interna de este corte.
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer text-muted">
+          </div>
         </div>
-        <div class="card-footer text-muted">
+      </div>
+      <div id="seccion7" style="background: rgba(255, 255, 255, .7)">
+        <div class="card">
+          <div class="card-header">
+            <center>
+              <h3>Datos de producción de proceso seco.</h3>
+            </center>
+          </div>
+          <div class="card-body" id="produccion" name="produccion">
+            <?php if ($produccionProcesoSeco != 0): ?>
+              <div class="table-responsive">
+                <table class="table table-striped" name="tablaProduccion" id="tablaProduccion">
+                  <thead>
+                    <tr>
+                      <th>Operario</th>
+                      <th>Lavado</th>
+                      <th>Proceso</th>
+                      <th>Piezas trabajadas</th>
+                      <th>Costo</th>
+                      <th>Total</th>
+                      <th>Defectos</th>
+                      <th>Fecha</th>
+                      <th>Editar</th>
+                      <th>Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($produccionProcesoSeco as $key => $value): ?>
+                      <tr>
+                        <td><?php echo $value['usuario'] ?></td>
+                        <td><?php echo $value['lavado'] ?></td>
+                        <td><?php echo $value['proceso'] ?></td>
+                        <td>
+                          <input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccion<?php echo $value['id']; ?>" name="piezasProduccion<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>">
+                        </td>
+                        <td>$<?php echo $value['costo'] ?></td>
+                        <td>$<?php echo $value['total'] ?></td>
+                        <td>
+                          <input class="form-control" type="number" id="defectosProduccion<?php echo $value['id'] ?>" name="defectosProduccion<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>">
+                        </td>
+                        <td>
+                          <input class="form-control" type="date" value="<?php echo $value['fecha'] ?>" id="fechaProduccion<?php echo $value['id']; ?>" name="fechaProduccion<?php echo $value['id']; ?>">
+                        </td>
+                        <td><button type="button" class="btn btn-warning" onclick="editarProduccion(<?php echo $value['id']; ?>);"><i class="far fa-edit"></i></button></td>
+                        <td><button type="button" class="btn btn-danger" onclick="eliminarProduccion(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">
+                No hay datos de producción de este corte.
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer text-muted">
+          </div>
         </div>
       </div>
     </div>
@@ -907,3 +1011,118 @@ $(document).ready(function() {
     </div>
   </div>
 <?php endif; ?>
+<div class="modal fade" id="agregarLavado" name="agregarLavado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Agregar lavado nuevo.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="formAgregarLavado" name="formAgregarLavado" action="agregarLavado" method="post">
+        <input type="hidden" id="corteFolioNuevoLavado" name="corteFolioNuevoLavado" value="<?php echo $this->input->get()['folio']; ?>">
+        <div class="modal-body">
+          <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="nav-item">
+                <a class="nav-link active" href="#seleccionarLavado" aria-controls="seleccionarLavado" role="tab" data-toggle="tab">Nuevo lavado</a>
+              </li>
+              <li role="presentation" class="nav-item">
+                <a class="nav-link" href="#autorizarLavado" aria-controls="autorizarLavado" role="tab" data-toggle="tab">Autorizar lavado</a>
+              </li>
+              <?php if ($salidaInterna != 0): ?>
+                <li role="presentation" class="nav-item">
+                  <a class="nav-link" href="#salidaInterna" aria-controls="salidaInterna" role="tab" data-toggle="tab" id="botonSalidaInternaNuevoLavado" name="botonSalidaInternaNuevoLavado">Salida Interna</a>
+                </li>
+              <?php endif; ?>
+            </ul>
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="seleccionarLavado">
+                <div class="card">
+                  <div class="card-header">
+                    Seleccionar el lavado
+                  </div>
+                  <div class="card-body">
+                    <select class="form-control" id="lavadoProcesoNuevo" name="lavadoProcesoNuevo">
+                      <?php foreach ($lavados as $key => $value): ?>
+                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="autorizarLavado">
+                <div class="card">
+                  <div class="card-header">
+                    Agrega los procesos.
+                  </div>
+                  <div class="card-body" id="cuerpoAutorizarLavado" name="cuerpoAutorizarLavado">
+                    <div class="form-group row">
+                      <div class="col-12">
+                        <table name="tablaProcesos" id="tablaProcesos" class="table">
+                          <thead>
+                            <tr>
+                              <th>Proceso Seco</th>
+                              <th>Eliminar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <center>
+                      <button type="button" name="botonAgregarProcesos" id="botonAgregarProcesos" class="btn btn-success"><i class="fas fa-plus"></i> Agregar Proceso</button>
+                    </center>
+                  </div>
+                </div>
+              </div>
+              <?php if ($salidaInterna != 0): ?>
+                <div role="tabpanel" class="tab-pane" id="salidaInterna">
+                  <div class="card">
+                    <div class="card-header">
+                      Salida interna al lavado.
+                    </div>
+                    <div class="card-body" id="cuerpoSalidaInterna" name="cuerpoSalidaInterna">
+                      <div class="form-group row">
+                        <div class="col-12">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                <tr>
+                                  <td># Piezas para el lavado</td>
+                                  <td>
+                                    <input value="0" class="form-control" required placeholder="Escribe el número de piezas" type="number" name="piezasLavadoNuevo" id="piezasLavadoNuevo">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Abrir con el proceso</td>
+                                  <td>
+                                    <select class="form-control" name="abrirConProceso" id="abrirConProceso">
+                                      <?php foreach ($procesosecos as $key => $value): ?>
+                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <?php endif; ?>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-window-close"></i> Cerrar</button>
+          <button type="submit" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado"><i class="fas fa-check"></i> Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

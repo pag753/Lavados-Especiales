@@ -491,7 +491,7 @@ class Ajax extends CI_Controller
 
 	public function agregarRenglonProduccion()
 	{
-		if ($_SESSION['id'] != 3 || !$this->input->post()) redirect('/');
+		if (!$this->input->post()) redirect('/');
 		else
 		{
 			$numero = $this->input->post()["numero"];

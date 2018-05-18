@@ -319,6 +319,15 @@ class CorteAutorizadoDatos extends CI_Model
     ->from('corte_autorizado_datos')
     ->join('lavado','corte_autorizado_datos.lavado_id = lavado.id')
     ->where('corte_autorizado_datos.corte_folio',$folio);
-    return $this->db->get()->result_array(); 
+    return $this->db->get()->result_array();
+  }
+
+  public function getCargaMaxima($folio)
+  {
+    $this->db->distinct()
+    ->select('MAX(id_carga) as maxima')
+    ->from('corte_autorizado_datos')
+    ->where('corte_autorizado_datos.corte_folio',$folio);
+    return $this->db->get()->result_array();
   }
 }
