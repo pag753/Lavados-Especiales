@@ -60,6 +60,8 @@ class Administracion extends CI_Controller
 		{
 			if ($this->input->get())
 			{
+				if (!isset($this->input->get()['folio']) || !$this->input->get()['carga'])
+					redirect("/");
 				$folio = $this->input->get()['folio'];
 				$cargaid = $this->input->get()['carga'];
 				$datos['carga'] = $cargaid;
@@ -180,11 +182,11 @@ class Administracion extends CI_Controller
 
 	public function catalogosUsuarios()
 	{
-		$this->load->model("Usuarios");
-		$this->load->model("TipoUsuario");
+		$this->load->model(array("Usuarios","TipoUsuario","Puestos"));
 		$data = array(
 			'data' => $this->Usuarios->get(),
 			'TipoUsuario' => $this->TipoUsuario->get(),
+			'puestos' => $this->Puestos->get(),
 		);
 		$titulo['titulo'] = 'Catálogo de usuarios';
 		$this->load->view('comunes/head',$titulo);
@@ -201,6 +203,17 @@ class Administracion extends CI_Controller
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
 		$this->load->view('administracion/catalogosTipoPantalon',$data);
+		$this->load->view('comunes/foot');
+	}
+
+	public function catalogosPuestos()
+	{
+		$this->load->model("Puestos");
+		$data['data'] = $this->Puestos->get();
+		$titulo['titulo'] = 'Catálogo de puestos';
+		$this->load->view('comunes/head',$titulo);
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/catalogosPuestos',$data);
 		$this->load->view('comunes/foot');
 	}
 
@@ -407,6 +420,7 @@ class Administracion extends CI_Controller
 				'direccion' => trim($this->input->post()['direccion']),
 				'telefono' => trim($this->input->post()['telefono']),
 				'activo' => trim($this->input->post()['activo']),
+				'puesto_id' => trim($this->input->post()['puesto_id']),
 			);
 			$this->Usuarios->insert($data);
 			redirect("/administracion/catalogosUsuarios");
@@ -428,9 +442,40 @@ class Administracion extends CI_Controller
 				trim($this->input->post()['direccionE']),
 				trim($this->input->post()['telefonoE']),
 				trim($this->input->post()['activoE']),
+				trim($this->input->post()['puesto_idE']),
 				$this->input->post()['id']
 			);
 			redirect("/administracion/catalogosUsuarios");
+		}
+		else
+		redirect("/");
+	}
+
+	public function nuevoPuesto()
+	{
+		if ($this->input->post())
+		{
+			$this->load->model("Puestos");
+			$data = array(
+				'nombre' => $this->input->post()['nombre'],
+			);
+			$this->Puestos->insert($data);
+			redirect("/administracion/catalogosPuestos");
+		}
+		else
+		redirect("/");
+	}
+
+	public function editarPuesto()
+	{
+		if ($this->input->post())
+		{
+			$this->load->model("Puestos");
+			$this->Puestos->update(
+				trim($this->input->post()['nombreE']),
+				$this->input->post()['id']
+			);
+			redirect("/administracion/catalogosPuestos");
 		}
 		else
 		redirect("/");
@@ -440,7 +485,7 @@ class Administracion extends CI_Controller
 	{
 		if ($this->input->post())
 		{
-			$this->load->model('Usuarios');
+			$this->load->model('Puestos');
 			$this->Usuarios->updateP($_SESSION['usuario_id'],md5($this->input->post()['pass1']));
 			redirect('/administracion/index/-1');
 		}
@@ -495,7 +540,7 @@ class Administracion extends CI_Controller
 				$this->load->model("Descuentos");
 				$this->load->model("Usuarios");
 				$data['descuentos'] = $this->Descuentos->getByIdUsuario($id);
-				$data['usuario'] = $this->Usuarios->getById($id);;
+				$data['usuario'] = $this->Usuarios->getById($id);
 				if (count($data['usuario'])==0)
 					redirect("/");
 				else
@@ -731,7 +776,7 @@ class Administracion extends CI_Controller
 			$data['uploadError'] = $this->upload->display_errors();
 			$data['uploadSuccess'] = $this->upload->data();
 			//Retornar
-			$this->redirigeModificarCorte();
+			redirect('/administracion/modificar?folio='.$this->input->post()['folio']);
 		}
 	}
 
@@ -963,11 +1008,76 @@ class Administracion extends CI_Controller
 				$data['status'] = 0;
 			}
 		}
-		$this->redirigeModificarCorte();
+		redirect('/administracion/modificar?folio='.$this->input->post()['folio']);
 	}
 
-	private function redirigeModificarCorte()
+	public function ahorros()
 	{
-		redirect('/administracion/modificar?folio='.$this->input->post()['folio']);
+		if ($this->input->get())
+		{
+			$id=$this->input->get()['id'];
+			if ($id=='')
+				redirect("/");
+			$this->load->model("Ahorros");
+			$this->load->model("Usuarios");
+			$data['ahorros'] = $this->Ahorros->getByIdUsuario($id);
+			$data['usuario'] = $this->Usuarios->getById($id);
+			if (count($data['usuario'])==0)
+				redirect("/");
+			else
+			{
+				$titulo="Ahorros del operario ".$data['usuario'][0]['nombre'];
+				$this->load->view('comunes/head',$titulo);
+				$this->load->view('administracion/menu');
+				$this->load->view('administracion/ahorrosEspecifico',$data);
+				$this->load->view('comunes/foot');
+			}
+		}
+		else
+		{
+			$this->load->model("Usuarios");
+			$data['data'] = $this->Usuarios->getOperarios();
+			$titulo="Ahorros";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/ahorros',$data);
+			$this->load->view('comunes/foot');
+		}
+	}
+
+	public function nuevoAhorro() {
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model('Ahorros');
+		$data = array(
+				'fecha' => $this->input->post()['fecha'],
+				'cantidad' => $this->input->post()['cantidad'],
+				'usuario_id' => $this->input->post()['id'],
+				'aportacion' => $this->input->post()['aportacion'],
+		);
+		$this->Ahorros->insert($data);
+		redirect("administracion/ahorros?id=".$this->input->post()['id']);
+	}
+
+	public function editarAhorro() {
+		if (!$this->input->post())
+			redirect('/');
+		$this->load->model('Ahorros');
+		$this->Ahorros->update(
+			$this->input->post()['aportacionE'],
+			$this->input->post()['fechaE'],
+			$this->input->post()['cantidadE'],
+			$this->input->post()['idE']
+		);
+		redirect("administracion/ahorros?id=".$this->input->post()['idUsuario']);
+	}
+
+	public function eliminarAhorro()
+	{
+		if (!$this->input->post())
+			redirect("/");
+		$this->load->model("Ahorros");
+		$this->Ahorros->delete($this->input->post()['id']);
+		echo json_encode(array('respuesta' => true ));
 	}
 }

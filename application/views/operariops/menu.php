@@ -11,16 +11,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operariops/cambiarPass">Cambiar contraseña</a>
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operariops/datos">Cambiar datos personales</a>
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operariops/cerrar_sesion">Cerrar Sesión</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cambiarPass">Cambiar contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/datos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cerrar_sesion">Cerrar Sesión</a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operariops/insertar">Insertar producción</a>
-          <a class="dropdown-item" href="<?php echo base_url()?>index.php/operariops/ver">Ver producción</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertar">Insertar producción</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/ver">Ver producción</a>
         </div>
       </li>
     </ul>

@@ -32,12 +32,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
   });
 </script>
-<input type="hidden" name="bandera" id="bandera" value="">
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12 col-md-12">
       <div class="col-12">
-        <h3>Descuentos</h3>
+        <h3>Ahorros</h3>
       </div>
       <div class='table-responsive'>
         <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
@@ -45,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tr>
               <th>Usuario</th>
               <th>Nombre Completo</th>
-              <th>Ver descuentos</th>
+              <th>Ver ahorro</th>
             </tr>
           </thead>
           <tbody>
@@ -53,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <tr>
                 <td><?php echo $value['nombre']; ?></td>
                 <td><?php echo $value['nombre_completo']; ?></td>
-                <td><a href="<?php echo base_url(); ?>index.php/administracion/descuentos?id=<?php echo $value['id']; ?>"><button type="button" class="btn btn-light"><i class="fas fa-eye"></i></button></a></td>
+                <td><a href="ahorros?id=<?php echo $value['id']; ?>"><button type="button" class="btn btn-light"><i class="fas fa-eye"></i></button></a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

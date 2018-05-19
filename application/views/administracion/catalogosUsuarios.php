@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#nombre_completoE').val($('#nombre_completo'+id).text());
     $('#direccionE').val($('#direccion'+id).text());
     $('#telefonoE').val($('#telefono'+id).text());
+    $('#puesto_idE').val($('#puesto_id_'+id).val());
     if ($('#activo'+id).text() == 'No')
       $('#activoE').val(0);
     else
@@ -71,6 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <tr>
               <th>Usuario</th>
               <th>Tipo de usuario</th>
+              <th>Puesto</th>
               <th>Nombre Completo</th>
               <th>Dirección</th>
               <th>Teléfono</th>
@@ -87,6 +89,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php if ($value['tipo_usuario_id']==$value2['id']): ?>
                       <?php echo $value2['tipo_usuariocol']; ?>
                       <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
+                      <?php break; ?>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                </td>
+                <td>
+                  <?php foreach ($puestos as $key2 => $value2): ?>
+                    <?php if ($value['puesto_id']==$value2['id']): ?>
+                      <?php echo $value2['nombre']; ?>
+                      <input type="hidden" name="puesto_id_<?php echo $value['id'] ?>" id="puesto_id_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
                       <?php break; ?>
                     <?php endif; ?>
                   <?php endforeach; ?>
@@ -134,6 +145,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <select class="form-control" name="tipo_usuario_id" id="tipo_usuario_id">
                 <?php foreach ($TipoUsuario as $key => $value): ?>
                   <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="puesto_id" class="col-3 col-form-label">Puesto</label>
+            <div class="col-9">
+              <select class="form-control" name="puesto_id" id="puesto_id">
+                <?php foreach ($puestos as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -204,6 +225,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <select class="form-control" name="tipo_usuario_idE" id="tipo_usuario_idE">
                 <?php foreach ($TipoUsuario as $key => $value): ?>
                   <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="puesto_idE" class="col-3 col-form-label">Puesto</label>
+            <div class="col-9">
+              <select class="form-control" name="puesto_idE" id="puesto_idE">
+                <?php foreach ($puestos as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>

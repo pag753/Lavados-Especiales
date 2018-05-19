@@ -58,7 +58,7 @@ class Usuarios extends CI_Model
         $this->db->update('usuario', $data);
     }
 
-    public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$activo,$id)
+    public function update($nombre,$pass,$tipo_usuario_id,$nombre_completo,$direccion,$telefono,$activo,$puestoId,$id)
     {
         if($pass == null)
         {
@@ -66,9 +66,10 @@ class Usuarios extends CI_Model
                 'nombre' => $nombre,
                 'tipo_usuario_id' => $tipo_usuario_id,
                 'nombre_completo' => $nombre_completo,
-                'direccion'=>$direccion,
-                'telefono'=>$telefono,
-                'activo'=>$activo,
+                'direccion' => $direccion,
+                'telefono' => $telefono,
+                'activo' => $activo,
+                'puesto_id' => $puestoId,
             );
         }
         else
@@ -80,6 +81,7 @@ class Usuarios extends CI_Model
                 'nombre_completo' => $nombre_completo,
                 'direccion' => $direccion,
                 'telefono' => $telefono,
+                'puesto_id' => $puestoId,
             );
         }
         $this->db->where('id', $id);
