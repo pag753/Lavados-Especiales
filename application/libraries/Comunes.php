@@ -69,9 +69,9 @@ class Comunes
         //Encabezado de tabla descuentos
         $pdf->ban = true;
         $pdf->SetFillColor(59,131,189);
-        $pdf->SetWidths(array(63.333333333,63.333333333,63.333333333));
+        $pdf->SetWidths(array(47.5,47.5,47.5,47.5));
         $pdf->SetFont('Arial','B',8);
-        $pdf->Row(array("Fecha",utf8_decode("Razón"),"Cantidad"));
+        $pdf->Row(array("Fecha","Folio de corte",utf8_decode("Razón"),"Cantidad"));
         //LLenar Tabla descuentos
         $pdf->ban = false;
         $pdf->SetFont('Arial','',8);
@@ -80,14 +80,15 @@ class Comunes
         {
             $pdf->Row(array(
                 $value['fecha'],
-                $value['razon'],
+                $value["corte_folio"],
+                utf8_decode($value['razon']),
                 "$".$value['cantidad']
             ));
             $desc += $value['cantidad'];
         }
         //Pie de total de descuentos
-        $pdf->SetX(73.333333333);
-        $pdf->SetWidths(array(63.333333333,63.333333333));
+        $pdf->SetX(105);
+        $pdf->SetWidths(array(47.5,47.5));
         $pdf->Row(array(utf8_decode('Total de descuentos'),"$".$desc));
         //Título de Totales
         $pdf->SetFont('Arial','B',15);

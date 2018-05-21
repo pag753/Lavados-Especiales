@@ -11,24 +11,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username']; ?></a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/cambiarPass">Cambiar Contraseña</a>
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/cambiarDatos">Cambiar Datos Personales</a>
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/cerrar_sesion">Cerrar Sesión</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarPass">Cambiar Contraseña</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarDatos">Cambiar Datos Personales</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cerrar_sesion">Cerrar Sesión</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/ver">Ver detalles de corte</a>
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/alta">Alta de corte y entrada</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/ver">Ver detalles de corte</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte y entrada</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Salidas</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/salidaInterna">Salida interna</a>
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/salidaAlmacen">Entrega a almacen</a>
-                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/salidaExterna">Entrega externa</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaInterna">Salida interna</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaAlmacen">Entrega a almacen</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaExterna">Entrega externa</a>
                 </div>
             </li>
             <li class="nav-item">

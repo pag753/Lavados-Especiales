@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $('#fechaE').val($('#fecha'+id).text());
     $('#razonE').val($('#razon'+id).text());
     $('#cantidadE').val($('#cantidad'+id).text());
+    $('#corte_folioE').val($('#folio'+id).text());
     $('#idE').val(id);
     $('#editar').modal('show');
   }
@@ -65,6 +66,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <thead>
             <tr>
               <th>Razón</th>
+              <th>Folio de corte</th>
               <th>Fecha</th>
               <th>Cantidad $</th>
               <th>Editar</th>
@@ -75,6 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php foreach ($descuentos as $key => $value): ?>
               <tr>
                 <td name="razon<?php echo $value['id'] ?>" id="razon<?php echo $value['id'] ?>"><?php echo $value['razon']; ?></td>
+                <td name="folio<?php echo $value['id'] ?>" id="folio<?php echo $value['id'] ?>"><?php echo $value['corte_folio']; ?></td>
                 <td name="fecha<?php echo $value['id'] ?>" id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
                 <td name="cantidad<?php echo $value['id'] ?>" id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
                 <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i></button></td>
@@ -105,6 +108,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="razon" class="col-3 col-form-label">Razón</label>
             <div class="col-9">
               <textarea class="form-control" name="razon" id="razon" required placeholder="Razón del descuento" ></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="corte_folio" class="col-3 col-form-label">Folio de corte</label>
+            <div class="col-9">
+              <input type="number" class="form-control" name="corte_folio" id="corte_folio" required placeholder="Folio de corte">
             </div>
           </div>
           <div class="form-group row">
@@ -144,6 +153,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="razonE" class="col-3 col-form-label">Razón</label>
             <div class="col-9">
               <textarea class="form-control" name="razonE" id="razonE" required placeholder="Razón del descuento"></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="corte_folioE" class="col-3 col-form-label">Folio de corte</label>
+            <div class="col-9">
+              <input type="number" class="form-control" name="corte_folioE" id="corte_folioE" required placeholder="Folio de corte">
             </div>
           </div>
           <div class="form-group row">

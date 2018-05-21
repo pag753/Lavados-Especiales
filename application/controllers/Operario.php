@@ -238,4 +238,15 @@ class Operario extends CI_Controller
 			);
 		}
 	}
+
+	public function verAhorro()
+	{
+		$this->load->model("Ahorros");
+		$data['ahorros'] = $this->Ahorros->getByIdUsuario($_SESSION['usuario_id']);
+		$titulo['titulo']="Ver caja de ahorro";
+		$this->load->view('comunes/head',$titulo);
+		$this->load->view('operario/menu');
+		$this->load->view('operarios/verAhorro',$data);
+		$this->load->view('comunes/foot');
+	}
 }

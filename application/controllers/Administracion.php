@@ -576,9 +576,11 @@ class Administracion extends CI_Controller
 				trim($this->input->post()['razonE']),
 				trim($this->input->post()['fechaE']),
 				trim($this->input->post()['cantidadE']),
+				trim($this->input->post()['corte_folioE']),
 				trim($this->input->post()['idE'])
 			);
-			redirect('/administracion/descuentos/?id='.$this->input->post()['idUsuario']);
+			//print_r($this->input->post());
+			redirect('/administracion/descuentos?id='.$this->input->post()['idUsuario']);
 		}
 	}
 
@@ -593,10 +595,11 @@ class Administracion extends CI_Controller
 				'fecha' => $this->input->post()['fecha'],
 				'razon' => trim( $this->input->post()['razon']),
 				'usuario_id' => $this->input->post()['id'],
-				'cantidad' => $this->input->post()['cantidad']
+				'cantidad' => $this->input->post()['cantidad'],
+				'corte_folio' => $this->input->post()['corte_folio'],
 			);
 			$this->Descuentos->insert($data);
-			redirect('/administracion/descuentos/?id='.$data['usuario_id']);
+			redirect('/administracion/descuentos?id='.$data['usuario_id']);
 		}
 	}
 
@@ -1079,5 +1082,10 @@ class Administracion extends CI_Controller
 		$this->load->model("Ahorros");
 		$this->Ahorros->delete($this->input->post()['id']);
 		echo json_encode(array('respuesta' => true ));
+	}
+
+	public function nomina()
+	{
+		
 	}
 }

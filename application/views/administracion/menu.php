@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte1">Reporte de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte2">Reporte de periodo de producción</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte3">Nómina</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/nomina">Nómina</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte4">Reporte de producción de trabajador</a>
         </div>
       </li>

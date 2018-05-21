@@ -28,12 +28,13 @@ class Descuentos extends CI_Model
     return $query->result_array();
   }
 
-  public function update($razon,$fecha,$cantidad,$id)
+  public function update($razon,$fecha,$cantidad,$folio,$id)
   {
     $data = array(
       'fecha' => $fecha,
       'razon' => $razon,
       'cantidad' => $cantidad,
+      'corte_folio' => $folio,
     );
     $this->db->where('id', $id);
     $this->db->update('descuento', $data);
@@ -53,7 +54,7 @@ class Descuentos extends CI_Model
   //Consulta para los operarios
   public function consulta1($idUsuario,$fechaInicial,$fechaFinal)
   {
-    $this->db->select('fecha, razon, cantidad')
+    $this->db->select('fecha, razon, cantidad, corte_folio')
     ->from('descuento')
     ->where('usuario_id',$idUsuario)
     ->where('fecha>=',$fechaInicial)
