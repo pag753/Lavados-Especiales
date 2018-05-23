@@ -3,7 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 function eliminar(id) {
-
+  if (confirm('¿Estás seguro de eliminar la nómina seleccionada?, ya no habrá vuelta atrás'))
+  {
+    $.ajax({
+      type: "POST",
+      url: "eliminarNomina",
+      data: {
+        id: id,
+      },
+      success: function(res) {
+        if (res.respuesta)
+          location.reload();
+      },
+      dataType: "json",
+      error: function (request, status, error) {
+        console.log(request.responseText);
+      }
+    });
+  }
 }
 $(document).ready(function() {
   $('#tabla').DataTable({
@@ -48,6 +65,7 @@ $(document).ready(function() {
               <th>Fecha</th>
               <th>Descripcion</th>
               <th>Eliminar</th>
+              <th>ver</th>
             </tr>
           </thead>
           <tbody>
@@ -56,6 +74,7 @@ $(document).ready(function() {
                 <td><?php echo $value['fecha']; ?></td>
                 <td><?php echo $value['descripcion']; ?></td>
                 <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
+                <td><a href="verNomina?id=<?php echo $value['id'] ?>"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

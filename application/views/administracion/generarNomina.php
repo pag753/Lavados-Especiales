@@ -38,8 +38,7 @@ foreach ($ahorros as $key => $value)
 //obtener los saldos anteriores
 foreach ($nomina as $key => $value)
 {
-  if (!isset($saldant[$value['id']])) $saldant[$value['usuario_id']] = 0;
-  else $saldant[$value['usuario_id']] += ($value['total']-$value['pagado']);
+  $saldant[$value['usuario_id']] = ($value['total']-$value['pagado']);
 }
 ?>
 <style media="screen">

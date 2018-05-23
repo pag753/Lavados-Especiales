@@ -557,7 +557,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$data['data'] = $this->Usuarios->getOperarios();
-			$titulo="Descuentos";
+			$titulo['titulo'] = "Descuentos";
 			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('administracion/descuentos',$data);
@@ -1029,7 +1029,7 @@ class Administracion extends CI_Controller
 				redirect("/");
 			else
 			{
-				$titulo = "Ahorros del operario ".$data['usuario'][0]['nombre'];
+				$titulo['titulo'] = "Ahorros del operario ".$data['usuario'][0]['nombre'];
 				$this->load->view('comunes/head',$titulo);
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/ahorrosEspecifico',$data);
@@ -1040,7 +1040,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$data['data'] = $this->Usuarios->getOperarios();
-			$titulo = "Ahorros";
+			$titulo['titulo'] = "Ahorros";
 			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('administracion/ahorros',$data);
@@ -1097,7 +1097,11 @@ class Administracion extends CI_Controller
 
 	public function eliminarNomina()
 	{
-
+		if (!$this->input->post()['id'])
+			redirect("/");
+		$this->load->model('Nomina');
+		$this->Nomina->delete($this->input->post()['id']);
+		echo json_encode(array('respuesta' => true, ));
 	}
 
 	public function nuevaNomina()
@@ -1168,15 +1172,15 @@ class Administracion extends CI_Controller
 			$pdf->SetFont('Arial','B',8);
 			$pdf->ban = true;
 			$pdf->Row(array(
-					utf8_decode("Nombre\n\n"),
-					utf8_decode("Puesto\n\n"),
-					utf8_decode("Saldo anterior\n"),
-					utf8_decode("Nómina\n\n"),
-					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDescuentos\n\n"),
-					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAhorro\n\n"),
-					utf8_decode("Bonos\n\n"),
-					utf8_decode("Total\n\n"),
-					utf8_decode("Pagado\n\n"),
+				utf8_decode("Nombre\n\n"),
+				utf8_decode("Puesto\n\n"),
+				utf8_decode("Saldo anterior\n"),
+				utf8_decode("Nómina\n\n"),
+				utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDescuentos\n\n"),
+				utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAhorro\n\n"),
+				utf8_decode("Bonos\n\n"),
+				utf8_decode("Total\n\n"),
+				utf8_decode("Pagado\n\n"),
 			));
 			$antiguoX = $pdf->getX();
 			$antiguoY = $pdf->getY();
@@ -1184,12 +1188,12 @@ class Administracion extends CI_Controller
 			$pdf->SetX(93.076923076);
 			$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
 			$pdf->Row(array(
-				utf8_decode("Bonos"),
-				utf8_decode("Total"),
-				utf8_decode("Pagado"),
-				utf8_decode("Bonos"),
-				utf8_decode("Total"),
-				utf8_decode("Pagado"),
+				utf8_decode("Anterior"),
+				utf8_decode("Abono"),
+				utf8_decode("Saldo"),
+				utf8_decode("Anterior"),
+				utf8_decode("Abono"),
+				utf8_decode("Saldo"),
 			));
 			//Llenar tabla
 			$nombre = $this->input->post()['nombre'];
@@ -1286,7 +1290,93 @@ class Administracion extends CI_Controller
 			//Antigua nómina
 			if ($this->input->get())
 			{
-
+				//print_r($this->input->post());
+				// Creacion del PDF
+				/*
+				* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+				* heredó todos las variables y métodos de fpdf
+				*/
+				if (!$this->input->get())
+					redirect("/");
+				$this->load->model('Nomina');
+				$nomina = $this->Nomina->getNominaById($this->input->get()['id']);
+				//print_r($nomina);
+				$this->load->library('pdf');
+				$pdf = new Pdf(utf8_decode($nomina[0]['descripcion']),'L');
+				// Agregamos una página
+				$pdf->SetAutoPageBreak(1,20);
+				// Define el alias para el número de página que se imprimirá en el pie
+				$pdf->AliasNbPages();
+				$pdf->AddPage();
+				/* Se define el titulo, márgenes izquierdo, derecho y
+				* el color de relleno predeterminado
+				*/
+				$pdf->SetTitle(utf8_decode(utf8_decode($nomina[0]['descripcion'])));
+				//Tabla de producción
+				$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,62.307692308,62.307692308,20.769230769,20.769230769,20.769230769));
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->Row(array(
+					utf8_decode("Nombre\n\n"),
+					utf8_decode("Puesto\n\n"),
+					utf8_decode("Saldo anterior\n"),
+					utf8_decode("Nómina\n\n"),
+					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDescuentos\n\n"),
+					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAhorro\n\n"),
+					utf8_decode("Bonos\n\n"),
+					utf8_decode("Total\n\n"),
+					utf8_decode("Pagado\n\n"),
+				));
+				$antiguoX = $pdf->getX();
+				$antiguoY = $pdf->getY();
+				$pdf->SetY($pdf->GetY() - 5);
+				$pdf->SetX(93.076923076);
+				$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+				$pdf->Row(array(
+					utf8_decode("Anterior"),
+					utf8_decode("Abono"),
+					utf8_decode("Saldo"),
+					utf8_decode("Anterior"),
+					utf8_decode("Abono"),
+					utf8_decode("Saldo"),
+				));
+				//Llenar tabla
+				//regresar coordenadas a la normalidad
+				$pdf->ban = false;
+				$pdf->SetFont('Arial','',8);
+				$pdf->SetXY($antiguoX,$antiguoY);
+				$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+				foreach ($nomina as $key => $value)
+				{
+					//Agregar al pdf
+					$pdf->Row(array(
+						utf8_decode($value['nombre']),
+						utf8_decode($value['puesto']),
+						utf8_decode($value['saldo_anterior']),
+						utf8_decode($value['nomina']),
+						utf8_decode($value['descuentos_anterior']),
+						utf8_decode($value['descuentos_abono']),
+						utf8_decode($value['descuentos_saldo']),
+						utf8_decode($value['ahorro_anterior']),
+						utf8_decode($value['ahorro_abono']),
+						utf8_decode($value['ahorro_saldo']),
+						utf8_decode($value['bonos']),
+						utf8_decode($value['total']),
+						utf8_decode($value['pagado']),
+					));
+				}
+				/*
+				* Se manda el pdf al navegador
+				*
+				* $this->pdf->Output(nombredelarchivo, destino);
+				*
+				* I = Muestra el pdf en el navegador
+				* D = Envia el pdf para descarga
+				*
+				*/
+				$pdf->Output(utf8_decode($nomina[0]['descripcion']).".pdf", 'I');
 			}
 			else
 				redirect("/");

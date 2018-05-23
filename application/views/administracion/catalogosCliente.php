@@ -2,42 +2,42 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  function editar(id) {
-    $('#nombreE').val($('#nombre'+id).text());
-    $('#direccionE').val($('#direccion'+id).text());
-    $('#telefonoE').val($('#telefono'+id).text());
-    $('#id').val(id);
-    $('#editar').modal('show');
-  }
-  $(document).ready(function() {
-    $( '#tabla' ).DataTable({
-      language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+function editar(id) {
+  $('#nombreE').val($('#nombre'+id).text());
+  $('#direccionE').val($('#direccion'+id).text());
+  $('#telefonoE').val($('#telefono'+id).text());
+  $('#id').val(id);
+  $('#editar').modal('show');
+}
+$(document).ready(function() {
+  $( '#tabla' ).DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
       },
-      "lengthMenu": [ 5, 10, 20, 50, 100 ],
-    });
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -55,15 +55,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <th>Editar</th>
             </tr>
           </thead>
-          <tbody>
-            <?php foreach ($data as $key => $value): ?>
-              <tr>
-                <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-                <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-                <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-                <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-              </tr>
-            <?php endforeach; ?>
+          <tbody><?php foreach ($data as $key => $value): ?>
+            <tr>
+              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+            </tr><?php endforeach; ?>
           </tbody>
         </table>
       </div>

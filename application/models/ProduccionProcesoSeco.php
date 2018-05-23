@@ -213,9 +213,8 @@ class ProduccionProcesoSeco extends CI_Model
       ->join('lavado t2','t2.id=t1.lavado_id')
       ->join('proceso_seco t3','t3.id=t1.proceso_seco_id')
       ->join('corte_autorizado_datos t4','t4.lavado_id=t1.lavado_id AND t4.proceso_seco_id=t1.proceso_seco_id AND t4.corte_folio=t1.corte_folio')
-      ->where_in('corte_folio', $folios)
+      ->where_in('t1.corte_folio', $folios)
       ->where('t4.status=',2)
-      //->group_by('t1.usuario_id')
       ->order_by('t1.corte_folio')
       ->order_by('t2.nombre')
       ->order_by('t3.nombre');

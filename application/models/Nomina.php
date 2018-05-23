@@ -44,4 +44,31 @@ class Nomina extends CI_Model
     $query = $this->db->query('SELECT * from nomina WHERE id=(SELECT MAX(id) FROM nomina)');
     return $query->result_array();
   }
+
+  public function getNominaById($id=null)
+  {
+    $this->db->select('
+      nomina.descripcion as descripcion,
+      usuario.nombre_completo as nombre,
+      puesto.nombre as puesto,
+      nomina.fecha as fecha,
+      nomina.descripcion as descripcion,
+      nomina.usuario_id as usuario_id,
+      nomina.saldo_anterior as saldo_anterior,
+      nomina.nomina as nomina,
+      nomina.descuentos_anterior as descuentos_anterior,
+      nomina.descuentos_abono as descuentos_abono,
+      nomina.descuentos_saldo as descuentos_saldo,
+      nomina.ahorro_anterior as ahorro_anterior,
+      nomina.ahorro_abono as ahorro_abono,
+      nomina.ahorro_saldo as ahorro_saldo,
+      nomina.bonos as bonos,
+      nomina.total as total,
+      nomina.pagado as pagado')
+      ->from('nomina')
+      ->join('usuario','usuario.id=nomina.usuario_id')
+      ->join('puesto','usuario.puesto_id=puesto.id')
+      ->where('nomina.id',$id);
+      return $this->db->get()->result_array();
+  }
 }
