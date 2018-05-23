@@ -1,9 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-if (count($nomina) == 0)
-  $id = 1;
-else
-  $id = $nomina[0]['id'] + 1;
+if (count($nomina) == 0)  $id = 1;
+else $id = $nomina[0]['id'] + 1;
 $prod = null;
 $desc = null;
 $ahorr = null;

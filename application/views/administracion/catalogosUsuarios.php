@@ -2,62 +2,62 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  function editar(id) {
-    $('#nombreE').val($('#nombre'+id).text());
-    $('#tipo_usuario_idE').val($('#idTipoUsuario_'+id).val());
-    $('#nombre_completoE').val($('#nombre_completo'+id).text());
-    $('#direccionE').val($('#direccion'+id).text());
-    $('#telefonoE').val($('#telefono'+id).text());
-    $('#puesto_idE').val($('#puesto_id_'+id).val());
-    if ($('#activo'+id).text() == 'No')
-      $('#activoE').val(0);
-    else
-      $('#activoE').val(1);
-    $('#id').val(id);
-    $('#editar').modal('show');
-  }
-  $(document).ready(function() {
-    var r='';
-    $("#guardar").click(function(event) {
-      $.ajax({
-        url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
-        data: { nombre: $("#nombre").val() },
-        type: "POST",
-        dataType: "text",
-        success: function(result){
-          if (result=="yes")  alert("El nombre de usuario ya existe, intente con otro por favor");
-          else $("#new").submit();
-        }
-      });
-    });
-    $('#tabla').DataTable({
-      language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
-      },
-      "lengthMenu": [ 5, 10, 20, 50, 100 ],
+function editar(id) {
+  $('#nombreE').val($('#nombre'+id).text());
+  $('#tipo_usuario_idE').val($('#idTipoUsuario_'+id).val());
+  $('#nombre_completoE').val($('#nombre_completo'+id).text());
+  $('#direccionE').val($('#direccion'+id).text());
+  $('#telefonoE').val($('#telefono'+id).text());
+  $('#puesto_idE').val($('#puesto_id_'+id).val());
+  if ($('#activo'+id).text() == 'No')
+  $('#activoE').val(0);
+  else
+  $('#activoE').val(1);
+  $('#id').val(id);
+  $('#editar').modal('show');
+}
+$(document).ready(function() {
+  var r='';
+  $("#guardar").click(function(event) {
+    $.ajax({
+      url: "<?php echo base_url(); ?>index.php/ajax/existeUsuario",
+      data: { nombre: $("#nombre").val() },
+      type: "POST",
+      dataType: "text",
+      success: function(result){
+        if (result=="yes")  alert("El nombre de usuario ya existe, intente con otro por favor");
+        else $("#new").submit();
+      }
     });
   });
+  $('#tabla').DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
+  });
+});
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
 <div class="container-fluid">
@@ -80,39 +80,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <th>Editar</th>
             </tr>
           </thead>
-          <tbody>
-            <?php foreach ($data as $key => $value): ?>
-              <tr>
-                <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-                <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>">
-                  <?php foreach ($TipoUsuario as $key2 => $value2): ?>
-                    <?php if ($value['tipo_usuario_id']==$value2['id']): ?>
-                      <?php echo $value2['tipo_usuariocol']; ?>
-                      <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
-                      <?php break; ?>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </td>
-                <td>
-                  <?php foreach ($puestos as $key2 => $value2): ?>
-                    <?php if ($value['puesto_id']==$value2['id']): ?>
-                      <?php echo $value2['nombre']; ?>
-                      <input type="hidden" name="puesto_id_<?php echo $value['id'] ?>" id="puesto_id_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>">
-                      <?php break; ?>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </td>
-                <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
-                <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-                <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-                <?php if ($value['activo'] == 1): ?>
-                  <td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">Sí</td>
-                <?php else: ?>
-                  <td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">No</td>
-                <?php endif ?>
-                <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-              </tr>
-            <?php endforeach; ?>
+          <tbody><?php foreach ($data as $key => $value): ?>
+            <tr>
+              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>"><?php foreach ($TipoUsuario as $key2 => $value2): ?><?php if ($value['tipo_usuario_id']==$value2['id']): ?>
+                <?php echo $value2['tipo_usuariocol']; ?>
+                <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>"><?php break; ?><?php endif; ?><?php endforeach; ?>
+              </td>
+              <td><?php foreach ($puestos as $key2 => $value2): ?><?php if ($value['puesto_id']==$value2['id']): ?>
+                <?php echo $value2['nombre']; ?>
+                <input type="hidden" name="puesto_id_<?php echo $value['id'] ?>" id="puesto_id_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>"><?php break; ?><?php endif; ?><?php endforeach; ?>
+              </td>
+              <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
+              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+              <?php if ($value['activo'] == 1): ?><td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">Sí</td>
+              <?php else: ?><td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">No</td>
+              <?php endif ?><td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+            </tr><?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -143,9 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="tipo_usuario_id" class="col-3 col-form-label">Tipo de Usuario</label>
             <div class="col-9">
               <select class="form-control" name="tipo_usuario_id" id="tipo_usuario_id">
-                <?php foreach ($TipoUsuario as $key => $value): ?>
-                  <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
-                <?php endforeach; ?>
+                <?php foreach ($TipoUsuario as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -153,9 +136,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="puesto_id" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
               <select class="form-control" name="puesto_id" id="puesto_id">
-                <?php foreach ($puestos as $key => $value): ?>
-                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                <?php endforeach; ?>
+                <?php foreach ($puestos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -223,9 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="tipo_usuario_idE" class="col-3 col-form-label">Tipo de Usuario</label>
             <div class="col-9">
               <select class="form-control" name="tipo_usuario_idE" id="tipo_usuario_idE">
-                <?php foreach ($TipoUsuario as $key => $value): ?>
-                  <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
-                <?php endforeach; ?>
+                <?php foreach ($TipoUsuario as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -233,9 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="puesto_idE" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
               <select class="form-control" name="puesto_idE" id="puesto_idE">
-                <?php foreach ($puestos as $key => $value): ?>
-                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                <?php endforeach; ?>
+                <?php foreach ($puestos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>

@@ -4,58 +4,58 @@ $aportaciones = 0;
 $retiros = 0;
 ?>
 <script type="text/javascript">
-  function editar(id) {
-    $('#aportacionE').val(($('#aportacion'+id).text().trim() == 'Retiro')? 0 : 1);
-    $('#fechaE').val($('#fecha'+id).text());
-    $('#razonE').val($('#razon'+id).text());
-    $('#cantidadE').val($('#cantidad'+id).text());
-    $('#idE').val(id);
-    $('#editar').modal('show');
-  }
-  function eliminar(id){
-    var r=confirm("¿Está seguro de que desea elimiar el ahorro seleccionado?");
-    if (r) {
-      $.ajax({
-        type: "POST",
-        url: "eliminarAhorro",
-        data: { "id": id },
-        success: function(res) {
-          if (res.respuesta)
-            location.reload();
-        },
-        dataType: "json"
-      });
-    }
-  }
-  $(document).ready(function() {
-    $('#tabla').DataTable({
-      language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+function editar(id) {
+  $('#aportacionE').val(($('#aportacion'+id).text().trim() == 'Retiro')? 0 : 1);
+  $('#fechaE').val($('#fecha'+id).text());
+  $('#razonE').val($('#razon'+id).text());
+  $('#cantidadE').val($('#cantidad'+id).text());
+  $('#idE').val(id);
+  $('#editar').modal('show');
+}
+function eliminar(id){
+  var r=confirm("¿Está seguro de que desea elimiar el ahorro seleccionado?");
+  if (r) {
+    $.ajax({
+      type: "POST",
+      url: "eliminarAhorro",
+      data: { "id": id },
+      success: function(res) {
+        if (res.respuesta)
+        location.reload();
       },
-      "lengthMenu": [ 5, 10, 20, 50, 100 ],
+      dataType: "json"
     });
+  }
+}
+$(document).ready(function() {
+  $('#tabla').DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
   });
+});
 </script>
 <input type="hidden" name="bandera" id="bandera" value="">
 <div class="container-fluid">
@@ -75,18 +75,16 @@ $retiros = 0;
               <th>Eliminar</th>
             </tr>
           </thead>
-          <tbody>
-            <?php foreach ($ahorros as $key => $value): ?>
-              <tr>
-                <td name="aportacion<?php echo $value['id']; ?>" id="aportacion<?php echo $value['id']; ?>">
-                  <?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?>
-                </td>
-                <td name="fecha<?php echo $value['id'] ?>" id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
-                <td name="cantidad<?php echo $value['id'] ?>" id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-                <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i></button></td>
-                <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)"><i class="far fa-trash-alt"></i></button></td>
-              </tr>
-            <?php endforeach; ?>
+          <tbody><?php foreach ($ahorros as $key => $value): ?>
+            <tr>
+              <td name="aportacion<?php echo $value['id']; ?>" id="aportacion<?php echo $value['id']; ?>">
+                <?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?>
+              </td>
+              <td name="fecha<?php echo $value['id'] ?>" id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
+              <td name="cantidad<?php echo $value['id'] ?>" id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
+              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i></button></td>
+              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)"><i class="far fa-trash-alt"></i></button></td>
+            </tr><?php endforeach; ?>
           </tbody>
         </table>
       </div>

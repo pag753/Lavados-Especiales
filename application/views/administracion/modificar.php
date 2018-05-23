@@ -28,7 +28,7 @@ $(document).ready(function() {
         <div class="row">
             <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
                 <h3 class="white">Modificar corte</h3>
-                <form action="<?php echo base_url('index.php/administracion/modificar'); ?>" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
+                <form action="modificar" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
                     <div class="form-group row">
                         <label for="folio" class="col-3 col-form-label">Folio</label>
                         <div class="col-9">

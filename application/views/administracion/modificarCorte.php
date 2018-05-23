@@ -664,18 +664,20 @@ $(document).ready(function() {
                   </thead>
                   <tbody>
                     <?php foreach ($autorizadoDatos as $key => $value): ?>
-                      <input type="hidden" name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['id_carga'] ?>">
-                      <input type="hidden" name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['lavado_id'] ?>">
-                      <input type="hidden" name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['proceso_seco_id'] ?>">
-                      <input type="hidden" name="costo_autorizado_datos_<?php echo $value['id']; ?>" id="costo_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['costo']; ?>">
-                      <input type="hidden" name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas']; ?>">
-                      <input type="hidden" name="defectos_autorizado_datos_<?php echo $value['id']; ?>" id="defectos_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['defectos']; ?>">
-                      <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>">
-                      <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>">
-                      <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>">
-                      <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['usuario_id']; ?>">
                       <tr>
-                        <td><?php echo $value['id_carga'] ?></td>
+                        <td>
+                          <input type="hidden" name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['id_carga'] ?>">
+                          <input type="hidden" name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['lavado_id'] ?>">
+                          <input type="hidden" name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['proceso_seco_id'] ?>">
+                          <input type="hidden" name="costo_autorizado_datos_<?php echo $value['id']; ?>" id="costo_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['costo']; ?>">
+                          <input type="hidden" name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas']; ?>">
+                          <input type="hidden" name="defectos_autorizado_datos_<?php echo $value['id']; ?>" id="defectos_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['defectos']; ?>">
+                          <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>">
+                          <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>">
+                          <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>">
+                          <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['usuario_id']; ?>">
+                          <?php echo $value['id_carga'] ?>
+                        </td>
                         <td>
                           <?php foreach ($lavados as $key2 => $value2): ?>
                             <?php if ($value2['id'] == $value['lavado_id']): ?>

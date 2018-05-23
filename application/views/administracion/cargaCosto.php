@@ -38,13 +38,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <th>Costo $</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php foreach ($procesos as $key => $value): ?>
-                    <tr>
-                      <td><input type="text" readonly="true" class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>"/></td>
-                      <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
-                    </tr>
-                  <?php endforeach; ?>
+                <tbody><?php foreach ($procesos as $key => $value): ?>
+                  <tr>
+                    <td><input type="text" readonly="true" class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>"/></td>
+                    <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
+                  </tr><?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -52,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-eye"></i> Detalles</button>
         <center>
-          <a href="<?php echo base_url() ?>index.php/administracion/costos/"><button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button></a>
+          <a href="costos"><button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button></a>
           <input type="submit" class="btn btn-primary" value="Aceptar"/>
         </center>
       </form>
