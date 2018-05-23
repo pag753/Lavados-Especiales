@@ -545,7 +545,7 @@ class Administracion extends CI_Controller
 					redirect("/");
 				else
 				{
-					$titulo="Descuentos del operario ".$data['usuario'][0]['nombre'];
+					$titulo['titulo'] = "Descuentos del operario ".$data['usuario'][0]['nombre'];
 					$this->load->view('comunes/head',$titulo);
 					$this->load->view('administracion/menu');
 					$this->load->view('administracion/descuentosEspecifico',$data);
@@ -1029,7 +1029,7 @@ class Administracion extends CI_Controller
 				redirect("/");
 			else
 			{
-				$titulo="Ahorros del operario ".$data['usuario'][0]['nombre'];
+				$titulo = "Ahorros del operario ".$data['usuario'][0]['nombre'];
 				$this->load->view('comunes/head',$titulo);
 				$this->load->view('administracion/menu');
 				$this->load->view('administracion/ahorrosEspecifico',$data);
@@ -1040,7 +1040,7 @@ class Administracion extends CI_Controller
 		{
 			$this->load->model("Usuarios");
 			$data['data'] = $this->Usuarios->getOperarios();
-			$titulo="Ahorros";
+			$titulo = "Ahorros";
 			$this->load->view('comunes/head',$titulo);
 			$this->load->view('administracion/menu');
 			$this->load->view('administracion/ahorros',$data);
@@ -1086,6 +1086,210 @@ class Administracion extends CI_Controller
 
 	public function nomina()
 	{
-		
+		$this->load->model("Nomina");
+		$data['data'] = $this->Nomina->getDistinct();
+		$titulo['titulo'] = "Nómina";
+		$this->load->view('comunes/head',$titulo);
+		$this->load->view('administracion/menu');
+		$this->load->view('administracion/nomina',$data);
+		$this->load->view('comunes/foot');
+	}
+
+	public function eliminarNomina()
+	{
+
+	}
+
+	public function nuevaNomina()
+	{
+		if (!$this->input->post())
+		{
+			$titulo['titulo'] = "Nueva nómina";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/opcionesNomina');
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			$this->load->model(array("Nomina","Descuentos","Usuarios","Ahorros","ProduccionProcesoSeco"));
+			$data['nomina'] = $this->Nomina->getUltimaNomina();
+			$data['descuentos'] = $this->Descuentos->get();
+			$data['operarios'] = $this->Usuarios->getOperariosEspecificos();
+			$data['ahorros'] = $this->Ahorros->get();
+			//Por fechas
+			if($this->input->post()['optionsRadios'] == 'option1')
+			{
+				$data['descripcion'] = "Nómina destajo del ".$this->input->post()['fechaInicial']." al ".$this->input->post()['fechaFinal'];
+				$data['produccion'] = $this->ProduccionProcesoSeco->getByFechas($this->input->post()['fechaInicial'],$this->input->post()['fechaFinal']);
+			}
+			//Por folios
+			else
+			{
+				$data['descripcion'] = "Nómina destajo de los folios ".$this->input->post()['folios'];
+				$folios = explode(",", $this->input->post()['folios']);
+				$data['produccion'] = $this->ProduccionProcesoSeco->getByFolios($folios);
+			}
+			//Cargar vistas
+			$titulo['titulo'] = "Nueva nómina";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/generarNomina',$data);
+			$this->load->view('comunes/foot');
+		}
+	}
+
+	public function verNomina()
+	{
+		//nueva nomina
+		if ($this->input->post())
+		{
+			//print_r($this->input->post());
+			// Creacion del PDF
+			/*
+			* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+			* heredó todos las variables y métodos de fpdf
+			*/
+			$this->load->library('pdf');
+			$pdf = new Pdf(utf8_decode($this->input->post()['descripcion']),'L');
+			// Agregamos una página
+			$pdf->SetAutoPageBreak(1,20);
+			// Define el alias para el número de página que se imprimirá en el pie
+			$pdf->AliasNbPages();
+			$pdf->AddPage();
+			/* Se define el titulo, márgenes izquierdo, derecho y
+			* el color de relleno predeterminado
+			*/
+			$pdf->SetTitle(utf8_decode($this->input->post()['descripcion']));
+			//Tabla de producción
+			$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,62.307692308,62.307692308,20.769230769,20.769230769,20.769230769));
+			//Encabezado de tabla
+			$pdf->SetFillColor(59,131,189);
+			$pdf->SetFont('Arial','B',8);
+			$pdf->ban = true;
+			$pdf->Row(array(
+					utf8_decode("Nombre\n\n"),
+					utf8_decode("Puesto\n\n"),
+					utf8_decode("Saldo anterior\n"),
+					utf8_decode("Nómina\n\n"),
+					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDescuentos\n\n"),
+					utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAhorro\n\n"),
+					utf8_decode("Bonos\n\n"),
+					utf8_decode("Total\n\n"),
+					utf8_decode("Pagado\n\n"),
+			));
+			$antiguoX = $pdf->getX();
+			$antiguoY = $pdf->getY();
+			$pdf->SetY($pdf->GetY() - 5);
+			$pdf->SetX(93.076923076);
+			$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+			$pdf->Row(array(
+				utf8_decode("Bonos"),
+				utf8_decode("Total"),
+				utf8_decode("Pagado"),
+				utf8_decode("Bonos"),
+				utf8_decode("Total"),
+				utf8_decode("Pagado"),
+			));
+			//Llenar tabla
+			$nombre = $this->input->post()['nombre'];
+			$puesto = $this->input->post()['puesto'];
+			$saldo_anterior = $this->input->post()['saldo_anterior'];
+			$nomina = $this->input->post()['nomina'];
+			$ahorro_anterior = $this->input->post()['ahorro_anterior'];
+			$ahorro_abono = $this->input->post()['ahorro_abono'];
+			$ahorro_saldo = $this->input->post()['ahorro_saldo'];
+			$bonos = $this->input->post()['bonos'];
+			$descuentos_anterior = $this->input->post()['descuentos_anterior'];
+			$descuentos_abono = $this->input->post()['descuentos_abono'];
+			$descuentos_saldo = $this->input->post()['descuentos_saldo'];
+			$total = $this->input->post()['total'];
+			$pagado = $this->input->post()['pagado'];
+			$pdf->ban = false;
+			$pdf->SetFont('Arial','',8);
+			$produccion = 0;
+			$this->load->model(array('Nomina','Ahorros','Descuentos'));
+			//regresar coordenadas a la normalidad
+			$pdf->SetXY($antiguoX,$antiguoY);
+			$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+			foreach ($nombre as $key => $value)
+			{
+				//Agregar a tablas de bd
+				$data = array(
+					'id' => $this->input->post()['idNomina'],
+					'fecha' => date('Y-m-d'),
+					'descripcion' => $this->input->post()['descripcion'],
+					'usuario_id' => $key,
+					'saldo_anterior' => $saldo_anterior[$key],
+					'nomina' => $nomina[$key],
+					'descuentos_anterior' => $descuentos_anterior[$key],
+					'descuentos_abono' => $descuentos_abono[$key],
+					'descuentos_saldo' => $descuentos_saldo[$key],
+					'ahorro_anterior' => $ahorro_anterior[$key],
+					'ahorro_abono' => $ahorro_abono[$key],
+					'ahorro_saldo' => $ahorro_saldo[$key],
+					'bonos' => $bonos[$key],
+					'total' => $total[$key],
+					'pagado' => $pagado[$key],
+				);
+				$this->Nomina->insert($data);
+				if ($ahorro_abono[$key] != 0)
+				{
+					$data = array(
+						'fecha' => date('Y-m-d'),
+						'cantidad' => $ahorro_abono[$key],
+						'usuario_id' => $key,
+						'aportacion' => 1,
+					);
+					$this->Ahorros->insert($data);
+				}
+				if ($descuentos_abono[$key] != 0)
+				{
+					$data = array(
+						'fecha' => date('Y-m-d'),
+						'razon' => 'Abonado de '.$this->input->post()['descripcion'],
+						'usuario_id' => $key,
+						'cantidad ' => ($descuentos_abono[$key] * -1),
+					);
+					$this->Descuentos->insert($data);
+				}
+				//Agregar al pdf
+				$pdf->Row(array(
+					utf8_decode($nombre[$key]),
+					utf8_decode($puesto[$key]),
+					utf8_decode($saldo_anterior[$key]),
+					utf8_decode($nomina[$key]),
+					utf8_decode($descuentos_anterior[$key]),
+					utf8_decode($descuentos_abono[$key]),
+					utf8_decode($descuentos_saldo[$key]),
+					utf8_decode($ahorro_anterior[$key]),
+					utf8_decode($ahorro_abono[$key]),
+					utf8_decode($ahorro_saldo[$key]),
+					utf8_decode($bonos[$key]),
+					utf8_decode($total[$key]),
+					utf8_decode($pagado[$key]),
+				));
+			}
+			/*
+			* Se manda el pdf al navegador
+			*
+			* $this->pdf->Output(nombredelarchivo, destino);
+			*
+			* I = Muestra el pdf en el navegador
+			* D = Envia el pdf para descarga
+			*
+			*/
+			$pdf->Output($this->input->post()['descripcion'].".pdf", 'I');
+		}
+		else
+		{
+			//Antigua nómina
+			if ($this->input->get())
+			{
+
+			}
+			else
+				redirect("/");
+		}
 	}
 }

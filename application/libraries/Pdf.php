@@ -73,7 +73,7 @@ class Pdf extends FPDF
         //Calcular la altura del renglón dinámicamente.
         $nb=0;
         for($i=0;$i<count($data);$i++)
-            $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]));
+          $nb=max($nb,$this->NbLines($this->widths[$i],$data[$i]));
         $h=5*$nb;
         //Instrucción y Procedimiento que realizan un salto de página en caso de ser necesario.
         $this->CheckPageBreak($h);
@@ -85,10 +85,10 @@ class Pdf extends FPDF
             // Guarda la posición actual con las cordenadas X y Y.
             $x=$this->GetX();
             $y=$this->GetY();
-            // Dibuja el borde.
-            $this->Rect($x,$y,$w,$h);
             // Despliega el Texto.
             $this->MultiCell($w,5,$data[$i],0,$a,$this->ban);
+            // Dibuja el borde.
+            $this->Rect($x,$y,$w,$h);
             // Establece la posición a la derecha de la celda.
             $this->SetXY($x+$w,$y);
         }

@@ -120,4 +120,14 @@ class Usuarios extends CI_Model
         ->order_by('nombre');
         return $this->db->get()->result_array();
     }
+
+    public function getOperariosEspecificos()
+    {
+      $this->db->select("u.nombre_completo, u.nombre, u.id, p.nombre as puesto")
+      ->from('usuario u')
+      ->join('puesto p','u.puesto_id = p.id')
+      ->where('u.activo','1')
+      ->where_in('u.tipo_usuario_id',array(4,6));
+      return $this->db->get()->result_array();
+    }
 }
