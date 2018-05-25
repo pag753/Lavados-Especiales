@@ -201,7 +201,7 @@ class Ajax extends CI_Controller
 			{
 				//Verificar si el corte existe en la base de datos
 				$datos['folio'] = $folio;
-				if ($this->existeCorte($folio))
+				if (!$this->existeCorte($folio))
 				{
 					$info = array(
 						'respuesta' => "<div class='alert alert-info' role='alert'>El corte con folio ".$folio." no existe en la base de datos.</div>",
@@ -681,5 +681,23 @@ class Ajax extends CI_Controller
 		$this->load->model('corte');
 		$query = $this->corte->getByFolio($folio);
 		return (count($query) != 0);
+	}
+
+	public function cargasAdministracion()
+	{
+		if ($_SESSION['id'] != 1 || !$this->input->post())	redirect('/');
+		$folio = $this->input->post()['folio'];
+		$this->load->model('corteAutorizadoDatos');
+		$query = $this->corteAutorizadoDatos->joinLavadoProcesos($folio);
+		echo json_encode($query);
+	}
+
+	public function getProcesosReproceso()
+	{
+		if (!isset($this->input->post()['folio']))
+			redirect("/");
+		$this->load->model("Reproceso");
+		$query = $this->Reproceso->getByFolioOperarios($this->input->post()['folio']);
+		echo json_encode($query);
 	}
 }

@@ -12,16 +12,50 @@ class Operario extends CI_Controller
 
 	public function index($datos = null)
 	{
-		if ($datos == null)
-			$data = array(
-				'texto1' => "Bienvenido(a) usuario",
-				'texto2' => $_SESSION['username']
-			);
+		if ($this->input->get())
+		{
+			if (!isset($this->input->get()['q'])) redirect('/');
+			switch ($this->input->get()['q'])
+			{
+				case 'error':
+				$data = array(
+					'texto1' => "Se produjo un error",
+					'texto2' => "Favor de notificar al administrador",
+				);
+				break;
+
+				case 'reproceso':
+				$data = array(
+					'texto1' => "La producción de reproceso",
+					'texto2' => "Se ha registrado con éxito",
+				);
+				break;
+
+				case 'cerrarReproceso':
+				$data = array(
+					'texto1' => "El reproceso",
+					'texto2' => "Se ha cerrado con éxito",
+				);
+				break;
+
+				default:
+				redirect("/");
+				break;
+			}
+		}
 		else
-			$data = array(
-				'texto1' => "Los datos",
-				'texto2' => "Se han registrado con éxito"
-			);
+		{
+			if ($datos == null)
+				$data = array(
+					'texto1' => "Bienvenido(a) usuario",
+					'texto2' => $_SESSION['username']
+				);
+			else
+				$data = array(
+					'texto1' => "Los datos",
+					'texto2' => "Se han registrado con éxito"
+				);
+		}
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('operario/menu');
@@ -248,5 +282,135 @@ class Operario extends CI_Controller
 		$this->load->view('operario/menu');
 		$this->load->view('operarios/verAhorro',$data);
 		$this->load->view('comunes/foot');
+	}
+
+	public function insertarReproceso()
+	{
+		if ($this->input->get())
+		{
+			//Validación de datos
+			if (!isset($this->input->get()['id']) || !isset($this->input->get()['lavado']) || !isset($this->input->get()['proceso']) || !is_numeric($this->input->get()['id'])) redirect("operario/index?q=error");
+			//Ver si ya hay produccion de este usuario en la base de datos
+			$data  = array(
+				'reproceso_id' => $this->input->get()['id'],
+				'usuario_id' => $_SESSION['usuario_id'],
+			);
+			$this->load->model("ProduccionReproceso");
+			$query = $this->ProduccionReproceso->getWhere($data);
+			if (count($query) == 0)
+			{
+				$data = array(
+					'tipo' => 0,
+					'piezas' => 0,
+					'defectos' => 0,
+				);
+			}
+			else
+			{
+				$data = array(
+					'tipo' => 1,
+					'piezas' => $query[0]['piezas'],
+					'defectos' => $query[0]['defectos'],
+				);
+			}
+			$data['id'] = $this->input->get()['id'];
+			$data['lavado'] = $this->input->get()['lavado'];
+			$data['proceso'] = $this->input->get()['proceso'];
+			$titulo['titulo']="Insertar producción de reproceso";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('operario/menu');
+			$this->load->view('operarios/insertarProduccionReproceso',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			if ($this->input->post())
+			{
+				if (!isset($this->input->post()['tipo']) || !isset($this->input->post()['id']) || !isset($this->input->post()['piezas']) ||!isset($this->input->post()['defectos']) || !is_numeric($this->input->post()['tipo']) || !is_numeric($this->input->post()['id']) || !is_numeric($this->input->post()['piezas']) || !is_numeric($this->input->post()['defectos'])) redirect("operario/index?q=error");
+				$this->load->model("ProduccionReproceso");
+				$data  = array(
+					'usuario_id' => $_SESSION['usuario_id'],
+					'piezas' => $this->input->post()['piezas'],
+					'fecha' => date('Y-m-d'),
+					'defectos' => $this->input->post()['defectos'],
+					'reproceso_id' => $this->input->post()['id'],
+				);
+				switch ($this->input->post()['tipo'])
+				{
+					case 0:
+					//Nuevo registro
+					$this->ProduccionReproceso->insertar($data);
+					redirect("operario/index?q=reproceso");
+					break;
+
+					case 1:
+					//registro ya existente
+					$this->ProduccionReproceso->updateByOperario($data);
+					redirect("operario/index?q=reproceso");
+					break;
+
+					default:
+					redirect("operario/index?q=error");
+					break;
+				}
+			}
+			else
+			{
+				$titulo['titulo']="Reproceso";
+				$this->load->view('comunes/head',$titulo);
+				$this->load->view('operario/menu');
+				$this->load->view('operarios/produccionReproceso');
+				$this->load->view('comunes/foot');
+			}
+		}
+	}
+
+	public function cerrarReproceso()
+	{
+		if ($this->input->get())
+		{
+			//validación
+			if (!isset($this->input->get()['id']) || !isset($this->input->get()['lavado']) || !isset($this->input->get()['proceso'])) redirect("operario/index?q=error");
+			$this->load->model(array('ProduccionReproceso','Reproceso'));
+			//Recuerar datos
+			$data['reprocesos'] = $this->ProduccionReproceso->getByIdEspecifico($this->input->get()['id']);
+			$data['reproceso'] = $this->Reproceso->getById($this->input->get()['id'])[0];
+			if (count($data['reproceso']) == 0) redirect("operario/index?q=error");
+			if ($data['reproceso']['status'] == 2) redirect("operario/index?q=error");
+			$data['lavado'] = $this->input->get()['lavado'];
+			$data['proceso'] = $this->input->get()['proceso'];
+			$titulo['titulo']="Cerrar reproceso";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('operario/menu');
+			$this->load->view('operario/cerrarReprocesoEspecifico',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			if($this->input->post())
+			{
+				//Validación
+				if (!isset($this->input->post()['id']) || !isset($this->input->post()['piezas_trabajadas']) || !isset($this->input->post()['defectos']) || !is_numeric($this->input->post()['id']) || !is_numeric($this->input->post()['piezas_trabajadas']) || !is_numeric($this->input->post()['defectos'])) redirect("operario/index?q=error");
+				print_r($this->input->post());
+				$data = array(
+					'piezas_trabajadas' => $this->input->post()['piezas_trabajadas'],
+					'defectos' => $this->input->post()['defectos'],
+					'status' => 2,
+					'usuario_id' => $_SESSION['usuario_id'],
+					'id' => $this->input->post()['id'],
+				);
+				$this->load->model('Reproceso');
+				$this->Reproceso->update($data);
+				redirect("operario/index?q=cerrarReproceso");
+			}
+			else
+			{
+				$titulo['titulo']="Cerrar reproceso";
+				$this->load->view('comunes/head',$titulo);
+				$this->load->view('operario/menu');
+				$this->load->view('operario/cerrarReproceso');
+				$this->load->view('comunes/foot');
+			}
+		}
 	}
 }

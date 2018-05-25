@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/costos">Reasignación de costos</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/descuentos">Descuentos</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/ojal">Costo de ojal</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reproceso">Nuevo reproceso</a>
         </div>
       </li>
       <li class="nav-item dropdown">

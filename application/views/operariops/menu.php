@@ -19,7 +19,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertar">Insertar producción</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertar">Insertar producción de proceso seco</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertarReproceso">Insertar producción de reproceso</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/ver">Ver producción</a>
         </div>
       </li>

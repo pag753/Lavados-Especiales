@@ -1,21 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+$totalPiezasTrabajadas = 0;
+$totalDefectos = 0;
+$piezasRegistradas = $reproceso['piezas_trabajadas'];
+$folio = $reproceso['corte_folio'];
+foreach ($reprocesos as $key => $value)
+{
+  $totalPiezasTrabajadas += $value['piezas'];
+  $totalDefectos += $value['defectos'];
+}
 ?>
 <script>
 $(document).ready(function() {
-  $("form").submit(function( event ) {
-    var total=parseInt($("#total").val());
-    var trabajadas=parseInt($("#piezas_trabajadas").val());
-    var defectos=parseInt($("#defectos").val());
-    if ($("#siguiente")!=null) {
-      if (parseInt($("#siguiente").val())==-1) {
-        alert("Seleccione una opción válida en siguiente");
-        return false;
-      }
-      else
-      return true;
-    }
+  <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
+  $("#cerrarReproceso").submit(function( event ) {
+    return confirm('¿Está seguro de querer cerrar el reproceso?');
   });
+  <?php endif; ?>
   $('#especificos').DataTable({
     language: {
       "sProcessing": "Procesando...",
@@ -58,23 +59,23 @@ $(document).ready(function() {
               <thead>
                 <tr class="danger">
                   <th>Folio</th>
-                  <th>Carga</th>
+                  <th>Carga o lavado</th>
                   <th>Proceso</th>
                   <th>Piezas registradas</th>
                   <th>Piezas trabajadas</th>
                   <th>Defectos</th>
-                  <th>Faltantes</th>
+                  <th>piezas faltantes</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><?php echo $folio; ?></td>
-                  <td><?php echo strtoupper($nombreCarga); ?></td>
-                  <td><?php echo strtoupper($nombreProceso); ?></td>
-                  <td><?php echo $piezas ?></td>
-                  <td><?php echo $trabajadas ?></td>
-                  <td><?php echo $defectos ?></td>
-                  <td><?php echo $piezas-($trabajadas+$defectos); ?></td>
+                  <td><?php echo $folio ?></td>
+                  <td><?php echo $lavado ?></td>
+                  <td><?php echo $proceso ?></td>
+                  <td><?php echo $piezasRegistradas ?></td>
+                  <td><?php echo $totalPiezasTrabajadas ?></td>
+                  <td><?php echo $totalDefectos ?></td>
+                  <td><?php echo $piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos) ?></td>
                 </tr>
               </tbody>
             </table>
@@ -96,54 +97,32 @@ $(document).ready(function() {
                     <th>Empleado</th>
                     <th>Piezas que registró</th>
                     <th>Defectos que registró</th>
-                    <th>Fecha</th>
+                    <th>Fecha en que registró</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php foreach ($query as $key => $value): ?>
-                    <tr>
-                      <td><?php echo $value['usuario'] ?></td>
-                      <td><?php echo $value['piezas'] ?></td>
-                      <td><?php echo $value['defectos'] ?></td>
-                      <td><?php echo $value['fecha'] ?></td>
-                    </tr>
-                  <?php endforeach; ?>
+                <tbody><?php foreach ($reprocesos as $key => $value): ?>
+                  <tr>
+                    <td><?php echo $value['nombre'] ?></td>
+                    <td><?php echo $value['piezas'] ?></td>
+                    <td><?php echo $value['defectos'] ?></td>
+                    <td><?php echo $value['fecha'] ?></td>
+                  </tr><?php endforeach; ?>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-      <?php if ($trabajadas+$defectos==$piezas): ?>
+      <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
         <div class="card">
-          <?php if (count($faltantes)!=0): ?>
-            <div class="card-header">
-              <strong>Seleccione el siguiente proceso.</strong>
-            </div>
-          <?php else: ?>
-            <div class="card-header">
-              <strong>Cerrar el último proceso de la carga.</strong>
-            </div>
-          <?php endif; ?>
           <div class="card-body">
-            <form action="registro" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
-              <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
-              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
-              <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>">
-              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
-              <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
-              <?php if (count($faltantes)!=0): ?>
-                <div class="form-group row">
-                  <select name='siguiente' id='siguiente' class="form-control">
-                    <option value="-1">SELECCIONE UNA OPCIÓN</option>
-                    <?php foreach ($faltantes as $key => $value): ?>
-                      <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              <?php endif; ?>
-              <input type="submit" name="aceptar" id="aceptar" value="Aceptar" class="btn btn-primary"/>
+            <form action="cerrarReproceso" name="cerrarReproceso" id="cerrarReproceso" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id" value="<?php echo $reproceso['id'] ?>">
+              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $totalPiezasTrabajadas; ?>">
+              <input type="hidden" name="defectos" id="defectos" value="<?php echo $totalDefectos ?>">
+              <center>
+                <input type="submit" name="aceptar" id="aceptar" value="Cerrar el reproceso" class="btn btn-primary"/>
+              </center>
             </form>
           </div>
         </div>

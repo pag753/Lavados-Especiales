@@ -13,21 +13,54 @@ class Administracion extends CI_Controller
 
 	public function index($datos=null)
 	{
-		if ($datos == null)
-			$data = array(
-				'texto1' => 'Bienvenido(a)',
-				'texto2' => $_SESSION['username']
-			);
-		elseif ($datos == -1)
-			$data = array(
-				'texto1' => 'Los datos',
-				'texto2' => 'Se han registrado con éxito'
-			);
+		if($this->input->get())
+		{
+			switch ($this->input->get()['q'])
+			{
+				case 'error':
+				$data = array(
+					'texto1' => "Sucedió un error",
+					'texto2' => "Favor de reportarlo"
+				);
+				break;
+
+				case 'reproceso':
+				$data = array(
+					'texto1' => "El reproceso",
+					'texto2' => "Se ha registrado con éxito"
+				);
+				break;
+
+				case 'folio':
+				$data = array(
+					'texto1' => "El corte con folio ".$this->input->get()['folio'],
+					'texto2' => "Se ha registrado con éxito"
+				);
+				break;
+
+				default:
+				redirect("/");
+				break;
+			}
+		}
 		else
-			$data = array(
-				'texto1' => "El corte con folio ".$datos,
-				'texto2' => "Se ha registrado con éxito"
-			);
+		{
+			if ($datos == null)
+				$data = array(
+					'texto1' => 'Bienvenido(a)',
+					'texto2' => $_SESSION['username']
+				);
+			elseif ($datos == -1)
+				$data = array(
+					'texto1' => 'Los datos',
+					'texto2' => 'Se han registrado con éxito'
+				);
+			else
+				$data = array(
+					'texto1' => "El corte con folio ".$datos,
+					'texto2' => "Se ha registrado con éxito"
+				);
+		}
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('administracion/menu');
@@ -54,7 +87,7 @@ class Administracion extends CI_Controller
 				$value,
 				$this->input->post()['idlavado']
 			);
-			redirect('/administracion/index/'.$this->input->post()['folio']);
+			redirect('/administracion/index?q=folio&'.$this->input->post()['folio']);
 		}
 		else
 		{
@@ -1380,6 +1413,39 @@ class Administracion extends CI_Controller
 			}
 			else
 				redirect("/");
+		}
+	}
+
+	public function reproceso()
+	{
+		if (!$this->input->post())
+		{
+			$this->load->model("ProcesoSeco");
+			$data['procesos'] = $this->ProcesoSeco->get();
+			$titulo['titulo'] = "Nuevo reproceso";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/reproceso',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			if (!isset($this->input->post()['corte_folio']) || !isset($this->input->post()['piezas']) || !isset($this->input->post()['lavado']) || !isset($this->input->post()['proceso']) || !isset($this->input->post()['costo']) || !is_numeric($this->input->post()['corte_folio']) || !is_numeric($this->input->post()['lavado']) || !is_numeric($this->input->post()['proceso']) || !is_numeric($this->input->post()['costo']) || !is_numeric($this->input->post()['piezas']))
+				redirect('/administracion/index?q=error');
+			$data = array(
+				'corte_folio' => $this->input->post()['corte_folio'],
+				'lavado_id' => $this->input->post()['lavado'],
+				'proceso_seco_id' => $this->input->post()['proceso'],
+				'costo' => $this->input->post()['costo'],
+				'piezas_trabajadas' => $this->input->post()['piezas'],
+				'defectos' => 0,
+				'status' => 1,
+				'fecha_registro' => date('Y-m-d'),
+				'usuario_id' => $_SESSION['usuario_id'],
+			);
+			$this->load->model('Reproceso');
+			$this->Reproceso->insert($data);
+			redirect('/administracion/index?q=reproceso');
 		}
 	}
 }

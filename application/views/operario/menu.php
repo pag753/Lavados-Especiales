@@ -19,8 +19,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertar">Insertar producción de proceso seco</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertarReproceso">Insertar producción de reproceso</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/alta">Cerrar proceso</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertar">Insertar producción</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrarReproceso">Cerrar reproceso</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/ver">Ver producción</a>
         </div>
       </li>
