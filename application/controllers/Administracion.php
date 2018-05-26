@@ -1149,14 +1149,17 @@ class Administracion extends CI_Controller
 		}
 		else
 		{
-			$this->load->model(array("Nomina","Descuentos","Usuarios","Ahorros","ProduccionProcesoSeco"));
+			$this->load->model(array("Nomina","Descuentos","Usuarios","Ahorros","ProduccionProcesoSeco","ProduccionReproceso"));
 			$data['nomina'] = $this->Nomina->getUltimaNomina();
 			$data['descuentos'] = $this->Descuentos->get();
 			$data['operarios'] = $this->Usuarios->getOperariosEspecificos();
 			$data['ahorros'] = $this->Ahorros->get();
+			$data['pendientes_produccion'] = $this->ProduccionProcesoSeco->getPendientes();
+			$data['pendientes_reproceso'] = $this->ProduccionReproceso->getPendientes();
 			//Por fechas
 			if($this->input->post()['optionsRadios'] == 'option1')
 			{
+				$data['reprocesos'] = $this->ProduccionReproceso->getByFechas($this->input->post()['fechaInicial'],$this->input->post()['fechaFinal']);
 				$data['descripcion'] = "Nómina destajo del ".$this->input->post()['fechaInicial']." al ".$this->input->post()['fechaFinal'];
 				$data['produccion'] = $this->ProduccionProcesoSeco->getByFechas($this->input->post()['fechaInicial'],$this->input->post()['fechaFinal']);
 			}
@@ -1166,6 +1169,7 @@ class Administracion extends CI_Controller
 				$data['descripcion'] = "Nómina destajo de los folios ".$this->input->post()['folios'];
 				$folios = explode(",", $this->input->post()['folios']);
 				$data['produccion'] = $this->ProduccionProcesoSeco->getByFolios($folios);
+				$data['reprocesos'] = $this->ProduccionReproceso->getByFolios($folios);
 			}
 			//Cargar vistas
 			$titulo['titulo'] = "Nueva nómina";

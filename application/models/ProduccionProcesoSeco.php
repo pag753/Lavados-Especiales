@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ProduccionProcesoSeco extends CI_Model
 {
+  /*
+  estado_nomina:{
+  0: NO Pagado
+  1: Pagado
+  2: Pendiente
+  3: No se pagará
+  }
+  */
   function __construct()
   {
     parent::__construct();
@@ -182,20 +190,29 @@ class ProduccionProcesoSeco extends CI_Model
     public function getByFechas($fechaInicial,$fechaFinal)
     {
       $this->db->select('
+      t5.nombre_completo as usuario_nombre,
+      t2.nombre as lavado,
+      t3.nombre as proceso,
+      t1.corte_folio as folio,
+      t1.id as id_produccion,
       t1.usuario_id as id,
       t1.piezas as piezas,
-      t4.costo as precio,
-      TRUNCATE((t1.piezas*t4.costo),2) as costo'
+      TRUNCATE(t4.costo,2) as precio,
+      TRUNCATE((t1.piezas*t4.costo),2) as costo,
+      t5.nombre_completo usuario_nombre
+      '
       )
       ->from('produccion_proceso_seco as t1')
       ->join('lavado t2','t2.id=t1.lavado_id')
       ->join('proceso_seco t3','t3.id=t1.proceso_seco_id')
       ->join('corte_autorizado_datos t4','t4.lavado_id=t1.lavado_id AND t4.proceso_seco_id=t1.proceso_seco_id AND t4.corte_folio=t1.corte_folio')
+      ->join('usuario t5','t5.id=t1.usuario_id')
       ->where('t1.fecha<=',$fechaFinal)
       ->where('t1.fecha>=',$fechaInicial)
       ->where('t4.status=',2)
+      ->where('t1.estado_nomina',0)
+      ->order_by('t5.nombre_completo')
       ->order_by('t1.corte_folio')
-      //->group_by('t1.usuario_id')
       ->order_by('t2.nombre')
       ->order_by('t3.nombre');
       return $this->db->get()->result_array();
@@ -204,17 +221,53 @@ class ProduccionProcesoSeco extends CI_Model
     public function getByFolios($folios)
     {
       $this->db->select('
+      t5.nombre_completo as usuario_nombre,
+      t2.nombre as lavado,
+      t3.nombre as proceso,
+      t1.corte_folio as folio,
+      t1.id as id_produccion,
       t1.usuario_id as id,
       t1.piezas as piezas,
-      t4.costo as precio,
-      TRUNCATE((t1.piezas*t4.costo),2) as costo'
+      TRUNCATE(t4.costo,2) as precio,
+      TRUNCATE((t1.piezas*t4.costo),2) as costo,
+      t5.nombre_completo usuario_nombre'
       )
       ->from('produccion_proceso_seco as t1')
       ->join('lavado t2','t2.id=t1.lavado_id')
       ->join('proceso_seco t3','t3.id=t1.proceso_seco_id')
       ->join('corte_autorizado_datos t4','t4.lavado_id=t1.lavado_id AND t4.proceso_seco_id=t1.proceso_seco_id AND t4.corte_folio=t1.corte_folio')
+      ->join('usuario t5','t5.id=t1.usuario_id')
       ->where_in('t1.corte_folio', $folios)
       ->where('t4.status=',2)
+      ->where('t1.estado_nomina',0)
+      ->order_by('t5.nombre_completo')
+      ->order_by('t1.corte_folio')
+      ->order_by('t2.nombre')
+      ->order_by('t3.nombre');
+      return $this->db->get()->result_array();
+    }
+
+    public function getPendientes()
+    {
+      $this->db->select('
+      t5.nombre_completo as usuario_nombre,
+      t2.nombre as lavado,
+      t3.nombre as proceso,
+      t1.corte_folio as folio,
+      t1.id as id_produccion,
+      t1.usuario_id as id,
+      t1.piezas as piezas,
+      TRUNCATE(t4.costo,2) as precio,
+      TRUNCATE((t1.piezas*t4.costo),2) as costo,
+      t5.nombre_completo usuario_nombre'
+      )
+      ->from('produccion_proceso_seco as t1')
+      ->join('lavado t2','t2.id=t1.lavado_id')
+      ->join('proceso_seco t3','t3.id=t1.proceso_seco_id')
+      ->join('corte_autorizado_datos t4','t4.lavado_id=t1.lavado_id AND t4.proceso_seco_id=t1.proceso_seco_id AND t4.corte_folio=t1.corte_folio')
+      ->join('usuario t5','t5.id=t1.usuario_id')
+      ->where('t1.estado_nomina',2)
+      ->order_by('t5.nombre_completo')
       ->order_by('t1.corte_folio')
       ->order_by('t2.nombre')
       ->order_by('t3.nombre');
