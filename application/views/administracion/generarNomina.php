@@ -54,19 +54,22 @@ function cambioProduccionProcesoSeco(idUsuario,idProduccion)
   //Cambiar la clase del renglón
   var clase="";
   var cantidad = $('#cantidad_pagar_produccion_proceso_seco_'+idProduccion).val() * 1;
+  clase = $('#tr_produccion_proceso_seco_'+idProduccion).attr('class').split(' ')[0];
+  aumentaODisminuye(clase,$('#estado_nomina_proceso_seco_'+idProduccion).val() * 1,idUsuario,cantidad);
   switch ($('#estado_nomina_proceso_seco_'+idProduccion).val() * 1)
   {
     case 1:
+    $('#razonProduccionProcesoSeco'+idProduccion).prop("readonly",true);
+    $('#razonProduccionProcesoSeco'+idProduccion).val("");
     clase = "table-success";
-    aumentaTotalUsuario(idUsuario,cantidad);
     break;
     case 2:
+    $('#razonProduccionProcesoSeco'+idProduccion).prop("readonly",false);
     clase = "table-warning";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
     default:
+    $('#razonProduccionProcesoSeco'+idProduccion).prop("readonly",false);
     clase = "table-danger";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
   }
   $('#tr_produccion_proceso_seco_'+idProduccion).attr('class',clase);
@@ -78,19 +81,22 @@ function cambioPendientesProcesoSeco(idUsuario,idProduccion)
   //Cambiar la clase del renglón
   var clase="";
   var cantidad = $('#cantidad_pagar_pendientes_proceso_seco'+idProduccion).val() * 1;
+  clase = $('#tr_pendientes_proceso_seco_'+idProduccion).attr('class').split(' ')[0];
+  aumentaODisminuye(clase,$('#estado_nomina_pendientes_proceso_seco'+idProduccion).val() * 1,idUsuario,cantidad);
   switch ($('#estado_nomina_pendientes_proceso_seco'+idProduccion).val() * 1)
   {
     case 1:
     clase = "table-success";
-    aumentaTotalUsuario(idUsuario,cantidad);
+    $('#razonPendientesProcesoSeco'+idProduccion).prop( "readonly", true );
+    $('#razonPendientesProcesoSeco'+idProduccion).val("");
     break;
     case 2:
+    $('#razonPendientesProcesoSeco'+idProduccion).prop( "readonly", false );
     clase = "table-warning";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
     default:
+    $('#razonPendientesProcesoSeco'+idProduccion).prop( "readonly", false );
     clase = "table-danger";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
   }
   $('#tr_pendientes_proceso_seco_'+idProduccion).attr('class',clase);
@@ -102,19 +108,22 @@ function cambioReproceso(idUsuario,idProduccion)
   //Cambiar la clase del renglón
   var clase="";
   var cantidad = $('#cantidad_pagar_reproceso'+idProduccion).val() * 1;
+  clase = $('#tr_reproceso_'+idProduccion).attr('class').split(' ')[0];
+  aumentaODisminuye(clase,$('#estado_nomina_reproceso'+idProduccion).val() * 1,idUsuario,cantidad);
   switch ($('#estado_nomina_reproceso'+idProduccion).val() * 1)
   {
     case 1:
+    $('#razonReproceso'+idProduccion).prop( "readonly", true );
+    $('#razonReproceso'+idProduccion).val('');
     clase = "table-success";
-    aumentaTotalUsuario(idUsuario,cantidad);
     break;
     case 2:
+    $('#razonReproceso'+idProduccion).prop( "readonly", false );
     clase = "table-warning";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
     default:
+    $('#razonReproceso'+idProduccion).prop( "readonly", false );
     clase = "table-danger";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
   }
   $('#tr_reproceso_'+idProduccion).attr('class',clase);
@@ -126,24 +135,38 @@ function cambioPendientesReproceso(idUsuario,idProduccion)
   //Cambiar la clase del renglón
   var clase="";
   var cantidad = $('#cantidad_pagar_pendientes_reproceso'+idProduccion).val() * 1;
-  switch ($('#estado_nomina_pendeientes_reproceso'+idProduccion).val() * 1)
+  clase = $('#tr_pendeientes_reproceso_'+idProduccion).attr('class').split(' ')[0];
+  aumentaODisminuye(clase,$('#estado_nomina_pendientes_reproceso'+idProduccion).val() * 1,idUsuario,cantidad);
+  switch ($('#estado_nomina_pendientes_reproceso'+idProduccion).val() * 1)
   {
     case 1:
+    $('#razonPendientesReproceso'+idProduccion).prop( "readonly", true );
+    $('#razonPendientesReproceso'+idProduccion).val('');
     clase = "table-success";
-    aumentaTotalUsuario(idUsuario,cantidad);
     break;
     case 2:
+    $('#razonPendientesReproceso'+idProduccion).prop( "readonly", false );
     clase = "table-warning";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
     default:
+    $('#razonPendientesReproceso'+idProduccion).prop( "readonly", false );
     clase = "table-danger";
-    disminuyeTotalUsuario(idUsuario,cantidad);
     break;
   }
   $('#tr_pendeientes_reproceso_'+idProduccion).attr('class',clase);
 }
 <?php endif; ?>
+function aumentaODisminuye(clase,id,idUsuario,cantidad)
+{
+  switch (clase) {
+    case 'table-success':
+    if (id  == 2 || id == 3) disminuyeTotalUsuario(idUsuario,cantidad);
+    break;
+    case 'table-warning': case 'table-danger':
+    if (id  == 1) aumentaTotalUsuario(idUsuario,cantidad);
+    break;
+  }
+}
 function aumentaTotalUsuario(idUsuario,cantidad)
 {
   $('#nomina_'+idUsuario).val(($('#nomina_'+idUsuario).val() * 1) + cantidad);
@@ -189,7 +212,6 @@ function calcula(id)
   });
   $('#diferencia').val(total - totalPagar);
 }
-
 function pagado()
 {
   var pagados = $("[id^='pagado_']");
@@ -204,32 +226,35 @@ $(document).ready(function() {
   $('#verNomina').submit(function() {
     return confirm('¿Estás seguro de generar la nómina?');
   });
-  $( '#tabla' ).DataTable({
-    language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+  var tablas = ['#tablaProdProcSec','#tablaPenProcSec','#tablaRepr','#tablaPenReproc','#tabla'];
+  $.each(tablas, function( index, value ) {
+    $( value ).DataTable({
+      language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    },
-    "lengthMenu": [ 10, 20, 50, 100 ],
+      "lengthMenu": [ 200, 500, 1000, 2000, 3000 ],
+    });
   });
 });
 </script>
@@ -258,13 +283,14 @@ $(document).ready(function() {
                     <thead>
                       <tr>
                         <th>Nombre del operario</th>
-                        <th>Folio del corte</th>
+                        <th>Folio</th>
                         <th>Carga o lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
                         <th>Total</th>
                         <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
                       </tr>
                     </thead>
                     <tbody><?php foreach ($produccion as $key => $value): ?>
@@ -285,6 +311,9 @@ $(document).ready(function() {
                             <option value="2">Quedará pendiente</option>
                             <option value="3">No se pagará jamás</option>
                           </select>
+                        </td>
+                        <td>
+                          <textarea readonly id="razonProduccionProcesoSeco<?php echo $value['id_produccion'] ?>" name="razonProduccionProcesoSeco[<?php echo $value['id_produccion'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea>
                         </td>
                       </tr><?php endforeach; ?>
                     </tbody>
@@ -308,13 +337,14 @@ $(document).ready(function() {
                     <thead>
                       <tr>
                         <th>Nombre del operario</th>
-                        <th>Folio del corte</th>
+                        <th>Folio</th>
                         <th>Carga o lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
                         <th>Total</th>
                         <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
                       </tr>
                     </thead>
                     <tbody><?php foreach ($pendientes_produccion as $key => $value): ?>
@@ -335,6 +365,9 @@ $(document).ready(function() {
                             <option value="2" selected >Quedará pendiente</option>
                             <option value="3">No se pagará jamás</option>
                           </select>
+                        </td>
+                        <td>
+                          <textarea id="razonPendientesProcesoSeco<?php echo $value['id_produccion'] ?>" name="razonPendientesProcesoSeco[<?php echo $value['id_produccion'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea>
                         </td>
                       </tr><?php endforeach; ?>
                     </tbody>
@@ -358,13 +391,14 @@ $(document).ready(function() {
                     <thead>
                       <tr>
                         <th>Nombre del operario</th>
-                        <th>Folio del corte</th>
+                        <th>Folio</th>
                         <th>Carga o lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
                         <th>Total</th>
                         <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
                       </tr>
                     </thead>
                     <tbody><?php foreach ($reprocesos as $key => $value): ?>
@@ -385,6 +419,9 @@ $(document).ready(function() {
                             <option value="2" >Quedará pendiente</option>
                             <option value="3">No se pagará jamás</option>
                           </select>
+                        </td>
+                        <td>
+                          <textarea readonly id="razonReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea>
                         </td>
                       </tr><?php endforeach; ?>
                     </tbody>
@@ -408,13 +445,14 @@ $(document).ready(function() {
                     <thead>
                       <tr>
                         <th>Nombre del operario</th>
-                        <th>Folio del corte</th>
+                        <th>Folio</th>
                         <th>Carga o lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
                         <th>Total</th>
                         <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
                       </tr>
                     </thead>
                     <tbody><?php foreach ($pendientes_reproceso as $key => $value): ?>
@@ -430,11 +468,14 @@ $(document).ready(function() {
                           $<?php echo $value['costo'] ?>
                         </td>
                         <td>
-                          <select class="form-control" onchange="cambioPendientesReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_pendeientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_pendeientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
+                          <select class="form-control" onchange="cambioPendientesReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_pendientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_pendientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
                             <option value="1">Se pagará</option>
                             <option value="2" selected >Quedará pendiente</option>
                             <option value="3">No se pagará jamás</option>
                           </select>
+                        </td>
+                        <td>
+                          <textarea id="razonPendientesReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonPendientesReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea>
                         </td>
                       </tr><?php endforeach; ?>
                     </tbody>

@@ -62,6 +62,7 @@ class ProduccionReproceso extends CI_Model
   public function getByFechas($fechaInicial,$fechaFinal)
   {
     $this->db->select('
+    t1.razon_pagar as razon,
     t4.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso
@@ -92,6 +93,7 @@ class ProduccionReproceso extends CI_Model
   public function getByFolios($folios)
   {
     $this->db->select('
+    t1.razon_pagar as razon,
     t4.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso,
@@ -121,6 +123,7 @@ class ProduccionReproceso extends CI_Model
   public function getPendientes()
   {
     $this->db->select('
+    t1.razon_pagar as razon,
     t4.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso,
@@ -143,5 +146,13 @@ class ProduccionReproceso extends CI_Model
     ->order_by('t2.nombre')
     ->order_by('t3.nombre');
     return $this->db->get()->result_array();
+  }
+
+  public function update($data)
+  {
+    $this->db->where('id',$data['id']);
+    unset($data['id']);
+    $this->db->set($data)
+    ->update('produccion_reproceso');
   }
 }

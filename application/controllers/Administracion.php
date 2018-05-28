@@ -1186,6 +1186,72 @@ class Administracion extends CI_Controller
 		if ($this->input->post())
 		{
 			//print_r($this->input->post());
+			//Update a ProduccionReproceso y a ProduccionProcesoSeco
+			$this->load->model(array('ProduccionReproceso','ProduccionProcesoSeco'));
+
+			//Produccion proceso seco
+			if (isset($this->input->post()['cantidad_pagar_produccion_proceso_seco_']))
+			{
+				foreach ($this->input->post()['cantidad_pagar_produccion_proceso_seco_'] as $key => $value)
+				{
+					$data = array(
+						'id' => $key,
+						'estado_nomina'	=> $this->input->post()['estado_nomina_proceso_seco'][$key],
+						'cantidad_pagar' => $value,
+						'razon_pagar' => $this->input->post()['razonProduccionProcesoSeco'][$key],
+						'id_nomina' => $this->input->post()['idNomina'],
+					);
+					$this->ProduccionProcesoSeco->update($data);
+				}
+			}
+
+			//Pendientes proceso seco
+			if (isset($this->input->post()['cantidad_pagar_pendientes_proceso_seco']))
+			{
+				foreach ($this->input->post()['cantidad_pagar_pendientes_proceso_seco'] as $key => $value)
+				{
+					$data = array(
+						'id' => $key,
+						'estado_nomina'	=> $this->input->post()['estado_nomina_pendientes_proceso_seco'][$key],
+						'cantidad_pagar' => $value,
+						'razon_pagar' => $this->input->post()['razonPendientesProcesoSeco'][$key],
+						'id_nomina' => $this->input->post()['idNomina'],
+					);
+					$this->ProduccionProcesoSeco->update($data);
+				}
+			}
+
+			//Reproceso
+			if (isset($this->input->post()['estado_nomina_reproceso']))
+			{
+				foreach ($this->input->post()['estado_nomina_reproceso'] as $key => $value)
+				{
+					$data = array(
+						'id' => $key,
+						'estado_nomina'	=> $value,
+						'cantidad_pagar' => $this->input->post()['cantidad_pagar_reproceso'][$key],
+						'razon_pagar' => $this->input->post()['razonReproceso'][$key],
+						'id_nomina' => $this->input->post()['idNomina'],
+					);
+					$this->ProduccionReproceso->update($data);
+				}
+			}
+
+			//Pendientes Reproceso
+			if (isset($this->input->post()['estado_nomina_pendientes_reproceso']))
+			{
+				foreach ($this->input->post()['estado_nomina_pendientes_reproceso'] as $key => $value)
+				{
+					$data = array(
+						'id' => $key,
+						'estado_nomina'	=> $value,
+						'cantidad_pagar' => $this->input->post()['cantidad_pagar_pendientes_reproceso'][$key],
+						'razon_pagar' => $this->input->post()['razonPendientesReproceso'][$key],
+						'id_nomina' => $this->input->post()['idNomina'],
+					);
+					$this->ProduccionReproceso->update($data);
+				}
+			}
 			// Creacion del PDF
 			/*
 			* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
