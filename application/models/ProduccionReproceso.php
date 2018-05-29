@@ -200,4 +200,44 @@ class ProduccionReproceso extends CI_Model
     ))
     ->update('produccion_reproceso');
   }
+
+  public function getByFolioEspecifico($folio)
+  {
+    $this->db->select('
+      produccion_reproceso.id as id,
+      produccion_reproceso.piezas as piezas,
+      produccion_reproceso.fecha as fecha,
+      produccion_reproceso.defectos as defectos,
+      produccion_reproceso.estado_nomina as estado_nomina,
+      produccion_reproceso.razon_pagar as razon_pagar,
+      lavado.nombre as lavado_nombre,
+      proceso_seco.nombre as proceso_seco,
+      usuario.nombre_completo as usuario_nombre,
+      proceso_seco.nombre as proceso,
+      TRUNCATE(reproceso.costo,2) as costo,
+      TRUNCATE((reproceso.costo*produccion_reproceso.piezas),2) as total
+    ')
+    ->from("produccion_reproceso")
+    ->join("reproceso","reproceso.id=produccion_reproceso.reproceso_id")
+    ->join("proceso_seco","proceso_seco.id=reproceso.proceso_seco_id")
+    ->join("lavado","lavado.id=reproceso.lavado_id")
+    ->join("usuario","produccion_reproceso.usuario_id=usuario.id")
+    ->where("corte_folio",$folio)
+    ->order_by("lavado.nombre,proceso_seco.nombre");
+    return $this->db->get()->result_array();
+  }
+
+  public function deleteByIdReproceso($id)
+  {
+    $this->db
+    ->where('reproceso_id',$id)
+    ->delete('produccion_reproceso');
+  }
+
+  public function deleteById($id)
+  {
+    $this->db
+    ->where('id',$id)
+    ->delete('produccion_reproceso');
+  }
 }

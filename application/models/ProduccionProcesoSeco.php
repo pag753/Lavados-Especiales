@@ -105,8 +105,13 @@ class ProduccionProcesoSeco extends CI_Model
     public function seleccionReporte($folio)
     {
       $this->db->select('
+      produccion_proceso_seco.estado_nomina as estado_nomina,
+      produccion_proceso_seco.id_nomina as id_nomina,
+      produccion_proceso_seco.cantidad_pagar as cantidad_pagar,
+      produccion_proceso_seco.razon_pagar as razon_pagar,
       produccion_proceso_seco.id as id,
       usuario.nombre as usuario,
+      usuario.nombre_completo as nombre_completo,
       lavado.id as idlavado,
       lavado.nombre as lavado,
       round(proceso_seco.costo,2) as costo,
@@ -327,5 +332,10 @@ class ProduccionProcesoSeco extends CI_Model
         'razon_pagar' => "",
       ))
       ->update('produccion_proceso_seco');
+    }
+
+    public function getByFolioEspecifico($folio)
+    {
+      
     }
   }

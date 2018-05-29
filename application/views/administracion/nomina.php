@@ -75,8 +75,8 @@ $(document).ready(function() {
                 <td><?php echo $value['fecha']; ?></td>
                 <td><?php echo $value['descripcion']; ?></td>
                 <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
-                <td><a href="verNomina?id=<?php echo $value['id'] ?>"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
-                <td><a href="verNominaDetalles?id=<?php echo $value['id'] ?>"><button type="button" class="btn btn-info"><i class="fas fa-info"></i></button></a></td>
+                <td><a href="verNomina?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
+                <td><a href="verNominaDetalles?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-info"><i class="fas fa-info"></i></button></a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
