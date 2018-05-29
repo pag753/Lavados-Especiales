@@ -1132,8 +1132,11 @@ class Administracion extends CI_Controller
 	{
 		if (!$this->input->post()['id'])
 			redirect("/");
-		$this->load->model('Nomina');
+		$this->load->model(array('Nomina','ProduccionReproceso','ProduccionProcesoSeco'));
 		$this->Nomina->delete($this->input->post()['id']);
+		//Regresar los procesos a la normalidad
+		$this->ProduccionProcesoSeco->regresaNomina($this->input->post()['id']);
+		$this->ProduccionReproceso->regresaNomina($this->input->post()['id']);
 		echo json_encode(array('respuesta' => true, ));
 	}
 
@@ -1457,17 +1460,17 @@ class Administracion extends CI_Controller
 					$pdf->Row(array(
 						utf8_decode($value['nombre']),
 						utf8_decode($value['puesto']),
-						utf8_decode($value['saldo_anterior']),
-						utf8_decode($value['nomina']),
-						utf8_decode($value['descuentos_anterior']),
-						utf8_decode($value['descuentos_abono']),
-						utf8_decode($value['descuentos_saldo']),
-						utf8_decode($value['ahorro_anterior']),
-						utf8_decode($value['ahorro_abono']),
-						utf8_decode($value['ahorro_saldo']),
-						utf8_decode($value['bonos']),
-						utf8_decode($value['total']),
-						utf8_decode($value['pagado']),
+						utf8_decode('$'.$value['saldo_anterior']),
+						utf8_decode('$'.$value['nomina']),
+						utf8_decode('$'.$value['descuentos_anterior']),
+						utf8_decode('$'.$value['descuentos_abono']),
+						utf8_decode('$'.$value['descuentos_saldo']),
+						utf8_decode('$'.$value['ahorro_anterior']),
+						utf8_decode('$'.$value['ahorro_abono']),
+						utf8_decode('$'.$value['ahorro_saldo']),
+						utf8_decode('$'.$value['bonos']),
+						utf8_decode('$'.$value['total']),
+						utf8_decode('$'.$value['pagado']),
 					));
 				}
 				/*
@@ -1500,8 +1503,7 @@ class Administracion extends CI_Controller
 		}
 		else
 		{
-			if (!isset($this->input->post()['corte_folio']) || !isset($this->input->post()['piezas']) || !isset($this->input->post()['lavado']) || !isset($this->input->post()['proceso']) || !isset($this->input->post()['costo']) || !is_numeric($this->input->post()['corte_folio']) || !is_numeric($this->input->post()['lavado']) || !is_numeric($this->input->post()['proceso']) || !is_numeric($this->input->post()['costo']) || !is_numeric($this->input->post()['piezas']))
-				redirect('/administracion/index?q=error');
+			if (!isset($this->input->post()['corte_folio']) || !isset($this->input->post()['piezas']) || !isset($this->input->post()['lavado']) || !isset($this->input->post()['proceso']) || !isset($this->input->post()['costo']) || !is_numeric($this->input->post()['corte_folio']) || !is_numeric($this->input->post()['lavado']) || !is_numeric($this->input->post()['proceso']) || !is_numeric($this->input->post()['costo']) || !is_numeric($this->input->post()['piezas']))	redirect('/administracion/index?q=error');
 			$data = array(
 				'corte_folio' => $this->input->post()['corte_folio'],
 				'lavado_id' => $this->input->post()['lavado'],
@@ -1517,5 +1519,216 @@ class Administracion extends CI_Controller
 			$this->Reproceso->insert($data);
 			redirect('/administracion/index?q=reproceso');
 		}
+	}
+
+	public function verNominaDetalles()
+	{
+		if (!isset($this->input->get()['id']) || !is_numeric($this->input->get()['id'])) redirect('/administracion/index?q=error');
+		// Creacion del PDF
+		/*
+		* Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+		* heredó todos las variables y métodos de fpdf
+		*/
+		$this->load->model(array('Nomina','ProduccionProcesoSeco','ProduccionReproceso'));
+		$nomina = $this->Nomina->getNominaById($this->input->get()['id']);
+		$produccion = $this->ProduccionProcesoSeco->nominaEspecifico($this->input->get()['id']);
+		$reproceso = $this->ProduccionReproceso->nominaEspecifico($this->input->get()['id']);
+		//print_r($nomina);
+		$this->load->library('pdf');
+		$pdf = new Pdf(utf8_decode($nomina[0]['descripcion']),'L');
+		// Agregamos una página
+		$pdf->SetAutoPageBreak(1,20);
+		// Define el alias para el número de página que se imprimirá en el pie
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		/* Se define el titulo, márgenes izquierdo, derecho y
+		* el color de relleno predeterminado
+		*/
+		$pdf->SetTitle(utf8_decode(utf8_decode($nomina[0]['descripcion'])));
+		$pdf->SetFont('Arial','B',10);
+		$pdf->Cell(0,0,"Datos generales",0,1,'C');
+		$pdf->ln(5);
+		//Tabla de producción
+		$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,62.307692308,62.307692308,20.769230769,20.769230769,20.769230769));
+		//Encabezado de tabla
+		$pdf->SetFillColor(59,131,189);
+		$pdf->SetFont('Arial','B',8);
+		$pdf->ban = true;
+		$pdf->Row(array(
+			utf8_decode("Nombre\n\n"),
+			utf8_decode("Puesto\n\n"),
+			utf8_decode("Saldo anterior\n"),
+			utf8_decode("Nómina\n\n"),
+			utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDescuentos\n\n"),
+			utf8_decode("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAhorro\n\n"),
+			utf8_decode("Bonos\n\n"),
+			utf8_decode("Total\n\n"),
+			utf8_decode("Pagado\n\n"),
+		));
+		$antiguoX = $pdf->getX();
+		$antiguoY = $pdf->getY();
+		$pdf->SetY($pdf->GetY() - 5);
+		$pdf->SetX(93.076923076);
+		$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+		$pdf->Row(array(
+			utf8_decode("Anterior"),
+			utf8_decode("Abono"),
+			utf8_decode("Saldo"),
+			utf8_decode("Anterior"),
+			utf8_decode("Abono"),
+			utf8_decode("Saldo"),
+		));
+		//Llenar tabla
+		//regresar coordenadas a la normalidad
+		$pdf->ban = false;
+		$pdf->SetFont('Arial','',8);
+		$pdf->SetXY($antiguoX,$antiguoY);
+		$pdf->SetWidths(array(20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769,20.769230769));
+		foreach ($nomina as $key => $value)
+		{
+			//Agregar al pdf
+			$pdf->Row(array(
+				utf8_decode($value['nombre']),
+				utf8_decode($value['puesto']),
+				utf8_decode('$'.$value['saldo_anterior']),
+				utf8_decode('$'.$value['nomina']),
+				utf8_decode('$'.$value['descuentos_anterior']),
+				utf8_decode('$'.$value['descuentos_abono']),
+				utf8_decode('$'.$value['descuentos_saldo']),
+				utf8_decode('$'.$value['ahorro_anterior']),
+				utf8_decode('$'.$value['ahorro_abono']),
+				utf8_decode('$'.$value['ahorro_saldo']),
+				utf8_decode('$'.$value['bonos']),
+				utf8_decode('$'.$value['total']),
+				utf8_decode('$'.$value['pagado']),
+			));
+		}
+		//Datos específicos
+		$pdf->SetFont('Arial','B',10);
+		$pdf->AddPage();
+		$pdf->Cell(0,0,utf8_decode("Datos específicos"),0,2,'C');
+		$pdf->ln(5);
+		$pdf->Cell(0,0,utf8_decode("Datos de producción de proceso seco"),0,2,'');
+		$pdf->ln(5);
+		$pdf->SetFont('Arial','B',8);
+		$pdf->SetWidths(array(30,30,30,30,30,30,30,30,30));
+		//Encabezado de tabla
+		$pdf->SetFillColor(59,131,189);
+		$pdf->ban = true;
+		$pdf->Row(array(
+			utf8_decode("Nombre\n\n"),
+			utf8_decode("Folio\n\n"),
+			utf8_decode("Lavado o carga\n\n"),
+			utf8_decode("Proceso\n\n"),
+			utf8_decode("¿Se pagó?\n\n"),
+			utf8_decode("Razón por la cual no se pagó"),
+			utf8_decode("Piezas trabajadas\n\n"),
+			utf8_decode("Precio unitario\n\n"),
+			utf8_decode("Total\n\n"),
+		));
+		$pdf->ban = false;
+		$pdf->SetFont('Arial','',8);
+		foreach ($produccion as $key => $value)
+		{
+			$n = $value['usuario_nombre'];
+			$folio = $value['folio'];
+			$lavado = $value['lavado'];
+			$proceso = $value['proceso'];
+			$estado = $value['estado'];
+			$razon = $value['razon'];
+			$piezas = $value['piezas'];
+			$precio =  '$'.$value['precio'];
+			$costo = '$'.$value['costo'];
+			switch ($estado) {
+				case 1:
+				$estado = "Se pagó";
+				$razon = "";
+				break;
+				case 2:
+				$estado = "Queda pendiente";
+				break;
+				default:
+				$estado = "No se pagará nunca";
+				break;
+			}
+			$pdf->Row(array(
+				utf8_decode($n),
+				utf8_decode($folio),
+				utf8_decode($lavado),
+				utf8_decode($proceso),
+				utf8_decode($estado),
+				utf8_decode($razon),
+				utf8_decode($piezas),
+				utf8_decode($precio),
+				utf8_decode($costo),
+
+			));
+		}
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',10);
+		$pdf->Cell(0,0,"Datos de produccion de reproceso",0,2,'');
+		$pdf->ln(5);
+		$pdf->SetFillColor(59,131,189);
+		$pdf->ban = true;
+		$pdf->SetFont('Arial','B',8);
+		$pdf->Row(array(
+			utf8_decode("Nombre\n\n"),
+			utf8_decode("Folio\n\n"),
+			utf8_decode("Lavado o carga\n\n"),
+			utf8_decode("Proceso\n\n"),
+			utf8_decode("¿Se pagó?\n\n"),
+			utf8_decode("Razón por la cual no se pagó"),
+			utf8_decode("Piezas trabajadas\n\n"),
+			utf8_decode("Precio unitario\n\n"),
+			utf8_decode("Total\n\n"),
+		));
+		$pdf->ban = false;
+		$pdf->SetFont('Arial','',10);
+		foreach ($reproceso as $key => $value)
+		{
+			$n = $value['usuario_nombre'];
+			$folio = $value['folio'];
+			$lavado = $value['lavado'];
+			$proceso = $value['proceso'];
+			$estado = $value['estado'];
+			$razon = $value['razon'];
+			$piezas = $value['piezas'];
+			$precio =  '$'.$value['precio'];
+			$costo = '$'.$value['costo'];
+			switch ($estado) {
+				case 1:
+				$estado = "Se pagó";
+				$razon = "";
+				break;
+				case 2:
+				$estado = "Queda pendiente";
+				break;
+				default:
+				$estado = "No se pagará nunca";
+				break;
+			}
+			$pdf->SetFont('Arial','',8);
+			$pdf->Row(array(
+				utf8_decode($n),
+				utf8_decode($folio),
+				utf8_decode($lavado),
+				utf8_decode($proceso),
+				utf8_decode($estado),
+				utf8_decode($razon),
+				utf8_decode($piezas),
+				utf8_decode($precio),
+				utf8_decode($costo),
+			));
+		}
+		/*
+		* Se manda el pdf al navegador
+		*
+		* $this->pdf->Output(nombredelarchivo, destino);
+		*
+		* I = Muestra el pdf en el navegador
+		* D = Envia el pdf para descarga
+		*
+		*/
+		$pdf->Output(utf8_decode($nomina[0]['descripcion']).".pdf", 'I');
 	}
 }

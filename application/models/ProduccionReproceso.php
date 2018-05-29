@@ -83,6 +83,7 @@ class ProduccionReproceso extends CI_Model
     ->where('t4.status=',2)
     ->where('t1.estado_nomina',0)
     ->where('t4.costo!=',0)
+    ->where('t5.activo',1)
     ->order_by('t5.nombre_completo')
     ->order_by('t1.corte_folio')
     ->order_by('t2.nombre')
@@ -113,6 +114,7 @@ class ProduccionReproceso extends CI_Model
     ->where('t4.status=',2)
     ->where('t1.estado_nomina',0)
     ->where('t4.costo!=',0)
+    ->where('t5.activo',1)
     ->order_by('t5.nombre_completo')
     ->order_by('t4.corte_folio')
     ->order_by('t2.nombre')
@@ -141,6 +143,7 @@ class ProduccionReproceso extends CI_Model
     ->join('usuario t5','t5.id=t1.usuario_id')
     ->where('t1.estado_nomina',2)
     ->where('t4.costo!=',0)
+    ->where('t5.activo',1)
     ->order_by('t5.nombre_completo')
     ->order_by('t4.corte_folio')
     ->order_by('t2.nombre')
@@ -153,6 +156,48 @@ class ProduccionReproceso extends CI_Model
     $this->db->where('id',$data['id']);
     unset($data['id']);
     $this->db->set($data)
+    ->update('produccion_reproceso');
+  }
+
+  public function nominaEspecifico($id)
+  {
+    $this->db->select('
+    t1.estado_nomina as estado,
+    t1.razon_pagar as razon,
+    t4.corte_folio as folio,
+    t2.nombre as lavado,
+    t3.nombre as proceso,
+    t1.id as id_produccion_reproceso,
+    t1.usuario_id as usuario_id,
+    t5.nombre_completo as usuario_nombre,
+    t1.piezas as piezas,
+    TRUNCATE(t4.costo,2) as precio,
+    TRUNCATE((t1.piezas*t4.costo),2) as costo'
+    )
+    ->from('produccion_reproceso as t1')
+    ->join('reproceso t4','t4.id=t1.reproceso_id')
+    ->join('lavado t2','t2.id=t4.lavado_id')
+    ->join('proceso_seco t3','t3.id=t4.proceso_seco_id')
+    ->join('usuario t5','t5.id=t1.usuario_id')
+    ->where('t1.id_nomina',$id)
+    ->where('t4.costo!=',0)
+    ->order_by('t5.nombre_completo')
+    ->order_by('t4.corte_folio')
+    ->order_by('t2.nombre')
+    ->order_by('t3.nombre');
+    return $this->db->get()->result_array();
+  }
+
+  public function regresaNomina($id)
+  {
+    $this->db
+    ->where('id_nomina',$id)
+    ->set(array(
+      'estado_nomina' => 0,
+      'id_nomina' => 0,
+      'cantidad_pagar' => 0,
+      'razon_pagar' => "",
+    ))
     ->update('produccion_reproceso');
   }
 }
