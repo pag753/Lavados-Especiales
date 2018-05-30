@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ProduccionReproceso extends CI_Model
 {
   /*
-  estado_nomina:{
+  estado_nomina:
   0: NO Pagado
   1: Pagado
   2: Pendiente
   3: No se pagará
-  }
+  
   */
   function __construct()
   {
@@ -38,18 +38,18 @@ class ProduccionReproceso extends CI_Model
   {
     $this->db->where('reproceso_id',$data['reproceso_id'])
     ->where('usuario_id',$data['usuario_id']);
-      unset($data['reproceso_id']);
-      unset($data['usuario_id']);
+    unset($data['reproceso_id']);
+    unset($data['usuario_id']);
     $this->db->update('produccion_reproceso',$data);
   }
 
   public function getByIdEspecifico($id)
   {
     $this->db->select('
-      t1.nombre_completo as nombre,
-      t0.piezas as piezas,
-      t0.fecha as fecha,
-      t0.defectos as defectos
+    t1.nombre_completo as nombre,
+    t0.piezas as piezas,
+    t0.fecha as fecha,
+    t0.defectos as defectos
     ')
     ->from('produccion_reproceso t0')
     ->join('usuario t1','t1.id=t0.usuario_id')
@@ -204,18 +204,18 @@ class ProduccionReproceso extends CI_Model
   public function getByFolioEspecifico($folio)
   {
     $this->db->select('
-      produccion_reproceso.id as id,
-      produccion_reproceso.piezas as piezas,
-      produccion_reproceso.fecha as fecha,
-      produccion_reproceso.defectos as defectos,
-      produccion_reproceso.estado_nomina as estado_nomina,
-      produccion_reproceso.razon_pagar as razon_pagar,
-      lavado.nombre as lavado_nombre,
-      proceso_seco.nombre as proceso_seco,
-      usuario.nombre_completo as usuario_nombre,
-      proceso_seco.nombre as proceso,
-      TRUNCATE(reproceso.costo,2) as costo,
-      TRUNCATE((reproceso.costo*produccion_reproceso.piezas),2) as total
+    produccion_reproceso.id as id,
+    produccion_reproceso.piezas as piezas,
+    produccion_reproceso.fecha as fecha,
+    produccion_reproceso.defectos as defectos,
+    produccion_reproceso.estado_nomina as estado_nomina,
+    produccion_reproceso.razon_pagar as razon_pagar,
+    lavado.nombre as lavado_nombre,
+    proceso_seco.nombre as proceso_seco,
+    usuario.nombre_completo as usuario_nombre,
+    proceso_seco.nombre as proceso,
+    TRUNCATE(reproceso.costo,2) as costo,
+    TRUNCATE((reproceso.costo*produccion_reproceso.piezas),2) as total
     ')
     ->from("produccion_reproceso")
     ->join("reproceso","reproceso.id=produccion_reproceso.reproceso_id")
