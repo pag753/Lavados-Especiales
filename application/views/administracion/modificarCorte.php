@@ -35,8 +35,7 @@ function editarLavado(carga){
         id_carga: carga,
       },
       success: function(res) {
-        if (res.respuesta)
-        location.reload();
+        if (res.respuesta) location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -55,8 +54,7 @@ function eliminarLavado(carga){
         id_carga: carga,
       },
       success: function(res) {
-        if (res.respuesta)
-        location.reload();
+        if (res.respuesta) location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -90,8 +88,7 @@ function eliminarAutorizadoDatos(id){
         id: id,
       },
       success: function(res) {
-        if (res.respuesta)
-        location.reload();
+        if (res.respuesta) location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -115,8 +112,7 @@ function editarSalidaInternaDatos(id_carga){
           piezas: $('#piezasSalidaInternaDatos'+id_carga).val(),
         },
         success: function(res) {
-          if (res.respuesta)
-          location.reload();
+          if (res.respuesta) location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -143,8 +139,7 @@ function editarProduccion(id) {
           razon_pagar: $('#razonProduccion'+id).val(),
         },
         success: function(res) {
-          if (res.respuesta)
-          location.reload();
+          if (res.respuesta) location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -163,8 +158,7 @@ function eliminarProduccion(id) {
         id: id,
       },
       success: function(res) {
-        if (res.respuesta)
-        location.reload();
+        if (res.respuesta) location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -300,8 +294,7 @@ $(document).ready(function() {
             ojales: $('#ojales').val(),
           },
           success: function(res) {
-            if (res.respuesta)
-            location.reload();
+            if (res.respuesta) location.reload();
           },
           dataType: "json",
           error: function (request, status, error) {
@@ -346,8 +339,7 @@ $(document).ready(function() {
             usuario_id: $('#usuarioAutorizo').val(),
           },
           success: function(res) {
-            if (res.respuesta)
-            location.reload();
+            if (res.respuesta) location.reload();
           },
           dataType: "json",
           error: function (request, status, error) {
@@ -366,8 +358,7 @@ $(document).ready(function() {
           folio: $('#folio').val(),
         },
         success: function(res) {
-          if (res.respuesta)
-          location.reload();
+          if (res.respuesta) location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -396,8 +387,7 @@ $(document).ready(function() {
           usuario_id: $('#autorizado_datos_usuario_id').val(),
         },
         success: function(res) {
-          if (res.respuesta)
-          location.reload();
+          if (res.respuesta) location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
@@ -422,8 +412,7 @@ $(document).ready(function() {
             usuario_id: $('#usuarioSalidaInterna').val(),
           },
           success: function(res) {
-            if (res.respuesta)
-            location.reload();
+            if (res.respuesta) location.reload();
           },
           dataType: "json",
           error: function (request, status, error) {
@@ -442,8 +431,7 @@ $(document).ready(function() {
           folio: $('#folio').val(),
         },
         success: function(res) {
-          if (res.respuesta)
-          location.reload();
+          if (res.respuesta) location.reload();
         },
         dataType: "json",
         error: function (request, status, error) {
