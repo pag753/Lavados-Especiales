@@ -41,6 +41,22 @@ class SalidaInterna1Datos extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function getByFolioEspecifico2($folio=null)
+  {
+    $this->db->distinct()
+    ->select('
+    salida_interna1_datos.id_carga as id_carga,
+    corte_autorizado_datos.lavado_id as lavado_id,
+    lavado.nombre as lavado,
+    salida_interna1_datos.piezas as piezas')
+    ->from('corte_autorizado_datos')
+    ->join('salida_interna1_datos','salida_interna1_datos.id_carga=corte_autorizado_datos.id_carga and
+    salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio')
+    ->join('lavado','lavado.id=corte_autorizado_datos.lavado_id')
+    ->where('salida_interna1_datos.corte_folio',$folio);
+    return $this->db->get()->result_array();
+  }
+
   public function updateAdministracion($data)
   {
     $this->db->where('id_carga', $data['id_carga']);

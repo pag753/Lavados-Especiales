@@ -36,6 +36,12 @@ class Administracion extends CI_Controller
 					'texto2' => "Se ha registrado con éxito"
 				);
 				break;
+				case 'noCorte':
+				$data = array(
+					'texto1' => "El corte",
+					'texto2' => "No contiene registros de producción"
+				);
+				break;
 				default:
 				redirect("/");
 				break;
@@ -1353,17 +1359,17 @@ class Administracion extends CI_Controller
 				$pdf->Row(array(
 					utf8_decode($nombre[$key]),
 					utf8_decode($puesto[$key]),
-					utf8_decode($saldo_anterior[$key]),
-					utf8_decode($nomina[$key]),
-					utf8_decode($descuentos_anterior[$key]),
-					utf8_decode($descuentos_abono[$key]),
-					utf8_decode($descuentos_saldo[$key]),
-					utf8_decode($ahorro_anterior[$key]),
-					utf8_decode($ahorro_abono[$key]),
-					utf8_decode($ahorro_saldo[$key]),
-					utf8_decode($bonos[$key]),
-					utf8_decode($total[$key]),
-					utf8_decode($pagado[$key]),
+					utf8_decode("$".$saldo_anterior[$key]),
+					utf8_decode("$".$nomina[$key]),
+					utf8_decode("$".$descuentos_anterior[$key]),
+					utf8_decode("$".$descuentos_abono[$key]),
+					utf8_decode("$".$descuentos_saldo[$key]),
+					utf8_decode("$".$ahorro_anterior[$key]),
+					utf8_decode("$".$ahorro_abono[$key]),
+					utf8_decode("$".$ahorro_saldo[$key]),
+					utf8_decode("$".$bonos[$key]),
+					utf8_decode("$".$total[$key]),
+					utf8_decode("$".$pagado[$key]),
 				));
 			}
 			/*
@@ -1714,5 +1720,419 @@ class Administracion extends CI_Controller
 		*
 		*/
 		$pdf->Output(utf8_decode($nomina[0]['descripcion']).".pdf", 'I');
+	}
+
+	public function reporteCostos()
+	{
+		if($this->input->get())
+		{
+			if (!isset($this->input->get()['folio']) || !is_numeric($this->input->get()['folio'])) redirect('/administracion/index?q=error');
+			$this->load->model(array('ProduccionProcesoSeco','ProduccionReproceso'));
+			$data['produccion'] = $this->ProduccionProcesoSeco->getByFolioEspecifico($this->input->get()['folio']);
+			$data['reproceso'] = $this->ProduccionReproceso->getByFolioEspecifico2($this->input->get()['folio']);
+			if (count($data['produccion']) == 0 && count($data['reproceso']) == 0 )	redirect('/administracion/index?q=noCorte');
+			$data['folio'] = $this->input->get()['folio'];
+			//Conseguir datos del cortes
+			$extensiones = array("jpg","jpeg","png");
+			$ban=false;
+			foreach ($extensiones as $key2 => $extension)
+			{
+				$url = base_url()."img/fotos/".$this->input->get()['folio'].".".$extension;
+				$headers = get_headers($url);
+				if (stripos($headers[0],"200 OK"))
+				{
+					$ban=true;
+					$imagen="<img src='".base_url()."img/fotos/".$this->input->get()['folio'].".".$extension."' class='img-fluid' alt='Responsive image'>";
+					break;
+				}
+			}
+			if (!$ban)	$imagen="No hay imágen";
+			//Información del corte
+			$this->load->model("corte");
+			$corte = $this->corte->getByFolioGeneral($this->input->get()['folio'])[0];
+			$corte['imagen'] = $imagen;
+			$data['corte'] = $corte;
+			$titulo['titulo'] = "Reporte de costos del corte con folio ".$this->input->get()['folio'];
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('administracion/menu');
+			$this->load->view('administracion/reporteCostosEspecifico',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			if ($this->input->post())
+			{
+				if (!isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
+				$this->load->model(array('Corte','CorteAutorizado','CorteAutorizadoDatos','SalidaInterna1','SalidaInterna1Datos','Reproceso','EntregaAlmacen','EntregaExterna'));
+				$corte = $this->Corte->getByFolioGeneral($this->input->post()['id']);
+				if (count($corte) == 0) redirect('/administracion/index?q=error');
+				$corte = $corte[0];
+				$this->load->library('pdf');
+				//tamaño 190 mm
+				$pdf = new Pdf(utf8_decode("Reporte de costos del folio ".$this->input->post()['id']));
+				// Agregamos una página
+				$pdf->SetAutoPageBreak(1,20);
+				// Define el alias para el número de página que se imprimirá en el pie
+				$pdf->AliasNbPages();
+				$pdf->AddPage();
+				/* Se define el titulo, márgenes izquierdo, derecho y
+				* el color de relleno predeterminado
+				*/
+				$pdf->SetTitle(utf8_decode("Reporte de costos del folio ".$this->input->post()['id']));
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,"Datos generales",0,1,'C');
+				$pdf->ln(5);
+
+				//Datos generales
+				$pdf->SetWidths(array(21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111));
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->Row(array(
+					utf8_decode("Imágen\n\n\n"),
+					utf8_decode("Fecha de entrada\n\n"),
+					utf8_decode("Corte\n\n\n"),
+					utf8_decode("Marca\n\n\n"),
+					utf8_decode("Maquilero\n\n\n"),
+					utf8_decode("Cliente\n\n\n"),
+					utf8_decode("Tipo de pantalón o prenda"),
+					utf8_decode("Piezas\n\n\n"),
+					utf8_decode("Ojales\n\n\n"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$extensiones = array("jpg","jpeg","png");
+				$ban=false;
+				foreach ($extensiones as $key2 => $extension)
+				{
+					$url = base_url()."img/fotos/".$this->input->post()['id'].".".$extension;
+					$headers = get_headers($url);
+					if (stripos($headers[0],"200 OK"))
+					{
+						$ban=true;
+						$imagen = base_url()."img/fotos/".$this->input->post()['id'].".".$extension;
+						break;
+					}
+				}
+				$pdf->SetWidths(array(21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111));
+				$cadena = "";
+				if ($ban)	$pdf->Image($imagen,NULL,NULL,21.111111111,10);
+				else $cadena = utf8_decode("No hay imágen");
+				$pdf->Cell(21.111111111,0,$cadena,1,10,"");
+				$pdf->SetY($pdf->getY()-10);
+				$pdf->SetX($pdf->getX()+21.111111111);
+				$corte = $this->Corte->getByFolioGeneral($this->input->post()['id'])[0];
+				$corte['imagen'] = $imagen;
+				$pdf->ban = false;
+				$pdf->Row(array(
+					utf8_decode($corte['fecha']),
+					utf8_decode($corte['corte']),
+					utf8_decode($corte['marca']),
+					utf8_decode($corte['maquilero']),
+					utf8_decode($corte['cliente']),
+					utf8_decode($corte['tipo']),
+					utf8_decode($corte['piezas']),
+					utf8_decode($corte['ojales']),
+				));
+
+				//Autorización del corete
+				$pdf->ln(10);
+				$corte =	$this->CorteAutorizado->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) == 0) redirect('/administracion/index?q=error');
+				$corte = $corte[0];
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Datos generales de autorización del corte"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array(63.333333333,63.333333333,63.333333333));
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->Row(array(
+					utf8_decode("Fecha de autorización"),
+					utf8_decode("Usuario que autorizó"),
+					utf8_decode("Número de cargas"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$pdf->ban = false;
+				$pdf->Row(array(
+					utf8_decode($corte['fecha']),
+					utf8_decode($corte['operario']),
+					utf8_decode($corte['cargas']),
+				));
+
+				//Datos específicos de autorización del corte del corete
+				$pdf->ln(10);
+				$corte =	$this->CorteAutorizadoDatos->reporte($this->input->post()['id']);
+				if (count($corte) == 0) redirect('/administracion/index?q=error');
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Datos específicos de autorización del corte"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array());
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->SetWidths(array(21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111,21.111111111));
+				$pdf->Row(array(
+					utf8_decode("Lavado o carga\n\n"),
+					utf8_decode("Proceso\n\n\n"),
+					utf8_decode("Costo del proceso\n\n"),
+					utf8_decode("Piezas que se trabajaron\n\n"),
+					utf8_decode("Defectos encontrados\n\n"),
+					utf8_decode("Estado del proceso\n\n"),
+					utf8_decode("Orden en el que se registró"),
+					utf8_decode("Fecha en el que se registró"),
+					utf8_decode("Usuario que registró\n\n"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$pdf->ban = false;
+				foreach ($corte as $key => $value)
+				{
+					$lavado = $value['lavado'];
+					$proceso = $value['proceso'];
+					$costo = $value['costo'];
+					$piezas = $value['piezas'];
+					$defectos = $value['defectos'];
+					$estado = $value['status'];
+					$orden = $value['orden'];
+					$fecha = $value['fecha'];
+					$usuario = $value['usuarioc'];
+					switch ($estado)
+					{
+						case 0:
+						$estado = "No se ha registrado";
+						break;
+						case 1:
+						$estado = "Listo para registrar";
+						break;
+						case 2:
+						$estado = "Registrado";
+						break;
+					}
+					$pdf->Row(array(
+						utf8_decode($lavado),
+						utf8_decode($proceso),
+						utf8_decode("$".$costo),
+						utf8_decode($piezas),
+						utf8_decode($defectos),
+						utf8_decode($estado),
+						utf8_decode($orden),
+						utf8_decode($fecha),
+						utf8_decode($usuario),
+					));
+				}
+
+				//Datos generales de salida interna
+				$pdf->ln(10);
+				$corte =	$this->SalidaInterna1->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) == 0) redirect('/administracion/index?q=error');
+				$corte = $corte[0];
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Datos generales de salida interna del corte"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array());
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->SetWidths(array(63.333333333,63.333333333,63.333333333));
+				$pdf->Row(array(
+					utf8_decode("Fecha en que se dio la salida interna"),
+					utf8_decode("Muestras para el corte"),
+					utf8_decode("Usuario que dio la salida interna"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$pdf->ban = false;
+				$pdf->Row(array(
+					utf8_decode($corte['fecha']),
+					utf8_decode($corte['muestras']),
+					utf8_decode($corte['usuario']),
+				));
+
+				//Datos específicos de salida interna
+				$pdf->ln(10);
+				$corte =	$this->SalidaInterna1Datos->getByFolioEspecifico2($this->input->post()['id']);
+				if (count($corte) == 0) redirect('/administracion/index?q=error');
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Datos específicos de salida interna del corte"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array());
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->SetWidths(array(95,95));
+				$pdf->Row(array(
+					utf8_decode("Carga o lavado"),
+					utf8_decode("Piezas destinadas a la carga o lavado"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$pdf->ban = false;
+				foreach ($corte as $key => $value)
+				{
+					$pdf->Row(array(
+						utf8_decode($value['lavado']),
+						utf8_decode($value['piezas']),
+					));
+				}
+
+				//datos de costos de producción de proceso seco
+				$pdf->AddPage();
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Costos de producción de proceso seco"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array());
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->SetWidths(array(38,38,38,38,38));
+				$pdf->Row(array(
+					utf8_decode("Carga o lavado"),
+					utf8_decode("Proceso"),
+					utf8_decode("Piezas trabajadas"),
+					utf8_decode("Costo unitario"),
+					utf8_decode("Total"),
+				));
+				//Información del corte
+				$pdf->SetFont('Arial','',8);
+				$pdf->ban = false;
+				foreach ($this->input->post()['lavadoProduccion'] as $key => $value)
+				{
+					foreach ($value as $key2 => $value2)
+					{
+						$pdf->Row(array(
+							utf8_decode($value2),
+							utf8_decode($this->input->post()['procesoProduccion'][$key][$key2]),
+							utf8_decode($this->input->post()['piezasProduccion'][$key][$key2]),
+							utf8_decode("$".$this->input->post()['costoProduccion'][$key][$key2]),
+							utf8_decode("$".$this->input->post()['totalProduccion'][$key][$key2]),
+						));
+					}
+				}
+
+				//Producción de reprocesos
+				$pdf->ln(10);
+				$pdf->SetFont('Arial','B',10);
+				if (isset($this->input->post()['lavadoProduccionReprocesos']))
+				{
+					//datos de costos
+					$pdf->Cell(0,0,utf8_decode("Costos de producción de reprocesos"),0,1,'C');
+					$pdf->ln(5);
+					$pdf->SetWidths(array());
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->SetWidths(array(38,38,38,38,38));
+					$pdf->Row(array(
+						utf8_decode("Carga o lavado"),
+						utf8_decode("Proceso"),
+						utf8_decode("Piezas trabajadas"),
+						utf8_decode("Costo unitario"),
+						utf8_decode("Total"),
+					));
+					//Información del corte
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					foreach ($this->input->post()['lavadoProduccionReprocesos'] as $key => $value)
+					{
+						foreach ($value as $key2 => $value2)
+						{
+							$pdf->Row(array(
+								utf8_decode($value2),
+								utf8_decode($this->input->post()['procesoProduccionReprocesos'][$key][$key2]),
+								utf8_decode($this->input->post()['piezasProduccionReprocesos'][$key][$key2]),
+								utf8_decode("$".$this->input->post()['costoProduccionReprocesos'][$key][$key2]),
+								utf8_decode("$".$this->input->post()['totalProduccionReprocesos'][$key][$key2]),
+							));
+						}
+					}
+				}
+				else $pdf->Cell(0,0,utf8_decode("No hay datos de producción de reprocesos de este corte"),0,1,'C');
+
+				//Entrega almacen
+				$pdf->ln(10);
+				$pdf->SetFont('Arial','B',10);
+				$corte = $this->EntregaAlmacen->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) > 0)
+				{
+					$corte = $corte[0];
+					$pdf->Cell(0,0,utf8_decode("Información de entrega a almacén"),0,1,'C');
+					$pdf->ln(5);
+					$pdf->SetWidths(array());
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->SetWidths(array(95,95));
+					$pdf->Row(array(
+						utf8_decode("Fecha de entrega a almacen"),
+						utf8_decode("Usuario que dio salida a almacén"),
+					));
+					//Información del corte
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					$pdf->Row(array(
+						utf8_decode($corte['fecha']),
+						utf8_decode($corte['usuario']),
+					));
+				}
+				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega a almacen de este corte"),0,1,'C');
+
+				//Entrega externa
+				$pdf->ln(10);
+				$pdf->SetFont('Arial','B',10);
+				$corte = $this->EntregaExterna->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) > 0)
+				{
+					$corte = $corte[0];
+					$pdf->Cell(0,0,utf8_decode("Información de entrega externa"),0,1,'C');
+					$pdf->ln(5);
+					$pdf->SetWidths(array());
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->SetWidths(array(95,95));
+					$pdf->Row(array(
+						utf8_decode("Fecha de entrega externa"),
+						utf8_decode("Usuario que dio salida externa"),
+					));
+					//Información del corte
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					$pdf->Row(array(
+						utf8_decode($corte['fecha']),
+						utf8_decode($corte['usuario']),
+					));
+				}
+				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega externa de este corte"),0,1,'C');
+				/*
+				* Se manda el pdf al navegador
+				*
+				* $this->pdf->Output(nombredelarchivo, destino);
+				*
+				* I = Muestra el pdf en el navegador
+				* D = Envia el pdf para descarga
+				*
+				*/
+				$pdf->Output(utf8_decode("Reporte de costos del folio ".$this->input->post()['id']).".pdf", 'I');
+			}
+			else
+			{
+				$titulo['titulo'] = 'Generar reporte de costos';
+				$this->load->view('comunes/head',$titulo);
+				$this->load->view('administracion/menu');
+				$this->load->view('administracion/reporteCostos');
+				$this->load->view('comunes/foot');
+			}
+		}
 	}
 }

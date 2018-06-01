@@ -3,6 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Reproceso extends CI_Model
 {
+  /*
+  STATUS:
+  0 no registrado
+  1 para registrar
+  2 registrado
+  */
   function __construct()
   {
     parent::__construct();

@@ -20,88 +20,86 @@ $input_fecha = array(
 );
 ?>
 <script>
-  $(document).ready(function() {
-    $("#info").click(function() {
-      $("#infoCorte").modal("show");
+$(document).ready(function() {
+  $("#folio").focus();
+  $("#info").click(function() {
+    $("#infoCorte").modal("show");
+  });
+  $("#info").hide();
+  $('#folio').keyup(function() {
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
+      data: { folio: $('#folio').val() },
+      dataType: 'json',
+      type: 'POST',
+      success: function(result) {
+        if (result.info!=''){
+          $("#imagenModal").html(result.info.imagen);
+          $("#folioModal").html(result.info.folio);
+          $("#corteModal").html(result.info.corte);
+          $("#marcaModal").html(result.info.marca);
+          $("#maquileroModal").html(result.info.maquilero);
+          $("#clienteModal").html(result.info.cliente);
+          $("#tipoModal").html(result.info.tipo);
+          $("#fechaModal").html(result.info.fecha);
+          $("#piezasModal").html(result.info.piezas);
+          $("#info").show();
+        }
+        else $("#info").hide();
+        $("#respuesta").html(decodeURIComponent(escape(result.respuesta)));
+      }
     });
-    $("#info").hide();
-    $('#folio').keyup(function() {
+  });
+  $("form").on( "click", "button", function() {
+    if (this.name=="boton") {
+      var numero=$("#numero");
+      var numero2=$("#numero2");
       $.ajax({
-        url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
-        data: { folio: $('#folio').val() },
+        url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
+        data: { numero: numero2.val() },
         dataType: 'text',
         type: 'POST',
-        success: function(result) {
-          result = JSON.parse(result);
-          console.log(result);
-          if (result.info!=''){
-            $("#imagenModal").html(result.info.imagen);
-            $("#folioModal").html(result.info.folio);
-            $("#corteModal").html(result.info.corte);
-            $("#marcaModal").html(result.info.marca);
-            $("#maquileroModal").html(result.info.maquilero);
-            $("#clienteModal").html(result.info.cliente);
-            $("#tipoModal").html(result.info.tipo);
-            $("#fechaModal").html(result.info.fecha);
-            $("#piezasModal").html(result.info.piezas);
-            $("#info").show();
-          }
-          else
-            $("#info").hide();
-          $("#respuesta").html(decodeURIComponent(escape(result.respuesta)));
-        }
-      });
-    });
-    $("form").on( "click", "button", function() {
-      if (this.name=="boton") {
-        var numero=$("#numero");
-        var numero2=$("#numero2");
-        $.ajax({
-          url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
-          data: { numero: numero2.val() },
-          dataType: 'text',
-          type: 'POST',
-          success: function(result){
-            $('#tabla tbody').append(result);
-            $('#proceso_seco'+numero2.val() ).multiselect({
-              nonSelectedText: '¡Selecciona!',
-              buttonWidth: '100%',
-              maxHeight: '150',
-              numberDisplayed: 1,
-              templates: {
-                li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
-                ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
-                button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
-                filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
-                filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
-              },
+        success: function(result){
+          $('#tabla tbody').append(result);
+          $('#proceso_seco'+numero2.val() ).multiselect({
+            nonSelectedText: '¡Selecciona!',
+            buttonWidth: '100%',
+            maxHeight: '150',
+            numberDisplayed: 1,
+            templates: {
+              li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
+              ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
+              button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+              filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
+              filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
+            },
             //buttonContainer: '<div class="dropdown" />',
             buttonClass: 'btn btn-secondary'
           });
-            numero2.val(parseInt(numero2.val())+1);
-            numero.val(parseInt(numero.val())+1);
-          }
-        });
-      }
-      else {
-        if (this.id.substring(0,8)=="eliminar") {
-          var renglon=this.id.substring(8);
-          $("#renglon"+renglon).remove();
-          var numero=$("#numero");
-          numero.val(parseInt(numero.val())-1);
+          numero2.val(parseInt(numero2.val())+1);
+          numero.val(parseInt(numero.val())+1);
         }
+      });
+    }
+    else {
+      if (this.id.substring(0,8)=="eliminar") {
+        var renglon=this.id.substring(8);
+        $("#renglon"+renglon).remove();
+        var numero=$("#numero");
+        numero.val(parseInt(numero.val())-1);
       }
-    });
-    $('#autorizar').submit(function() {
-      var numero=$("#numero").val();
-      if (numero==0) {
-        alert("Debe agregar por lo menos un lavado.");
-        return false;
-      }
-      else
-        return true;
-    });
+    }
   });
+  $('#autorizar').submit(function() {
+    var numero=$("#numero").val();
+    if (numero==0) {
+      alert("Debe agregar por lo menos un lavado.");
+      return false;
+    }
+    else
+    return true;
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="row">

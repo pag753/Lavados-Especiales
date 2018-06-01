@@ -266,7 +266,7 @@ $(document).ready(function() {
           <h3>Generar <?php echo $descripcion; ?></h3>
         </center>
       </div>
-      <form action="verNomina" method="post" id="verNomina" name="verNomina">
+      <form action="verNomina" method="post" id="verNomina" name="verNomina" target="_blank">
         <input type="hidden" name="idNomina" id="idNomina" value="<?php echo $id ?>">
         <input type="hidden" name="descripcion" id="descripcion" value="<?php echo $descripcion ?>">
         <?php if (count($produccion) != 0): ?>

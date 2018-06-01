@@ -2,61 +2,62 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-  $(document).ready(function() {
-    $("#info").hide();
-    $("#info").click(function() {
-      $("#infoCorte").modal("show");
-    });
-    $('#folio').keyup(function() {
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/ajax/salidaInterna",
-        data: { folio: $('#folio').val() },
-        dataType: 'text',
-        type: 'POST',
-        success: function(result) {
-          result = JSON.parse(result);
-          console.log(result);
-          if (result.info!=''){
-            $("#imagenModal").html(result.info.imagen);
-            $("#folioModal").html(result.info.folio);
-            $("#corteModal").html(result.info.corte);
-            $("#marcaModal").html(result.info.marca);
-            $("#maquileroModal").html(result.info.maquilero);
-            $("#clienteModal").html(result.info.cliente);
-            $("#tipoModal").html(result.info.tipo);
-            $("#fechaModal").html(result.info.fecha);
-            $("#piezasModal").html(result.info.piezas);
-            $("#ojalesModal").html(result.info.ojales);
-            $("#info").show();
-          }
-          else
-            $("#info").hide();
-          $("#complemento").html(decodeURIComponent(escape(result.respuesta)));
+$(document).ready(function() {
+  $("#folio").focus();
+  $("#info").hide();
+  $("#info").click(function() {
+    $("#infoCorte").modal("show");
+  });
+  $('#folio').keyup(function() {
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/salidaInterna",
+      data: { folio: $('#folio').val() },
+      dataType: 'text',
+      type: 'POST',
+      success: function(result) {
+        result = JSON.parse(result);
+        console.log(result);
+        if (result.info!=''){
+          $("#imagenModal").html(result.info.imagen);
+          $("#folioModal").html(result.info.folio);
+          $("#corteModal").html(result.info.corte);
+          $("#marcaModal").html(result.info.marca);
+          $("#maquileroModal").html(result.info.maquilero);
+          $("#clienteModal").html(result.info.cliente);
+          $("#tipoModal").html(result.info.tipo);
+          $("#fechaModal").html(result.info.fecha);
+          $("#piezasModal").html(result.info.piezas);
+          $("#ojalesModal").html(result.info.ojales);
+          $("#info").show();
         }
-      });
-    });
-    $("form").submit(function( event ) {
-      var suma=0;
-      for (var i = 0; i < $('#cargas').val(); i++)
-        suma+=parseInt($('#piezas_parcial'+i).val());
-      suma+=parseInt($('#muestras').val());
-      if (suma!=$('#piezas').val()) {
-        alert("La suma de las piezas y las muestras no son iguales que el total");
-        return false;
-      }
-      else {
-        var fechabd=$('#fechabd').val();
-        var fecha=$('#fecha').val().substr(0,10);
-        var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
-        var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
-        if (f>=fbd) return true;
-        else {
-          alert("La fecha que ingresó no puede ser anterior a la de su autorización");
-          return false;
-        }
+        else
+        $("#info").hide();
+        $("#complemento").html(decodeURIComponent(escape(result.respuesta)));
       }
     });
   });
+  $("form").submit(function( event ) {
+    var suma=0;
+    for (var i = 0; i < $('#cargas').val(); i++)
+    suma+=parseInt($('#piezas_parcial'+i).val());
+    suma+=parseInt($('#muestras').val());
+    if (suma!=$('#piezas').val()) {
+      alert("La suma de las piezas y las muestras no son iguales que el total");
+      return false;
+    }
+    else {
+      var fechabd=$('#fechabd').val();
+      var fecha=$('#fecha').val().substr(0,10);
+      var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
+      var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
+      if (f>=fbd) return true;
+      else {
+        alert("La fecha que ingresó no puede ser anterior a la de su autorización");
+        return false;
+      }
+    }
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="row">

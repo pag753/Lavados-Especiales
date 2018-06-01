@@ -10,6 +10,7 @@ $input_folio = array(
 ?>
 <script>
 $(document).ready(function() {
+  $("#folio").focus();
   $('#folio').keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",

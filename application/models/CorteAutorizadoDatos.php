@@ -244,12 +244,13 @@ class CorteAutorizadoDatos extends CI_Model
   {
     $this->db->select('
     usuario.nombre as usuario,
+    usuario.nombre_completo as usuarioc,
     lavado.id as idlavado,
     lavado.nombre as lavado,
     proceso_seco.nombre as proceso,
     proceso_seco.id as idproceso,
     corte_autorizado_datos.corte_folio as folio,
-    corte_autorizado_datos.costo as costo,
+    TRUNCATE(corte_autorizado_datos.costo,2) as costo,
     corte_autorizado_datos.status as status,
     corte_autorizado_datos.piezas_trabajadas as piezas,
     corte_autorizado_datos.orden as orden,
@@ -262,7 +263,7 @@ class CorteAutorizadoDatos extends CI_Model
     ->join('usuario','corte_autorizado_datos.usuario_id=usuario.id')
     ->join('proceso_seco','corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
     ->where('corte_autorizado_datos.corte_folio',$folio)
-    ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.orden');
+    ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.lavado_id, corte_autorizado_datos.orden');
     return $this->db->get()->result_array();
   }
 

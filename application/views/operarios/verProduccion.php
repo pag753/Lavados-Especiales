@@ -11,13 +11,13 @@
           </div>
         </div>
         <div class="form-group row">
-         <label for="fechaFinal" class="col-3 col-form-label">Fecha final</label>
-         <div class="col-9">
-          <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal">
-         </div>
-       </div>
-       <input type="submit" name="aceptar" value="Generar" class="btn btn-primary">
-     </form>
-   </div>
- </div>
+          <label for="fechaFinal" class="col-3 col-form-label">Fecha final</label>
+          <div class="col-9">
+            <input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal">
+          </div>
+        </div>
+        <input type="submit" name="aceptar" value="Generar" class="btn btn-primary">
+      </form>
+    </div>
+  </div>
 </div>

@@ -15,6 +15,18 @@ class CorteAutorizado extends CI_Model
 		return $query->result_array();
 	}
 
+	public function getByFolioEspecifico($folio = null)
+	{
+		$this->db->select('
+		corte_autorizado.fecha_autorizado as fecha,
+		corte_autorizado.cargas as cargas,
+		usuario.nombre_completo as operario')
+		->from('corte_autorizado')
+		->join('usuario','usuario.id=corte_autorizado.usuario_id')
+		->where('corte_autorizado.corte_folio',$folio);
+		return $this->db->get()->result_array();
+	}
+
 	public function agregar($datos = null)
 	{
 		$datos['usuario_id'] = $_SESSION['usuario_id'];

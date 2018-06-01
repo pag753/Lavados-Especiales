@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#nombre_completo").focus();
+  });
+</script>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">

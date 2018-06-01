@@ -2,38 +2,38 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-  $(document).ready(function() {
-    $("#info").hide();
-    $("#info").click(function() {
-      $("#infoCorte").modal("show");
-    });
-    $('#folio').keyup(function() {
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/ajax/salidaExterna",
-        data: { folio: $('#folio').val() },
-        type: 'POST',
-        dataType: 'json',
-        success: function(result) {
-          if (result.info!=''){
-            $("#imagenModal").html(result.info.imagen);
-            $("#folioModal").html(result.info.folio);
-            $("#corteModal").html(result.info.corte);
-            $("#marcaModal").html(result.info.marca);
-            $("#maquileroModal").html(result.info.maquilero);
-            $("#clienteModal").html(result.info.cliente);
-            $("#tipoModal").html(result.info.tipo);
-            $("#fechaModal").html(result.info.fecha);
-            $("#piezasModal").html(result.info.piezas);
-            $("#ojalesModal").html(result.info.ojales);
-            $("#info").show();
-          }
-          else
-            $("#info").hide();
-          $("#complemento").html(result.respuesta);
+$(document).ready(function() {
+  $("#folio").focus();
+  $("#info").hide();
+  $("#info").click(function() {
+    $("#infoCorte").modal("show");
+  });
+  $('#folio').keyup(function() {
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/salidaExterna",
+      data: { folio: $('#folio').val() },
+      type: 'POST',
+      dataType: 'json',
+      success: function(result) {
+        if (result.info!=''){
+          $("#imagenModal").html(result.info.imagen);
+          $("#folioModal").html(result.info.folio);
+          $("#corteModal").html(result.info.corte);
+          $("#marcaModal").html(result.info.marca);
+          $("#maquileroModal").html(result.info.maquilero);
+          $("#clienteModal").html(result.info.cliente);
+          $("#tipoModal").html(result.info.tipo);
+          $("#fechaModal").html(result.info.fecha);
+          $("#piezasModal").html(result.info.piezas);
+          $("#ojalesModal").html(result.info.ojales);
+          $("#info").show();
         }
-      });
+        else $("#info").hide();
+        $("#complemento").html(result.respuesta);
+      }
     });
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -52,8 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <div>
-        <button type="button" class="btn btn-info" name="info" id="info" ><i class="fas fa-info"></i></button>
-      </div>
+          <button type="button" class="btn btn-info" name="info" id="info" ><i class="fas fa-info"></i></button>
+        </div>
       </form>
     </div>
   </div>

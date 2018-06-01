@@ -9,7 +9,7 @@ class ProduccionReproceso extends CI_Model
   1: Pagado
   2: Pendiente
   3: No se pagará
-  
+
   */
   function __construct()
   {
@@ -239,5 +239,34 @@ class ProduccionReproceso extends CI_Model
     $this->db
     ->where('id',$id)
     ->delete('produccion_reproceso');
+  }
+
+  public function getByFolioEspecifico2($folio)
+  {
+    $this->db->select('
+    produccion_reproceso.id as id,
+    produccion_reproceso.piezas as piezas,
+    produccion_reproceso.fecha as fecha,
+    produccion_reproceso.defectos as defectos,
+    produccion_reproceso.estado_nomina as estado_nomina,
+    produccion_reproceso.razon_pagar as razon_pagar,
+    lavado.nombre as lavado_nombre,
+    lavado.id as lavado_id,
+    proceso_seco.nombre as proceso_seco,
+    proceso_seco.id as proceso_seco_id,
+    usuario.nombre_completo as usuario_nombre,
+    proceso_seco.nombre as proceso,
+    TRUNCATE(reproceso.costo,2) as costo,
+    TRUNCATE((reproceso.costo*produccion_reproceso.piezas),2) as total
+    ')
+    ->from("produccion_reproceso")
+    ->join("reproceso","reproceso.id=produccion_reproceso.reproceso_id")
+    ->join("proceso_seco","proceso_seco.id=reproceso.proceso_seco_id")
+    ->join("lavado","lavado.id=reproceso.lavado_id")
+    ->join("usuario","produccion_reproceso.usuario_id=usuario.id")
+    ->where("reproceso.corte_folio",$folio)
+    ->where('produccion_reproceso.estado_nomina',1)
+    ->where('reproceso.costo!=',0);
+    return $this->db->get()->result_array();
   }
 }

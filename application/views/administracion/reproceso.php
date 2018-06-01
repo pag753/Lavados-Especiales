@@ -10,7 +10,8 @@ $input_folio = array(
 ?>
 <script>
 $(document).ready(function() {
-  $('#reproceso').hide(200);
+  $('#reproceso').hide();
+  $("#folio").focus();
   $('#folio').keyup(function() {
     if ($('#folio').val() == '') {
       $('#alerta').attr('class','alert alert-warning')

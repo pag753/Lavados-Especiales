@@ -17,6 +17,8 @@ if (!isset($titulo)) $titulo='Lavados Especiales';
   <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/bootstrap.min.css"/>
   <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/bootstrap-multiselect.css"/>
   <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/fontawesome-all.min.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/fa-brands.min.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/fa-regular.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>css/dataTables.bootstrap4.min.css">
   <script src="<?php echo base_url()?>js/popper.min.js"></script>
   <script src="<?php echo base_url()?>js/jquery-3.3.1.min.js"></script>

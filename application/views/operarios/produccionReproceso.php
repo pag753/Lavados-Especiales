@@ -12,6 +12,7 @@ $input_folio = array(
 ?>
 <script>
 $(document).ready(function() {
+  $("#folio").focus();
   $('#tabla').hide();
   $('#folio').keyup(function() {
     if ($('#folio').val() == '') {

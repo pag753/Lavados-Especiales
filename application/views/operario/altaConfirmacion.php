@@ -12,8 +12,7 @@ $(document).ready(function() {
         alert("Seleccione una opción válida en siguiente");
         return false;
       }
-      else
-      return true;
+      else return true;
     }
   });
   $('#especificos').DataTable({

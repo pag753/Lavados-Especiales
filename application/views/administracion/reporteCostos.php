@@ -39,8 +39,8 @@ $(document).ready(function() {
   <div class="table">
     <div class="row">
       <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4">
-        <h3 class="white">Modificar corte</h3>
-        <form action="modificar" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
+        <h3 class="white">Generar reporte de costos</h3>
+        <form action="reporteCostos" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
           <div class="form-group row">
             <label for="folio" class="col-3 col-form-label">Folio</label>
             <div class="col-9">
