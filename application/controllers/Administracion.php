@@ -1982,6 +1982,64 @@ class Administracion extends CI_Controller
 					));
 				}
 
+				//Entrega almacen
+				$pdf->ln(10);
+				$pdf->SetFont('Arial','B',10);
+				$corte = $this->EntregaAlmacen->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) > 0)
+				{
+					$corte = $corte[0];
+					$pdf->Cell(0,0,utf8_decode("Información de entrega a almacén"),0,1,'C');
+					$pdf->ln(5);
+					$pdf->SetWidths(array());
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->SetWidths(array(95,95));
+					$pdf->Row(array(
+						utf8_decode("Fecha de entrega a almacen"),
+						utf8_decode("Usuario que dio salida a almacén"),
+					));
+					//Información del corte
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					$pdf->Row(array(
+						utf8_decode($corte['fecha']),
+						utf8_decode($corte['usuario']),
+					));
+				}
+				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega a almacen de este corte"),0,1,'C');
+
+				//Entrega externa
+				$pdf->ln(10);
+				$pdf->SetFont('Arial','B',10);
+				$corte = $this->EntregaExterna->getByFolioEspecifico($this->input->post()['id']);
+				if (count($corte) > 0)
+				{
+					$corte = $corte[0];
+					$pdf->Cell(0,0,utf8_decode("Información de entrega externa"),0,1,'C');
+					$pdf->ln(5);
+					$pdf->SetWidths(array());
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->SetWidths(array(95,95));
+					$pdf->Row(array(
+						utf8_decode("Fecha de entrega externa"),
+						utf8_decode("Usuario que dio salida externa"),
+					));
+					//Información del corte
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					$pdf->Row(array(
+						utf8_decode($corte['fecha']),
+						utf8_decode($corte['usuario']),
+					));
+				}
+				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega externa de este corte"),0,1,'C');
+
 				//datos de costos de producción de proceso seco
 				$pdf->AddPage();
 				$pdf->SetFont('Arial','B',10);
@@ -2057,63 +2115,30 @@ class Administracion extends CI_Controller
 				}
 				else $pdf->Cell(0,0,utf8_decode("No hay datos de producción de reprocesos de este corte"),0,1,'C');
 
-				//Entrega almacen
+				//Totales
 				$pdf->ln(10);
 				$pdf->SetFont('Arial','B',10);
-				$corte = $this->EntregaAlmacen->getByFolioEspecifico($this->input->post()['id']);
-				if (count($corte) > 0)
-				{
-					$corte = $corte[0];
-					$pdf->Cell(0,0,utf8_decode("Información de entrega a almacén"),0,1,'C');
-					$pdf->ln(5);
-					$pdf->SetWidths(array());
-					//Encabezado de tabla
-					$pdf->SetFillColor(59,131,189);
-					$pdf->SetFont('Arial','B',8);
-					$pdf->ban = true;
-					$pdf->SetWidths(array(95,95));
-					$pdf->Row(array(
-						utf8_decode("Fecha de entrega a almacen"),
-						utf8_decode("Usuario que dio salida a almacén"),
-					));
-					//Información del corte
-					$pdf->SetFont('Arial','',8);
-					$pdf->ban = false;
-					$pdf->Row(array(
-						utf8_decode($corte['fecha']),
-						utf8_decode($corte['usuario']),
-					));
-				}
-				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega a almacen de este corte"),0,1,'C');
+				$pdf->Cell(0,0,utf8_decode("Totales"),0,1,'C');
+				$pdf->ln(5);
+				$pdf->SetWidths(array());
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','B',8);
+				$pdf->ban = true;
+				$pdf->SetWidths(array(95,95));
+				$pdf->Row(array(
+					utf8_decode("Total de produccion de proceso seco"),
+					utf8_decode("$".$this->input->post()['totalProduccion-']),
+				));
+				$pdf->Row(array(
+					utf8_decode("Total de producción de reprocesos"),
+					utf8_decode("$".$this->input->post()['totalReprocesos-']),
+				));
+				$pdf->Row(array(
+					utf8_decode("Total"),
+					utf8_decode("$".$this->input->post()['total-']),
+				));
 
-				//Entrega externa
-				$pdf->ln(10);
-				$pdf->SetFont('Arial','B',10);
-				$corte = $this->EntregaExterna->getByFolioEspecifico($this->input->post()['id']);
-				if (count($corte) > 0)
-				{
-					$corte = $corte[0];
-					$pdf->Cell(0,0,utf8_decode("Información de entrega externa"),0,1,'C');
-					$pdf->ln(5);
-					$pdf->SetWidths(array());
-					//Encabezado de tabla
-					$pdf->SetFillColor(59,131,189);
-					$pdf->SetFont('Arial','B',8);
-					$pdf->ban = true;
-					$pdf->SetWidths(array(95,95));
-					$pdf->Row(array(
-						utf8_decode("Fecha de entrega externa"),
-						utf8_decode("Usuario que dio salida externa"),
-					));
-					//Información del corte
-					$pdf->SetFont('Arial','',8);
-					$pdf->ban = false;
-					$pdf->Row(array(
-						utf8_decode($corte['fecha']),
-						utf8_decode($corte['usuario']),
-					));
-				}
-				else $pdf->Cell(0,0,utf8_decode("No hay datos de entrega externa de este corte"),0,1,'C');
 				/*
 				* Se manda el pdf al navegador
 				*
