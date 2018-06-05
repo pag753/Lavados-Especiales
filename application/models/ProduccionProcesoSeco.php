@@ -364,4 +364,38 @@ public function getByFolio($folio)
     ->where('t2.costo!=',0);
     return $this->db->get()->result_array();
   }
+
+  public function getNominasByOperario($id)
+  {
+    $this->db->distinct()
+    ->select('
+    produccion_proceso_seco.id_nomina as id_nomina,
+    nomina.fecha as fecha
+    ')
+    ->from('produccion_proceso_seco')
+    ->join('nomina','nomina.id= produccion_proceso_seco.id_nomina')
+    ->where('nomina.usuario_id',$id);
+    return $this->db->get()->result_array();
+  }
+
+  public function getWhereEspecifico($data)
+  {
+    $this->db->select('
+    produccion_proceso_seco.corte_folio as folio,
+    produccion_proceso_seco.piezas as piezas,
+    produccion_proceso_seco.fecha as fecha,
+    produccion_proceso_seco.defectos as defectos,
+    produccion_proceso_seco.estado_nomina as estado,
+    produccion_proceso_seco.cantidad_pagar as cantidad_pagar,
+    produccion_proceso_seco.razon_pagar as razon_pagar,
+    proceso_seco.nombre as proceso,
+    lavado.nombre as lavado,
+    ')
+    ->from('produccion_proceso_seco')
+    ->join('lavado','lavado.id=produccion_proceso_seco.lavado_id')
+    ->join('proceso_seco','proceso_seco.id=produccion_proceso_seco.proceso_seco_id')
+    ->where('produccion_proceso_seco.usuario_id',$data['usuario_id'])
+    ->where('produccion_proceso_seco.id_nomina',$data['id_nomina']);
+    return $this->db->get()->result_array();
+  }
 }

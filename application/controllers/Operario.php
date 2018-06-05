@@ -46,15 +46,15 @@ class Operario extends CI_Controller
 		else
 		{
 			if ($datos == null)
-				$data = array(
-					'texto1' => "Bienvenido(a) usuario",
-					'texto2' => $_SESSION['username']
-				);
+			$data = array(
+				'texto1' => "Bienvenido(a) usuario",
+				'texto2' => $_SESSION['username']
+			);
 			else
-				$data = array(
-					'texto1' => "Los datos",
-					'texto2' => "Se han registrado con éxito"
-				);
+			$data = array(
+				'texto1' => "Los datos",
+				'texto2' => "Se han registrado con éxito"
+			);
 		}
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
@@ -121,13 +121,13 @@ class Operario extends CI_Controller
 			);
 			//Actualizando datos de proceso siguiente
 			if (isset($this->input->post()['siguiente']))
-				$this->corteAutorizadoDatos->actualiza(
-					$this->input->post()['siguiente'],
-					$this->input->post()['folio'],
-					$this->input->post()['carga'],
-					$this->input->post()['piezas_trabajadas'],
-					$this->input->post()['orden']+1
-				);
+			$this->corteAutorizadoDatos->actualiza(
+				$this->input->post()['siguiente'],
+				$this->input->post()['folio'],
+				$this->input->post()['carga'],
+				$this->input->post()['piezas_trabajadas'],
+				$this->input->post()['orden']+1
+			);
 			redirect("/operario/index/2");
 		}
 		else redirect("/");
@@ -221,10 +221,8 @@ class Operario extends CI_Controller
 			if ($this->input->post())
 			{
 				$this->load->model('produccionProcesoSeco');
-				if ($this->input->post()['nuevo'] == 1)
-					$this->produccionProcesoSeco->insertar($this->input->post());
-				else
-					$this->produccionProcesoSeco->editar($this->input->post());
+				if ($this->input->post()['nuevo'] == 1) $this->produccionProcesoSeco->insertar($this->input->post());
+				else $this->produccionProcesoSeco->editar($this->input->post());
 				$n = 1;
 			}
 			redirect("/operario/index/2");
@@ -252,16 +250,16 @@ class Operario extends CI_Controller
 		{
 			$this->load->model("ProduccionProcesoSeco");
 			$reporte = $this->ProduccionProcesoSeco->verProduccion(
-	            $_SESSION['usuario_id'],
-	            $this->input->post()['fechaInicio'],
-	            $this->input->post()['fechaFinal']
-	        );
+				$_SESSION['usuario_id'],
+				$this->input->post()['fechaInicio'],
+				$this->input->post()['fechaFinal']
+			);
 			$this->load->model("Descuentos");
-	        $descuentos=$this->Descuentos->consulta1(
-	            $_SESSION['usuario_id'],
-	            $this->input->post()['fechaInicio'],
-	            $this->input->post()['fechaFinal']
-	        );
+			$descuentos=$this->Descuentos->consulta1(
+				$_SESSION['usuario_id'],
+				$this->input->post()['fechaInicio'],
+				$this->input->post()['fechaFinal']
+			);
 			$this->load->library('Comunes');
 			$comunes = new Comunes();
 			$comunes->verProduccion(
@@ -409,6 +407,227 @@ class Operario extends CI_Controller
 				$this->load->view('comunes/head',$titulo);
 				$this->load->view('operario/menu');
 				$this->load->view('operario/cerrarReproceso');
+				$this->load->view('comunes/foot');
+			}
+		}
+	}
+
+	public function verNominas()
+	{
+		if ($this->input->get())
+		{
+			if(!isset($this->input->get()['id']) || !isset($this->input->get()['fecha']) || !is_numeric($this->input->get()['id'])) redirect("operario/index?q=error");
+			$this->load->model(array('Nomina','ProduccionProcesoSeco','ProduccionReproceso'));
+			$data = array(
+				'usuario_id' => $_SESSION['usuario_id'],
+				'id' => $this->input->get()['id'],
+			);
+			$nomina = $this->Nomina->getWhere($data);
+			if (count($nomina) < 1)	redirect("operario/index?q=error");
+			$data['nomina'] = $nomina[0];
+			$datos = array(
+				'id_nomina' => $this->input->get()['id'],
+				'usuario_id' => $_SESSION['usuario_id'],
+			);
+			$data['fecha'] = $this->input->get()['fecha'];
+			$data['produccion'] = $this->ProduccionProcesoSeco->getWhereEspecifico($datos);
+			$data['produccionReprocesos'] = $this->ProduccionReproceso->getWhereEspecifico($datos);
+			$titulo['titulo']="Ver nómina";
+			$this->load->view('comunes/head',$titulo);
+			$this->load->view('operario/menu');
+			$this->load->view('operarios/verNominasEspecifico',$data);
+			$this->load->view('comunes/foot');
+		}
+		else
+		{
+			if ($this->input->post())
+			{
+				try
+				{
+					//print_r($this->input->post());
+					$this->load->library('pdf');
+					//tamaño 190 mm
+					$pdf = new Pdf(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
+					// Agregamos una página
+					$pdf->SetAutoPageBreak(1,20);
+					// Define el alias para el número de página que se imprimirá en el pie
+					$pdf->AliasNbPages();
+					$pdf->AddPage();
+					/* Se define el titulo, márgenes izquierdo, derecho y
+					* el color de relleno predeterminado
+					*/
+					$pdf->SetTitle(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
+
+					$pdf->SetFont('Arial','B',10);
+					$pdf->Cell(0,0,utf8_decode("Datos generales de la nómina"),0,1,'C');
+					$pdf->ln(5);
+					//Datos generales
+					$pdf->SetWidths(array(95,95));
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','',8);
+					//$pdf->ban = true;
+					$pdf->Row(array(
+						utf8_decode('Saldo anterior'),
+						utf8_decode('$'.$this->input->post()['saldo_anterior']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Total de producción'),
+						utf8_decode('$'.$this->input->post()['nomina']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Saldo anterior de descuentos'),
+						utf8_decode('$'.$this->input->post()['descuentos_anterior']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Aportación a los descuentos'),
+						utf8_decode('$'.$this->input->post()['descuentos_abono']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Saldo de descuentos'),
+						utf8_decode('$'.$this->input->post()['descuentos_saldo']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Saldo anterior de ahorro'),
+						utf8_decode('$'.$this->input->post()['ahorro_anterior']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Aportación al ahorro'),
+						utf8_decode('$'.$this->input->post()['ahorro_abono']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Saldo de ahorro'),
+						utf8_decode('$'.$this->input->post()['ahorro_saldo']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Bonos'),
+						utf8_decode('$'.$this->input->post()['bonos']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Total'),
+						utf8_decode('$'.$this->input->post()['total']),
+					));
+					$pdf->Row(array(
+						utf8_decode('Cantidad que se pagó'),
+						utf8_decode('$'.$this->input->post()['pagado']),
+					));
+
+					//Datos de la producción en proceso seco.
+					if (isset($this->input->post()['produccion_folio']))
+					{
+						$pdf->ln(5);
+						$pdf->SetFont('Arial','B',10);
+						$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
+						$pdf->ln(5);
+						//Datos generales
+						$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
+						//Encabezado de tabla
+						$pdf->SetFillColor(59,131,189);
+						$pdf->SetFont('Arial','B',8);
+						$pdf->ban = true;
+						$pdf->Row(array(
+							utf8_decode("Folio del corte\n\n"),
+							utf8_decode("Fecha de registro\n\n"),
+							utf8_decode("Carga o lavado\n\n"),
+							utf8_decode("Proceso\n\n\n"),
+							utf8_decode("Piezas registradas\n\n"),
+							utf8_decode("Defectos registrados\n\n"),
+							utf8_decode("Precio unitario\n\n"),
+							utf8_decode("Cantidad para pagar\n\n"),
+							utf8_decode("Estado de nómina\n\n"),
+							utf8_decode("Razón por la que no se pagó"),
+						));
+
+						$pdf->SetFont('Arial','',8);
+						$pdf->ban = false;
+						foreach ($this->input->post()['produccion_folio'] as $key => $value)
+						{
+							$pdf->Row(array(
+								utf8_decode($this->input->post()['produccion_folio'][$key]),
+								utf8_decode($this->input->post()['produccion_fecha'][$key]),
+								utf8_decode($this->input->post()['produccion_lavado'][$key]),
+								utf8_decode($this->input->post()['produccion_proceso'][$key]),
+								utf8_decode($this->input->post()['produccion_piezas'][$key]),
+								utf8_decode($this->input->post()['produccion_defectos'][$key]),
+								utf8_decode("$".$this->input->post()['produccion_unitario'][$key]),
+								utf8_decode("$".$this->input->post()['produccion_cantidad_pagar'][$key]),
+								utf8_decode($this->input->post()['produccion_razon'][$key]),
+								utf8_decode($this->input->post()['produccion_razon_pagar'][$key]),
+							));
+						}
+					}
+
+					//Datos de la producción en proceso seco.
+					if (isset($this->input->post()['reprocesos_folio']))
+					{
+						$pdf->ln(5);
+						$pdf->SetFont('Arial','B',10);
+						$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
+						$pdf->ln(5);
+						//Datos generales
+						$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
+						//Encabezado de tabla
+						$pdf->SetFillColor(59,131,189);
+						$pdf->SetFont('Arial','B',8);
+						$pdf->ban = true;
+						$pdf->Row(array(
+							utf8_decode("Folio del corte\n\n"),
+							utf8_decode("Fecha de registro\n\n"),
+							utf8_decode("Carga o lavado\n\n"),
+							utf8_decode("Proceso\n\n\n"),
+							utf8_decode("Piezas registradas\n\n"),
+							utf8_decode("Defectos registrados\n\n"),
+							utf8_decode("Precio unitario\n\n"),
+							utf8_decode("Cantidad para pagar\n\n"),
+							utf8_decode("Estado de nómina\n\n"),
+							utf8_decode("Razón por la que no se pagó"),
+						));
+
+						$pdf->SetFont('Arial','',8);
+						$pdf->ban = false;
+						foreach ($this->input->post()['produccion_folio'] as $key => $value)
+						{
+							$pdf->Row(array(
+								utf8_decode($this->input->post()['reprocesos_folio'][$key]),
+								utf8_decode($this->input->post()['reprocesos_fecha'][$key]),
+								utf8_decode($this->input->post()['reprocesos_lavado'][$key]),
+								utf8_decode($this->input->post()['reprocesos_proceso'][$key]),
+								utf8_decode($this->input->post()['reprocesos_piezas'][$key]),
+								utf8_decode($this->input->post()['reprocesos_defectos'][$key]),
+								utf8_decode("$".$this->input->post()['reprocesos_unitario'][$key]),
+								utf8_decode("$".$this->input->post()['reprocesos_cantidad_pagar'][$key]),
+								utf8_decode($this->input->post()['reprocesos_razon'][$key]),
+								utf8_decode($this->input->post()['reprocesos_razon_pagar'][$key]),
+							));
+						}
+					}
+				}
+				catch (Exception $e)
+				{
+					redirect("operario/index?q=error");
+				}
+
+				/*
+				* Se manda el pdf al navegador
+				*
+				* $this->pdf->Output(nombredelarchivo, destino);
+				*
+				* I = Muestra el pdf en el navegador
+				* D = Envia el pdf para descarga
+				*
+				*/
+				$pdf->Output(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']).".pdf", 'I');
+			}
+			else
+			{
+				//si no es ninguno
+				$this->load->model(array('ProduccionProcesoSeco','ProduccionReproceso'));
+				$data['nominasProduccion'] = $this->ProduccionProcesoSeco->getNominasByOperario($_SESSION['usuario_id']);
+				$data['nominasProduccionReproceso'] = $this->ProduccionReproceso->getNominasByOperario($_SESSION['usuario_id']);
+				$titulo['titulo']="Ver nóminas";
+				$this->load->view('comunes/head',$titulo);
+				$this->load->view('operario/menu');
+				$this->load->view('operarios/verNominas',$data);
 				$this->load->view('comunes/foot');
 			}
 		}

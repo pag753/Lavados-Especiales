@@ -7,16 +7,14 @@ class Operariops extends CI_Controller
 	{
 		parent::__construct();
 		$idusuario = $_SESSION['id'];
-		if ($idusuario != 6 && $idusuario != 5)
-			redirect('/');
+		if ($idusuario != 6 && $idusuario != 5) redirect('/');
 	}
 
 	public function index($datos = null)
 	{
 		if ($this->input->get())
 		{
-			if (!isset($this->input->get()['q']))
-				redirect('/');
+			if (!isset($this->input->get()['q'])) redirect('/');
 			switch ($this->input->get()['q'])
 			{
 				case 'error':
@@ -41,15 +39,15 @@ class Operariops extends CI_Controller
 		else
 		{
 			if ($datos == null)
-				$data = array(
-					'texto1' => "Bienvenido(a)",
-					'texto2' => $_SESSION['username']
-				);
+			$data = array(
+				'texto1' => "Bienvenido(a)",
+				'texto2' => $_SESSION['username']
+			);
 			else
-				$data = array(
-					'texto1' =>"Los datos" ,
-					'texto2' =>"Se han registrado con éxito"
-				);
+			$data = array(
+				'texto1' =>"Los datos" ,
+				'texto2' =>"Se han registrado con éxito"
+			);
 		}
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
@@ -107,10 +105,8 @@ class Operariops extends CI_Controller
 			if ($this->input->post())
 			{
 				$this->load->model('produccionProcesoSeco');
-				if ($this->input->post()['nuevo'] == 1)
-					$this->produccionProcesoSeco->insertar($this->input->post());
-				else
-					$this->produccionProcesoSeco->editar($this->input->post());
+				if ($this->input->post()['nuevo'] == 1) $this->produccionProcesoSeco->insertar($this->input->post());
+				else $this->produccionProcesoSeco->editar($this->input->post());
 				$n = 1;
 			}
 			redirect("/operariops/index/2");
@@ -177,16 +173,16 @@ class Operariops extends CI_Controller
 		{
 			$this->load->model("ProduccionProcesoSeco");
 			$reporte = $this->ProduccionProcesoSeco->verProduccion(
-	            $_SESSION['usuario_id'],
-	            $this->input->post()['fechaInicio'],
-	            $this->input->post()['fechaFinal']
-	        );
+				$_SESSION['usuario_id'],
+				$this->input->post()['fechaInicio'],
+				$this->input->post()['fechaFinal']
+			);
 			$this->load->model("Descuentos");
-	        $descuentos=$this->Descuentos->consulta1(
-	            $_SESSION['usuario_id'],
-	            $this->input->post()['fechaInicio'],
-	            $this->input->post()['fechaFinal']
-	        );
+			$descuentos=$this->Descuentos->consulta1(
+				$_SESSION['usuario_id'],
+				$this->input->post()['fechaInicio'],
+				$this->input->post()['fechaFinal']
+			);
 			$this->load->library('Comunes');
 			$comunes = new Comunes();
 			$comunes->verProduccion(
@@ -214,8 +210,7 @@ class Operariops extends CI_Controller
 		if ($this->input->get())
 		{
 			//Validación de datos
-			if (!isset($this->input->get()['id']) || !isset($this->input->get()['lavado']) || !isset($this->input->get()['proceso']) || !is_numeric($this->input->get()['id']))
-				redirect("operariops/index?q=error");
+			if (!isset($this->input->get()['id']) || !isset($this->input->get()['lavado']) || !isset($this->input->get()['proceso']) || !is_numeric($this->input->get()['id'])) redirect("operariops/index?q=error");
 			//Ver si ya hay produccion de este usuario en la base de datos
 			$data  = array(
 				'reproceso_id' => $this->input->get()['id'],

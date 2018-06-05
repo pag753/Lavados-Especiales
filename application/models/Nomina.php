@@ -16,6 +16,12 @@ class Nomina extends CI_Model
     return $query->result_array();
   }
 
+  public function getWhere($data)
+  {
+    $query = $this->db->get_where('nomina',$data);
+    return $query->result_array();
+  }
+
   public function getDistinct()
   {
     $query = $this->db->query("SELECT DISTINCT id, fecha, descripcion FROM nomina");

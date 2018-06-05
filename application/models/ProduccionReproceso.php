@@ -269,4 +269,39 @@ class ProduccionReproceso extends CI_Model
     ->where('reproceso.costo!=',0);
     return $this->db->get()->result_array();
   }
+
+  public function getNominasByOperario($id)
+  {
+    $this->db->distinct()
+    ->select('
+    produccion_reproceso.id_nomina as id_nomina,
+    nomina.fecha as fecha
+    ')
+    ->from('produccion_reproceso')
+    ->join('nomina','nomina.id= produccion_reproceso.id_nomina')
+    ->where('nomina.usuario_id',$id);
+    return $this->db->get()->result_array();
+  }
+
+  public function getWhereEspecifico($data)
+  {
+    $this->db->select('
+    reproceso.corte_folio as folio,
+    produccion_reproceso.piezas as piezas,
+    produccion_reproceso.fecha as fecha,
+    produccion_reproceso.defectos as defectos,
+    produccion_reproceso.estado_nomina as estado,
+    produccion_reproceso.cantidad_pagar as cantidad_pagar,
+    produccion_reproceso.razon_pagar as razon_pagar,
+    proceso_seco.nombre as proceso,
+    lavado.nombre as lavado,
+    ')
+    ->from('produccion_reproceso')
+    ->join('reproceso','reproceso.id=produccion_reproceso.id_nomina')
+    ->join('lavado','lavado.id=reproceso.lavado_id')
+    ->join('proceso_seco','proceso_seco.id=reproceso.proceso_seco_id')
+    ->where('produccion_reproceso.usuario_id',$data['usuario_id'])
+    ->where('produccion_reproceso.id_nomina',$data['id_nomina']);
+    return $this->db->get()->result_array();
+  }
 }

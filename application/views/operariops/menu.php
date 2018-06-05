@@ -28,6 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Otros</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verAhorro">Ver caja de ahorro</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verNominas">Ver información de nóminas</a>
         </div>
       </li>
     </ul>
