@@ -6,7 +6,8 @@ $data=array(
   'placeholder' => 'Usuario',
   'name' => 'nombre',
   'id' => 'nombre',
-  'required' => 'true'
+  'required' => 'true',
+  'autofocus' => 'true',
 );
 $data1=array(
   'type' => 'password',
@@ -65,6 +66,12 @@ $data2=array(
   margin-top:100px !important;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#modal1').modal('show');
+  $('#nombre').focus();
+});
+</script>
 <div class="jumbotron">
   <h1><?php echo $texto1; ?></h1>
   <h2><?php echo $texto2; ?></h2>

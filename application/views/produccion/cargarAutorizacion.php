@@ -12,21 +12,22 @@ $input_folio = array(
 $input_fecha = array(
   'name' => 'fecha',
   'id' => 'fecha',
-  'type' => 'datetime-local',
+  'type' => 'datetime',
   'class' => 'form-control',
-  'value' => set_value('fecha',date("Y-m-d")."T00:00"),
+  'value' => set_value('fecha',date("Y/m/d")),
   'readonly' => 'true',
   'required' => 'true',
 );
 ?>
 <script>
+function eliminar(renglon)
+{
+  $("#renglon"+renglon).remove();
+  var numero=$("#numero");
+  numero.val(parseInt(numero.val())-1);
+}
 $(document).ready(function() {
-  $("#folio").focus();
-  $("#info").click(function() {
-    $("#infoCorte").modal("show");
-  });
-  $("#info").hide();
-  $('#folio').keyup(function() {
+  $("#folio").focus().keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
       data: { folio: $('#folio').val() },
@@ -50,45 +51,37 @@ $(document).ready(function() {
       }
     });
   });
-  $("form").on( "click", "button", function() {
-    if (this.name=="boton") {
-      var numero=$("#numero");
-      var numero2=$("#numero2");
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
-        data: { numero: numero2.val() },
-        dataType: 'text',
-        type: 'POST',
-        success: function(result){
-          $('#tabla tbody').append(result);
-          $('#proceso_seco'+numero2.val() ).multiselect({
-            nonSelectedText: '¡Selecciona!',
-            buttonWidth: '100%',
-            maxHeight: '150',
-            numberDisplayed: 1,
-            templates: {
-              li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
-              ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
-              button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
-              filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
-              filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
-            },
-            //buttonContainer: '<div class="dropdown" />',
-            buttonClass: 'btn btn-secondary'
-          });
-          numero2.val(parseInt(numero2.val())+1);
-          numero.val(parseInt(numero.val())+1);
-        }
-      });
-    }
-    else {
-      if (this.id.substring(0,8)=="eliminar") {
-        var renglon=this.id.substring(8);
-        $("#renglon"+renglon).remove();
-        var numero=$("#numero");
-        numero.val(parseInt(numero.val())-1);
+  $("#info").click(function() {
+    $("#infoCorte").modal("show");
+  }).hide();
+  $("#boton").click(function() {
+    var numero=$("#numero");
+    var numero2=$("#numero2");
+    $.ajax({
+      url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
+      data: { numero: numero2.val() },
+      dataType: 'text',
+      type: 'POST',
+      success: function(result){
+        $('#tabla tbody').append(result);
+        $('#proceso_seco'+numero2.val() ).multiselect({
+          nonSelectedText: '¡Selecciona!',
+          buttonWidth: '100%',
+          maxHeight: '150',
+          numberDisplayed: 1,
+          templates: {
+            li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
+            ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
+            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+            filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
+            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
+          },
+          buttonClass: 'btn btn-secondary'
+        });
+        numero2.val(parseInt(numero2.val())+1);
+        numero.val(parseInt(numero.val())+1);
       }
-    }
+    });
   });
   $('#autorizar').submit(function() {
     var numero=$("#numero").val();
@@ -96,8 +89,28 @@ $(document).ready(function() {
       alert("Debe agregar por lo menos un lavado.");
       return false;
     }
-    else
-    return true;
+    else {
+      if (!$('#respuesta input').length) {
+        return false;
+      }
+      else {
+        var lavados = $("[name*='lavado']");
+        var id = -100;
+        var bandera;
+        $.each(lavados, function( index, value ) {
+          if (id == value.value*1) {
+            bandera = true;
+          }
+          else bandera = false;
+          id = value.value*1;
+        });
+        if (bandera) {
+          alert('No pueden haber 2 o más lavados iguales, favor de rectificar.');
+          return false;
+        }
+        else return true;
+      }
+    }
   });
 });
 </script>

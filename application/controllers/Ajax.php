@@ -481,7 +481,7 @@ class Ajax extends CI_Controller
 			$this->load->Model('ProcesoSeco');
 			$procesos = $this->ProcesoSeco->get();
 			foreach ($procesos as $key => $value) echo "<option value='".$value['id']."'>".$value['nombre']."</option>";
-			echo "</select></center></td><td><button type='button' name='eliminar$numero' id='eliminar$numero' class='btn btn-danger'><i class='far fa-trash-alt'></i></button></td></tr>";
+			echo "</select></center></td><td><button type='button' name='eliminar$numero' id='eliminar$numero' class='btn btn-danger' onclick='eliminar($numero)'><i class='far fa-trash-alt'></i></button></td></tr>";
 		}
 	}
 

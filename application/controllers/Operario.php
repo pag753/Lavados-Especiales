@@ -441,167 +441,165 @@ class Operario extends CI_Controller
 		else
 		{
 			if ($this->input->post())
-			{
-				try
-				{
-					//print_r($this->input->post());
-					$this->load->library('pdf');
-					//tamaño 190 mm
-					$pdf = new Pdf(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
-					// Agregamos una página
-					$pdf->SetAutoPageBreak(1,20);
-					// Define el alias para el número de página que se imprimirá en el pie
-					$pdf->AliasNbPages();
-					$pdf->AddPage();
-					/* Se define el titulo, márgenes izquierdo, derecho y
-					* el color de relleno predeterminado
-					*/
-					$pdf->SetTitle(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
+			{				
+				//print_r($this->input->post());
+				$this->load->library('pdf');
+				//tamaño 190 mm
+				$pdf = new Pdf(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
+				// Agregamos una página
+				$pdf->SetAutoPageBreak(1,20);
+				// Define el alias para el número de página que se imprimirá en el pie
+				$pdf->AliasNbPages();
+				$pdf->AddPage();
+				/* Se define el titulo, márgenes izquierdo, derecho y
+				* el color de relleno predeterminado
+				*/
+				$pdf->SetTitle(utf8_decode("Ver nómina del generada el ".$this->input->post()['fecha']));
 
+				$pdf->SetFont('Arial','B',10);
+				$pdf->Cell(0,0,utf8_decode("Datos generales de la nómina"),0,1,'C');
+				$pdf->ln(5);
+				//Datos generales
+				$pdf->SetWidths(array(95,95));
+				//Encabezado de tabla
+				$pdf->SetFillColor(59,131,189);
+				$pdf->SetFont('Arial','',8);
+				//$pdf->ban = true;
+				$pdf->Row(array(
+					utf8_decode('Saldo anterior'),
+					utf8_decode('$'.$this->input->post()['saldo_anterior']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Total de producción'),
+					utf8_decode('$'.$this->input->post()['nomina']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Saldo anterior de descuentos'),
+					utf8_decode('$'.$this->input->post()['descuentos_anterior']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Aportación a los descuentos'),
+					utf8_decode('$'.$this->input->post()['descuentos_abono']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Saldo de descuentos'),
+					utf8_decode('$'.$this->input->post()['descuentos_saldo']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Saldo anterior de ahorro'),
+					utf8_decode('$'.$this->input->post()['ahorro_anterior']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Aportación al ahorro'),
+					utf8_decode('$'.$this->input->post()['ahorro_abono']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Saldo de ahorro'),
+					utf8_decode('$'.$this->input->post()['ahorro_saldo']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Bonos'),
+					utf8_decode('$'.$this->input->post()['bonos']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Total'),
+					utf8_decode('$'.$this->input->post()['total']),
+				));
+				$pdf->Row(array(
+					utf8_decode('Cantidad que se pagó'),
+					utf8_decode('$'.$this->input->post()['pagado']),
+				));
+
+				//Datos de la producción en proceso seco.
+				if (isset($this->input->post()['produccion_folio']))
+				{
+					$pdf->ln(5);
 					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,0,utf8_decode("Datos generales de la nómina"),0,1,'C');
+					$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
 					$pdf->ln(5);
 					//Datos generales
-					$pdf->SetWidths(array(95,95));
+					$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
 					//Encabezado de tabla
 					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->Row(array(
+						utf8_decode("Folio del corte\n\n"),
+						utf8_decode("Fecha de registro\n\n"),
+						utf8_decode("Carga o lavado\n\n"),
+						utf8_decode("Proceso\n\n\n"),
+						utf8_decode("Piezas registradas\n\n"),
+						utf8_decode("Defectos registrados\n\n"),
+						utf8_decode("Precio unitario\n\n"),
+						utf8_decode("Cantidad para pagar\n\n"),
+						utf8_decode("Estado de nómina\n\n"),
+						utf8_decode("Razón por la que no se pagó"),
+					));
+
 					$pdf->SetFont('Arial','',8);
-					//$pdf->ban = true;
-					$pdf->Row(array(
-						utf8_decode('Saldo anterior'),
-						utf8_decode('$'.$this->input->post()['saldo_anterior']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Total de producción'),
-						utf8_decode('$'.$this->input->post()['nomina']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Saldo anterior de descuentos'),
-						utf8_decode('$'.$this->input->post()['descuentos_anterior']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Aportación a los descuentos'),
-						utf8_decode('$'.$this->input->post()['descuentos_abono']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Saldo de descuentos'),
-						utf8_decode('$'.$this->input->post()['descuentos_saldo']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Saldo anterior de ahorro'),
-						utf8_decode('$'.$this->input->post()['ahorro_anterior']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Aportación al ahorro'),
-						utf8_decode('$'.$this->input->post()['ahorro_abono']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Saldo de ahorro'),
-						utf8_decode('$'.$this->input->post()['ahorro_saldo']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Bonos'),
-						utf8_decode('$'.$this->input->post()['bonos']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Total'),
-						utf8_decode('$'.$this->input->post()['total']),
-					));
-					$pdf->Row(array(
-						utf8_decode('Cantidad que se pagó'),
-						utf8_decode('$'.$this->input->post()['pagado']),
-					));
-
-					//Datos de la producción en proceso seco.
-					if (isset($this->input->post()['produccion_folio']))
+					$pdf->ban = false;
+					foreach ($this->input->post()['produccion_folio'] as $key => $value)
 					{
-						$pdf->ln(5);
-						$pdf->SetFont('Arial','B',10);
-						$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
-						$pdf->ln(5);
-						//Datos generales
-						$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
-						//Encabezado de tabla
-						$pdf->SetFillColor(59,131,189);
-						$pdf->SetFont('Arial','B',8);
-						$pdf->ban = true;
 						$pdf->Row(array(
-							utf8_decode("Folio del corte\n\n"),
-							utf8_decode("Fecha de registro\n\n"),
-							utf8_decode("Carga o lavado\n\n"),
-							utf8_decode("Proceso\n\n\n"),
-							utf8_decode("Piezas registradas\n\n"),
-							utf8_decode("Defectos registrados\n\n"),
-							utf8_decode("Precio unitario\n\n"),
-							utf8_decode("Cantidad para pagar\n\n"),
-							utf8_decode("Estado de nómina\n\n"),
-							utf8_decode("Razón por la que no se pagó"),
+							utf8_decode($this->input->post()['produccion_folio'][$key]),
+							utf8_decode($this->input->post()['produccion_fecha'][$key]),
+							utf8_decode($this->input->post()['produccion_lavado'][$key]),
+							utf8_decode($this->input->post()['produccion_proceso'][$key]),
+							utf8_decode($this->input->post()['produccion_piezas'][$key]),
+							utf8_decode($this->input->post()['produccion_defectos'][$key]),
+							utf8_decode("$".$this->input->post()['produccion_unitario'][$key]),
+							utf8_decode("$".$this->input->post()['produccion_cantidad_pagar'][$key]),
+							utf8_decode($this->input->post()['produccion_razon'][$key]),
+							utf8_decode($this->input->post()['produccion_razon_pagar'][$key]),
 						));
-
-						$pdf->SetFont('Arial','',8);
-						$pdf->ban = false;
-						foreach ($this->input->post()['produccion_folio'] as $key => $value)
-						{
-							$pdf->Row(array(
-								utf8_decode($this->input->post()['produccion_folio'][$key]),
-								utf8_decode($this->input->post()['produccion_fecha'][$key]),
-								utf8_decode($this->input->post()['produccion_lavado'][$key]),
-								utf8_decode($this->input->post()['produccion_proceso'][$key]),
-								utf8_decode($this->input->post()['produccion_piezas'][$key]),
-								utf8_decode($this->input->post()['produccion_defectos'][$key]),
-								utf8_decode("$".$this->input->post()['produccion_unitario'][$key]),
-								utf8_decode("$".$this->input->post()['produccion_cantidad_pagar'][$key]),
-								utf8_decode($this->input->post()['produccion_razon'][$key]),
-								utf8_decode($this->input->post()['produccion_razon_pagar'][$key]),
-							));
-						}
-					}
-
-					//Datos de la producción en proceso seco.
-					if (isset($this->input->post()['reprocesos_folio']))
-					{
-						$pdf->ln(5);
-						$pdf->SetFont('Arial','B',10);
-						$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
-						$pdf->ln(5);
-						//Datos generales
-						$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
-						//Encabezado de tabla
-						$pdf->SetFillColor(59,131,189);
-						$pdf->SetFont('Arial','B',8);
-						$pdf->ban = true;
-						$pdf->Row(array(
-							utf8_decode("Folio del corte\n\n"),
-							utf8_decode("Fecha de registro\n\n"),
-							utf8_decode("Carga o lavado\n\n"),
-							utf8_decode("Proceso\n\n\n"),
-							utf8_decode("Piezas registradas\n\n"),
-							utf8_decode("Defectos registrados\n\n"),
-							utf8_decode("Precio unitario\n\n"),
-							utf8_decode("Cantidad para pagar\n\n"),
-							utf8_decode("Estado de nómina\n\n"),
-							utf8_decode("Razón por la que no se pagó"),
-						));
-
-						$pdf->SetFont('Arial','',8);
-						$pdf->ban = false;
-						foreach ($this->input->post()['produccion_folio'] as $key => $value)
-						{
-							$pdf->Row(array(
-								utf8_decode($this->input->post()['reprocesos_folio'][$key]),
-								utf8_decode($this->input->post()['reprocesos_fecha'][$key]),
-								utf8_decode($this->input->post()['reprocesos_lavado'][$key]),
-								utf8_decode($this->input->post()['reprocesos_proceso'][$key]),
-								utf8_decode($this->input->post()['reprocesos_piezas'][$key]),
-								utf8_decode($this->input->post()['reprocesos_defectos'][$key]),
-								utf8_decode("$".$this->input->post()['reprocesos_unitario'][$key]),
-								utf8_decode("$".$this->input->post()['reprocesos_cantidad_pagar'][$key]),
-								utf8_decode($this->input->post()['reprocesos_razon'][$key]),
-								utf8_decode($this->input->post()['reprocesos_razon_pagar'][$key]),
-							));
-						}
 					}
 				}
+
+				//Datos de la producción en proceso seco.
+				if (isset($this->input->post()['reprocesos_folio']))
+				{
+					$pdf->ln(5);
+					$pdf->SetFont('Arial','B',10);
+					$pdf->Cell(0,0,utf8_decode("Datos de la producción en proceso seco"),0,1,'C');
+					$pdf->ln(5);
+					//Datos generales
+					$pdf->SetWidths(array(19,19,19,19,19,19,19,19,19,19));
+					//Encabezado de tabla
+					$pdf->SetFillColor(59,131,189);
+					$pdf->SetFont('Arial','B',8);
+					$pdf->ban = true;
+					$pdf->Row(array(
+						utf8_decode("Folio del corte\n\n"),
+						utf8_decode("Fecha de registro\n\n"),
+						utf8_decode("Carga o lavado\n\n"),
+						utf8_decode("Proceso\n\n\n"),
+						utf8_decode("Piezas registradas\n\n"),
+						utf8_decode("Defectos registrados\n\n"),
+						utf8_decode("Precio unitario\n\n"),
+						utf8_decode("Cantidad para pagar\n\n"),
+						utf8_decode("Estado de nómina\n\n"),
+						utf8_decode("Razón por la que no se pagó"),
+					));
+
+					$pdf->SetFont('Arial','',8);
+					$pdf->ban = false;
+					foreach ($this->input->post()['produccion_folio'] as $key => $value)
+					{
+						$pdf->Row(array(
+							utf8_decode($this->input->post()['reprocesos_folio'][$key]),
+							utf8_decode($this->input->post()['reprocesos_fecha'][$key]),
+							utf8_decode($this->input->post()['reprocesos_lavado'][$key]),
+							utf8_decode($this->input->post()['reprocesos_proceso'][$key]),
+							utf8_decode($this->input->post()['reprocesos_piezas'][$key]),
+							utf8_decode($this->input->post()['reprocesos_defectos'][$key]),
+							utf8_decode("$".$this->input->post()['reprocesos_unitario'][$key]),
+							utf8_decode("$".$this->input->post()['reprocesos_cantidad_pagar'][$key]),
+							utf8_decode($this->input->post()['reprocesos_razon'][$key]),
+							utf8_decode($this->input->post()['reprocesos_razon_pagar'][$key]),
+						));
+					}
+				}
+
 				catch (Exception $e)
 				{
 					redirect("operario/index?q=error");

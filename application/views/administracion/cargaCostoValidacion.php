@@ -10,8 +10,7 @@ $input_folio = array(
 ?>
 <script>
 $(document).ready(function() {
-  $("#folio").focus();
-  $('#folio').keyup(function() {
+  $("#folio").focus().keyup(function() {
     $.ajax({
       url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
       data: { folio: $('#folio').val() },
@@ -22,6 +21,13 @@ $(document).ready(function() {
       }
     });
   });
+  $('#costos').submit(function() {
+    if ($('#folio').val() == "") {
+      alert("Favor de completar el campo del folio");
+      return false;
+    }
+    else return true;
+  });
 });
 </script>
 <div class="container-fluid">
@@ -29,7 +35,7 @@ $(document).ready(function() {
     <div class="row">
       <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
         <h3 class="white"><?php echo $texto1; ?></h3>
-        <form action="costos" method="get" enctype="multipart/form-data">
+        <form action="costos" id="costos" method="get" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="folio" class="col-3 col-form-label">Folio</label>
             <div class="col-9">

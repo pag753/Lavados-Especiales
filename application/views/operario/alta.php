@@ -11,8 +11,26 @@ $input_folio = array(
 ?>
 <script>
 $(document).ready(function() {
-  $("#folio").focus();
-  $('#folio').keyup(function() {
+  $('form').submit(function() {
+    if ($('#folio').val() == "") {
+      alert("Campo de folio vacío.");
+      return false;
+    }
+    else {
+      if ($('#carga').val() == -1) {
+        alert('Favor de escoger la carga');
+        return false;
+      }
+      else {
+        if ($('#proceso').val() == -1 || !$('#proceso').length) {
+          alert('Valor de proceso inválido');
+          return false;
+        }
+        else return true;
+      }
+    }
+  });
+  $("#folio").focus().keyup(function() {
     $('#procesos').html('');
     $('#valida').html('');
     $.ajax({
