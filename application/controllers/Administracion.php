@@ -943,7 +943,7 @@ class Administracion extends CI_Controller
 
 	public function agregarLavado()
 	{
-		if (!$this->input->post() || !isset($this->input->post()['procesoNuevo']) || !isset($this->input->post()['piezasLavadoNuevo']) || !isset($this->input->post()['corteFolioNuevoLavado']) || !isset($this->input->post()['lavadoProcesoNuevo']) || !isset($this->input->post()['abrirConProceso'])) redirect('/administracion/index?q=error');
+		if (!$this->input->post() || !isset($this->input->post()['procesoNuevo']) || !isset($this->input->post()['corteFolioNuevoLavado']) || !isset($this->input->post()['lavadoProcesoNuevo'])) redirect('/administracion/index?q=error');
 		$this->load->model(array('CorteAutorizado','CorteAutorizadoDatos','ProcesoSeco'));
 		//Aumentar la cargas
 		$this->CorteAutorizado->aumentaCargasEn1($this->input->post()['corteFolioNuevoLavado']);
@@ -1011,9 +1011,10 @@ class Administracion extends CI_Controller
 				$data['usuario_id'] = $_SESSION['usuario_id'];
 				$data['piezas_trabajadas'] = 0;
 				$data['status'] = 0;
+				$this->CorteAutorizadoDatos->agregar($data);
 			}
 		}
-		redirect('/administracion/modificar?folio='.$this->input->post()['folio']);
+		redirect('/administracion/modificar?folio='.$this->input->post()['corteFolioNuevoLavado']);
 	}
 
 	public function editarReproceso()

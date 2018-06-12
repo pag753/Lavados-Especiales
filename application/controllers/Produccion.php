@@ -8,26 +8,26 @@ class Produccion extends CI_Controller
 		parent::__construct();
 		$idusuario = $_SESSION['id'];
 		if ($idusuario != 3 && $idusuario != 5)
-			redirect('/');
+		redirect('/');
 	}
 
 	public function index($datos = null)
 	{
 		if ($datos == null)
-			$data = array(
-				'texto1' => "Bienvenido(a)",
-				'texto2' => $_SESSION['username']
-			);
+		$data = array(
+			'texto1' => "Bienvenido(a)",
+			'texto2' => $_SESSION['username']
+		);
 		elseif ($datos<0)
-			$data = array(
-				'texto1' => "Los datos",
-				'texto2' => "Se han actualizado con éxito"
-			);
+		$data = array(
+			'texto1' => "Los datos",
+			'texto2' => "Se han actualizado con éxito"
+		);
 		else
-			$data = array(
-				'texto1' => "El corte con folio ".$datos,
-				'texto2' => "Se ha autorizado con éxito"
-			);
+		$data = array(
+			'texto1' => "El corte con folio ".$datos,
+			'texto2' => "Se ha autorizado con éxito"
+		);
 		$titulo['titulo'] = 'Bienvenido a lavados especiales';
 		$this->load->view('comunes/head',$titulo);
 		$this->load->view('produccion/menu');
@@ -65,19 +65,17 @@ class Produccion extends CI_Controller
 				{
 					$this->load->model('procesoSeco');
 					$ps = $this->procesoSeco->get();
-					foreach ($ps as $key2 => $value)
-						$precios[$value['id']]=$value['costo'];
+					foreach ($ps as $key2 => $value)	$precios[$value['id']]=$value['costo'];
 					$data['id_carga'] = $contador;
 					$data['lavado_id'] = $this->input->post()['lavado'][$key];
 					foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
 					{
 						$data['proceso_seco_id'] = $valor;
 						$data['costo'] = $precios[$valor];
-						if ($data['costo'] == 0)
-							$data['status'] = 2;
-						else
-							$data['status'] = 0;
+						if ($data['costo'] == 0)	$data['status'] = 2;
+						else $data['status'] = 0;
 						$data['usuario_id'] = $_SESSION['usuario_id'];
+						$data['fecha_registro'] = date('Y-m-d');
 						$n = $this->corteAutorizadoDatos->agregar($data);
 					}
 					$contador++;
@@ -85,10 +83,10 @@ class Produccion extends CI_Controller
 				redirect('/produccion/index/'.$datos['datos_corte']['folio']);
 			}
 			else
-				$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
+			$this->cargarAutorizacion($this->input->post(),'Autorización de Corte','No agregó ningún lavado');
 		}
 		else
-			$this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
+		$this->cargarAutorizacion('','Autorización de Corte','Ingrese los datos');
 	}
 
 	private function cargarAutorizacion($entrada = null,$texto1,$texto2)

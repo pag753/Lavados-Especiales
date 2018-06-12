@@ -441,7 +441,7 @@ class Operario extends CI_Controller
 		else
 		{
 			if ($this->input->post())
-			{				
+			{
 				//print_r($this->input->post());
 				$this->load->library('pdf');
 				//tamaño 190 mm
@@ -599,12 +599,6 @@ class Operario extends CI_Controller
 						));
 					}
 				}
-
-				catch (Exception $e)
-				{
-					redirect("operario/index?q=error");
-				}
-
 				/*
 				* Se manda el pdf al navegador
 				*
