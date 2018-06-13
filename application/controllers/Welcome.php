@@ -11,11 +11,14 @@ class Welcome extends CI_Controller
 
     public function index()
     {
-        if (! isset($_SESSION['username'])) {
-            if ($this->input->post()) {
+        if (! isset($_SESSION['username']))
+        {
+            if ($this->input->post())
+            {
                 $this->load->model('usuarios');
                 $query = $this->usuarios->login();
-                if (! empty($query)) {
+                if (! empty($query))
+                {
                     $data = array(
                         'username' => $query[0]['nombre'],
                         'id' => $query[0]["tipo_usuario_id"],
@@ -24,7 +27,9 @@ class Welcome extends CI_Controller
                     );
                     $this->session->set_userdata($data);
                     $this->sesion();
-                } else {
+                }
+                else
+                {
                     $info = array(
                         'texto1' => 'Error en usuario o contraseña',
                         'texto2' => 'Intente de nuevo'
@@ -35,7 +40,9 @@ class Welcome extends CI_Controller
                     $this->load->view('welcome/index', $info);
                     $this->load->view('comunes/foot');
                 }
-            } else {
+            }
+            else
+            {
                 $info = array(
                     'texto1' => 'Bienvenido',
                     'texto2' => 'Lavados especiales'
@@ -46,14 +53,16 @@ class Welcome extends CI_Controller
                 $this->load->view('welcome/index', $info);
                 $this->load->view('comunes/foot');
             }
-        } else
+        }
+        else
             $this->sesion();
     }
 
     function sesion()
     {
         $id = $_SESSION['id'];
-        switch ($id) {
+        switch ($id)
+        {
             case 1: // administrador
                 redirect('/administracion');
                 break;

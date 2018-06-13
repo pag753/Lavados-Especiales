@@ -66,7 +66,8 @@ class Usuarios extends CI_Model
 
     public function update($nombre, $pass, $tipo_usuario_id, $nombre_completo, $direccion, $telefono, $activo, $puestoId, $id)
     {
-        if ($pass == null) {
+        if ($pass == null)
+        {
             $data = array(
                 'nombre' => $nombre,
                 'tipo_usuario_id' => $tipo_usuario_id,
@@ -76,7 +77,9 @@ class Usuarios extends CI_Model
                 'activo' => $activo,
                 'puesto_id' => $puestoId
             );
-        } else {
+        }
+        else
+        {
             $data = array(
                 'nombre' => $nombre,
                 'pass' => md5($pass),

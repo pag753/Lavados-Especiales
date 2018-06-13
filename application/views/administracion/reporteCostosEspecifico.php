@@ -1,8 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-foreach ($produccion as $key => $value) {
+foreach ($produccion as $key => $value)
+{
     // Arreglo de proceso seco
-    if (! isset($p[$value['idlavado']][$value['idproceso']])) {
+    if (! isset($p[$value['idlavado']][$value['idproceso']]))
+    {
         $p[$value['idlavado']][$value['idproceso']] = array(
             'lavado' => $value['lavado'],
             'proceso' => $value['proceso'],
@@ -10,14 +12,18 @@ foreach ($produccion as $key => $value) {
             'costo' => $value['costo'],
             'total' => $value['total']
         );
-    } else {
+    }
+    else
+    {
         $p[$value['idlavado']][$value['idproceso']]['piezas'] += $value['piezas'];
         $p[$value['idlavado']][$value['idproceso']]['total'] += $value['total'];
     }
 }
 // Arreglo de reprocesos
-foreach ($reproceso as $key => $value) {
-    if (! isset($r[$value['lavado_id']][$value['proceso_seco_id']])) {
+foreach ($reproceso as $key => $value)
+{
+    if (! isset($r[$value['lavado_id']][$value['proceso_seco_id']]))
+    {
         $r[$value['lavado_id']][$value['proceso_seco_id']] = array(
             'lavado' => $value['lavado_nombre'],
             'proceso' => $value['proceso_seco'],
@@ -25,7 +31,9 @@ foreach ($reproceso as $key => $value) {
             'costo' => $value['costo'],
             'total' => $value['total']
         );
-    } else {
+    }
+    else
+    {
         $r[$value['lavado_id']][$value['proceso_seco_id']]['piezas'] += $value['piezas'];
         $r[$value['lavado_id']][$value['proceso_seco_id']]['total'] += $value['total'];
     }

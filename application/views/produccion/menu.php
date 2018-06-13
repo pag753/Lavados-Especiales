@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <nav class="navbar navbar-expand-lg navbar-light">
   <a class="navbar-brand" href="<?php echo base_url()?>"><img
     src="<?php echo base_url()?>img/logo.png"

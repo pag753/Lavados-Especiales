@@ -1,6 +1,6 @@
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php if (! isset($folio)): ?>
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
-if (! isset($folio)) :
     $input_folio = array(
         'type' => 'number',
         'name' => 'folio',

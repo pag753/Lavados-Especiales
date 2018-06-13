@@ -144,10 +144,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <th>Razón por la que no se pagó</th>
                   </tr>
                 </thead>
-                <tbody><?php
-                
-                foreach ($produccion as $key => $value) :
-                    switch ($value['estado']) {
+                <tbody><?php foreach ($produccion as $key => $value):?>
+                <?php
+                    switch ($value['estado'])
+                    {
                         case 0:
                             $razon = "No se ha pagado";
                             $clase = "table-primary";
@@ -268,8 +268,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </thead>
                 <tbody><?php
                 
-                foreach ($produccionReprocesos as $key => $value) :
-                    switch ($value['estado']) {
+                foreach ($produccionReprocesos as $key => $value)
+                :
+                    switch ($value['estado'])
+                    {
                         case 0:
                             $razon = "No se ha pagado";
                             $clase = "table-primary";

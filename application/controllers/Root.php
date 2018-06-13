@@ -26,11 +26,14 @@ class Root extends CI_Controller
 
     public function cambiarPass()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateP($_SESSION['usuario_id'], md5($this->input->post()['pass1']));
             redirect('/root/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/root/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
@@ -42,11 +45,14 @@ class Root extends CI_Controller
 
     public function cambiarDatos()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateD($_SESSION['usuario_id'], $this->input->post()['nombre_completo'], $this->input->post()['direccion'], $this->input->post()['telefono']);
             redirect('/root/index/-1');
-        } else {
+        }
+        else
+        {
             $this->load->model('Usuarios');
             $data = array(
                 'link' => base_url() . 'index.php/root/cambiarDatos',

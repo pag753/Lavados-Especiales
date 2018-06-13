@@ -99,15 +99,13 @@ $(document).ready(function() {
                     <th>Fecha</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php foreach ($query as $key => $value): ?>
+                <tbody><?php foreach ($query as $key => $value): ?>
                     <tr>
                     <td><?php echo $value['usuario'] ?></td>
                     <td><?php echo $value['piezas'] ?></td>
                     <td><?php echo $value['defectos'] ?></td>
                     <td><?php echo $value['fecha'] ?></td>
-                  </tr>
-                  <?php endforeach; ?>
+                  </tr><?php endforeach; ?>
                 </tbody>
               </table>
             </div>

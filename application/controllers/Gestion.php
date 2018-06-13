@@ -14,19 +14,25 @@ class Gestion extends CI_Controller
 
     public function index($datos = null)
     {
-        if ($datos != null) {
-            if ($datos == - 1) {
+        if ($datos != null)
+        {
+            if ($datos == - 1)
+            {
                 $data = array(
                     'texto1' => "Los datos",
                     'texto2' => "Se han actualizado con éxito"
                 );
-            } else {
+            }
+            else
+            {
                 $data = array(
                     'texto1' => "El corte con folio " . $datos,
                     'texto2' => "Se ha registrado con éxito"
                 );
             }
-        } else {
+        }
+        else
+        {
             $data = array(
                 'texto1' => "Bienvenido(a)",
                 'texto2' => $_SESSION['username']
@@ -47,7 +53,8 @@ class Gestion extends CI_Controller
 
     public function alta()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             // Recuperando datos de post
             $datos['datos_corte'] = $this->input->post();
             // Sección de para subir imágen
@@ -70,7 +77,9 @@ class Gestion extends CI_Controller
             $this->load->model('corte');
             $this->corte->agregar($datos['datos_corte']);
             redirect('/gestion/index/' . $datos['datos_corte']['folio']);
-        } else {
+        }
+        else
+        {
             $this->load->model(array(
                 'marca',
                 'maquilero',
@@ -81,7 +90,8 @@ class Gestion extends CI_Controller
             $c = $this->corte->get();
             if (count($c) == 0)
                 $id_corte = 1;
-            else {
+            else
+            {
                 $id_corte = $this->corte->get()[count($this->corte->get()) - 1]['folio'] + 1;
             }
             $datos = array(
@@ -110,7 +120,8 @@ class Gestion extends CI_Controller
 
     public function salidaInterna()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('corteAutorizadoDatos');
             $query = $this->corteAutorizadoDatos->joinLavado($this->input->post()['folio']);
             $data['corte_folio'] = $this->input->post()['folio'];
@@ -123,14 +134,17 @@ class Gestion extends CI_Controller
             $data = null;
             $this->load->model('salidaInterna1Datos');
             $data['corte_folio'] = $this->input->post()['folio'];
-            for ($i = 0; $i < $this->input->post()['cargas']; $i ++) {
+            for ($i = 0; $i < $this->input->post()['cargas']; $i ++)
+            {
                 $data['id_carga'] = $query[$i]['id_carga'];
                 $data['piezas'] = $this->input->post()['piezas_parcial' . $i];
                 $this->salidaInterna1Datos->agregar($data);
                 $this->corteAutorizadoDatos->actualiza($this->input->post()['primero'][$i], $this->input->post()['folio'], $i + 1, $this->input->post()['piezas_parcial' . $i], 1);
             }
             redirect('/gestion/index/' . $this->input->post()['folio']);
-        } else {
+        }
+        else
+        {
             $titulo['titulo'] = 'Salida interna';
             $this->load->view('comunes/head', $titulo);
             $this->load->view('gestion/menu');
@@ -141,14 +155,17 @@ class Gestion extends CI_Controller
 
     public function salidaAlmacen()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('entregaAlmacen');
             $this->entregaAlmacen->agregar(array(
                 'corte_folio' => $this->input->post()['folio'],
                 'fecha' => date("Y-m-d")
             ));
             redirect("/");
-        } else {
+        }
+        else
+        {
             $titulo['titulo'] = 'Salida a almacen';
             $this->load->view('comunes/head', $titulo);
             $this->load->view('gestion/menu');
@@ -159,14 +176,17 @@ class Gestion extends CI_Controller
 
     public function salidaExterna()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('entregaExterna');
             $this->entregaExterna->agregar(array(
                 'corte_folio' => $this->input->post()['folio'],
                 'fecha' => date("Y-m-d")
             ));
             redirect("/");
-        } else {
+        }
+        else
+        {
             $titulo['titulo'] = 'Salida externa';
             $this->load->view('comunes/head', $titulo);
             $this->load->view('gestion/menu');
@@ -200,7 +220,8 @@ class Gestion extends CI_Controller
     {
         if (! $this->input->post())
             redirect('/');
-        switch ($this->input->post()['reporte']) {
+        switch ($this->input->post()['reporte'])
+        {
             case 1: // reporte de cortes en almacen -> cortes no autorizados
                     // campos: todos los de de corte
                 $this->reporte1();
@@ -250,7 +271,8 @@ class Gestion extends CI_Controller
          */
         $pdf->SetTitle("Reporte");
         // 190 vertical
-        if ($check) {
+        if ($check)
+        {
             $pdf->SetWidths(array(
                 52.44,
                 10,
@@ -278,8 +300,10 @@ class Gestion extends CI_Controller
                 "jpeg",
                 "png"
             );
-            foreach ($cortes as $key => $value) {
-                if ($key > 0 && $key % 6 == 0) {
+            foreach ($cortes as $key => $value)
+            {
+                if ($key > 0 && $key % 6 == 0)
+                {
                     $pdf->SetFont('Arial', 'B', 8);
                     $pdf->AddPage();
                     $pdf->Row(array(
@@ -295,10 +319,12 @@ class Gestion extends CI_Controller
                     ));
                 }
                 $pdf->SetFont('Arial', '', 8);
-                foreach ($extensiones as $key2 => $extension) {
+                foreach ($extensiones as $key2 => $extension)
+                {
                     $url = base_url() . "img/fotos/" . $folio . "." . $extension;
                     $headers = get_headers($url);
-                    if (stripos($headers[0], "200 OK")) {
+                    if (stripos($headers[0], "200 OK"))
+                    {
                         $pdf->Image(base_url() . "img/fotos/" . $value['folio'] . "." . $extension, $pdf->GetX(), $pdf->GetY(), 53, 30);
                         break;
                     }
@@ -316,7 +342,9 @@ class Gestion extends CI_Controller
                     utf8_decode($value['fecha'])
                 ));
             }
-        } else {
+        }
+        else
+        {
             $pdf->SetWidths(array(
                 23.75,
                 23.75,
@@ -338,7 +366,8 @@ class Gestion extends CI_Controller
                 utf8_decode("Fecha")
             ));
             $pdf->SetFont('Arial', '', 8);
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $pdf->Row(array(
                     utf8_decode($value['folio']),
                     utf8_decode($value['corte']),
@@ -397,7 +426,8 @@ class Gestion extends CI_Controller
         $this->load->model('corte');
         $cortes = $this->corte->reporte2($this->input->post());
         // 190 vertical
-        if ($check) {
+        if ($check)
+        {
             $valor = 42.769230769;
             $arregloPrincipal = array(
                 $valor,
@@ -435,7 +465,8 @@ class Gestion extends CI_Controller
                 "jpeg",
                 "png"
             );
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -446,7 +477,8 @@ class Gestion extends CI_Controller
                 $piezas = $value['piezas'];
                 $fecha = $value['fecha'];
                 $fechaAutorizado = $value['fechaAutorizado'];
-                if ($pdf->GetY() + ($cargas * 15) > 170) {
+                if ($pdf->GetY() + ($cargas * 15) > 170)
+                {
                     $pdf->AddPage();
                     $pdf->SetFont('Arial', 'B', 9);
                     $pdf->SetWidths($arregloPrincipal);
@@ -481,19 +513,23 @@ class Gestion extends CI_Controller
                     20.769230769
                 ));
                 $pdf->SetFont('Arial', '', 9);
-                foreach ($extensiones as $key2 => $extension) {
+                foreach ($extensiones as $key2 => $extension)
+                {
                     $url = base_url() . "img/fotos/" . $folio . "." . $extension;
                     $headers = get_headers($url);
-                    if (stripos($headers[0], "200 OK")) {
+                    if (stripos($headers[0], "200 OK"))
+                    {
                         $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 49.75, 30);
                         break;
                     }
                 }
                 $this->load->model('corteAutorizadoDatos');
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -515,7 +551,9 @@ class Gestion extends CI_Controller
                 }
                 $pdf->SetY($pdf->GetY() + 5);
             }
-        } else {
+        }
+        else
+        {
             $pdf->SetFont('Arial', 'B', 9);
             $pdf->SetWidths(array(
                 22.5,
@@ -546,7 +584,8 @@ class Gestion extends CI_Controller
                 utf8_decode("Procesos")
             ));
             $pdf->SetFont('Arial', '', 9);
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -560,10 +599,12 @@ class Gestion extends CI_Controller
                 $this->load->model('corteAutorizadoDatos');
                 $lavado = '';
                 $proceso = '';
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -630,7 +671,8 @@ class Gestion extends CI_Controller
         $this->load->model('corte');
         $cortes = $this->corte->reporte3($this->input->post());
         // 190 vertical
-        if ($check) {
+        if ($check)
+        {
             $pdf->SetWidths(array(
                 38,
                 9,
@@ -674,7 +716,8 @@ class Gestion extends CI_Controller
                 "jpeg",
                 "png"
             );
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -688,7 +731,8 @@ class Gestion extends CI_Controller
                 $fechaSalidaInterna = $value['fechaSalidaInterna'];
                 $muestras = $value['muestras'];
                 $fechaSalida = $value['fechaSalida'];
-                if ($pdf->GetY() + ($cargas * 15) > 170) {
+                if ($pdf->GetY() + ($cargas * 15) > 170)
+                {
                     $pdf->AddPage();
                     $pdf->SetFont('Arial', 'B', 8);
                     $pdf->SetWidths(array(
@@ -749,10 +793,12 @@ class Gestion extends CI_Controller
                     16.875
                 ));
                 $pdf->SetFont('Arial', '', 8);
-                foreach ($extensiones as $key2 => $extension) {
+                foreach ($extensiones as $key2 => $extension)
+                {
                     $url = base_url() . "img/fotos/" . $folio . "." . $extension;
                     $headers = get_headers($url);
-                    if (stripos($headers[0], "200 OK")) {
+                    if (stripos($headers[0], "200 OK"))
+                    {
                         $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 38, 21.4);
                         break;
                     }
@@ -762,10 +808,12 @@ class Gestion extends CI_Controller
                 $this->load->model('corteAutorizadoDatos');
                 $lavado = '';
                 $proceso = '';
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -792,7 +840,9 @@ class Gestion extends CI_Controller
                 }
                 $pdf->SetY($pdf->GetY() + 5);
             }
-        } else {
+        }
+        else
+        {
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->SetWidths(array(
                 16.875,
@@ -831,7 +881,8 @@ class Gestion extends CI_Controller
                 utf8_decode("Piezas de carga")
             ));
             $pdf->SetFont('Arial', '', 8);
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -848,10 +899,12 @@ class Gestion extends CI_Controller
                 $this->load->model('salidaInterna1Datos');
                 $salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
                 $this->load->model('corteAutorizadoDatos');
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -924,7 +977,8 @@ class Gestion extends CI_Controller
         $this->load->model('corte');
         $cortes = $this->corte->reporte4($this->input->post());
         // 190 vertical
-        if ($check) {
+        if ($check)
+        {
             $pdf->SetWidths(array(
                 49.75,
                 9,
@@ -966,7 +1020,8 @@ class Gestion extends CI_Controller
                 "jpeg",
                 "png"
             );
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -977,7 +1032,8 @@ class Gestion extends CI_Controller
                 $piezas = $value['piezas'];
                 $fecha = $value['fecha'];
                 $fechaAutorizado = $value['fechaAutorizado'];
-                if ($pdf->GetY() + ($cargas * 15) > 170) {
+                if ($pdf->GetY() + ($cargas * 15) > 170)
+                {
                     $pdf->AddPage();
                     $pdf->SetFont('Arial', 'B', 8);
                     $pdf->SetWidths(array(
@@ -1035,10 +1091,12 @@ class Gestion extends CI_Controller
                     16.875
                 ));
                 $pdf->SetFont('Arial', '', 8);
-                foreach ($extensiones as $key2 => $extension) {
+                foreach ($extensiones as $key2 => $extension)
+                {
                     $url = base_url() . "img/fotos/" . $folio . "." . $extension;
                     $headers = get_headers($url);
-                    if (stripos($headers[0], "200 OK")) {
+                    if (stripos($headers[0], "200 OK"))
+                    {
                         $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 49.75, 30);
                         break;
                     }
@@ -1050,10 +1108,12 @@ class Gestion extends CI_Controller
                 $this->load->model('corteAutorizadoDatos');
                 $lavado = '';
                 $proceso = '';
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -1079,7 +1139,9 @@ class Gestion extends CI_Controller
                 }
                 $pdf->SetY($pdf->GetY() + 5);
             }
-        } else {
+        }
+        else
+        {
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->SetWidths(array(
                 18,
@@ -1116,7 +1178,8 @@ class Gestion extends CI_Controller
                 utf8_decode("Piezas de carga")
             ));
             $pdf->SetFont('Arial', '', 8);
-            foreach ($cortes as $key => $value) {
+            foreach ($cortes as $key => $value)
+            {
                 $cargas = $value['cargas'];
                 $folio = $value['folio'];
                 $corte = $value['corte'];
@@ -1134,10 +1197,12 @@ class Gestion extends CI_Controller
                 $this->load->model('corteAutorizadoDatos');
                 $lavado = '';
                 $proceso = '';
-                for ($carga = 1; $carga <= $cargas; $carga ++) {
+                for ($carga = 1; $carga <= $cargas; $carga ++)
+                {
                     $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
                     $proceso = '';
-                    foreach ($corteAutorizado as $key2 => $value2) {
+                    foreach ($corteAutorizado as $key2 => $value2)
+                    {
                         $lavado = $value2['lavado'];
                         $proceso = $proceso . $value2['proceso'] . ", ";
                     }
@@ -1177,11 +1242,14 @@ class Gestion extends CI_Controller
 
     public function cambiarPass()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateP($_SESSION['usuario_id'], md5($this->input->post()['pass1']));
             redirect('/gestion/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/Gestion/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
@@ -1193,11 +1261,14 @@ class Gestion extends CI_Controller
 
     public function cambiarDatos()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateD($_SESSION['usuario_id'], $this->input->post()['nombre_completo'], $this->input->post()['direccion'], $this->input->post()['telefono']);
             redirect('/gestion/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/gestion/cambiarDatos';
             $this->load->model('Usuarios');
             $data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);

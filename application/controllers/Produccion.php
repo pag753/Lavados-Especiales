@@ -44,7 +44,8 @@ class Produccion extends CI_Controller
 
     public function autorizar()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $datos['datos_corte'] = $this->input->post();
             $this->load->model('corte');
             $resultado = $this->corte->getByFolio($datos['datos_corte']['folio']);
@@ -52,7 +53,8 @@ class Produccion extends CI_Controller
             $resultado2 = $this->corteAutorizado->getByFolio($datos['datos_corte']['folio']);
             $data['corte_folio'] = $datos['datos_corte']['folio'];
             $data['fecha_autorizado'] = substr($datos['datos_corte']['fecha'], 0, 10);
-            if ($this->input->post()['numero'] != 0) {
+            if ($this->input->post()['numero'] != 0)
+            {
                 $data['cargas'] = count($this->input->post()['lavado']);
                 $this->load->model('corteAutorizadoDatos');
                 $data['usuario_id'] = $_SESSION['usuario_id'];
@@ -60,14 +62,16 @@ class Produccion extends CI_Controller
                 $data = null;
                 $data['corte_folio'] = $datos['datos_corte']['folio'];
                 $contador = 1;
-                foreach ($this->input->post()['lavado'] as $key => $value) {
+                foreach ($this->input->post()['lavado'] as $key => $value)
+                {
                     $this->load->model('procesoSeco');
                     $ps = $this->procesoSeco->get();
                     foreach ($ps as $key2 => $value)
                         $precios[$value['id']] = $value['costo'];
                     $data['id_carga'] = $contador;
                     $data['lavado_id'] = $this->input->post()['lavado'][$key];
-                    foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor) {
+                    foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
+                    {
                         $data['proceso_seco_id'] = $valor;
                         $data['costo'] = $precios[$valor];
                         if ($data['costo'] == 0)
@@ -81,9 +85,11 @@ class Produccion extends CI_Controller
                     $contador ++;
                 }
                 redirect('/produccion/index/' . $datos['datos_corte']['folio']);
-            } else
+            }
+            else
                 $this->cargarAutorizacion($this->input->post(), 'Autorización de Corte', 'No agregó ningún lavado');
-        } else
+        }
+        else
             $this->cargarAutorizacion('', 'Autorización de Corte', 'Ingrese los datos');
     }
 
@@ -107,11 +113,14 @@ class Produccion extends CI_Controller
 
     public function cambiarPass()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateP($_SESSION['usuario_id'], md5($this->input->post()['pass1']));
             redirect('/produccion/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/produccion/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
@@ -123,11 +132,14 @@ class Produccion extends CI_Controller
 
     public function datos()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateD($_SESSION['usuario_id'], $this->input->post()['nombre_completo'], $this->input->post()['direccion'], $this->input->post()['telefono']);
             redirect('/produccion/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/produccion/datos';
             $this->load->model('Usuarios');
             $data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);

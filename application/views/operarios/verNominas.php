@@ -1,20 +1,25 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-foreach ($nominasProduccion as $key => $value) {
-    if (! isset($nominas[$value['id_nomina']])) {
+foreach ($nominasProduccion as $key => $value)
+{
+    if (! isset($nominas[$value['id_nomina']]))
+    {
         $nominas[$value['id_nomina']] = array(
             'fecha' => $value['fecha']
         );
     }
 }
-foreach ($nominasProduccionReproceso as $key => $value) {
-    if (! isset($nominas[$value['id_nomina']])) {
+foreach ($nominasProduccionReproceso as $key => $value)
+{
+    if (! isset($nominas[$value['id_nomina']]))
+    {
         $nominas[$value['id_nomina']] = array(
             'fecha' => $value['fecha']
         );
     }
 }
-if (isset($nominas)) :
+if (isset($nominas))
+:
     ?>
 <script type="text/javascript">
 $(document).ready(function() {

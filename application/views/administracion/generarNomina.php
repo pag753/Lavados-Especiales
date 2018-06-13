@@ -10,34 +10,41 @@ $ahorr = null;
 $saldant = null;
 $total = 0;
 // obtener las producciones(nomina)
-foreach ($produccion as $key => $value) {
+foreach ($produccion as $key => $value)
+{
     if (! isset($prod[$value['id']]))
         $prod[$value['id']] = $value['costo'];
     else
         $prod[$value['id']] += $value['costo'];
 }
 // sumarle a $prod los producción de reprocesos
-foreach ($reprocesos as $key => $value) {
+foreach ($reprocesos as $key => $value)
+{
     if (! isset($prod[$value['usuario_id']]))
         $prod[$value['usuario_id']] = $value['costo'];
     else
         $prod[$value['usuario_id']] += $value['costo'];
 }
 // obtener los descuentos
-foreach ($descuentos as $key => $value) {
+foreach ($descuentos as $key => $value)
+{
     if (! isset($desc[$value['usuario_id']]))
         $desc[$value['usuario_id']] = $value['cantidad'];
     else
         $desc[$value['usuario_id']] += $value['cantidad'];
 }
 // obtener los ahorros
-foreach ($ahorros as $key => $value) {
-    if ($value['aportacion'] == 1) {
+foreach ($ahorros as $key => $value)
+{
+    if ($value['aportacion'] == 1)
+    {
         if (! isset($ahorr[$value['usuario_id']]))
             $ahorr[$value['usuario_id']] = $value['cantidad'];
         else
             $ahorr[$value['usuario_id']] += $value['cantidad'];
-    } else {
+    }
+    else
+    {
         if (! isset($ahorr[$value['usuario_id']]))
             $ahorr[$value['usuario_id']] = - $value['cantidad'];
         else

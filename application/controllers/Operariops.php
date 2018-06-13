@@ -12,13 +12,14 @@ class Operariops extends CI_Controller
             redirect('/');
     }
 
-    
     public function index($datos = null)
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             if (! isset($this->input->get()['q']))
                 redirect('/');
-            switch ($this->input->get()['q']) {
+            switch ($this->input->get()['q'])
+            {
                 case 'error':
                     $data = array(
                         'texto1' => "Se produjo un error",
@@ -37,7 +38,9 @@ class Operariops extends CI_Controller
                     redirect("/");
                     break;
             }
-        } else {
+        }
+        else
+        {
             if ($datos == null)
                 $data = array(
                     'texto1' => "Bienvenido(a)",
@@ -64,24 +67,30 @@ class Operariops extends CI_Controller
 
     public function insertar($id = null)
     {
-        if ($id == null) {
-            if ($this->input->post()) {
+        if ($id == null)
+        {
+            if ($this->input->post())
+            {
                 $data = $this->input->post();
                 $this->load->model('produccionProcesoSeco');
                 $query = $this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'], $this->input->post()['folio'], $this->input->post()['carga'], $this->input->post()['proceso']);
                 $data['usuarioid'] = $_SESSION['usuario_id'];
-                if (count($query) == 0) {
+                if (count($query) == 0)
+                {
                     $data['piezas'] = 0;
                     $data['defectos'] = 0;
                     $data['nuevo'] = 1;
                     $data['idprod'] = 0;
-                } else {
+                }
+                else
+                {
                     $data['piezas'] = $query[0]['piezas'];
                     $data['defectos'] = $query[0]['defectos'];
                     $data['nuevo'] = 0;
                     $data['idprod'] = $query[0]['id'];
                 }
-            } else
+            }
+            else
                 $data = null;
             $data['url'] = base_url() . "index.php/operariops/insertar";
             $titulo['titulo'] = 'Insertar producción';
@@ -89,8 +98,11 @@ class Operariops extends CI_Controller
             $this->load->view('operariops/menu');
             $this->load->view('operarios/insertar', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 $this->load->model('produccionProcesoSeco');
                 if ($this->input->post()['nuevo'] == 1)
                     $this->produccionProcesoSeco->insertar($this->input->post());
@@ -104,11 +116,14 @@ class Operariops extends CI_Controller
 
     public function cambiarPass()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateP($_SESSION['usuario_id'], md5($this->input->post()['pass1']));
             redirect('/operariops/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/Operariops/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
@@ -120,11 +135,14 @@ class Operariops extends CI_Controller
 
     public function datos()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateD($_SESSION['usuario_id'], $this->input->post()['nombre_completo'], $this->input->post()['direccion'], $this->input->post()['telefono']);
             redirect('/operariops/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/Operariops/datos';
             $this->load->model('Usuarios');
             $data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
@@ -138,14 +156,17 @@ class Operariops extends CI_Controller
 
     public function ver()
     {
-        if (! $this->input->post()) {
+        if (! $this->input->post())
+        {
             $data['data'] = "operariops";
             $titulo['titulo'] = "Ver Producción";
             $this->load->view('comunes/head', $titulo);
             $this->load->view('operariops/menu');
             $this->load->view('operarios/verProduccion', $data);
             $this->load->view('comunes/foot');
-        } else {
+        }
+        else
+        {
             $this->load->model("ProduccionProcesoSeco");
             $reporte = $this->ProduccionProcesoSeco->verProduccion($_SESSION['usuario_id'], $this->input->post()['fechaInicio'], $this->input->post()['fechaFinal']);
             $this->load->model("Descuentos");
@@ -169,7 +190,8 @@ class Operariops extends CI_Controller
 
     public function insertarReproceso()
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             // Validación de datos
             if (! isset($this->input->get()['id']) || ! isset($this->input->get()['lavado']) || ! isset($this->input->get()['proceso']) || ! is_numeric($this->input->get()['id']))
                 redirect("operariops/index?q=error");
@@ -180,13 +202,16 @@ class Operariops extends CI_Controller
             );
             $this->load->model("ProduccionReproceso");
             $query = $this->ProduccionReproceso->getWhere($data);
-            if (count($query) == 0) {
+            if (count($query) == 0)
+            {
                 $data = array(
                     'tipo' => 0,
                     'piezas' => 0,
                     'defectos' => 0
                 );
-            } else {
+            }
+            else
+            {
                 $data = array(
                     'tipo' => 1,
                     'piezas' => $query[0]['piezas'],
@@ -201,8 +226,11 @@ class Operariops extends CI_Controller
             $this->load->view('operariops/menu');
             $this->load->view('operarios/insertarProduccionReproceso', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 if (! isset($this->input->post()['tipo']) || ! isset($this->input->post()['id']) || ! isset($this->input->post()['piezas']) || ! isset($this->input->post()['defectos']) || ! is_numeric($this->input->post()['tipo']) || ! is_numeric($this->input->post()['id']) || ! is_numeric($this->input->post()['piezas']) || ! is_numeric($this->input->post()['defectos']))
                     redirect("operariops/index?q=error");
                 $this->load->model("ProduccionReproceso");
@@ -213,7 +241,8 @@ class Operariops extends CI_Controller
                     'defectos' => $this->input->post()['defectos'],
                     'reproceso_id' => $this->input->post()['id']
                 );
-                switch ($this->input->post()['tipo']) {
+                switch ($this->input->post()['tipo'])
+                {
                     case 0:
                         // Nuevo registro
                         $this->ProduccionReproceso->insertar($data);
@@ -230,7 +259,9 @@ class Operariops extends CI_Controller
                         redirect("operariops/index?q=error");
                         break;
                 }
-            } else {
+            }
+            else
+            {
                 $titulo['titulo'] = "Reproceso";
                 $this->load->view('comunes/head', $titulo);
                 $this->load->view('operariops/menu');

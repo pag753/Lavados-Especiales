@@ -445,13 +445,16 @@ $(document).ready(function() {
   var tablas = [];
   <?php if ($produccionProcesoSeco != 0): ?> tablas.push('#tablaProduccion'); <?php endif;
 
-if ($autorizadoDatos != 0) :
+if ($autorizadoDatos != 0)
+:
     ?> tablas.push('#tblespecificosAutorizacion'); <?php endif;
 
-if ($reprocesos != 0) :
+if ($reprocesos != 0)
+:
     ?> tablas.push('#tablaReprocesos'); <?php endif;
 
-if ($produccionReprocesos != 0) :
+if ($produccionReprocesos != 0)
+:
     ?> tablas.push('#tablaProduccionReprocesos'); <?php endif; ?>
   $.each(tablas, function( index, value ) {
     $(value).DataTable({
@@ -802,7 +805,8 @@ if ($produccionReprocesos != 0) :
                     <td>
                         <?php
                     
-                    switch ($value['status']) {
+                    switch ($value['status'])
+                    {
                         case 0:
                             echo "No registrado";
                             break;
@@ -927,7 +931,8 @@ if ($produccionReprocesos != 0) :
                       </td>
                     <td>
                         <?php
-                    foreach ($lavados as $key2 => $value2) {
+                    foreach ($lavados as $key2 => $value2)
+                    {
                         if ($value2['id'] == $value['lavado_id'])
                             echo $value2['nombre'];
                     }

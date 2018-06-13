@@ -4,7 +4,8 @@ $totalPiezasTrabajadas = 0;
 $totalDefectos = 0;
 $piezasRegistradas = $reproceso['piezas_trabajadas'];
 $folio = $reproceso['corte_folio'];
-foreach ($reprocesos as $key => $value) {
+foreach ($reprocesos as $key => $value)
+{
     $totalPiezasTrabajadas += $value['piezas'];
     $totalDefectos += $value['defectos'];
 }

@@ -14,10 +14,12 @@ class Operario extends CI_Controller
 
     public function index($datos = null)
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             if (! isset($this->input->get()['q']))
                 redirect('/');
-            switch ($this->input->get()['q']) {
+            switch ($this->input->get()['q'])
+            {
                 case 'error':
                     $data = array(
                         'texto1' => "Se produjo un error",
@@ -43,7 +45,9 @@ class Operario extends CI_Controller
                     redirect("/");
                     break;
             }
-        } else {
+        }
+        else
+        {
             if ($datos == null)
                 $data = array(
                     'texto1' => "Bienvenido(a) usuario",
@@ -64,7 +68,8 @@ class Operario extends CI_Controller
 
     public function alta($id = null)
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('corteAutorizadoDatos');
             $data = $this->input->post();
             $data['faltantes'] = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->post()['folio'], $this->input->post()['carga']);
@@ -72,7 +77,8 @@ class Operario extends CI_Controller
             $data['defectos'] = 0;
             $this->load->model('produccionProcesoSeco');
             $query = $this->produccionProcesoSeco->seleccionDefinida3($_SESSION['usuario_id'], $this->input->post()['folio'], $this->input->post()['carga'], $this->input->post()['proceso']);
-            foreach ($query as $key => $value) {
+            foreach ($query as $key => $value)
+            {
                 $data['trabajadas'] += $value['piezas'];
                 $data['defectos'] += $value['defectos'];
             }
@@ -82,7 +88,9 @@ class Operario extends CI_Controller
             $this->load->view('operario/menu');
             $this->load->view('operario/altaConfirmacion', $data);
             $this->load->view('comunes/foot');
-        } else {
+        }
+        else
+        {
             $titulo['titulo'] = 'Cerrar proceso';
             $this->load->view('comunes/head', $titulo);
             $this->load->view('operario/menu');
@@ -93,7 +101,8 @@ class Operario extends CI_Controller
 
     public function registro()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('corteAutorizadoDatos');
             // Actualizando datos de proceso actual
             $this->corteAutorizadoDatos->actualiza2($this->input->post()['proceso'], $this->input->post()['folio'], $this->input->post()['carga'], $this->input->post()['piezas_trabajadas'], $this->input->post()['defectos'], date("Y/m/d"), $_SESSION['usuario_id']);
@@ -101,17 +110,21 @@ class Operario extends CI_Controller
             if (isset($this->input->post()['siguiente']))
                 $this->corteAutorizadoDatos->actualiza($this->input->post()['siguiente'], $this->input->post()['folio'], $this->input->post()['carga'], $this->input->post()['piezas_trabajadas'], $this->input->post()['orden'] + 1);
             redirect("/operario/index/2");
-        } else
+        }
+        else
             redirect("/");
     }
 
     public function cambiarPass()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateP($_SESSION['usuario_id'], md5($this->input->post()['pass1']));
             redirect('/operario/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/operario/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
@@ -123,11 +136,14 @@ class Operario extends CI_Controller
 
     public function datos()
     {
-        if ($this->input->post()) {
+        if ($this->input->post())
+        {
             $this->load->model('Usuarios');
             $this->Usuarios->updateD($_SESSION['usuario_id'], $this->input->post()['nombre_completo'], $this->input->post()['direccion'], $this->input->post()['telefono']);
             redirect('/operario/index/-1');
-        } else {
+        }
+        else
+        {
             $data['link'] = base_url() . 'index.php/operario/datos';
             $this->load->model('Usuarios');
             $data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
@@ -141,24 +157,30 @@ class Operario extends CI_Controller
 
     public function insertar($id = null)
     {
-        if ($id == null) {
-            if ($this->input->post()) {
+        if ($id == null)
+        {
+            if ($this->input->post())
+            {
                 $data = $this->input->post();
                 $this->load->model('produccionProcesoSeco');
                 $query = $this->produccionProcesoSeco->seleccionDefinida($_SESSION['usuario_id'], $this->input->post()['folio'], $this->input->post()['carga'], $this->input->post()['proceso']);
                 $data['usuarioid'] = $_SESSION['usuario_id'];
-                if (count($query) == 0) {
+                if (count($query) == 0)
+                {
                     $data['piezas'] = 0;
                     $data['defectos'] = 0;
                     $data['nuevo'] = 1;
                     $data['idprod'] = 0;
-                } else {
+                }
+                else
+                {
                     $data['piezas'] = $query[0]['piezas'];
                     $data['defectos'] = $query[0]['defectos'];
                     $data['nuevo'] = 0;
                     $data['idprod'] = $query[0]['id'];
                 }
-            } else
+            }
+            else
                 $data = null;
             $data['url'] = base_url() . "index.php/operario/insertar";
             $titulo['titulo'] = 'Insertar producción';
@@ -166,8 +188,11 @@ class Operario extends CI_Controller
             $this->load->view('operario/menu');
             $this->load->view('operarios/insertar', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 $this->load->model('produccionProcesoSeco');
                 if ($this->input->post()['nuevo'] == 1)
                     $this->produccionProcesoSeco->insertar($this->input->post());
@@ -187,14 +212,17 @@ class Operario extends CI_Controller
 
     public function ver()
     {
-        if (! $this->input->post()) {
+        if (! $this->input->post())
+        {
             $data['data'] = "operario";
             $titulo['titulo'] = "Ver Producción";
             $this->load->view('comunes/head', $titulo);
             $this->load->view('operario/menu');
             $this->load->view('operarios/verProduccion', $data);
             $this->load->view('comunes/foot');
-        } else {
+        }
+        else
+        {
             $this->load->model("ProduccionProcesoSeco");
             $reporte = $this->ProduccionProcesoSeco->verProduccion($_SESSION['usuario_id'], $this->input->post()['fechaInicio'], $this->input->post()['fechaFinal']);
             $this->load->model("Descuentos");
@@ -218,7 +246,8 @@ class Operario extends CI_Controller
 
     public function insertarReproceso()
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             // Validación de datos
             if (! isset($this->input->get()['id']) || ! isset($this->input->get()['lavado']) || ! isset($this->input->get()['proceso']) || ! is_numeric($this->input->get()['id']))
                 redirect("operario/index?q=error");
@@ -229,13 +258,16 @@ class Operario extends CI_Controller
             );
             $this->load->model("ProduccionReproceso");
             $query = $this->ProduccionReproceso->getWhere($data);
-            if (count($query) == 0) {
+            if (count($query) == 0)
+            {
                 $data = array(
                     'tipo' => 0,
                     'piezas' => 0,
                     'defectos' => 0
                 );
-            } else {
+            }
+            else
+            {
                 $data = array(
                     'tipo' => 1,
                     'piezas' => $query[0]['piezas'],
@@ -250,8 +282,11 @@ class Operario extends CI_Controller
             $this->load->view('operario/menu');
             $this->load->view('operarios/insertarProduccionReproceso', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 if (! isset($this->input->post()['tipo']) || ! isset($this->input->post()['id']) || ! isset($this->input->post()['piezas']) || ! isset($this->input->post()['defectos']) || ! is_numeric($this->input->post()['tipo']) || ! is_numeric($this->input->post()['id']) || ! is_numeric($this->input->post()['piezas']) || ! is_numeric($this->input->post()['defectos']))
                     redirect("operario/index?q=error");
                 $this->load->model("ProduccionReproceso");
@@ -262,7 +297,8 @@ class Operario extends CI_Controller
                     'defectos' => $this->input->post()['defectos'],
                     'reproceso_id' => $this->input->post()['id']
                 );
-                switch ($this->input->post()['tipo']) {
+                switch ($this->input->post()['tipo'])
+                {
                     case 0:
                         // Nuevo registro
                         $this->ProduccionReproceso->insertar($data);
@@ -279,7 +315,9 @@ class Operario extends CI_Controller
                         redirect("operario/index?q=error");
                         break;
                 }
-            } else {
+            }
+            else
+            {
                 $titulo['titulo'] = "Reproceso";
                 $this->load->view('comunes/head', $titulo);
                 $this->load->view('operario/menu');
@@ -291,7 +329,8 @@ class Operario extends CI_Controller
 
     public function cerrarReproceso()
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             // validación
             if (! isset($this->input->get()['id']) || ! isset($this->input->get()['lavado']) || ! isset($this->input->get()['proceso']))
                 redirect("operario/index?q=error");
@@ -313,8 +352,11 @@ class Operario extends CI_Controller
             $this->load->view('operario/menu');
             $this->load->view('operario/cerrarReprocesoEspecifico', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 // Validación
                 if (! isset($this->input->post()['id']) || ! isset($this->input->post()['piezas_trabajadas']) || ! isset($this->input->post()['defectos']) || ! is_numeric($this->input->post()['id']) || ! is_numeric($this->input->post()['piezas_trabajadas']) || ! is_numeric($this->input->post()['defectos']))
                     redirect("operario/index?q=error");
@@ -329,7 +371,9 @@ class Operario extends CI_Controller
                 $this->load->model('Reproceso');
                 $this->Reproceso->update($data);
                 redirect("operario/index?q=cerrarReproceso");
-            } else {
+            }
+            else
+            {
                 $titulo['titulo'] = "Cerrar reproceso";
                 $this->load->view('comunes/head', $titulo);
                 $this->load->view('operario/menu');
@@ -341,7 +385,8 @@ class Operario extends CI_Controller
 
     public function verNominas()
     {
-        if ($this->input->get()) {
+        if ($this->input->get())
+        {
             if (! isset($this->input->get()['id']) || ! isset($this->input->get()['fecha']) || ! is_numeric($this->input->get()['id']))
                 redirect("operario/index?q=error");
             $this->load->model(array(
@@ -369,8 +414,11 @@ class Operario extends CI_Controller
             $this->load->view('operario/menu');
             $this->load->view('operarios/verNominasEspecifico', $data);
             $this->load->view('comunes/foot');
-        } else {
-            if ($this->input->post()) {
+        }
+        else
+        {
+            if ($this->input->post())
+            {
                 // print_r($this->input->post());
                 $this->load->library('pdf');
                 // tamaño 190 mm
@@ -444,7 +492,8 @@ class Operario extends CI_Controller
                 ));
                 
                 // Datos de la producción en proceso seco.
-                if (isset($this->input->post()['produccion_folio'])) {
+                if (isset($this->input->post()['produccion_folio']))
+                {
                     $pdf->ln(5);
                     $pdf->SetFont('Arial', 'B', 10);
                     $pdf->Cell(0, 0, utf8_decode("Datos de la producción en proceso seco"), 0, 1, 'C');
@@ -481,7 +530,8 @@ class Operario extends CI_Controller
                     
                     $pdf->SetFont('Arial', '', 8);
                     $pdf->ban = false;
-                    foreach ($this->input->post()['produccion_folio'] as $key => $value) {
+                    foreach ($this->input->post()['produccion_folio'] as $key => $value)
+                    {
                         $pdf->Row(array(
                             utf8_decode($this->input->post()['produccion_folio'][$key]),
                             utf8_decode($this->input->post()['produccion_fecha'][$key]),
@@ -498,7 +548,8 @@ class Operario extends CI_Controller
                 }
                 
                 // Datos de la producción en proceso seco.
-                if (isset($this->input->post()['reprocesos_folio'])) {
+                if (isset($this->input->post()['reprocesos_folio']))
+                {
                     $pdf->ln(5);
                     $pdf->SetFont('Arial', 'B', 10);
                     $pdf->Cell(0, 0, utf8_decode("Datos de la producción en proceso seco"), 0, 1, 'C');
@@ -535,7 +586,8 @@ class Operario extends CI_Controller
                     
                     $pdf->SetFont('Arial', '', 8);
                     $pdf->ban = false;
-                    foreach ($this->input->post()['produccion_folio'] as $key => $value) {
+                    foreach ($this->input->post()['produccion_folio'] as $key => $value)
+                    {
                         $pdf->Row(array(
                             utf8_decode($this->input->post()['reprocesos_folio'][$key]),
                             utf8_decode($this->input->post()['reprocesos_fecha'][$key]),
@@ -560,7 +612,9 @@ class Operario extends CI_Controller
                  *
                  */
                 $pdf->Output(utf8_decode("Ver nómina del generada el " . $this->input->post()['fecha']) . ".pdf", 'I');
-            } else {
+            }
+            else
+            {
                 // si no es ninguno
                 $this->load->model(array(
                     'ProduccionProcesoSeco',
