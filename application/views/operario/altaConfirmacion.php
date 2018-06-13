@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
 $(document).ready(function() {
@@ -81,15 +81,16 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="card">
-        <a data-toggle="collapse" href="#ver" role="button" aria-expanded="false" aria-controls="ver">
-          <div class="card-header">
-            <strong>Datos Específicos</strong>
-          </div>
-        </a>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#ver" role="button"
+            aria-expanded="false" aria-controls="ver"> <strong>Datos
+              Específicos</strong>
+          </a>
+        </div>
         <div class="collapse" id="ver">
           <div class="card-body">
             <div class='table-responsive'>
-              <table class="table table-bordered" name="especificos" id="especificos">
+              <table class="table table-bordered" id="especificos">
                 <thead>
                   <tr class="danger">
                     <th>Empleado</th>
@@ -101,11 +102,11 @@ $(document).ready(function() {
                 <tbody>
                   <?php foreach ($query as $key => $value): ?>
                     <tr>
-                      <td><?php echo $value['usuario'] ?></td>
-                      <td><?php echo $value['piezas'] ?></td>
-                      <td><?php echo $value['defectos'] ?></td>
-                      <td><?php echo $value['fecha'] ?></td>
-                    </tr>
+                    <td><?php echo $value['usuario'] ?></td>
+                    <td><?php echo $value['piezas'] ?></td>
+                    <td><?php echo $value['defectos'] ?></td>
+                    <td><?php echo $value['fecha'] ?></td>
+                  </tr>
                   <?php endforeach; ?>
                 </tbody>
               </table>
@@ -117,39 +118,46 @@ $(document).ready(function() {
         <div class="card">
           <?php if (count($faltantes)!=0): ?>
             <div class="card-header">
-              <strong>Seleccione el siguiente proceso.</strong>
-            </div>
+          <strong>Seleccione el siguiente proceso.</strong>
+        </div>
           <?php else: ?>
             <div class="card-header">
-              <strong>Cerrar el último proceso de la carga.</strong>
-            </div>
+          <strong>Cerrar el último proceso de la carga.</strong>
+        </div>
           <?php endif; ?>
           <div class="card-body">
-            <form action="registro" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>"/>
-              <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>"/>
-              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>"/>
-              <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>">
-              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
-              <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
+          <form action="registro" method="post"
+            enctype="multipart/form-data">
+            <input type="hidden" name="proceso" id="proceso"
+              value="<?php echo $proceso ?>" /> <input type="hidden"
+              name="carga" id="carga" value="<?php echo $carga ?>" /> <input
+              type="hidden" name="orden" id="orden"
+              value="<?php echo $orden ?>" /> <input type="hidden"
+              name="folio" id="folio" value="<?php echo $folio ?>"> <input
+              type="hidden" name="piezas_trabajadas"
+              id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
+            <input type="hidden" name="defectos" id="defectos"
+              value="<?php echo $defectos ?>">
               <?php if (count($faltantes)!=0): ?>
                 <div class="form-group row">
-                  <select name='siguiente' id='siguiente' class="form-control">
-                    <option value="-1">SELECCIONE UNA OPCIÓN</option>
+              <select name='siguiente' id='siguiente'
+                class="form-control">
+                <option value="-1">SELECCIONE UNA OPCIÓN</option>
                     <?php foreach ($faltantes as $key => $value): ?>
                       <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
                     <?php endforeach; ?>
                   </select>
-                </div>
+            </div>
               <?php endif; ?>
-              <input type="submit" name="aceptar" id="aceptar" value="Aceptar" class="btn btn-primary"/>
-            </form>
-          </div>
+              <input type="submit" name="aceptar" id="aceptar"
+              value="Aceptar" class="btn btn-primary" />
+          </form>
         </div>
+      </div>
       <?php else: ?>
-        <div class="alert alert-danger" role="alert">
-          La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.
-        </div>
+        <div class="alert alert-danger" role="alert">La suma de las
+        piezas de producción y defecectos no son iguales a las piezas
+        registradas. Favor de revisar con los operarios.</div>
       <?php endif; ?>
     </div>
   </div>

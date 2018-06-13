@@ -1,12 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $input_folio = array(
-  'type' => 'number',
-  'name' => 'folio',
-  'id' => 'folio',
-  'class' => 'form-control',
-  'value' => set_value('folio',@$folio),
-  'placeholder' => 'Ingrese número de folio',
+    'type' => 'number',
+    'name' => 'folio',
+    'id' => 'folio',
+    'class' => 'form-control',
+    'value' => set_value('folio', @$folio),
+    'placeholder' => 'Ingrese número de folio'
 );
 ?>
 <script>
@@ -101,17 +101,14 @@ $(document).ready(function() {
             <?php echo form_input($input_folio); ?>
           </div>
         </div>
-        <div id="cargas" name="cargas" class="form-group row">
+        <div id="cargas" class="form-group row">
           <div class="col-12">
-            <div class="alert alert-info" role="alert">
-              Escriba el número de folio.
-            </div>
+            <div class="alert alert-info" role="alert">Escriba el número
+              de folio.</div>
           </div>
         </div>
-        <div id="procesos" name="procesos" class="form-group row">
-        </div>
-        <div id="valida" name="valida" class="form-group row">
-        </div>
+        <div id="procesos" class="form-group row"></div>
+        <div id="valida" class="form-group row"></div>
       </form>
     </div>
   </div>

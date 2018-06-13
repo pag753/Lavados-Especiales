@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 function editar(id) {
@@ -41,12 +41,14 @@ $(document).ready(function() {
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-10 col-md-10 col-xs-6 offset-lg-1 offset-md-1 offset-xs-3">
+    <div
+      class="col-lg-10 col-md-10 col-xs-6 offset-lg-1 offset-md-1 offset-xs-3">
       <div class="col-12">
         <h3>Catálogo de Clientes</h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -57,51 +59,67 @@ $(document).ready(function() {
           </thead>
           <tbody><?php foreach ($data as $key => $value): ?>
             <tr>
-              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+              <td id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+              <td><a href="#"
+                onclick="editar(<?php echo $value['id']; ?>)"><i
+                  class="far fa-edit"></i>Editar</a></td>
             </tr><?php endforeach; ?>
           </tbody>
         </table>
       </div>
-      <center>
-        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo</button>
-      </center>
+      <div class="mx-auto">
+        <button type="button" name="button" class="btn btn-success"
+          data-toggle="modal" data-target="#nuevo">
+          <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo
+        </button>
+      </div>
     </div>
   </div>
 </diV>
-<div class="modal fade" id="nuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevo" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo
+          cliente</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="nuevoCliente" method="post" enctype="multipart/form-data">
+        <form action="nuevoCliente" method="post"
+          enctype="multipart/form-data">
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Nombre</label>
             <div class="col-9">
-              <input type="text" name="nombre" id="nombre" placeholder="Nombre del cliente" required class="form-control">
+              <input type="text" name="nombre" id="nombre"
+                placeholder="Nombre del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="direccion" class="col-3 col-form-label">Dirección</label>
             <div class="col-9">
-              <input type="text" name="direccion" id="direccion" placeholder="Dirección del cliente" required class="form-control">
+              <input type="text" name="direccion" id="direccion"
+                placeholder="Dirección del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="telefono" class="col-3 col-form-label">Teléfono</label>
             <div class="col-9">
-              <input type="text" name="telefono" id="telefono" placeholder="Teléfono del cliente" required class="form-control">
+              <input type="text" name="telefono" id="telefono"
+                placeholder="Teléfono del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
@@ -109,38 +127,48 @@ $(document).ready(function() {
     </div>
   </div>
 </div>
-<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editar" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar cliente</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="editarCliente" method="post" enctype="multipart/form-data">
+        <form action="editarCliente" method="post"
+          enctype="multipart/form-data">
           <input type="hidden" name="id" id="id">
           <div class="form-group row">
             <label for="nombreE" class="col-3 col-form-label">Nombre</label>
             <div class="col-9">
-              <input type="text" name="nombreE" id="nombreE" placeholder="Nombre del cliente" required class="form-control">
+              <input type="text" name="nombreE" id="nombreE"
+                placeholder="Nombre del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="direccionE" class="col-3 col-form-label">Dirección</label>
             <div class="col-9">
-              <input type="text" name="direccionE" id="direccionE" placeholder="Dirección del cliente" required class="form-control">
+              <input type="text" name="direccionE" id="direccionE"
+                placeholder="Dirección del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="telefonoE" class="col-3 col-form-label">Teléfono</label>
             <div class="col-9">
-              <input type="text" name="telefonoE" id="telefonoE" placeholder="Teléfono del cliente" required class="form-control">
+              <input type="text" name="telefonoE" id="telefonoE"
+                placeholder="Teléfono del cliente" required
+                class="form-control">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>

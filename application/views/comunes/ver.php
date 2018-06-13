@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
 $(document).ready(function(){
@@ -46,68 +46,72 @@ $(document).ready(function(){
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3 offset-lg-3 offset-xl-3">
+    <div
+      class="col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3 offset-lg-3 offset-xl-3">
       <div class="card">
         <div class="card-header">
           <h1>Ver detalles de corte</h1>
         </div>
         <div class="card-body">
-          <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
-          <center>
-            <button type="button" name="boton" id="boton" class="btn btn-primary"><i class="fas fa-eye"></i> Ver</button>
-          </center>
+          <input type="number" name="folio" id="folio"
+            class="form-control" placeholder="Ingrese folio" required />
+          <div class="mx-auto">
+            <button type="button" name="boton" id="boton"
+              class="btn btn-primary">
+              <i class="fas fa-eye"></i> Ver
+            </button>
+          </div>
         </div>
       </div>
-      <div id="complemento" name="complemento">
-        <table class="table table-striped table-bordered" style="background: rgba(255,255,255,.5)">
+      <div id="complemento">
+        <table class="table table-striped table-bordered"
+          style="background: rgba(255, 255, 255, .5)">
           <tbody>
             <tr>
               <td>Imágen</td>
-              <td name="imagen" id="imagen"></td>
+              <td id="imagen"></td>
             </tr>
             <tr>
               <td>Folio</td>
-              <td name="folio" id="folio"></td>
+              <td id="folio"></td>
             </tr>
             <tr>
               <td>Corte</td>
-              <td name="corte" id="corte"></td>
+              <td id="corte"></td>
             </tr>
             <tr>
               <td>Marca</td>
-              <td name="marca" id="marca"></td>
+              <td id="marca"></td>
             </tr>
             <tr>
               <td>Maquilero</td>
-              <td name="maquilero" id="maquilero"></td>
+              <td id="maquilero"></td>
             </tr>
             <tr>
               <td>Cliente</td>
-              <td name="cliente" id="cliente"></td>
+              <td id="cliente"></td>
             </tr>
             <tr>
               <td>Tipo</td>
-              <td name="tipo" id="tipo"></td>
+              <td id="tipo"></td>
             </tr>
             <tr>
               <td>Fecha de entrada</td>
-              <td name="fecha" id="fecha"></td>
+              <td id="fecha"></td>
             </tr>
             <tr>
               <td>Piezas</td>
-              <td name="piezas" id="piezas"></td>
+              <td id="piezas"></td>
             </tr>
             <tr>
               <td>Ojales</td>
-              <td name="ojales" id="ojales"></td>
+              <td id="ojales"></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="alert alert-info" role="alert" id="alerta" name="alerta">
-        Ingresa el número de folio y da click en ver.
-      </div>
-    </form>
+      <div class="alert alert-info" role="alert" id="alerta">Ingresa el
+        número de folio y da click en ver.</div>
+    </div>
   </div>
-</div>
 </div>

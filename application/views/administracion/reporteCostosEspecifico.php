@@ -1,44 +1,36 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-foreach ($produccion as $key => $value)
-{
-  //Arreglo de proceso seco
-  if (!isset($p[$value['idlavado']][$value['idproceso']]))
-  {
-    $p[$value['idlavado']][$value['idproceso']] = array(
-      'lavado' => $value['lavado'],
-      'proceso' => $value['proceso'],
-      'piezas' => $value['piezas'],
-      'costo' => $value['costo'],
-      'total' => $value['total'],
-    );
-  }
-  else
-  {
-    $p[$value['idlavado']][$value['idproceso']]['piezas'] += $value['piezas'];
-    $p[$value['idlavado']][$value['idproceso']]['total'] += $value['total'];
-  }
+defined('BASEPATH') or exit('No direct script access allowed');
+foreach ($produccion as $key => $value) {
+    // Arreglo de proceso seco
+    if (! isset($p[$value['idlavado']][$value['idproceso']])) {
+        $p[$value['idlavado']][$value['idproceso']] = array(
+            'lavado' => $value['lavado'],
+            'proceso' => $value['proceso'],
+            'piezas' => $value['piezas'],
+            'costo' => $value['costo'],
+            'total' => $value['total']
+        );
+    } else {
+        $p[$value['idlavado']][$value['idproceso']]['piezas'] += $value['piezas'];
+        $p[$value['idlavado']][$value['idproceso']]['total'] += $value['total'];
+    }
 }
-//Arreglo de reprocesos
-foreach ($reproceso as $key => $value)
-{
-  if (!isset($r[$value['lavado_id']][$value['proceso_seco_id']]))
-  {
-    $r[$value['lavado_id']][$value['proceso_seco_id']] = array(
-      'lavado' => $value['lavado_nombre'],
-      'proceso' => $value['proceso_seco'],
-      'piezas' => $value['piezas'],
-      'costo' => $value['costo'],
-      'total' => $value['total'],
-    );
-  }
-  else
-  {
-    $r[$value['lavado_id']][$value['proceso_seco_id']]['piezas'] += $value['piezas'];
-    $r[$value['lavado_id']][$value['proceso_seco_id']]['total'] += $value['total'];
-  }
+// Arreglo de reprocesos
+foreach ($reproceso as $key => $value) {
+    if (! isset($r[$value['lavado_id']][$value['proceso_seco_id']])) {
+        $r[$value['lavado_id']][$value['proceso_seco_id']] = array(
+            'lavado' => $value['lavado_nombre'],
+            'proceso' => $value['proceso_seco'],
+            'piezas' => $value['piezas'],
+            'costo' => $value['costo'],
+            'total' => $value['total']
+        );
+    } else {
+        $r[$value['lavado_id']][$value['proceso_seco_id']]['piezas'] += $value['piezas'];
+        $r[$value['lavado_id']][$value['proceso_seco_id']]['total'] += $value['total'];
+    }
 }
-//Acumuladores
+// Acumuladores
 $totalProduccion = 0;
 $totalReprocesos = 0;
 ?>
@@ -119,141 +111,164 @@ $(document).ready(function() {
   <div class="row">
     <div class="col-12">
       <div class="col-12">
-        <center>
-          <h3>Reporte de costos del corte con <a href="#" onclick="modalInfo()">folio <?php echo $this->input->get()['folio']; ?></a></h3>
-        </center>
+        <div class="mx-auto">
+          <h3>
+            Reporte de costos del corte con <a href="#"
+              onclick="modalInfo()">folio <?php echo $this->input->get()['folio']; ?></a>
+          </h3>
+        </div>
       </div>
-      <form action="reporteCostos" method="post" id="reporteCostos" name="reporteCostos" target="_blank">
-        <input type="hidden" name="id" value="<?php echo $this->input->get()['folio'] ?>">
+      <form action="reporteCostos" method="post" id="reporteCostos"
+        name="reporteCostos" target="_blank">
+        <input type="hidden" name="id"
+          value="<?php echo $this->input->get()['folio'] ?>">
         <?php if (isset($p)): ?>
           <div class="card">
-            <a data-toggle="collapse" href="#prodProcSeco" role="button" aria-expanded="true" aria-controls="prodProcSeco">
-              <div class="card-header">
-                <h5>Tabla de producción de proceso seco.</h5>
-              </div>
+          <div class="card-header">
+            <a data-toggle="collapse" href="#prodProcSeco" role="button"
+              aria-expanded="true" aria-controls="prodProcSeco"> <strong>Tabla
+                de producción de proceso seco.</strong>
             </a>
-            <div class="collapse" id="prodProcSeco">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover" name="tablaProdProcSec" id="tablaProdProcSec">
-                    <thead>
-                      <tr>
-                        <th>Carga o lavado</th>
-                        <th>Proceso</th>
-                        <th>Piezas trabajadas</th>
-                        <th>Costo unitario</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody><?php foreach ($p as $key => $value): foreach ($value as $key2 => $value2): ?>
-                      <tr onclick="modal(1,<?php echo $key; ?>,<?php echo $key2; ?>)" data-toggle="tooltip" data-placement="top" title="De click para saber la información de este proceso">
-                        <td>
-                          <input type="hidden" name="lavadoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['lavado'] ?>">
+          </div>
+          <div class="collapse" id="prodProcSeco">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaProdProcSec">
+                  <thead>
+                    <tr>
+                      <th>Carga o lavado</th>
+                      <th>Proceso</th>
+                      <th>Piezas trabajadas</th>
+                      <th>Costo unitario</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody><?php foreach ($p as $key => $value): foreach ($value as $key2 => $value2): ?>
+                      <tr
+                      onclick="modal(1,<?php echo $key; ?>,<?php echo $key2; ?>)"
+                      data-toggle="tooltip" data-placement="top"
+                      title="De click para saber la información de este proceso">
+                      <td><input type="hidden"
+                        name="lavadoProduccion[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['lavado'] ?>">
                           <?php echo $value2['lavado'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="procesoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['proceso'] ?>">
+                      <td><input type="hidden"
+                        name="procesoProduccion[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['proceso'] ?>">
                           <?php echo $value2['proceso'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="piezasProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['piezas'] ?>">
+                      <td><input type="hidden"
+                        name="piezasProduccion[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['piezas'] ?>">
                           <?php echo $value2['piezas'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="costoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['costo'] ?>">
+                      <td><input type="hidden"
+                        name="costoProduccion[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['costo'] ?>">
                           $<?php echo $value2['costo'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="totalProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['total'] ?>">
+                      <td><input type="hidden"
+                        name="totalProduccion[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['total'] ?>">
                           $<?php echo $value2['total']; $totalProduccion += $value2['total']; ?>
                         </td>
-                      </tr><?php endforeach; endforeach; ?>
+                    </tr><?php endforeach; endforeach; ?>
                     </tbody>
-                  </table>
-                </div>
+                </table>
               </div>
             </div>
           </div>
+        </div>
         <?php endif; ?>
         <?php if (isset($r)): ?>
           <div class="card">
-            <a data-toggle="collapse" href="#reproocesos" role="button" aria-expanded="true" aria-controls="reproocesos">
-              <div class="card-header">
-                <h5>Tabla de producción de reprocesos.</h5>
-              </div>
+          <div class="card-header">
+            <a data-toggle="collapse" href="#reproocesos" role="button"
+              aria-expanded="true" aria-controls="reproocesos"> <strong>Tabla
+                de producción de reprocesos.</strong>
             </a>
-            <div class="collapse" id="reproocesos">
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-hover" name="tablaReprocesos" id="tablaReprocesos">
-                    <thead>
-                      <tr>
-                        <th>Carga o lavado</th>
-                        <th>Proceso</th>
-                        <th>Costo unitario</th>
-                        <th>Piezas trabajadas</th>
-                        <th>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody><?php foreach ($r as $key => $value): foreach ($value as $key2 => $value2): ?>
-                      <tr onclick="modal(2,<?php echo $key; ?>,<?php echo $key2; ?>)" data-toggle="tooltip" data-placement="top" title="De click para saber la información de este reproceso">
-                        <td>
-                          <input type="hidden" name="lavadoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['lavado'] ?>">
+          </div>
+          <div class="collapse" id="reproocesos">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover" id="tablaReprocesos">
+                  <thead>
+                    <tr>
+                      <th>Carga o lavado</th>
+                      <th>Proceso</th>
+                      <th>Costo unitario</th>
+                      <th>Piezas trabajadas</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody><?php foreach ($r as $key => $value): foreach ($value as $key2 => $value2): ?>
+                      <tr
+                      onclick="modal(2,<?php echo $key; ?>,<?php echo $key2; ?>)"
+                      data-toggle="tooltip" data-placement="top"
+                      title="De click para saber la información de este reproceso">
+                      <td><input type="hidden"
+                        name="lavadoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['lavado'] ?>">
                           <?php echo $value2['lavado'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="procesoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['proceso'] ?>">
+                      <td><input type="hidden"
+                        name="procesoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['proceso'] ?>">
                           <?php echo $value2['proceso'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="piezasProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['piezas'] ?>">
+                      <td><input type="hidden"
+                        name="piezasProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['piezas'] ?>">
                           <?php echo $value2['piezas'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="costoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['costo'] ?>">
+                      <td><input type="hidden"
+                        name="costoProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['costo'] ?>">
                           $<?php echo $value2['costo'] ?>
                         </td>
-                        <td>
-                          <input type="hidden" name="totalProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['total'] ?>">
+                      <td><input type="hidden"
+                        name="totalProduccionReprocesos[<?php echo $key;?>][<?php echo $key2;?>]"
+                        value="<?php echo $value2['total'] ?>">
                           $<?php echo $value2['total']; $totalReprocesos += $value2['total']; ?>
                         </td>
-                      </tr><?php endforeach; endforeach; ?>
+                    </tr><?php endforeach; endforeach; ?>
                     </tbody>
-                  </table>
-                </div>
+                </table>
               </div>
             </div>
           </div>
+        </div>
         <?php endif; ?>
         <div class="card">
-          <a data-toggle="collapse" href="#nom" role="button" aria-expanded="true" aria-controls="nom">
-            <div class="card-header">
-              <h5>Totales</h5>
-            </div>
-          </a>
+          <div class="card-header">
+            <a data-toggle="collapse" href="#nom" role="button"
+              aria-expanded="true" aria-controls="nom"> <strong>Totales</strong>
+            </a>
+          </div>
           <div class="collapse" id="nom">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover" name="tabla" id="tabla">
+                <table class="table table-hover" id="tabla">
                   <tbody>
                     <tr>
                       <th>Total de produccion de proceso seco</th>
-                      <td>
-                        <input type="hidden" name="totalProduccion-" value="<?php echo $totalProduccion ?>">
+                      <td><input type="hidden" name="totalProduccion-"
+                        value="<?php echo $totalProduccion ?>">
                         $<?php echo $totalProduccion ?>
                       </td>
                     </tr>
                     <tr>
                       <th>Total de producción de reprocesos</th>
-                      <td>
-                        <input type="hidden" name="totalReprocesos-" value="<?php echo $totalReprocesos ?>">
+                      <td><input type="hidden" name="totalReprocesos-"
+                        value="<?php echo $totalReprocesos ?>">
                         $<?php echo $totalReprocesos ?>
                       </td>
                     </tr>
                     <tr>
                       <th>Total</th>
-                      <td>
-                        <input type="hidden" name="total-" value="<?php echo $totalProduccion+$totalReprocesos ?>">
+                      <td><input type="hidden" name="total-"
+                        value="<?php echo $totalProduccion+$totalReprocesos ?>">
                         $<?php echo $totalProduccion+$totalReprocesos ?>
                       </td>
                     </tr>
@@ -263,19 +278,25 @@ $(document).ready(function() {
             </div>
           </div>
         </div>
-        <center class="col-auto">
-          <button type="submit" class="btn btn-primary btn-lg" data-toggle="tooltip" data-placement="top" title="Adquirir versión impresa"><i class="fa fa-print"></i></button>
-        </center>
+        <div class="mx-auto">
+          <button type="submit" class="btn btn-primary btn-lg"
+            data-toggle="tooltip" data-placement="top"
+            title="Adquirir versión impresa">
+            <i class="fa fa-print"></i>
+          </button>
+        </div>
       </form>
     </div>
   </div>
 </div>
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="tituloModal"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -296,17 +317,20 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary"
+          data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Información del corte con folio <?php echo $this->input->get()['folio'] ?></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -355,7 +379,8 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary"
+          data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

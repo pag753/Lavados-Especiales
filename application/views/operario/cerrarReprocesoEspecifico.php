@@ -1,13 +1,12 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $totalPiezasTrabajadas = 0;
 $totalDefectos = 0;
 $piezasRegistradas = $reproceso['piezas_trabajadas'];
 $folio = $reproceso['corte_folio'];
-foreach ($reprocesos as $key => $value)
-{
-  $totalPiezasTrabajadas += $value['piezas'];
-  $totalDefectos += $value['defectos'];
+foreach ($reprocesos as $key => $value) {
+    $totalPiezasTrabajadas += $value['piezas'];
+    $totalDefectos += $value['defectos'];
 }
 ?>
 <script>
@@ -83,15 +82,15 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="card">
-        <a data-toggle="collapse" href="#ver" role="button" aria-expanded="false" aria-controls="ver">
-          <div class="card-header">
-            <strong>Datos Específicos</strong>
-          </div>
-        </a>
+        <div class="card-header">
+          <a data-toggle="collapse" href="#ver" role="button"
+            aria-expanded="false" aria-controls="ver"><strong>Datos
+              Específicos</strong> </a>
+        </div>
         <div class="collapse" id="ver">
           <div class="card-body">
             <div class='table-responsive'>
-              <table class="table table-bordered" name="especificos" id="especificos">
+              <table class="table table-bordered" id="especificos">
                 <thead>
                   <tr class="danger">
                     <th>Empleado</th>
@@ -115,21 +114,28 @@ $(document).ready(function() {
       </div>
       <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
         <div class="card">
-          <div class="card-body">
-            <form action="cerrarReproceso" name="cerrarReproceso" id="cerrarReproceso" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="id" value="<?php echo $reproceso['id'] ?>">
-              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $totalPiezasTrabajadas; ?>">
-              <input type="hidden" name="defectos" id="defectos" value="<?php echo $totalDefectos ?>">
-              <center>
-                <input type="submit" name="aceptar" id="aceptar" value="Cerrar el reproceso" class="btn btn-primary"/>
-              </center>
-            </form>
-          </div>
+        <div class="card-body">
+          <form action="cerrarReproceso" name="cerrarReproceso"
+            id="cerrarReproceso" method="post"
+            enctype="multipart/form-data">
+            <input type="hidden" name="id"
+              value="<?php echo $reproceso['id'] ?>"> <input
+              type="hidden" name="piezas_trabajadas"
+              id="piezas_trabajadas"
+              value="<?php echo $totalPiezasTrabajadas; ?>"> <input
+              type="hidden" name="defectos" id="defectos"
+              value="<?php echo $totalDefectos ?>">
+            <div class="mx-auto">
+              <input type="submit" name="aceptar" id="aceptar"
+                value="Cerrar el reproceso" class="btn btn-primary" />
+            </div>
+          </form>
         </div>
+      </div>
       <?php else: ?>
-        <div class="alert alert-danger" role="alert">
-          La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.
-        </div>
+        <div class="alert alert-danger" role="alert">La suma de las
+        piezas de producción y defecectos no son iguales a las piezas
+        registradas. Favor de revisar con los operarios.</div>
       <?php endif; ?>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
 $(document).ready(function() {
@@ -38,32 +38,39 @@ $(document).ready(function() {
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="salidaExterna" method="post" enctype="multipart/form-data">
+      <form action="salidaExterna" method="post"
+        enctype="multipart/form-data">
         <h1>Salida Externa</h1>
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required="true" />
+            <input type="number" name="folio" id="folio"
+              class="form-control" placeholder="Ingrese folio" required />
           </div>
         </div>
-        <div id="complemento" name="complemento">
-          <div class="alert alert-info" role="alert">
-            Ingresa el número de folio.
-          </div>
+        <div id="complemento">
+          <div class="alert alert-info" role="alert">Ingresa el número
+            de folio.</div>
         </div>
         <div>
-          <button type="button" class="btn btn-info" name="info" id="info" ><i class="fas fa-info"></i></button>
+          <button type="button" class="btn btn-info" name="info"
+            id="info">
+            <i class="fas fa-info"></i>
+          </button>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="modal fade" id="infoCorte" name="infoCorte" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Información del corte</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Información
+          del corte</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -75,43 +82,43 @@ $(document).ready(function() {
                 <tbody>
                   <tr>
                     <td>Imágen</td>
-                    <td name="imagenModal" id="imagenModal"></td>
+                    <td id="imagenModal"></td>
                   </tr>
                   <tr>
                     <td>Folio</td>
-                    <td name="folioModal" id="folioModal"></td>
+                    <td id="folioModal"></td>
                   </tr>
                   <tr>
                     <td>Corte</td>
-                    <td name="corteModal" id="corteModal"></td>
+                    <td id="corteModal"></td>
                   </tr>
                   <tr>
                     <td>Marca</td>
-                    <td name="marcaModal" id="marcaModal"></td>
+                    <td id="marcaModal"></td>
                   </tr>
                   <tr>
                     <td>Maquilero</td>
-                    <td name="maquileroModal" id="maquileroModal"></td>
+                    <td id="maquileroModal"></td>
                   </tr>
                   <tr>
                     <td>Cliente</td>
-                    <td name="clienteModal" id="clienteModal"></td>
+                    <td id="clienteModal"></td>
                   </tr>
                   <tr>
                     <td>Tipo</td>
-                    <td name="tipoModal" id="tipoModal"></td>
+                    <td id="tipoModal"></td>
                   </tr>
                   <tr>
                     <td>Fecha de entrada</td>
-                    <td name="fechaModal" id="fechaModal"></td>
+                    <td id="fechaModal"></td>
                   </tr>
                   <tr>
                     <td>Piezas</td>
-                    <td name="piezasModal" id="piezasModal"></td>
+                    <td id="piezasModal"></td>
                   </tr>
                   <tr>
                     <td>Ojales</td>
-                    <td name="ojalesModal" id="ojalesModal"></td>
+                    <td id="ojalesModal"></td>
                   </tr>
                 </tbody>
               </table>
@@ -120,7 +127,8 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary"
+          data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

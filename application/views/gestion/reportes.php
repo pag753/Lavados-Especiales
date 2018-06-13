@@ -1,29 +1,31 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $input_fechai = array(
-  'name' => 'fechai',
-  'id' => 'fechai',
-  'type' => 'datetime-local',
-  'class' => 'tcal',
-  'value' => set_value('fecha',date("Y-m-d")."T00:00:00"),
-  'class' => 'form-control',
+    'name' => 'fechai',
+    'id' => 'fechai',
+    'type' => 'datetime-local',
+    'class' => 'tcal',
+    'value' => set_value('fecha', date("Y-m-d") . "T00:00:00"),
+    'class' => 'form-control'
 );
 $input_fechaf = array(
-  'name' => 'fechaf',
-  'id' => 'fechaf',
-  'type' => 'datetime-local',
-  'class' => 'tcal',
-  'value' => set_value('fecha',date("Y-m-d")."T00:00:00"),
-  'class' => 'form-control',
+    'name' => 'fechaf',
+    'id' => 'fechaf',
+    'type' => 'datetime-local',
+    'class' => 'tcal',
+    'value' => set_value('fecha', date("Y-m-d") . "T00:00:00"),
+    'class' => 'form-control'
 );
 ?>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="generaReporte" method="post" enctype="multipart/form-data" target="_blank">
+      <form action="generaReporte" method="post"
+        enctype="multipart/form-data" target="_blank">
         <h1>Generar Reporte</h1>
         <div class="form-group row">
-          <label for="reporte" class="col-3 col-form-label">Tipo de Reporte</label>
+          <label for="reporte" class="col-3 col-form-label">Tipo de
+            Reporte</label>
           <div class="col-9">
             <select name="reporte" id="reporte" class="form-control">
               <option value="1">Cortes en almacen</option>
@@ -48,13 +50,17 @@ $input_fechaf = array(
         <div class="form-group row">
           <label for="corte" class="col-3 col-form-label">Corte</label>
           <div class="col-9">
-            <input type="text" name="corte" placeholder="Escribir si es necesario" class="form-control">
+            <input type="text" name="corte"
+              placeholder="Escribir si es necesario"
+              class="form-control">
           </div>
         </div>
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="number" name="folio" placeholder="Escribir si es necesario" class="form-control">
+            <input type="number" name="folio"
+              placeholder="Escribir si es necesario"
+              class="form-control">
           </div>
         </div>
         <div class="form-group row">
@@ -91,7 +97,8 @@ $input_fechaf = array(
           </div>
         </div>
         <div class="form-group row">
-          <label for="tipo_pantalon_id" class="col-3 col-form-label">Tipo de pantalón</label>
+          <label for="tipo_pantalon_id" class="col-3 col-form-label">Tipo
+            de pantalón</label>
           <div class="col-9">
             <select name="tipo_pantalon_id" class="form-control">
               <option value="0">Escoja si es necesario</option>
@@ -102,13 +109,15 @@ $input_fechaf = array(
           </div>
         </div>
         <div class="form-group row">
-          <label for="check" class="col-3 col-form-label">Incluir imágenes</label>
+          <label for="check" class="col-3 col-form-label">Incluir
+            imágenes</label>
           <div class="col-9">
             <input type="checkbox" name="check">
           </div>
         </div>
         <div class="offset-sm-2 col-sm-10">
-          <input type="submit" name="aceptar" class="btn btn-primary" value="Aceptar"/>
+          <input type="submit" name="aceptar" class="btn btn-primary"
+            value="Aceptar" />
         </div>
       </form>
     </div>

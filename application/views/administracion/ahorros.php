@@ -1,8 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
+$(document).ready(function(){
   $('#tabla').DataTable({
     language: {
       "sProcessing": "Procesando...",
@@ -39,7 +39,8 @@ $(document).ready(function() {
         <h3>Ahorros</h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Usuario</th>
@@ -51,9 +52,13 @@ $(document).ready(function() {
             <tr>
               <td><?php echo $value['nombre']; ?></td>
               <td><?php echo $value['nombre_completo']; ?></td>
-              <td><a href="ahorros?id=<?php echo $value['id']; ?>"><button type="button" class="btn btn-light"><i class="fas fa-eye"></i></button></a></td>
+              <td><a href="ahorros?id=<?php echo $value['id']; ?>">
+                  <button type="button" class="btn btn-light">
+                    <i class="fas fa-eye"></i>
+                  </button>
+              </a></td>
             </tr><?php endforeach; ?>
-          </tbody>
+		</tbody>
         </table>
       </div>
     </div>

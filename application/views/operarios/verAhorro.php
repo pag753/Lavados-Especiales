@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $aportaciones = 0;
 $retiros = 0;
 ?>
@@ -41,7 +41,8 @@ $(document).ready(function() {
         <h3>Caja de ahorro</h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Tipo</th>
@@ -52,33 +53,42 @@ $(document).ready(function() {
           <tbody>
             <?php foreach ($ahorros as $key => $value): ?>
               <tr>
-                <td name="aportacion<?php echo $value['id']; ?>" id="aportacion<?php echo $value['id']; ?>">
+              <td id="aportacion<?php echo $value['id']; ?>">
                   <?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?>
                 </td>
-                <td name="fecha<?php echo $value['id'] ?>" id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
-                <td name="cantidad<?php echo $value['id'] ?>" id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-              </tr>
+              <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
+              <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
+            </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
       </div>
       <div class="d-flex justify-content-center">
-        <div class="p-2"><button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#total"><i class="fas fa-eye"></i> Ver total</button></div>
+        <div class="p-2">
+          <button type="button" name="button" class="btn btn-info"
+            data-toggle="modal" data-target="#total">
+            <i class="fas fa-eye"></i> Ver total
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </diV>
-<div class="modal fade" id="total" tabindex="-1" role="dialog" aria-labelledby="total" aria-hidden="true">
+<div class="modal fade" id="total" tabindex="-1" role="dialog"
+  aria-labelledby="total" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ver total de ahorros</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Ver total de
+          ahorros</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="table" style="background:rgba(255,255,255,0.9);">
+        <table class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <tbody>
             <tr>
               <td>Total de aportaciones</td>

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 function editar(id) {
@@ -67,7 +67,8 @@ $(document).ready(function() {
         <h3>Catálogo de Usuarios</h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Usuario</th>
@@ -81,87 +82,113 @@ $(document).ready(function() {
             </tr>
           </thead>
           <tbody><?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td name="nombre<?php echo $value['id'] ?>" id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td name="tipoUsuario<?php echo $value['id'] ?>" id="tipoUsuario<?php echo $value['id'] ?>"><?php foreach ($TipoUsuario as $key2 => $value2): ?><?php if ($value['tipo_usuario_id']==$value2['id']): ?>
-                <?php echo $value2['tipo_usuariocol']; ?>
-                <input type="hidden" name="idTipoUsuario_<?php echo $value['id'] ?>" id="idTipoUsuario_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>"><?php break; ?><?php endif; ?><?php endforeach; ?>
-              </td>
-              <td><?php foreach ($puestos as $key2 => $value2): ?><?php if ($value['puesto_id']==$value2['id']): ?>
-                <?php echo $value2['nombre']; ?>
-                <input type="hidden" name="puesto_id_<?php echo $value['id'] ?>" id="puesto_id_<?php echo $value['id'] ?>" value="<?php echo $value2['id'] ?>"><?php break; ?><?php endif; ?><?php endforeach; ?>
-              </td>
-              <td name="nombre_completo<?php echo $value['id'] ?>" id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
-              <td name="direccion<?php echo $value['id'] ?>" id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
-              <td name="telefono<?php echo $value['id'] ?>" id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
-              <?php if ($value['activo'] == 1): ?><td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">Sí</td>
-              <?php else: ?><td name="activo<?php echo $value['id'] ?>" id="activo<?php echo $value['id'] ?>">No</td>
-              <?php endif ?><td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+          <tr>
+              <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td id="tipoUsuario<?php echo $value['id'] ?>"><?php foreach ($TipoUsuario as $key2 => $value2): if ($value['tipo_usuario_id']==$value2['id']): echo $value2['tipo_usuariocol']; ?>
+								<input type="hidden"
+                name="idTipoUsuario_<?php echo $value['id'] ?>"
+                id="idTipoUsuario_<?php echo $value['id'] ?>"
+                value="<?php echo $value2['id'] ?>"><?php break; endif; endforeach; ?>
+							</td>
+              <td><?php foreach ($puestos as $key2 => $value2): if ($value['puesto_id']==$value2['id']): echo $value2['nombre']; ?>
+								<input type="hidden" name="puesto_id_<?php echo $value['id'] ?>"
+                id="puesto_id_<?php echo $value['id'] ?>"
+                value="<?php echo $value2['id'] ?>"><?php break; endif; endforeach; ?>
+							</td>
+              <td id="nombre_completo<?php echo $value['id'] ?>"><?php echo $value['nombre_completo']; ?></td>
+              <td id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
+              <td id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
+              <td id="activo<?php echo $value['id'] ?>"><?php echo ($value['activo'] == 1)? "Sí":"No" ?></td>
+              <td><a href="#"
+                onclick="editar(<?php echo $value['id']; ?>)"><i
+                  class="far fa-edit"></i>Editar</a></td>
             </tr><?php endforeach; ?>
           </tbody>
         </table>
       </div>
-      <center>
-        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo</button>
-      </center>
+      <div class="mx-auto">
+        <button type="button" name="button" class="btn btn-success"
+          data-toggle="modal" data-target="#nuevo">
+          <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo
+        </button>
+      </div>
     </div>
   </div>
 </diV>
-<div class="modal fade" id="nuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevo" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo
+          usuario</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form  id="new" name="new" action="nuevoUsuario" method="post" enctype="multipart/form-data">
+        <form id="new" name="new" action="nuevoUsuario" method="post"
+          enctype="multipart/form-data">
           <div class="form-group row">
             <label for="nombre" class="col-3 col-form-label">Usuario</label>
             <div class="col-9">
-              <input type="text" name="nombre" id="nombre" placeholder="Nombre del usuario" required class="form-control">
+              <input type="text" name="nombre" id="nombre"
+                placeholder="Nombre del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
-            <label for="tipo_usuario_id" class="col-3 col-form-label">Tipo de Usuario</label>
+            <label for="tipo_usuario_id" class="col-3 col-form-label">Tipo
+              de Usuario</label>
             <div class="col-9">
-              <select class="form-control" name="tipo_usuario_id" id="tipo_usuario_id">
-                <?php foreach ($TipoUsuario as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
+              <select class="form-control" name="tipo_usuario_id"
+                id="tipo_usuario_id"><?php foreach ($TipoUsuario as $key => $value): ?>
+					<option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="puesto_id" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
-              <select class="form-control" name="puesto_id" id="puesto_id">
-                <?php foreach ($puestos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+              <select class="form-control" name="puesto_id"
+                id="puesto_id"><?php foreach ($puestos as $key => $value): ?>
+                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="pass" class="col-3 col-form-label">Contraseña</label>
             <div class="col-9">
-              <input type="password" class="form-control" name="pass" id="pass" value="" placeholder="Contraseña del usuario" required>
+              <input type="password" class="form-control" name="pass"
+                id="pass" value="" placeholder="Contraseña del usuario"
+                required>
             </div>
           </div>
           <div class="form-group row">
-            <label for="nombre_completo" class="col-3 col-form-label">Nombre Completo</label>
+            <label for="nombre_completo" class="col-3 col-form-label">Nombre
+              Completo</label>
             <div class="col-9">
-              <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombre completo del usuario" required class="form-control">
+              <input type="text" name="nombre_completo"
+                id="nombre_completo"
+                placeholder="Nombre completo del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="direccion" class="col-3 col-form-label">Dirección</label>
             <div class="col-9">
-              <input type="text" name="direccion" id="direccion" placeholder="Dirección del usuario" required class="form-control">
+              <input type="text" name="direccion" id="direccion"
+                placeholder="Dirección del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="telefono" class="col-3 col-form-label">Teléfono</label>
             <div class="col-9">
-              <input type="text" name="telefono" id="telefono" placeholder="Teléfono del usuario" required class="form-control">
+              <input type="text" name="telefono" id="telefono"
+                placeholder="Teléfono del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
@@ -174,70 +201,93 @@ $(document).ready(function() {
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button name="guardar" id="guardar" type="button" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
+            <button name="guardar" id="guardar" type="button"
+              class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editar" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form action="editarUsuario" method="post" enctype="multipart/form-data">
+        <form action="editarUsuario" method="post"
+          enctype="multipart/form-data">
           <input type="hidden" name="id" id="id">
           <div class="form-group row">
             <label for="nombreE" class="col-3 col-form-label">Usuario</label>
             <div class="col-9">
-              <input readonly type="text" name="nombreE" id="nombreE" placeholder="Nombre del usuario" required class="form-control">
+              <input readonly type="text" name="nombreE" id="nombreE"
+                placeholder="Nombre del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
-            <label for="tipo_usuario_idE" class="col-3 col-form-label">Tipo de Usuario</label>
+            <label for="tipo_usuario_idE" class="col-3 col-form-label">Tipo
+              de Usuario</label>
             <div class="col-9">
-              <select class="form-control" name="tipo_usuario_idE" id="tipo_usuario_idE">
-                <?php foreach ($TipoUsuario as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
-              </select>
+              <select class="form-control" name="tipo_usuario_idE"
+                id="tipo_usuario_idE">
+								<?php foreach ($TipoUsuario as $key => $value): ?>
+								<option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
+								<?php endforeach; ?>
+							</select>
             </div>
           </div>
           <div class="form-group row">
             <label for="puesto_idE" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
-              <select class="form-control" name="puesto_idE" id="puesto_idE">
-                <?php foreach ($puestos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
-              </select>
+              <select class="form-control" name="puesto_idE"
+                id="puesto_idE">
+							<?php foreach ($puestos as $key => $value): ?><option
+                  value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+							<?php endforeach; ?>
+							</select>
             </div>
           </div>
           <div class="form-group row">
             <label for="pass" class="col-3 col-form-label">Contraseña</label>
             <div class="col-9">
-              <input type="password" class="form-control" id="passE" name="passE" value="" placeholder="Cambiar contraseña">
+              <input type="password" class="form-control" id="passE"
+                name="passE" value="" placeholder="Cambiar contraseña">
             </div>
           </div>
           <div class="form-group row">
-            <label for="nombre_completoE" class="col-3 col-form-label">Nombre Completo</label>
+            <label for="nombre_completoE" class="col-3 col-form-label">Nombre
+              Completo</label>
             <div class="col-9">
-              <input type="text" name="nombre_completoE" id="nombre_completoE" placeholder="Nombre completo del usuario" required class="form-control">
+              <input type="text" name="nombre_completoE"
+                id="nombre_completoE"
+                placeholder="Nombre completo del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="direccionE" class="col-3 col-form-label">Dirección</label>
             <div class="col-9">
-              <input type="text" name="direccionE" id="direccionE" placeholder="Dirección del usuario" required class="form-control">
+              <input type="text" name="direccionE" id="direccionE"
+                placeholder="Dirección del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
             <label for="telefonoE" class="col-3 col-form-label">Teléfono</label>
             <div class="col-9">
-              <input type="text" name="telefonoE" id="telefonoE" placeholder="Teléfono del usuario" required class="form-control">
+              <input type="text" name="telefonoE" id="telefonoE"
+                placeholder="Teléfono del usuario" required
+                class="form-control">
             </div>
           </div>
           <div class="form-group row">
@@ -250,7 +300,8 @@ $(document).ready(function() {
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 function editar(id) {
@@ -62,7 +62,8 @@ $(document).ready(function() {
         <h3>Descuentos del usuario <?php echo $usuario[0]['nombre_completo']; ?></h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Razón</th>
@@ -74,108 +75,145 @@ $(document).ready(function() {
             </tr>
           </thead>
           <tbody><?php foreach ($descuentos as $key => $value): ?>
-            <tr>
-              <td name="razon<?php echo $value['id'] ?>" id="razon<?php echo $value['id'] ?>"><?php echo $value['razon']; ?></td>
-              <td name="folio<?php echo $value['id'] ?>" id="folio<?php echo $value['id'] ?>"><?php echo $value['corte_folio']; ?></td>
-              <td name="fecha<?php echo $value['id'] ?>" id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
-              <td name="cantidad<?php echo $value['id'] ?>" id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i></button></td>
-              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)"><i class="far fa-trash-alt"></i></button></td>
+						<tr>
+              <td id="razon<?php echo $value['id'] ?>"><?php echo $value['razon']; ?></td>
+              <td id="folio<?php echo $value['id'] ?>"><?php echo $value['corte_folio']; ?></td>
+              <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
+              <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
+              <td><button type="button" class="btn btn-success"
+                  onclick="editar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-edit"></i>
+                </button></td>
+              <td><button type="button" class="btn btn-danger"
+                  onclick="eliminar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-trash-alt"></i>
+                </button></td>
             </tr><?php endforeach; ?>
-          </tbody>
+					</tbody>
         </table>
       </div>
-      <center>
-        <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo"><i class="fas fa-plus"></i> Nuevo</button>
-      </center>
+      <div class="mx-auto">
+        <button type="button" name="button" class="btn btn-success"
+          data-toggle="modal" data-target="#nuevo">
+          <i class="fas fa-plus"></i> Nuevo
+        </button>
+      </div>
     </div>
   </div>
 </diV>
-<div class="modal fade" id="nuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevo" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo descuento</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo
+          descuento</h5>
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form  id="new" name="new" action="nuevoDescuento" method="post" enctype="multipart/form-data">
+        <form id="new" name="new" action="nuevoDescuento" method="post"
+          enctype="multipart/form-data">
           <div class="form-group row">
             <label for="razon" class="col-3 col-form-label">Razón</label>
             <div class="col-9">
-              <textarea class="form-control" name="razon" id="razon" required placeholder="Razón del descuento" ></textarea>
+              <textarea class="form-control" name="razon" id="razon"
+                required placeholder="Razón del descuento"></textarea>
             </div>
           </div>
           <div class="form-group row">
-            <label for="corte_folio" class="col-3 col-form-label">Folio de corte</label>
+            <label for="corte_folio" class="col-3 col-form-label">Folio
+              de corte</label>
             <div class="col-9">
-              <input type="number" class="form-control" name="corte_folio" id="corte_folio" required placeholder="Folio de corte">
+              <input type="number" class="form-control"
+                name="corte_folio" id="corte_folio" required
+                placeholder="Folio de corte">
             </div>
           </div>
           <div class="form-group row">
             <label for="fecha" class="col-3 col-form-label">Fecha</label>
             <div class="col-9">
-              <input class="form-control" name="fecha" id="fecha" required value="<?php echo date("Y-m-d"); ?>" type="date">
+              <input class="form-control" name="fecha" id="fecha"
+                required value="<?php echo date("Y-m-d"); ?>"
+                type="date">
             </div>
           </div>
           <div class="form-group row">
             <label for="cantidad" class="col-3 col-form-label">Cantidad</label>
             <div class="col-9">
-              <input type="number" step="any" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad a descontar" required>
+              <input type="number" step="any" class="form-control"
+                name="cantidad" id="cantidad"
+                placeholder="Cantidad a descontar" required>
             </div>
           </div>
-          <input type="hidden" name="id" id="id" value="<?php echo $usuario[0]['id'] ?>">
+          <input type="hidden" name="id" id="id"
+            value="<?php echo $usuario[0]['id'] ?>">
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button name="guardar" id="guardar" type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
+            <button name="guardar" id="guardar" type="submit"
+              class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editar" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar descuento</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal"
+          aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form  id="edit" name="edit" action="editarDescuento" method="post" enctype="multipart/form-data">
+        <form id="edit" name="edit" action="editarDescuento"
+          method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="razonE" class="col-3 col-form-label">Razón</label>
             <div class="col-9">
-              <textarea class="form-control" name="razonE" id="razonE" required placeholder="Razón del descuento"></textarea>
+              <textarea class="form-control" name="razonE" id="razonE"
+                required placeholder="Razón del descuento"></textarea>
             </div>
           </div>
           <div class="form-group row">
-            <label for="corte_folioE" class="col-3 col-form-label">Folio de corte</label>
+            <label for="corte_folioE" class="col-3 col-form-label">Folio
+              de corte</label>
             <div class="col-9">
-              <input type="number" class="form-control" name="corte_folioE" id="corte_folioE" required placeholder="Folio de corte">
+              <input type="number" class="form-control"
+                name="corte_folioE" id="corte_folioE" required
+                placeholder="Folio de corte">
             </div>
           </div>
           <div class="form-group row">
             <label for="fechaE" class="col-3 col-form-label">Fecha</label>
             <div class="col-9">
-              <input class="form-control" name="fechaE" id="fechaE" value="" type="date">
+              <input class="form-control" name="fechaE" id="fechaE"
+                value="" type="date">
             </div>
           </div>
           <div class="form-group row">
             <label for="cantidadE" class="col-3 col-form-label">Cantidad</label>
             <div class="col-9">
-              <input type="number" step="any" class="form-control" name="cantidadE" id="cantidadE" placeholder="Cantidad a descontar" required>
+              <input type="number" step="any" class="form-control"
+                name="cantidadE" id="cantidadE"
+                placeholder="Cantidad a descontar" required>
             </div>
           </div>
-          <input type="hidden" name="idE" id="idE" value="">
-          <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $usuario[0]['id'] ?>">
+          <input type="hidden" name="idE" id="idE" value=""> <input
+            type="hidden" name="idUsuario" id="idUsuario"
+            value="<?php echo $usuario[0]['id'] ?>">
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button name="guardar" id="guardar" type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary"
+              data-dismiss="modal">Cerrar</button>
+            <button name="guardar" id="guardar" type="submit"
+              class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>

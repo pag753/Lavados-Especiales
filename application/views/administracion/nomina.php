@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 function eliminar(id) {
@@ -59,7 +59,8 @@ $(document).ready(function() {
         <h3>Nómina</h3>
       </div>
       <div class='table-responsive'>
-        <table name="tabla" id="tabla" class="table" style="background:rgba(255,255,255,0.9);">
+        <table id="tabla" class="table"
+          style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Fecha</th>
@@ -72,18 +73,33 @@ $(document).ready(function() {
           <tbody>
             <?php foreach ($data as $key => $value): ?>
               <tr>
-                <td><?php echo $value['fecha']; ?></td>
-                <td><?php echo $value['descripcion']; ?></td>
-                <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>);"><i class="far fa-trash-alt"></i></button></td>
-                <td><a href="verNomina?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-primary"><i class="fas fa-eye"></i></button></a></td>
-                <td><a href="verNominaDetalles?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-info"><i class="fas fa-info"></i></button></a></td>
-              </tr>
+              <td><?php echo $value['fecha']; ?></td>
+              <td><?php echo $value['descripcion']; ?></td>
+              <td><button type="button" class="btn btn-danger"
+                  onclick="eliminar(<?php echo $value['id']; ?>);">
+                  <i class="far fa-trash-alt"></i>
+                </button></td>
+              <td><a href="verNomina?id=<?php echo $value['id'] ?>"
+                target="_blank"><button type="button"
+                    class="btn btn-primary">
+                    <i class="fas fa-eye"></i>
+                  </button></a></td>
+              <td><a
+                href="verNominaDetalles?id=<?php echo $value['id'] ?>"
+                target="_blank"><button type="button"
+                    class="btn btn-info">
+                    <i class="fas fa-info"></i>
+                  </button></a></td>
+            </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
-        <center>
-          <a href="nuevaNomina"><button type="button" class="btn btn-success"><i class="fas fa-plus"></i> Nuevo</button></a>
-        </center>
+        <div class="mx-auto">
+          <a href="nuevaNomina"><button type="button"
+              class="btn btn-success">
+              <i class="fas fa-plus"></i> Nuevo
+            </button></a>
+        </div>
       </div>
     </div>
   </div>

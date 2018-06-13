@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -40,19 +40,22 @@ $(document).ready(function() {
     <div class="row">
       <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4">
         <h3 class="white">Generar reporte de costos</h3>
-        <form action="reporteCostos" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
+        <form action="reporteCostos" method="get"
+          enctype="multipart/form-data" name="formulario"
+          id="formulario">
           <div class="form-group row">
             <label for="folio" class="col-3 col-form-label">Folio</label>
             <div class="col-9">
-              <input type="number" name="folio" id="folio" class="form-control">
+              <input type="number" name="folio" id="folio"
+                class="form-control">
             </div>
           </div>
-          <center>
-            <button type="button" name="boton" id="boton" class="btn btn-primary">Aceptar</button>
-          </center>
+          <div class="mx-auto">
+            <button type="button" name="boton" id="boton"
+              class="btn btn-primary">Aceptar</button>
+          </div>
         </form>
-        <div class="alert alert-danger" role="alert" name="alerta" id="alerta">
-        </div>
+        <div class="alert alert-danger" role="alert" id="alerta"></div>
       </div>
     </div>
   </div>

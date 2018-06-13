@@ -1,8 +1,6 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-/**
-*
-*/
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class Tipo_pantalon extends CI_Model
 {
 
@@ -22,14 +20,18 @@ class Tipo_pantalon extends CI_Model
 
     public function getById($id)
     {
-        $query = $this->db->get_where('tipo_pantalon', array('id' => $id ));
+        $query = $this->db->get_where('tipo_pantalon', array(
+            'id' => $id
+        ));
         return $query->result_array();
     }
 
-    public function update($nombre,$id)
+    public function update($nombre, $id)
     {
-        $data = array('nombre' => $nombre,);
-
+        $data = array(
+            'nombre' => $nombre
+        );
+        
         $this->db->where('id', $id);
         $this->db->update('tipo_pantalon', $data);
     }

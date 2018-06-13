@@ -1,7 +1,9 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class Puestos extends CI_Model
 {
+
     function __construct()
     {
         parent::__construct();
@@ -16,13 +18,13 @@ class Puestos extends CI_Model
         return $query->result_array();
     }
 
-    public function update($nombre,$id)
+    public function update($nombre, $id)
     {
-      $data = array(
-        'nombre' => $nombre,
-      );
-      $this->db->where('id', $id);
-      $this->db->update('puesto', $data);
+        $data = array(
+            'nombre' => $nombre
+        );
+        $this->db->where('id', $id);
+        $this->db->update('puesto', $data);
     }
 
     public function insert($data)

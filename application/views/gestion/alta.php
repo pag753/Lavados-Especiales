@@ -1,61 +1,64 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 $input_folio = array(
-  'name' => 'folio',
-  'id' => 'folio',
-  'readonly' => 'true',
-  'type' => 'number',
-  'class' => 'form-control',
-  'value' => $corte,
+    'name' => 'folio',
+    'id' => 'folio',
+    'readonly' => 'true',
+    'type' => 'number',
+    'class' => 'form-control',
+    'value' => $corte
 );
 $input_fecha = array(
-  'name' => 'fecha',
-  'id' => 'fecha',
-  'type' => 'datetime-local',
-  'class' => 'form-control',
-  'value' => set_value('fecha',date("Y-m-d")."T00:00"),
-  'readonly' => 'true',
+    'name' => 'fecha',
+    'id' => 'fecha',
+    'type' => 'datetime-local',
+    'class' => 'form-control',
+    'value' => set_value('fecha', date("Y-m-d") . "T00:00"),
+    'readonly' => 'true'
 );
 $input_corte = array(
-  'name' => 'corte',
-  'id' => 'corte',
-  'type' => 'text',
-  'class' => 'form-control',
-  'placeholder' => 'Inserte corte',
-  'required' => 'true'
+    'name' => 'corte',
+    'id' => 'corte',
+    'type' => 'text',
+    'class' => 'form-control',
+    'placeholder' => 'Inserte corte',
+    'required' => 'true'
 );
 $input_piezas = array(
-  'name' => 'piezas',
-  'id' => 'piezas',
-  'type' => 'number',
-  'class' => 'form-control',
-  'placeholder' => 'Inserte # de piezas',
-  'required' => 'true'
+    'name' => 'piezas',
+    'id' => 'piezas',
+    'type' => 'number',
+    'class' => 'form-control',
+    'placeholder' => 'Inserte # de piezas',
+    'required' => 'true'
 );
 $input_imagen = array(
-  'name' => 'mi_imagen',
-  'id' => 'mi_imagen',
-  'type' => 'file',
-  'class' => 'form-control-file',
+    'name' => 'mi_imagen',
+    'id' => 'mi_imagen',
+    'type' => 'file',
+    'class' => 'form-control-file'
 );
-foreach ($maquileros as $key => $value) $opciones_maquilero[$value['id']]=$value['nombre'];
-$select_maquilero=array(
-  'name' => 'maquilero',
-  'id' => 'maquilero',
-  'class' => 'form-control',
+foreach ($maquileros as $key => $value)
+    $opciones_maquilero[$value['id']] = $value['nombre'];
+$select_maquilero = array(
+    'name' => 'maquilero',
+    'id' => 'maquilero',
+    'class' => 'form-control'
 );
-$opciones_cliente[-1]="Seleccione el cliente";
-foreach ($clientes as $key => $value) $opciones_cliente[$value['id']]=$value['nombre'];
-$select_cliente=array(
-  'name' => 'cliente',
-  'id' => 'cliente',
-  'class' => 'form-control',
+$opciones_cliente[- 1] = "Seleccione el cliente";
+foreach ($clientes as $key => $value)
+    $opciones_cliente[$value['id']] = $value['nombre'];
+$select_cliente = array(
+    'name' => 'cliente',
+    'id' => 'cliente',
+    'class' => 'form-control'
 );
-foreach ($tipos as $key => $value)  $opciones_tipo[$value['id']]=$value['nombre'];
-$select_tipo=array(
-  'name' => 'tipo',
-  'id' => 'tipo',
-  'class' => 'form-control',
+foreach ($tipos as $key => $value)
+    $opciones_tipo[$value['id']] = $value['nombre'];
+$select_tipo = array(
+    'name' => 'tipo',
+    'id' => 'tipo',
+    'class' => 'form-control'
 );
 ?>
 <script type="text/javascript">
@@ -128,10 +131,9 @@ $(document).ready(function() {
         <div class="form-group row">
           <label for="marca" class="col-3 col-form-label">Marca</label>
           <div class="col-9">
-            <div id='marcas' value='marcas'>
-              <div class="alert alert-warning" role="alert">
-                Escoja primero el cliente.
-              </div>
+            <div id='marcas'>
+              <div class="alert alert-warning" role="alert">Escoja
+                primero el cliente.</div>
             </div>
           </div>
         </div>
@@ -151,17 +153,20 @@ $(document).ready(function() {
           <label for="ojal" class="col-3 col-form-label">¿Lleva ojal?</label>
           <div class="col-9">
             <div class="form-check">
-              <label class="form-check-label">
-                <input class="form-check-input" type="checkbox" name="ojal" id="ojal">
-                Sí
+              <label class="form-check-label"> <input
+                class="form-check-input" type="checkbox" name="ojal"
+                id="ojal"> Sí
               </label>
             </div>
           </div>
         </div>
-        <div class="form-group row" id="ojales" name="ojales">
-          <label for="ojales" class="col-3 col-form-label">Cantidad de ojales</label>
+        <div class="form-group row" id="ojales">
+          <label for="ojales" class="col-3 col-form-label">Cantidad de
+            ojales</label>
           <div class="col-9">
-            <input class="form-control" placeholder="Escribe cantidad de ojales" type="number" name="cantidadOjales" id="cantidadOjales" value="0">
+            <input class="form-control"
+              placeholder="Escribe cantidad de ojales" type="number"
+              name="cantidadOjales" id="cantidadOjales" value="0">
           </div>
         </div>
         <div class="form-group row">
@@ -171,7 +176,7 @@ $(document).ready(function() {
           </div>
         </div>
         <div class="offset-sm-2 col-sm-10">
-          <input type="submit" class="btn btn-primary" value="Aceptar"/>
+          <input type="submit" class="btn btn-primary" value="Aceptar" />
         </div>
       </form>
     </div>

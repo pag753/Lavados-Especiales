@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -14,13 +14,16 @@ $(document).ready(function() {
         <div class="form-group">
           <label for="costo" class="col-12 col-form-label">Costo actual</label>
           <div class="col-12">
-            <input type="number" step="any" name="costo" id="costo" class="form-control" required placeholder="Escribe el costo de ojal" value="<?php echo $costo; ?>">
+            <input type="number" step="any" name="costo" id="costo"
+              class="form-control" required
+              placeholder="Escribe el costo de ojal"
+              value="<?php echo $costo; ?>">
           </div>
         </div>
-        <div >
-          <center>
-            <input type="submit" class="btn btn-primary" value="Cambiar"/>
-          </center>
+        <div>
+          <div class="mx-auto">
+            <input type="submit" class="btn btn-primary" value="Cambiar" />
+          </div>
         </div>
       </form>
     </div>
