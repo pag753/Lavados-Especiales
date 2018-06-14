@@ -46,26 +46,22 @@ $(document).ready(function(){
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div
-      class="col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3 offset-lg-3 offset-xl-3">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 offset-md-3 offset-lg-3 offset-xl-3">
       <div class="card">
         <div class="card-header">
           <h1>Ver detalles de corte</h1>
         </div>
         <div class="card-body">
-          <input type="number" name="folio" id="folio"
-            class="form-control" placeholder="Ingrese folio" required />
+          <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required />
           <div class="mx-auto">
-            <button type="button" name="boton" id="boton"
-              class="btn btn-primary">
+            <button type="button" name="boton" id="boton" class="btn btn-primary">
               <i class="fas fa-eye"></i> Ver
             </button>
           </div>
         </div>
       </div>
       <div id="complemento">
-        <table class="table table-striped table-bordered"
-          style="background: rgba(255, 255, 255, .5)">
+        <table class="table table-striped table-bordered" style="background: rgba(255, 255, 255, .5)">
           <tbody>
             <tr>
               <td>Imágen</td>
@@ -110,8 +106,7 @@ $(document).ready(function(){
           </tbody>
         </table>
       </div>
-      <div class="alert alert-info" role="alert" id="alerta">Ingresa el
-        número de folio y da click en ver.</div>
+      <div class="alert alert-info" role="alert" id="alerta">Ingresa el número de folio y da click en ver.</div>
     </div>
   </div>
 </div>

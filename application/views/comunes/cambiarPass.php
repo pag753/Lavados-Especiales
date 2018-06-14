@@ -27,8 +27,7 @@ $(document).ready(function() {
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="<?php echo $link ?>" method="post"
-        enctype="multipart/form-data">
+      <form action="<?php echo $link ?>" method="post" enctype="multipart/form-data">
         <h1>Cambiar contraseña</h1>
         <div class="form-group row">
           <div class="input-group mb-2 col-12">
@@ -37,9 +36,7 @@ $(document).ready(function() {
                 <i class="fas fa-lock"></i>
               </div>
             </div>
-            <input type="password" name="pass1" id="pass1"
-              placeholder="Escribe la contraseña" required
-              class="form-control">
+            <input type="password" name="pass1" id="pass1" placeholder="Escribe la contraseña" required class="form-control">
           </div>
         </div>
         <div class="form-group row">
@@ -49,9 +46,7 @@ $(document).ready(function() {
                 <i class="fas fa-lock"></i>
               </div>
             </div>
-            <input type="password" name="pass2" id="pass2"
-              placeholder="Vuelve a escribir la contraseña" required
-              class="form-control">
+            <input type="password" name="pass2" id="pass2" placeholder="Vuelve a escribir la contraseña" required class="form-control">
           </div>
         </div>
         <div id="mensaje"></div>

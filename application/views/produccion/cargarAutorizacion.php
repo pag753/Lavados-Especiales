@@ -117,11 +117,9 @@ $(document).ready(function() {
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form name="autorizar" id="autorizar" action="autorizar"
-        method="post">
+      <form name="autorizar" id="autorizar" action="autorizar" method="post">
         <h1>Autorizar Corte</h1>
-        <input type="hidden" name="numero" id="numero" value="0"> <input
-          type="hidden" name="numero2" id="numero2" value="0">
+        <input type="hidden" name="numero" id="numero" value="0"> <input type="hidden" name="numero2" id="numero2" value="0">
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
@@ -152,8 +150,7 @@ $(document).ready(function() {
         <div class="form-group row">
           <div class="col-12">
             <div class="mx-auto">
-              <button type="button" name="boton" id="boton"
-                class="btn btn-success">
+              <button type="button" name="boton" id="boton" class="btn btn-success">
                 <i class="fas fa-plus"></i> Agregar Lavado
               </button>
             </div>
@@ -161,29 +158,24 @@ $(document).ready(function() {
         </div>
         <div class="form-group">
           <div class="offset-11">
-            <button type="button" class="btn btn-info" name="info"
-              id="info">
+            <button type="button" class="btn btn-info" name="info" id="info">
               <i class="fas fa-info"></i>
             </button>
           </div>
           <div id='respuesta'>
-            <div class="alert alert-info" role="alert">Escriba el número
-              del corte.</div>
+            <div class="alert alert-info" role="alert">Escriba el número del corte.</div>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Información
-          del corte</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Información del corte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -236,8 +228,7 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

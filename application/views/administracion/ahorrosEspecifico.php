@@ -65,8 +65,7 @@ $(document).ready(function() {
         <h3>Ahorros del usuario <?php echo $usuario[0]['nombre_completo']; ?></h3>
       </div>
       <div class='table-responsive'>
-        <table id="tabla" class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Tipo</th>
@@ -81,12 +80,10 @@ $(document).ready(function() {
               <td id="aportacion<?php echo $value['id']; ?>"><?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?></td>
               <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
               <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-              <td><button type="button" class="btn btn-success"
-                  onclick="editar(<?php echo $value['id']; ?>)">
+              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
                   <i class="far fa-edit"></i>
                 </button></td>
-              <td><button type="button" class="btn btn-danger"
-                  onclick="eliminar(<?php echo $value['id']; ?>)">
+              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
                   <i class="far fa-trash-alt"></i>
                 </button></td>
             </tr><?php endforeach; ?>
@@ -95,14 +92,12 @@ $(document).ready(function() {
       </div>
       <div class="d-flex justify-content-center">
         <div class="p-2">
-          <button type="button" name="button" class="btn btn-success"
-            data-toggle="modal" data-target="#nuevo">
+          <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#nuevo">
             <i class="fas fa-plus"></i> Nuevo
           </button>
         </div>
         <div class="p-2">
-          <button type="button" name="button" class="btn btn-info"
-            data-toggle="modal" data-target="#total">
+          <button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#total">
             <i class="fas fa-eye"></i> Ver total
           </button>
         </div>
@@ -110,26 +105,21 @@ $(document).ready(function() {
     </div>
   </div>
 </diV>
-<div class="modal fade" id="nuevo" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo
-          ahorro</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo ahorro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="new" name="new" action="nuevoAhorro" method="post"
-          enctype="multipart/form-data">
+        <form id="new" name="new" action="nuevoAhorro" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="razon" class="col-3 col-form-label">Tipo</label>
             <div class="col-9">
-              <select class="form-control" id="aportacion"
-                name="aportacion">
+              <select class="form-control" id="aportacion" name="aportacion">
                 <option value="1">Aportación</option>
                 <option value="0">Retiro</option>
               </select>
@@ -138,51 +128,40 @@ $(document).ready(function() {
           <div class="form-group row">
             <label for="fecha" class="col-3 col-form-label">Fecha</label>
             <div class="col-9">
-              <input class="form-control" name="fecha" id="fecha"
-                required value="<?php echo date("Y-m-d"); ?>"
-                type="date">
+              <input class="form-control" name="fecha" id="fecha" required value="<?php echo date("Y-m-d"); ?>" type="date">
             </div>
           </div>
           <div class="form-group row">
             <label for="cantidad" class="col-3 col-form-label">Cantidad</label>
             <div class="col-9">
-              <input type="number" step="any" class="form-control"
-                name="cantidad" id="cantidad" placeholder="Cantidad"
-                required>
+              <input type="number" step="any" class="form-control" name="cantidad" id="cantidad" placeholder="Cantidad" required>
             </div>
           </div>
-          <input type="hidden" name="id" id="id"
-            value="<?php echo $usuario[0]['id'] ?>">
+          <input type="hidden" name="id" id="id" value="<?php echo $usuario[0]['id'] ?>">
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary"
-              data-dismiss="modal">Cerrar</button>
-            <button name="guardar" id="guardar" type="submit"
-              class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button name="guardar" id="guardar" type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="editar" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar ahorro</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="edit" name="edit" action="editarAhorro" method="post"
-          enctype="multipart/form-data">
+        <form id="edit" name="edit" action="editarAhorro" method="post" enctype="multipart/form-data">
           <div class="form-group row">
             <label for="aportacionE" class="col-3 col-form-label">Tipo</label>
             <div class="col-9">
-              <select class="form-control" name="aportacionE"
-                id="aportacionE">
+              <select class="form-control" name="aportacionE" id="aportacionE">
                 <option value="1">Aportación</option>
                 <option value="0">Retiro</option>
               </select>
@@ -191,47 +170,36 @@ $(document).ready(function() {
           <div class="form-group row">
             <label for="fechaE" class="col-3 col-form-label">Fecha</label>
             <div class="col-9">
-              <input class="form-control" name="fechaE" id="fechaE"
-                value="" type="date">
+              <input class="form-control" name="fechaE" id="fechaE" value="" type="date">
             </div>
           </div>
           <div class="form-group row">
             <label for="cantidadE" class="col-3 col-form-label">Cantidad</label>
             <div class="col-9">
-              <input type="number" step="any" class="form-control"
-                name="cantidadE" id="cantidadE" placeholder="Cantidad"
-                required>
+              <input type="number" step="any" class="form-control" name="cantidadE" id="cantidadE" placeholder="Cantidad" required>
             </div>
           </div>
-          <input type="hidden" name="idE" id="idE" value=""> <input
-            type="hidden" name="idUsuario" id="idUsuario"
-            value="<?php echo $usuario[0]['id'] ?>">
+          <input type="hidden" name="idE" id="idE" value=""> <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $usuario[0]['id'] ?>">
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary"
-              data-dismiss="modal">Cerrar</button>
-            <button name="guardar" id="guardar" type="submit"
-              class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button name="guardar" id="guardar" type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
-<div class="modal fade" id="total" tabindex="-1" role="dialog"
-  aria-labelledby="total" aria-hidden="true">
+<div class="modal fade" id="total" tabindex="-1" role="dialog" aria-labelledby="total" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ver total de
-          ahorros</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Ver total de ahorros</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table class="table" style="background: rgba(255, 255, 255, 0.9);">
           <tbody>
             <tr>
               <td>Total de aportaciones</td>

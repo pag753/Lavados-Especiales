@@ -5,36 +5,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3><?php echo $texto1 ?></h3>
-      <form action="costos/<?php echo $folio."_".$carga ?>"
-        method="post" enctype="multipart/form-data">
-        <input type="hidden" name="folio" id="folio"
-          value="<?php echo $folio; ?>" /> <input type="hidden"
-          name="corte" id="corte" value="<?php echo $corte; ?>" /> <input
-          type="hidden" name="marca" id="marca"
-          value="<?php echo $marca; ?>" /> <input type="hidden"
-          name="maquilero" id="maquilero"
-          value="<?php echo $maquilero; ?>" /> <input type="hidden"
-          name="cliente" id="cliente" value="<?php echo $cliente; ?>" />
-        <input type="hidden" name="tipo" id="tipo"
-          value="<?php echo $tipo; ?>" /> <input type="hidden"
-          name="piezas" id="piezas" value="<?php echo $piezas; ?>" /> <input
-          type="hidden" name="fecha" id="fecha"
-          value="<?php echo $fecha; ?>" /> <input type="hidden"
-          name="carga" id="carga" value="<?php echo $carga; ?>" /> <input
-          type="hidden" name="idlavado" id="idlavado"
-          value="<?php echo $idlavado; ?>" />
+      <form action="costos/<?php echo $folio."_".$carga ?>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="folio" id="folio" value="<?php echo $folio; ?>" /> <input type="hidden" name="corte" id="corte" value="<?php echo $corte; ?>" /> <input type="hidden" name="marca" id="marca" value="<?php echo $marca; ?>" /> <input type="hidden" name="maquilero" id="maquilero" value="<?php echo $maquilero; ?>" /> <input type="hidden" name="cliente" id="cliente" value="<?php echo $cliente; ?>" /> <input type="hidden" name="tipo" id="tipo" value="<?php echo $tipo; ?>" /> <input type="hidden" name="piezas" id="piezas" value="<?php echo $piezas; ?>" /> <input type="hidden" name="fecha" id="fecha" value="<?php echo $fecha; ?>" /> <input type="hidden" name="carga" id="carga" value="<?php echo $carga; ?>" /> <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $idlavado; ?>" />
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="number" name="folio" class="form-control"
-              readonly value="<?php echo $folio; ?>">
+            <input type="number" name="folio" class="form-control" readonly value="<?php echo $folio; ?>">
           </div>
         </div>
         <div class="form-group row">
           <label for="lavado" class="col-3 col-form-label">Lavado</label>
           <div class="col-9">
-            <input type="text" name="lavado" class="form-control"
-              readonly value="<?php echo strtoupper($lavado) ?>">
+            <input type="text" name="lavado" class="form-control" readonly value="<?php echo strtoupper($lavado) ?>">
           </div>
         </div>
         <div class="form-group row">
@@ -49,43 +31,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </thead>
                 <tbody><?php foreach ($procesos as $key => $value): ?>
                   <tr>
-                    <td><input type="text" readonly class="form-control"
-                      name="proc[<?php echo $key ?>]"
-                      value="<?php echo strtoupper($value) ?>" /></td>
-                    <td><input type="number" step="any" required
-                      placeholder="Inserte costo" class="form-control"
-                      name="costo[<?php echo $key ?>]"
-                      value="<?php echo $costos[$key] ?>"></td>
+                    <td><input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" /></td>
+                    <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
                   </tr><?php endforeach; ?>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-        <button type="button" name="informacion" id="boton"
-          class="btn btn-info" data-toggle="modal"
-          data-target="#exampleModalCenter">
+        <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
           <i class="fas fa-eye"></i> Detalles
         </button>
         <div class="mx-auto">
-          <a href="costos"><button name="regresar" id="regresar"
-              type="button" class="btn btn-secondary">Regresar</button></a>
-          <input type="submit" class="btn btn-primary" value="Aceptar" />
+          <a href="costos"><button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button></a> <input type="submit" class="btn btn-primary" value="Aceptar" />
         </div>
       </form>
     </div>
   </div>
 </div>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-  role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Información
-          del corte</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Información del corte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -142,8 +111,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

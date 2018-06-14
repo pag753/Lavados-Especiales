@@ -18,4 +18,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 #-------------------------
 /nbproject/
 .idea/*
-
+.gitignore
+.buildpath
+.project
+.settings/

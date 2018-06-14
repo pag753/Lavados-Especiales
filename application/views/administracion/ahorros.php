@@ -39,8 +39,7 @@ $(document).ready(function(){
         <h3>Ahorros</h3>
       </div>
       <div class='table-responsive'>
-        <table id="tabla" class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Usuario</th>

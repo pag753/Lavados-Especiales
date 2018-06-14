@@ -84,9 +84,7 @@ $(document).ready(function() {
       </div>
       <div class="card">
         <div class="card-header">
-          <a data-toggle="collapse" href="#ver" role="button"
-            aria-expanded="false" aria-controls="ver"><strong>Datos
-              Específicos</strong> </a>
+          <a data-toggle="collapse" href="#ver" role="button" aria-expanded="false" aria-controls="ver"><strong>Datos Específicos</strong> </a>
         </div>
         <div class="collapse" id="ver">
           <div class="card-body">
@@ -116,27 +114,16 @@ $(document).ready(function() {
       <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
         <div class="card">
         <div class="card-body">
-          <form action="cerrarReproceso" name="cerrarReproceso"
-            id="cerrarReproceso" method="post"
-            enctype="multipart/form-data">
-            <input type="hidden" name="id"
-              value="<?php echo $reproceso['id'] ?>"> <input
-              type="hidden" name="piezas_trabajadas"
-              id="piezas_trabajadas"
-              value="<?php echo $totalPiezasTrabajadas; ?>"> <input
-              type="hidden" name="defectos" id="defectos"
-              value="<?php echo $totalDefectos ?>">
+          <form action="cerrarReproceso" name="cerrarReproceso" id="cerrarReproceso" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $reproceso['id'] ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $totalPiezasTrabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $totalDefectos ?>">
             <div class="mx-auto">
-              <input type="submit" name="aceptar" id="aceptar"
-                value="Cerrar el reproceso" class="btn btn-primary" />
+              <input type="submit" name="aceptar" id="aceptar" value="Cerrar el reproceso" class="btn btn-primary" />
             </div>
           </form>
         </div>
       </div>
       <?php else: ?>
-        <div class="alert alert-danger" role="alert">La suma de las
-        piezas de producción y defecectos no son iguales a las piezas
-        registradas. Favor de revisar con los operarios.</div>
+        <div class="alert alert-danger" role="alert">La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.</div>
       <?php endif; ?>
     </div>
   </div>

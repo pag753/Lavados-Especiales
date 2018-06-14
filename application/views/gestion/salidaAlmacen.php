@@ -43,13 +43,11 @@ $(document).ready(function(){
           <h1>Entrega a Almacen</h1>
         </div>
         <div class="card-body">
-          <input type="number" name="folio" id="folio"
-            class="form-control" placeholder="Ingrese folio" required />
+          <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required />
         </div>
       </div>
       <div id="complemento">
-        <div class="alert alert-info" role="alert">Ingresa el número de
-          folio.</div>
+        <div class="alert alert-info" role="alert">Ingresa el número de folio.</div>
       </div>
       <div>
         <button type="button" class="btn btn-info" name="info" id="info">
@@ -59,15 +57,12 @@ $(document).ready(function(){
     </div>
   </div>
 </div>
-<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Información
-          del corte</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Información del corte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -124,8 +119,7 @@ $(document).ready(function(){
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

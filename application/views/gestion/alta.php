@@ -132,8 +132,7 @@ $(document).ready(function() {
           <label for="marca" class="col-3 col-form-label">Marca</label>
           <div class="col-9">
             <div id='marcas'>
-              <div class="alert alert-warning" role="alert">Escoja
-                primero el cliente.</div>
+              <div class="alert alert-warning" role="alert">Escoja primero el cliente.</div>
             </div>
           </div>
         </div>
@@ -153,20 +152,15 @@ $(document).ready(function() {
           <label for="ojal" class="col-3 col-form-label">¿Lleva ojal?</label>
           <div class="col-9">
             <div class="form-check">
-              <label class="form-check-label"> <input
-                class="form-check-input" type="checkbox" name="ojal"
-                id="ojal"> Sí
+              <label class="form-check-label"> <input class="form-check-input" type="checkbox" name="ojal" id="ojal"> Sí
               </label>
             </div>
           </div>
         </div>
         <div class="form-group row" id="ojales">
-          <label for="ojales" class="col-3 col-form-label">Cantidad de
-            ojales</label>
+          <label for="ojales" class="col-3 col-form-label">Cantidad de ojales</label>
           <div class="col-9">
-            <input class="form-control"
-              placeholder="Escribe cantidad de ojales" type="number"
-              name="cantidadOjales" id="cantidadOjales" value="0">
+            <input class="form-control" placeholder="Escribe cantidad de ojales" type="number" name="cantidadOjales" id="cantidadOjales" value="0">
           </div>
         </div>
         <div class="form-group row">

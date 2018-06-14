@@ -14,10 +14,7 @@ $(document).ready(function() {
         <div class="form-group">
           <label for="costo" class="col-12 col-form-label">Costo actual</label>
           <div class="col-12">
-            <input type="number" step="any" name="costo" id="costo"
-              class="form-control" required
-              placeholder="Escribe el costo de ojal"
-              value="<?php echo $costo; ?>">
+            <input type="number" step="any" name="costo" id="costo" class="form-control" required placeholder="Escribe el costo de ojal" value="<?php echo $costo; ?>">
           </div>
         </div>
         <div>

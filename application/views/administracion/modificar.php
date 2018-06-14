@@ -40,19 +40,15 @@ $(document).ready(function() {
     <div class="row">
       <div class="col-lg-4 col-md-4 offset-lg-4 offset-md-4">
         <h3 class="white">Modificar corte</h3>
-        <form action="modificar" method="get"
-          enctype="multipart/form-data" name="formulario"
-          id="formulario">
+        <form action="modificar" method="get" enctype="multipart/form-data" name="formulario" id="formulario">
           <div class="form-group row">
             <label for="folio" class="col-3 col-form-label">Folio</label>
             <div class="col-9">
-              <input type="number" name="folio" id="folio"
-                class="form-control">
+              <input type="number" name="folio" id="folio" class="form-control">
             </div>
           </div>
           <div class="mx-auto">
-            <button type="button" name="boton" id="boton"
-              class="btn btn-primary">Aceptar</button>
+            <button type="button" name="boton" id="boton" class="btn btn-primary">Aceptar</button>
           </div>
         </form>
         <div class="alert alert-danger" role="alert" id="alerta"></div>

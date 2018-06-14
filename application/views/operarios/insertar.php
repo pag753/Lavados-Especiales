@@ -95,8 +95,7 @@
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3>Alta de producción</h3>
-      <form action="<?php echo $url; ?>" method="post"
-        enctype="multipart/form-data">
+      <form action="<?php echo $url; ?>" method="post" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
@@ -115,58 +114,38 @@
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3>Alta de producción</h3>
-      <form action="<?php echo $url; ?>/1" method="post"
-        enctype="multipart/form-data">
+      <form action="<?php echo $url; ?>/1" method="post" enctype="multipart/form-data">
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="text" name="folio" readonly
-              class="form-control" value="<?php echo $folio ?>" />
+            <input type="text" name="folio" readonly class="form-control" value="<?php echo $folio ?>" />
           </div>
         </div>
         <div class="form-group row">
           <label for="nombreCarga" class="col-3 col-form-label">Carga</label>
           <div class="col-9">
-            <input type="text" name="nombreCarga" readonly
-              class="form-control"
-              value="<?php echo strtoupper($nombreCarga) ?>" />
+            <input type="text" name="nombreCarga" readonly class="form-control" value="<?php echo strtoupper($nombreCarga) ?>" />
           </div>
         </div>
         <div class="form-group row">
           <label for="nombreProceso" class="col-3 col-form-label">Proceso:</label>
           <div class="col-9">
-            <input type="text" name="nombreProceso" readonly
-              class="form-control"
-              value="<?php echo strtoupper($nombreProceso) ?>" />
+            <input type="text" name="nombreProceso" readonly class="form-control" value="<?php echo strtoupper($nombreProceso) ?>" />
           </div>
         </div>
         <div class="form-group row">
-          <label for="piezas" class="col-3 col-form-label">Piezas de
-            producción:</label>
+          <label for="piezas" class="col-3 col-form-label">Piezas de producción:</label>
           <div class="col-9">
-            <input type="number" name="piezas" id="piezas" required
-              class="form-control" placeholder="Inserte el valor"
-              value="<?php echo $piezas ?>" />
+            <input type="number" name="piezas" id="piezas" required class="form-control" placeholder="Inserte el valor" value="<?php echo $piezas ?>" />
           </div>
         </div>
         <div class="form-group row">
           <label for="defectos" class="col-3 col-form-label">Defectos:</label>
           <div class="col-9">
-            <input type="number" name="defectos" id="defectos" required
-              class="form-control" placeholder="Inserte el valor"
-              value="<?php echo $defectos ?>" />
+            <input type="number" name="defectos" id="defectos" required class="form-control" placeholder="Inserte el valor" value="<?php echo $defectos ?>" />
           </div>
         </div>
-        <input type="hidden" name="carga" id="carga"
-          value="<?php echo $carga ?>" /> <input type="hidden"
-          name="proceso" id="proceso" value="<?php echo $proceso ?>" />
-        <input type="hidden" name="nuevo" id="nuevo"
-          value="<?php echo $nuevo ?>" /> <input type="hidden"
-          name="idprod" id="idprod" value="<?php echo $idprod ?>" /> <input
-          type="hidden" name="usuarioid" id="usuarioid"
-          value="<?php echo $usuarioid ?>" /> <input type="hidden"
-          name="idlavado" id="idlavado" value="<?php echo $idlavado ?>" />
-        <input type="submit" value="Aceptar" class="btn btn-primary" />
+        <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>" /> <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>" /> <input type="hidden" name="nuevo" id="nuevo" value="<?php echo $nuevo ?>" /> <input type="hidden" name="idprod" id="idprod" value="<?php echo $idprod ?>" /> <input type="hidden" name="usuarioid" id="usuarioid" value="<?php echo $usuarioid ?>" /> <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $idlavado ?>" /> <input type="submit" value="Aceptar" class="btn btn-primary" />
       </form>
     </div>
   </div>

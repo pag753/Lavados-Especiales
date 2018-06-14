@@ -82,9 +82,7 @@ $(document).ready(function() {
       </div>
       <div class="card">
         <div class="card-header">
-          <a data-toggle="collapse" href="#ver" role="button"
-            aria-expanded="false" aria-controls="ver"> <strong>Datos
-              Específicos</strong>
+          <a data-toggle="collapse" href="#ver" role="button" aria-expanded="false" aria-controls="ver"> <strong>Datos Específicos</strong>
           </a>
         </div>
         <div class="collapse" id="ver">
@@ -124,22 +122,11 @@ $(document).ready(function() {
         </div>
           <?php endif; ?>
           <div class="card-body">
-          <form action="registro" method="post"
-            enctype="multipart/form-data">
-            <input type="hidden" name="proceso" id="proceso"
-              value="<?php echo $proceso ?>" /> <input type="hidden"
-              name="carga" id="carga" value="<?php echo $carga ?>" /> <input
-              type="hidden" name="orden" id="orden"
-              value="<?php echo $orden ?>" /> <input type="hidden"
-              name="folio" id="folio" value="<?php echo $folio ?>"> <input
-              type="hidden" name="piezas_trabajadas"
-              id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
-            <input type="hidden" name="defectos" id="defectos"
-              value="<?php echo $defectos ?>">
+          <form action="registro" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>" /> <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>" /> <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" /> <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
               <?php if (count($faltantes)!=0): ?>
                 <div class="form-group row">
-              <select name='siguiente' id='siguiente'
-                class="form-control">
+              <select name='siguiente' id='siguiente' class="form-control">
                 <option value="-1">SELECCIONE UNA OPCIÓN</option>
                     <?php foreach ($faltantes as $key => $value): ?>
                       <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
@@ -147,15 +134,12 @@ $(document).ready(function() {
                   </select>
             </div>
               <?php endif; ?>
-              <input type="submit" name="aceptar" id="aceptar"
-              value="Aceptar" class="btn btn-primary" />
+              <input type="submit" name="aceptar" id="aceptar" value="Aceptar" class="btn btn-primary" />
           </form>
         </div>
       </div>
       <?php else: ?>
-        <div class="alert alert-danger" role="alert">La suma de las
-        piezas de producción y defecectos no son iguales a las piezas
-        registradas. Favor de revisar con los operarios.</div>
+        <div class="alert alert-danger" role="alert">La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.</div>
       <?php endif; ?>
     </div>
   </div>

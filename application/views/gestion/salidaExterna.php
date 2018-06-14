@@ -38,23 +38,19 @@ $(document).ready(function() {
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="salidaExterna" method="post"
-        enctype="multipart/form-data">
+      <form action="salidaExterna" method="post" enctype="multipart/form-data">
         <h1>Salida Externa</h1>
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <input type="number" name="folio" id="folio"
-              class="form-control" placeholder="Ingrese folio" required />
+            <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required />
           </div>
         </div>
         <div id="complemento">
-          <div class="alert alert-info" role="alert">Ingresa el número
-            de folio.</div>
+          <div class="alert alert-info" role="alert">Ingresa el número de folio.</div>
         </div>
         <div>
-          <button type="button" class="btn btn-info" name="info"
-            id="info">
+          <button type="button" class="btn btn-info" name="info" id="info">
             <i class="fas fa-info"></i>
           </button>
         </div>
@@ -62,15 +58,12 @@ $(document).ready(function() {
     </div>
   </div>
 </div>
-<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="infoCorte" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Información
-          del corte</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Información del corte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -127,8 +120,7 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

@@ -72,8 +72,7 @@ $(document).ready(function() {
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped table-hover" id="tabla"
-          style="background: rgba(255, 255, 255, 0.9)">
+        <table class="table table-striped table-hover" id="tabla" style="background: rgba(255, 255, 255, 0.9)">
           <thead>
             <tr>
               <th>Carga o lavado</th>
@@ -85,8 +84,7 @@ $(document).ready(function() {
           <tbody></tbody>
         </table>
       </div>
-      <div class="alert alert-primary" role="alert" id="alerta">Inserta
-        el número de folio.</div>
+      <div class="alert alert-primary" role="alert" id="alerta">Inserta el número de folio.</div>
     </div>
   </div>
 </div>

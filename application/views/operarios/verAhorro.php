@@ -41,8 +41,7 @@ $(document).ready(function() {
         <h3>Caja de ahorro</h3>
       </div>
       <div class='table-responsive'>
-        <table id="tabla" class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Tipo</th>
@@ -65,8 +64,7 @@ $(document).ready(function() {
       </div>
       <div class="d-flex justify-content-center">
         <div class="p-2">
-          <button type="button" name="button" class="btn btn-info"
-            data-toggle="modal" data-target="#total">
+          <button type="button" name="button" class="btn btn-info" data-toggle="modal" data-target="#total">
             <i class="fas fa-eye"></i> Ver total
           </button>
         </div>
@@ -74,21 +72,17 @@ $(document).ready(function() {
     </div>
   </div>
 </diV>
-<div class="modal fade" id="total" tabindex="-1" role="dialog"
-  aria-labelledby="total" aria-hidden="true">
+<div class="modal fade" id="total" tabindex="-1" role="dialog" aria-labelledby="total" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ver total de
-          ahorros</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Ver total de ahorros</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <table class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table class="table" style="background: rgba(255, 255, 255, 0.9);">
           <tbody>
             <tr>
               <td>Total de aportaciones</td>

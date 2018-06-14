@@ -12,13 +12,9 @@ $(document).ready(function() {
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3>Alta de producción de reproceso</h3>
-      <form action="insertarReproceso" method="post" name="formulario"
-        id="formulario">
-        <input type="hidden" id="tipo" name="tipo"
-          value="<?php echo $tipo ?>"> <input type="hidden" id="id"
-          name="id" value="<?php echo $id ?>">
-        <table class="table table-striped table-hover" id="tabla"
-          style="background: rgba(255, 255, 255, 0.9)">
+      <form action="insertarReproceso" method="post" name="formulario" id="formulario">
+        <input type="hidden" id="tipo" name="tipo" value="<?php echo $tipo ?>"> <input type="hidden" id="id" name="id" value="<?php echo $id ?>">
+        <table class="table table-striped table-hover" id="tabla" style="background: rgba(255, 255, 255, 0.9)">
           <tbody>
             <tr>
               <th>Carga o lavado</th>
@@ -30,14 +26,11 @@ $(document).ready(function() {
             </tr>
             <tr>
               <th>Número de piezas</th>
-              <td><input class="form-control" type="number" id="piezas"
-                name="piezas" value="<?php echo $piezas ?>" required></td>
+              <td><input class="form-control" type="number" id="piezas" name="piezas" value="<?php echo $piezas ?>" required></td>
             </tr>
             <tr>
               <th>Número de defectos</th>
-              <td><input class="form-control" type="number"
-                id="defectos" name="defectos"
-                value="<?php echo $defectos ?>" required></td>
+              <td><input class="form-control" type="number" id="defectos" name="defectos" value="<?php echo $defectos ?>" required></td>
             </tr>
           </tbody>
         </table>

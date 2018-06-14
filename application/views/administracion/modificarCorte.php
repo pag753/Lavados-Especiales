@@ -487,36 +487,20 @@ if ($produccionReprocesos != 0)
   });
 });
 </script>
-<input type="hidden" name="folio" id="folio"
-  value="<?php echo $this->input->get()['folio']; ?>">
+<input type="hidden" name="folio" id="folio" value="<?php echo $this->input->get()['folio']; ?>">
 <div class="container-fluid">
   <div class="row">
-    <div class="hidden-lg-down col-2"
-      style="background: rgba(255, 255, 255, 0.7)">
-      <ul class="nav flex-column nav-pills" role="tablist"
-        aria-orientation="vertical">
-        <li class="nav-item"><a class="nav-link" href="#seccion1"
-          aria-controls="seccion1" aria-selected="true">Datos generales</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion2"
-          aria-controls="seccion2" aria-selected="false">Lavados</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion3"
-          aria-controls="seccion3" aria-selected="false">Autorización</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion4"
-          aria-controls="seccion4" aria-selected="false">Datos de
-            autorización</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion5"
-          aria-controls="seccion5" aria-selected="false">Salida interna</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion6"
-          aria-controls="seccion6" aria-selected="false">Datos de salida
-            interna</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion7"
-          aria-controls="seccion7" aria-selected="false">Producción de
-            p. s.</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion8"
-          aria-controls="seccion8" aria-selected="false">Reprocesos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion9"
-          aria-controls="seccion9" aria-selected="false">Producción
-            reprocesos</a></li>
+    <div class="hidden-lg-down col-2" style="background: rgba(255, 255, 255, 0.7)">
+      <ul class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+        <li class="nav-item"><a class="nav-link" href="#seccion1" aria-controls="seccion1" aria-selected="true">Datos generales</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion2" aria-controls="seccion2" aria-selected="false">Lavados</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion3" aria-controls="seccion3" aria-selected="false">Autorización</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion4" aria-controls="seccion4" aria-selected="false">Datos de autorización</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion5" aria-controls="seccion5" aria-selected="false">Salida interna</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion6" aria-controls="seccion6" aria-selected="false">Datos de salida interna</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion7" aria-controls="seccion7" aria-selected="false">Producción de p. s.</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion8" aria-controls="seccion8" aria-selected="false">Reprocesos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seccion9" aria-controls="seccion9" aria-selected="false">Producción reprocesos</a></li>
       </ul>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-10">
@@ -533,8 +517,7 @@ if ($produccionReprocesos != 0)
                 <tbody>
                   <tr>
                     <td>Imágen</td>
-                    <td><a href="#" data-toggle="modal"
-                      data-target="#modalImagen"><?php echo $generales['imagen']; ?>
+                    <td><a href="#" data-toggle="modal" data-target="#modalImagen"><?php echo $generales['imagen']; ?>
                       </a></td>
                   </tr>
                   <tr>
@@ -543,74 +526,49 @@ if ($produccionReprocesos != 0)
                   </tr>
                   <tr>
                     <td>Corte</td>
-                    <td><input placeholder="Escribe el corte"
-                      name="corte" id="corte" type="text"
-                      value="<?php echo $generales['corte']; ?>"
-                      class="form-control" /></td>
+                    <td><input placeholder="Escribe el corte" name="corte" id="corte" type="text" value="<?php echo $generales['corte']; ?>" class="form-control" /></td>
                   </tr>
                   <tr>
                     <td>Marca</td>
-                    <td><select class="form-control" name="marca_id"
-                      id="marca_id">
-                        <?php foreach ($marcas as $key => $value): ?><option
-                          <?php echo ($value['id'] == $generales['marca_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="marca_id" id="marca_id">
+                        <?php foreach ($marcas as $key => $value): ?><option <?php echo ($value['id'] == $generales['marca_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                       </select></td>
                   </tr>
                   <tr>
                     <td>Maquilero</td>
-                    <td><select class="form-control" name="maquilero_id"
-                      id="maquilero_id">
-                        <?php foreach ($maquileros as $key => $value): ?><option
-                          <?php echo ($value['id'] == $generales['maquilero_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="maquilero_id" id="maquilero_id">
+                        <?php foreach ($maquileros as $key => $value): ?><option <?php echo ($value['id'] == $generales['maquilero_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                       </select></td>
                   </tr>
                   <tr>
                     <td>Cliente</td>
-                    <td><select class="form-control" name="cliente_id"
-                      id="cliente_id">
-                        <?php foreach ($clientes as $key => $value): ?><option
-                          <?php echo ($value['id'] == $generales['cliente_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="cliente_id" id="cliente_id">
+                        <?php foreach ($clientes as $key => $value): ?><option <?php echo ($value['id'] == $generales['cliente_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                       </select></td>
                   </tr>
                   <tr>
                     <td>Tipo</td>
-                    <td><select class="form-control"
-                      name="tipo_pantalon_id" id="tipo_pantalon_id">
-                        <?php foreach ($tipo as $key => $value): ?><option
-                          <?php echo ($value['id'] == $generales['tipo_pantalon_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="tipo_pantalon_id" id="tipo_pantalon_id">
+                        <?php foreach ($tipo as $key => $value): ?><option <?php echo ($value['id'] == $generales['tipo_pantalon_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                       </select></td>
                   </tr>
                   <tr>
                     <td>Fecha de entrada</td>
-                    <td><input placeholder="Escribe la fecha de entrada"
-                      class="form-control" type="date"
-                      value="<?php echo $generales['fecha_entrada'] ?>"
-                      id="fecha_entrada" name="fecha_entrada"></td>
+                    <td><input placeholder="Escribe la fecha de entrada" class="form-control" type="date" value="<?php echo $generales['fecha_entrada'] ?>" id="fecha_entrada" name="fecha_entrada"></td>
                   </tr>
                   <tr>
                     <td>Piezas</td>
-                    <td><input placeholder="Escribe el número de piezas"
-                      type="number" name="piezas" id="piezas"
-                      class="form-control"
-                      value="<?php echo $generales['piezas']; ?>"></td>
+                    <td><input placeholder="Escribe el número de piezas" type="number" name="piezas" id="piezas" class="form-control" value="<?php echo $generales['piezas']; ?>"></td>
                   </tr>
                   <tr>
                     <td>Ojales</td>
-                    <td><input placeholder="Escribe el número de ojales"
-                      type="number" name="ojales" id="ojales"
-                      class="form-control"
-                      value="<?php echo $generales['ojales']; ?>"></td>
+                    <td><input placeholder="Escribe el número de ojales" type="number" name="ojales" id="ojales" class="form-control" value="<?php echo $generales['ojales']; ?>"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="ml-auto">
-              <button type="button" name="botonGenerales"
-                id="botonGenerales" class="btn btn-primary">
+              <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary">
                 <i class="fas fa-check"></i> Aceptar
               </button>
             </div>
@@ -640,32 +598,23 @@ if ($produccionReprocesos != 0)
                 <tbody><?php foreach ($lavadosCorte as $key => $value): ?>
                     <tr>
                     <td><?php echo $value['id_carga']; ?></td>
-                    <td><select class="form-control"
-                      id="lavado_<?php echo $value['id_carga']; ?>"
-                      name="lavado_<?php echo $value['id_carga']; ?>">
-                          <?php foreach ($lavados as $key2 => $value2): ?><option
-                          <?php echo ($value2['id'] == $value['lavado_id'])? "selected": "" ?>
-                          value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" id="lavado_<?php echo $value['id_carga']; ?>" name="lavado_<?php echo $value['id_carga']; ?>">
+                          <?php foreach ($lavados as $key2 => $value2): ?><option <?php echo ($value2['id'] == $value['lavado_id'])? "selected": "" ?> value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                         </select></td>
-                    <td><button type="button" class="btn btn-warning"
-                        onclick="editarLavado(<?php echo $value['id_carga'] ?>)">
+                    <td><button type="button" class="btn btn-warning" onclick="editarLavado(<?php echo $value['id_carga'] ?>)">
                         <i class="far fa-edit"></i>
                       </button></td>
-                    <td><button type="button" class="btn btn-danger"
-                        onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)">
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)">
                         <i class="far fa-trash-alt"></i>
                       </button></td>
                   </tr><?php endforeach; ?>
                   </tbody>
               </table>
               <?php else: ?>
-                <div class="alert alert-danger" role="alert">No hay
-                lavados para este corte.</div>
+                <div class="alert alert-danger" role="alert">No hay lavados para este corte.</div>
               <?php endif; ?>
               <div class="ml-auto">
-                <button type="button" name="botonAgregarLavado"
-                  id="botonAgregarLavado" class="btn btn-success"
-                  data-toggle="modal" data-target="#agregarLavado">
+                <button type="button" name="botonAgregarLavado" id="botonAgregarLavado" class="btn btn-success" data-toggle="modal" data-target="#agregarLavado">
                   <i class="fas fa-plus"></i> Nuevo
                 </button>
               </div>
@@ -688,10 +637,7 @@ if ($produccionReprocesos != 0)
                 <tbody>
                   <tr>
                     <td>Fecha de autorización</td>
-                    <td><input placeholder="Escribe la fecha"
-                      class="form-control" type="date"
-                      value="<?php echo $autorizado['fecha_autorizado'] ?>"
-                      id="fecha_autorizado" name="fecha_autorizado"></td>
+                    <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $autorizado['fecha_autorizado'] ?>" id="fecha_autorizado" name="fecha_autorizado"></td>
                   </tr>
                   <tr>
                     <td>Cargas</td>
@@ -699,30 +645,23 @@ if ($produccionReprocesos != 0)
                   </tr>
                   <tr>
                     <td>Usuario que autorizó</td>
-                    <td><select class="form-control"
-                      name="usuarioAutorizo" id="usuarioAutorizo">
-                          <?php foreach ($usuarios as $key => $value): ?><option
-                          <?php echo ($value['id'] == $autorizado['usuario_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="usuarioAutorizo" id="usuarioAutorizo">
+                          <?php foreach ($usuarios as $key => $value): ?><option <?php echo ($value['id'] == $autorizado['usuario_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                         </select></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="ml-auto">
-              <button type="button" class="btn btn-primary"
-                name="botonAutorizacion" id="botonAutorizacion">
+              <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion">
                 <i class="fas fa-check"></i> Aceptar
               </button>
-              <button type="button" class="btn btn-danger"
-                name="botonAutorizacionEliminar"
-                id="botonAutorizacionEliminar">
+              <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar">
                 <i class="far fa-trash-alt"></i> Eliminar
               </button>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de autorización de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de autorización de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -738,8 +677,7 @@ if ($produccionReprocesos != 0)
           <div class="card-body">
             <?php if ($autorizadoDatos != 0): ?>
               <div class="table-responsive">
-              <table class="table table-striped"
-                id="tblespecificosAutorizacion">
+              <table class="table table-striped" id="tblespecificosAutorizacion">
                 <thead>
                   <tr>
                     <th># Carga</th>
@@ -754,45 +692,8 @@ if ($produccionReprocesos != 0)
                 </thead>
                 <tbody><?php foreach ($autorizadoDatos as $key => $value): ?>
                     <tr>
-                    <td><input type="hidden"
-                      name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      value="<?php echo $value['id_carga'] ?>"> <input
-                      type="hidden"
-                      name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      value="<?php echo $value['lavado_id'] ?>"> <input
-                      type="hidden"
-                      name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>"
-                      value="<?php echo $value['proceso_seco_id'] ?>"> <input
-                      type="hidden"
-                      name="costo_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="costo_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['costo']; ?>"> <input
-                      type="hidden"
-                      name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['piezas_trabajadas']; ?>">
-                      <input type="hidden"
-                      name="defectos_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="defectos_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['defectos']; ?>"> <input
-                      type="hidden"
-                      name="status_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="status_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['status']; ?>"> <input
-                      type="hidden"
-                      name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['fecha_registro']; ?>"> <input
-                      type="hidden"
-                      name="orden_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="orden_autorizado_datos_<?php echo $value['id']; ?>"
-                      value="<?php echo $value['orden']; ?>"> <input
-                      type="hidden"
-                      name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>"
-                      id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>"
+                    <td><input type="hidden" name="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_carga_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['id_carga'] ?>"> <input type="hidden" name="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_lavado_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['lavado_id'] ?>"> <input type="hidden" name="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" id="id_proceso_seco_id_autorizado_datos_anterior_<?php echo $value['id'] ?>" value="<?php echo $value['proceso_seco_id'] ?>"> <input type="hidden" name="costo_autorizado_datos_<?php echo $value['id']; ?>" id="costo_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['costo']; ?>"> <input type="hidden" name="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>" id="piezas_trabajadas_autorizado_datos_<?php echo $value['id']; ?>"
+                      value="<?php echo $value['piezas_trabajadas']; ?>"> <input type="hidden" name="defectos_autorizado_datos_<?php echo $value['id']; ?>" id="defectos_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['defectos']; ?>"> <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>"> <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>"> <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>"> <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>"
                       value="<?php echo $value['usuario_id']; ?>">
                         <?php echo $value['id_carga'] ?>
                       </td>
@@ -823,12 +724,10 @@ if ($produccionReprocesos != 0)
                     <td>
                         <?php foreach ($usuarios as $key2 => $value2):  if ($value2['id'] == $value['usuario_id']): echo $value2['nombre']; break;  endif; endforeach; ?>
                       </td>
-                    <td><button type="button" class="btn btn-warning"
-                        onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);">
+                    <td><button type="button" class="btn btn-warning" onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);">
                         <i class="far fa-edit"></i>
                       </button></td>
-                    <td><button type="button" class="btn btn-danger"
-                        onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);">
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);">
                         <i class="far fa-trash-alt"></i>
                       </button></td>
                   </tr><?php endforeach; ?>
@@ -836,8 +735,7 @@ if ($produccionReprocesos != 0)
               </table>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de autorización de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de autorización de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -857,46 +755,31 @@ if ($produccionReprocesos != 0)
                 <tbody>
                   <tr>
                     <td>Fecha de salida interna</td>
-                    <td><input placeholder="Escribe la fecha"
-                      class="form-control" type="date"
-                      value="<?php echo $salidaInterna['fecha'] ?>"
-                      id="fechaSalidaInterna" name="fechaSalidaInterna"></td>
+                    <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo $salidaInterna['fecha'] ?>" id="fechaSalidaInterna" name="fechaSalidaInterna"></td>
                   </tr>
                   <tr>
                     <td>Muestras</td>
-                    <td><input
-                      placeholder="Escribe el número de muestras"
-                      type="number" name="muestrasSalidaInterna"
-                      id="muestrasSalidaInterna" class="form-control"
-                      value="<?php echo $salidaInterna['muestras'] ?>"></td>
+                    <td><input placeholder="Escribe el número de muestras" type="number" name="muestrasSalidaInterna" id="muestrasSalidaInterna" class="form-control" value="<?php echo $salidaInterna['muestras'] ?>"></td>
                   </tr>
                   <tr>
                     <td>Usuario que dio la salida interna</td>
-                    <td><select class="form-control"
-                      name="usuarioSalidaInterna"
-                      id="usuarioSalidaInterna">
-                          <?php foreach ($usuarios as $key => $value): ?><option
-                          <?php echo ($value['id'] == $salidaInterna['usuario_id'])? "selected" : "" ?>
-                          value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="usuarioSalidaInterna" id="usuarioSalidaInterna">
+                          <?php foreach ($usuarios as $key => $value): ?><option <?php echo ($value['id'] == $salidaInterna['usuario_id'])? "selected" : "" ?> value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                         </select></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="ml-auto">
-              <button type="button" class="btn btn-primary"
-                name="botonSalidaInterna" id="botonSalidaInterna">
+              <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna">
                 <i class="fas fa-check"></i> Aceptar
               </button>
-              <button type="button" class="btn btn-danger"
-                name="botonSalidaInternaEliminar"
-                id="botonSalidaInternaEliminar">
+              <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar">
                 <i class="far fa-trash-alt"></i> Eliminar
               </button>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de salida interna de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de salida interna de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -923,10 +806,7 @@ if ($produccionReprocesos != 0)
                 </thead>
                 <tbody><?php foreach ($salidaInternaDatos as $key => $value): ?>
                     <tr>
-                    <td><input type="hidden"
-                      name="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>"
-                      id="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>"
-                      value="<?php echo $value['lavado_id']; ?>">
+                    <td><input type="hidden" name="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" id="IdLavadoSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['lavado_id']; ?>">
                         <?php echo $value['id_carga']; ?>
                       </td>
                     <td>
@@ -938,13 +818,8 @@ if ($produccionReprocesos != 0)
                     }
                     ?>
                       </td>
-                    <td><input placeholder="Inserta número de piezas"
-                      class="form-control" type="number"
-                      id="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>"
-                      name="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>"
-                      value="<?php echo $value['piezas'] ?>"></td>
-                    <td><button type="button" class="btn btn-warning"
-                        onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)">
+                    <td><input placeholder="Inserta número de piezas" class="form-control" type="number" id="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" name="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['piezas'] ?>"></td>
+                    <td><button type="button" class="btn btn-warning" onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)">
                         <i class="far fa-edit"></i>
                       </button></td>
                   </tr><?php endforeach; ?>
@@ -952,8 +827,7 @@ if ($produccionReprocesos != 0)
               </table>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de salida interna de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de salida interna de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -991,45 +865,22 @@ if ($produccionReprocesos != 0)
                     <td><?php echo $value['nombre_completo'] ?></td>
                     <td><?php echo $value['lavado'] ?></td>
                     <td><?php echo $value['proceso'] ?></td>
-                    <td><input class="form-control"
-                      placeholder="Escribe el número de piezas"
-                      type="number"
-                      id="piezasProduccion<?php echo $value['id']; ?>"
-                      name="piezasProduccion<?php echo $value['id']; ?>"
-                      value="<?php echo $value['piezas'] ?>"></td>
+                    <td><input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccion<?php echo $value['id']; ?>" name="piezasProduccion<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>"></td>
                     <td>$<?php echo $value['costo'] ?></td>
                     <td>$<?php echo $value['total'] ?></td>
-                    <td><input class="form-control" type="number"
-                      id="defectosProduccion<?php echo $value['id'] ?>"
-                      name="defectosProduccion<?php echo $value['id'] ?>"
-                      value="<?php echo $value['defectos'] ?>"></td>
+                    <td><input class="form-control" type="number" id="defectosProduccion<?php echo $value['id'] ?>" name="defectosProduccion<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>"></td>
                     <td><?php echo $value['fecha'] ?></td>
-                    <td><select class="form-control"
-                      name="estadoNomina<?php echo $value['id']; ?>"
-                      id="estadoNomina<?php echo $value['id']; ?>">
-                        <option value="0"
-                          <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No
-                          se ha pagado</option>
-                        <option value="1"
-                          <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se
-                          pagó</option>
-                        <option value="2"
-                          <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se
-                          pagará después</option>
-                        <option value="3"
-                          <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No
-                          se pagará nunca</option>
+                    <td><select class="form-control" name="estadoNomina<?php echo $value['id']; ?>" id="estadoNomina<?php echo $value['id']; ?>">
+                        <option value="0" <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No se ha pagado</option>
+                        <option value="1" <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se pagó</option>
+                        <option value="2" <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se pagará después</option>
+                        <option value="3" <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No se pagará nunca</option>
                     </select></td>
-                    <td><textarea class="form-control"
-                        id="razonProduccion<?php echo $value['id']; ?>"
-                        name="razonProduccion<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea>
-                    </td>
-                    <td><button type="button" class="btn btn-warning"
-                        onclick="editarProduccion(<?php echo $value['id']; ?>);">
+                    <td><textarea class="form-control" id="razonProduccion<?php echo $value['id']; ?>" name="razonProduccion<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea></td>
+                    <td><button type="button" class="btn btn-warning" onclick="editarProduccion(<?php echo $value['id']; ?>);">
                         <i class="far fa-edit"></i>
                       </button></td>
-                    <td><button type="button" class="btn btn-danger"
-                        onclick="eliminarProduccion(<?php echo $value['id']; ?>);">
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarProduccion(<?php echo $value['id']; ?>);">
                         <i class="far fa-trash-alt"></i>
                       </button></td>
                   </tr><?php endforeach; ?>
@@ -1037,8 +888,7 @@ if ($produccionReprocesos != 0)
               </table>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de producción de reprocesos de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de producción de reprocesos de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -1071,58 +921,30 @@ if ($produccionReprocesos != 0)
                 </thead>
                 <tbody><?php foreach ($reprocesos as $key => $value): ?>
                     <tr>
-                    <td><select class="form-control"
-                      name="lavadoReproceso<?php echo $value['id']; ?>"
-                      id="lavadoReproceso<?php echo $value['id']; ?>">
-                          <?php foreach ($lavados as $key2 => $value2): ?><option
-                          <?php echo ($value['lavado_id'] == $value2['id'])? "selected" : "" ?>
-                          value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="lavadoReproceso<?php echo $value['id']; ?>" id="lavadoReproceso<?php echo $value['id']; ?>">
+                          <?php foreach ($lavados as $key2 => $value2): ?><option <?php echo ($value['lavado_id'] == $value2['id'])? "selected" : "" ?> value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                         </select></td>
-                    <td><select class="form-control"
-                      name="procesoReproceso<?php echo $value['id']; ?>"
-                      id="procesoReproceso<?php echo $value['id']; ?>">
-                          <?php foreach ($procesosecos as $key2 => $value2): ?><option
-                          <?php echo ($value2['id'] == $value['proceso_seco_id'])? "selected" : ""; ?>
-                          value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
+                    <td><select class="form-control" name="procesoReproceso<?php echo $value['id']; ?>" id="procesoReproceso<?php echo $value['id']; ?>">
+                          <?php foreach ($procesosecos as $key2 => $value2): ?><option <?php echo ($value2['id'] == $value['proceso_seco_id'])? "selected" : ""; ?> value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                         </select></td>
-                    <td><select class="form-control"
-                      name="estatusReproceso<?php echo $value['id']; ?>"
-                      id="estatusReproceso<?php echo $value['id']; ?>">
-                        <option
-                          <?php echo ($value['status'] == 0)? "selected":"" ?>
-                          value="0">No registrado</option>
-                        <option
-                          <?php echo ($value['status'] == 2)? "selected":"" ?>
-                          value="2">Registrado</option>
+                    <td><select class="form-control" name="estatusReproceso<?php echo $value['id']; ?>" id="estatusReproceso<?php echo $value['id']; ?>">
+                        <option <?php echo ($value['status'] == 0)? "selected":"" ?> value="0">No registrado</option>
+                        <option <?php echo ($value['status'] == 2)? "selected":"" ?> value="2">Registrado</option>
                     </select></td>
                     <td>
                         <?php echo $value['fecha_registro'] ?>
                       </td>
                     <td><?php echo $value['usuario_nombre'] ?></td>
-                    <td><input class="form-control" type="number"
-                      step="any"
-                      name="costoReproceso<?php echo $value['id']; ?>"
-                      id="costoReproceso<?php echo $value['id']; ?>"
-                      value="<?php echo $value['costo'] ?>"></td>
-                    <td><input class="form-control" type="number"
-                      name="piezasReproceso<?php echo $value['id']; ?>"
-                      id="piezasReproceso<?php echo $value['id']; ?>"
-                      value="<?php echo $value['piezas_trabajadas'] ?>"></td>
-                    <td><input class="form-control" type="number"
-                      name="defectosReproceso<?php echo $value['id']; ?>"
-                      id="defectosReproceso<?php echo $value['id']; ?>"
-                      value="<?php echo $value['defectos'] ?>"></td>
+                    <td><input class="form-control" type="number" step="any" name="costoReproceso<?php echo $value['id']; ?>" id="costoReproceso<?php echo $value['id']; ?>" value="<?php echo $value['costo'] ?>"></td>
+                    <td><input class="form-control" type="number" name="piezasReproceso<?php echo $value['id']; ?>" id="piezasReproceso<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas'] ?>"></td>
+                    <td><input class="form-control" type="number" name="defectosReproceso<?php echo $value['id']; ?>" id="defectosReproceso<?php echo $value['id']; ?>" value="<?php echo $value['defectos'] ?>"></td>
                     <td>
-                      <button type="button"
-                        onclick="editarReproceso(<?php echo $value['id'] ?>)"
-                        class="btn btn-warning">
+                      <button type="button" onclick="editarReproceso(<?php echo $value['id'] ?>)" class="btn btn-warning">
                         <i class="far fa-edit"></i>
                       </button>
                     </td>
                     <td>
-                      <button type="button"
-                        onclick="eliminarReproceso(<?php echo $value['id'] ?>)"
-                        class="btn btn-danger">
+                      <button type="button" onclick="eliminarReproceso(<?php echo $value['id'] ?>)" class="btn btn-danger">
                         <i class="far fa-trash-alt"></i>
                       </button>
                     </td>
@@ -1131,8 +953,7 @@ if ($produccionReprocesos != 0)
               </table>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay
-              reprocesos de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay reprocesos de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -1148,8 +969,7 @@ if ($produccionReprocesos != 0)
           <div class="card-body">
             <?php if ($produccionReprocesos != 0): ?>
               <div class="table-responsive">
-              <table class="table table-striped"
-                id="tablaProduccionReprocesos">
+              <table class="table table-striped" id="tablaProduccionReprocesos">
                 <thead>
                   <tr>
                     <th>Operario</th>
@@ -1171,45 +991,22 @@ if ($produccionReprocesos != 0)
                     <td><?php echo $value['usuario_nombre'] ?></td>
                     <td><?php echo $value['lavado_nombre'] ?></td>
                     <td><?php echo $value['proceso'] ?></td>
-                    <td><input class="form-control"
-                      placeholder="Escribe el número de piezas"
-                      type="number"
-                      id="piezasProduccionReproceso<?php echo $value['id']; ?>"
-                      name="piezasProduccionReproceso<?php echo $value['id']; ?>"
-                      value="<?php echo $value['piezas'] ?>"></td>
+                    <td><input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccionReproceso<?php echo $value['id']; ?>" name="piezasProduccionReproceso<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>"></td>
                     <td>$<?php echo $value['costo'] ?></td>
                     <td>$<?php echo $value['total'] ?></td>
-                    <td><input class="form-control" type="number"
-                      id="defectosProduccionReproceso<?php echo $value['id'] ?>"
-                      name="defectosProduccionReproceso<?php echo $value['id'] ?>"
-                      value="<?php echo $value['defectos'] ?>"></td>
+                    <td><input class="form-control" type="number" id="defectosProduccionReproceso<?php echo $value['id'] ?>" name="defectosProduccionReproceso<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>"></td>
                     <td><?php echo $value['fecha'] ?></td>
-                    <td><select class="form-control"
-                      name="estadoNominaReproceso<?php echo $value['id']; ?>"
-                      id="estadoNominaReproceso<?php echo $value['id']; ?>">
-                        <option value="0"
-                          <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No
-                          se ha pagado</option>
-                        <option value="1"
-                          <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se
-                          pagó</option>
-                        <option value="2"
-                          <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se
-                          pagará después</option>
-                        <option value="3"
-                          <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No
-                          se pagará nunca</option>
+                    <td><select class="form-control" name="estadoNominaReproceso<?php echo $value['id']; ?>" id="estadoNominaReproceso<?php echo $value['id']; ?>">
+                        <option value="0" <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No se ha pagado</option>
+                        <option value="1" <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se pagó</option>
+                        <option value="2" <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se pagará después</option>
+                        <option value="3" <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No se pagará nunca</option>
                     </select></td>
-                    <td><textarea class="form-control"
-                        id="razonProduccionReproceso<?php echo $value['id']; ?>"
-                        name="razonProduccionReproceso<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea>
-                    </td>
-                    <td><button type="button" class="btn btn-warning"
-                        onclick="editarProduccionReproceso(<?php echo $value['id']; ?>);">
+                    <td><textarea class="form-control" id="razonProduccionReproceso<?php echo $value['id']; ?>" name="razonProduccionReproceso<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea></td>
+                    <td><button type="button" class="btn btn-warning" onclick="editarProduccionReproceso(<?php echo $value['id']; ?>);">
                         <i class="far fa-edit"></i>
                       </button></td>
-                    <td><button type="button" class="btn btn-danger"
-                        onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);">
+                    <td><button type="button" class="btn btn-danger" onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);">
                         <i class="far fa-trash-alt"></i>
                       </button></td>
                   </tr><?php endforeach; ?>
@@ -1217,8 +1014,7 @@ if ($produccionReprocesos != 0)
               </table>
             </div>
             <?php else: ?>
-              <div class="alert alert-danger" role="alert">No hay datos
-              de producción de reprocesos de este corte.</div>
+              <div class="alert alert-danger" role="alert">No hay datos de producción de reprocesos de este corte.</div>
             <?php endif; ?>
           </div>
           <div class="card-footer text-muted"></div>
@@ -1227,40 +1023,31 @@ if ($produccionReprocesos != 0)
     </div>
   </div>
 </div>
-<div class="modal fade" id="modalImagen" tabindex="-1" role="dialog"
-  aria-labelledby="modalImagen" aria-hidden="true">
+<div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="modalImagen" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar imágen
-          actual</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar imágen actual</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="cambiarImagen" id="cambiarImagen"
-        action="<?php echo base_url('index.php/administracion/modificarImagen') ?>"
-        method="post" enctype="multipart/form-data">
+      <form name="cambiarImagen" id="cambiarImagen" action="<?php echo base_url('index.php/administracion/modificarImagen') ?>" method="post" enctype="multipart/form-data">
         <div class="modal-body">
           <ul>
             <li class="list-group-item"><?php echo $generales['imagen'] ?></li>
             <li class="list-group-item">
               <h6>Imágen nueva</h6>
             <?php echo form_input($input_imagen); ?>
-            <input type="hidden" name="folioCambiarImagen"
-              id="folioCambiarImagen"
-              value="<?php echo $this->input->get()['folio'] ?>">
+            <input type="hidden" name="folioCambiarImagen" id="folioCambiarImagen" value="<?php echo $this->input->get()['folio'] ?>">
             </li>
           </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"
-            data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
             <i class="fas fa-window-close"></i> Cerrar
           </button>
-          <button type="button" id="botonModalImagen"
-            name="botonModalImagen" class="btn btn-primary">
+          <button type="button" id="botonModalImagen" name="botonModalImagen" class="btn btn-primary">
             <i class="fas fa-check"></i> Aceptar
           </button>
         </div>
@@ -1269,76 +1056,51 @@ if ($produccionReprocesos != 0)
   </div>
 </div>
 <?php if ($autorizadoDatos != 0): ?>
-<div class="modal fade" id="modalCorteAutorizadoDatos" tabindex="-1"
-  role="dialog" aria-labelledby="exampleModalLongTitle"
-  aria-hidden="true">
+<div class="modal fade" id="modalCorteAutorizadoDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modificar
-          datos del corte autorizado</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modificar datos del corte autorizado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <input type="hidden" name="id_autorizado_datos"
-          id="id_autorizado_datos">
+        <input type="hidden" name="id_autorizado_datos" id="id_autorizado_datos">
         <div class="table-responsive">
           <table class="table table-striped">
             <tbody>
               <tr>
                 <td>Número de carga</td>
-                <td><input readonly placeholder="Escribe la id de carga"
-                  type="number" class="form-control"
-                  name="id_carga_autorizado_datos"
-                  id="id_carga_autorizado_datos"></td>
+                <td><input readonly placeholder="Escribe la id de carga" type="number" class="form-control" name="id_carga_autorizado_datos" id="id_carga_autorizado_datos"></td>
               </tr>
               <tr>
                 <td>Lavado</td>
-                <td><select disabled class="form-control"
-                  name="lavado_id_autorizado_datos"
-                  id="lavado_id_autorizado_datos">
-                      <?php foreach ($lavados as $key2 => $value2): ?><option
-                      value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option> <?php endforeach; ?>
+                <td><select disabled class="form-control" name="lavado_id_autorizado_datos" id="lavado_id_autorizado_datos">
+                      <?php foreach ($lavados as $key2 => $value2): ?><option value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option> <?php endforeach; ?>
                     </select></td>
               </tr>
               <tr>
                 <td>Proceso Seco</td>
-                <td><select class="form-control"
-                  name="proceso_id_autorizado_datos"
-                  id="proceso_id_autorizado_datos">
-                      <?php foreach ($procesosecos as $key2 => $value2): ?><option
-                      value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
+                <td><select class="form-control" name="proceso_id_autorizado_datos" id="proceso_id_autorizado_datos">
+                      <?php foreach ($procesosecos as $key2 => $value2): ?><option value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                     </select></td>
               </tr>
               <tr>
                 <td>Costo</td>
-                <td><input placeholder="Escribe el costo" type="number"
-                  class="form-control" step="any"
-                  name="autorizado_datos_costo"
-                  id="autorizado_datos_costo"></td>
+                <td><input placeholder="Escribe el costo" type="number" class="form-control" step="any" name="autorizado_datos_costo" id="autorizado_datos_costo"></td>
               </tr>
               <tr>
                 <td>Piezas trabajadas o por trabajar</td>
-                <td><input placeholder="Escribe el número de piezas"
-                  type="number" class="form-control"
-                  name="autorizado_datos_piezas_trabajadas"
-                  id="autorizado_datos_piezas_trabajadas"></td>
+                <td><input placeholder="Escribe el número de piezas" type="number" class="form-control" name="autorizado_datos_piezas_trabajadas" id="autorizado_datos_piezas_trabajadas"></td>
               </tr>
               <tr>
                 <td>Defectos</td>
-                <td><input placeholder="Escribe el número de defectos"
-                  type="number" class="form-control"
-                  name="autorizado_datos_defectos"
-                  id="autorizado_datos_defectos"></td>
+                <td><input placeholder="Escribe el número de defectos" type="number" class="form-control" name="autorizado_datos_defectos" id="autorizado_datos_defectos"></td>
               </tr>
               <tr>
                 <td>Estatus</td>
-                <td><select class="form-control"
-                  name="autorizado_datos_estatus"
-                  id="autorizado_datos_estatus">
+                <td><select class="form-control" name="autorizado_datos_estatus" id="autorizado_datos_estatus">
                     <option value="0">No registrado</option>
                     <option value="1">Para registrar</option>
                     <option value="2">Registrado</option>
@@ -1346,26 +1108,16 @@ if ($produccionReprocesos != 0)
               </tr>
               <tr>
                 <td>Orden</td>
-                <td><input placeholder="Escribe el orden numérico"
-                  class="form-control" type="number"
-                  name="autorizado_datos_orden"
-                  id="autorizado_datos_orden"></td>
+                <td><input placeholder="Escribe el orden numérico" class="form-control" type="number" name="autorizado_datos_orden" id="autorizado_datos_orden"></td>
               </tr>
               <tr>
                 <td>Fecha de registro</td>
-                <td><input placeholder="Escribe la fecha"
-                  class="form-control" type="date"
-                  value="<?php echo date("Y-m-d") ?>"
-                  name="autorizado_datos_fecha_registro_"
-                  id="autorizado_datos_fecha_registro_"></td>
+                <td><input placeholder="Escribe la fecha" class="form-control" type="date" value="<?php echo date("Y-m-d") ?>" name="autorizado_datos_fecha_registro_" id="autorizado_datos_fecha_registro_"></td>
               </tr>
               <tr>
                 <td>Usuario que registró</td>
-                <td><select class="form-control"
-                  name="autorizado_datos_usuario_id"
-                  id="autorizado_datos_usuario_id">
-                      <?php foreach ($usuarios as $key2 => $value2): ?><option
-                      value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
+                <td><select class="form-control" name="autorizado_datos_usuario_id" id="autorizado_datos_usuario_id">
+                      <?php foreach ($usuarios as $key2 => $value2): ?><option value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                     </select></td>
               </tr>
             </tbody>
@@ -1373,13 +1125,10 @@ if ($produccionReprocesos != 0)
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-          data-dismiss="modal">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
           <i class="fas fa-window-close"></i> Cerrar
         </button>
-        <button type="button" class="btn btn-primary"
-          name="editarDatosCorteAutorizado"
-          id="editarDatosCorteAutorizado">
+        <button type="button" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
           <i class="fas fa-check"></i> Aceptar
         </button>
       </div>
@@ -1387,52 +1136,33 @@ if ($produccionReprocesos != 0)
   </div>
 </div>
 <?php endif; ?>
-<div class="modal fade" id="agregarLavado" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="agregarLavado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Agregar
-          lavado nuevo.</h5>
-        <button type="button" class="close" data-dismiss="modal"
-          aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLongTitle">Agregar lavado nuevo.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="formAgregarLavado" name="formAgregarLavado"
-        action="agregarLavado" method="post">
-        <input type="hidden" id="corteFolioNuevoLavado"
-          name="corteFolioNuevoLavado"
-          value="<?php echo $this->input->get()['folio']; ?>">
+      <form id="formAgregarLavado" name="formAgregarLavado" action="agregarLavado" method="post">
+        <input type="hidden" id="corteFolioNuevoLavado" name="corteFolioNuevoLavado" value="<?php echo $this->input->get()['folio']; ?>">
         <div class="modal-body">
           <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="nav-item"><a
-                class="nav-link active" href="#seleccionarLavado"
-                aria-controls="seleccionarLavado" role="tab"
-                data-toggle="tab">Nuevo lavado</a></li>
-              <li role="presentation" class="nav-item"><a
-                class="nav-link" href="#autorizarLavado"
-                aria-controls="autorizarLavado" role="tab"
-                data-toggle="tab">Autorizar lavado</a></li>
+              <li role="presentation" class="nav-item"><a class="nav-link active" href="#seleccionarLavado" aria-controls="seleccionarLavado" role="tab" data-toggle="tab">Nuevo lavado</a></li>
+              <li role="presentation" class="nav-item"><a class="nav-link" href="#autorizarLavado" aria-controls="autorizarLavado" role="tab" data-toggle="tab">Autorizar lavado</a></li>
               <?php if ($salidaInterna != 0): ?>
-                <li role="presentation" class="nav-item"><a
-                class="nav-link" href="#salidaInterna"
-                aria-controls="salidaInterna" role="tab"
-                data-toggle="tab" id="botonSalidaInternaNuevoLavado">Salida
-                  Interna</a></li>
+                <li role="presentation" class="nav-item"><a class="nav-link" href="#salidaInterna" aria-controls="salidaInterna" role="tab" data-toggle="tab" id="botonSalidaInternaNuevoLavado">Salida Interna</a></li>
               <?php endif; ?>
             </ul>
             <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active"
-                id="seleccionarLavado">
+              <div role="tabpanel" class="tab-pane active" id="seleccionarLavado">
                 <div class="card">
                   <div class="card-header">Seleccionar el lavado</div>
                   <div class="card-body">
-                    <select class="form-control" id="lavadoProcesoNuevo"
-                      name="lavadoProcesoNuevo">
-                      <?php foreach ($lavados as $key => $value): ?><option
-                        value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                    <select class="form-control" id="lavadoProcesoNuevo" name="lavadoProcesoNuevo">
+                      <?php foreach ($lavados as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                     </select>
                   </div>
                 </div>
@@ -1456,9 +1186,7 @@ if ($produccionReprocesos != 0)
                       </div>
                     </div>
                     <div class="mx-auto">
-                      <button type="button" name="botonAgregarProcesos"
-                        id="botonAgregarProcesos"
-                        class="btn btn-success">
+                      <button type="button" name="botonAgregarProcesos" id="botonAgregarProcesos" class="btn btn-success">
                         <i class="fas fa-plus"></i> Agregar Proceso
                       </button>
                     </div>
@@ -1476,19 +1204,12 @@ if ($produccionReprocesos != 0)
                           <tbody>
                             <tr>
                               <td># Piezas para el lavado</td>
-                              <td><input value="0" class="form-control"
-                                required
-                                placeholder="Escribe el número de piezas"
-                                type="number" name="piezasLavadoNuevo"
-                                id="piezasLavadoNuevo"></td>
+                              <td><input value="0" class="form-control" required placeholder="Escribe el número de piezas" type="number" name="piezasLavadoNuevo" id="piezasLavadoNuevo"></td>
                             </tr>
                             <tr>
                               <td>Abrir con el proceso</td>
-                              <td><select class="form-control"
-                                name="abrirConProceso"
-                                id="abrirConProceso">
-                                    <?php foreach ($procesosecos as $key => $value): ?><option
-                                    value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+                              <td><select class="form-control" name="abrirConProceso" id="abrirConProceso">
+                                    <?php foreach ($procesosecos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
                                   </select></td>
                             </tr>
                           </tbody>
@@ -1503,13 +1224,10 @@ if ($produccionReprocesos != 0)
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"
-            data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
             <i class="fas fa-window-close"></i> Cerrar
           </button>
-          <button type="submit" class="btn btn-primary"
-            name="editarDatosCorteAutorizado"
-            id="editarDatosCorteAutorizado">
+          <button type="submit" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
             <i class="fas fa-check"></i> Aceptar
           </button>
         </div>

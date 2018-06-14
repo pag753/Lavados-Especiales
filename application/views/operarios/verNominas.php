@@ -61,8 +61,7 @@ $(document).ready(function() {
       </div>
       <?php if (isset($nominas)): ?>
         <div class='table-responsive'>
-        <table id="tabla" class="table"
-          style="background: rgba(255, 255, 255, 0.9);">
+        <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
             <tr>
               <th>Descripción</th>
@@ -72,9 +71,7 @@ $(document).ready(function() {
           <tbody><?php foreach ($nominas as $key => $value): ?>
               <tr>
               <td>Nómina generada el <?php echo $value['fecha'] ?></td>
-              <td><a
-                href="verNominas?id=<?php echo $key ?>&fecha=<?php echo $value['fecha'] ?>"><button
-                    type="button" class="btn btn-info">
+              <td><a href="verNominas?id=<?php echo $key ?>&fecha=<?php echo $value['fecha'] ?>"><button type="button" class="btn btn-info">
                     <i class="fas fa-eye"></i>
                   </button></a></td>
             </tr><?php endforeach; ?>
@@ -82,8 +79,7 @@ $(document).ready(function() {
         </table>
       </div>
       <?php else: ?>
-        <div class="alert alert-danger" role="alert">No existen registro
-        de nómina</div>
+        <div class="alert alert-danger" role="alert">No existen registro de nómina</div>
       <?php endif; ?>
     </div>
   </div>

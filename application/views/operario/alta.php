@@ -103,8 +103,7 @@ $(document).ready(function() {
         </div>
         <div id="cargas" class="form-group row">
           <div class="col-12">
-            <div class="alert alert-info" role="alert">Escriba el número
-              de folio.</div>
+            <div class="alert alert-info" role="alert">Escriba el número de folio.</div>
           </div>
         </div>
         <div id="procesos" class="form-group row"></div>
