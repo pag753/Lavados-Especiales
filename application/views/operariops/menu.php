@@ -8,17 +8,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cambiarPass">Cambiar contraseña</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/datos">Cambiar datos personales</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cerrar_sesion">Cerrar Sesión</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cambiarPass">Cambiar contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/datos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/cerrar_sesion">Cerrar Sesión</a>
         </div></li>
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertar">Insertar producción de proceso seco</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertarReproceso">Insertar producción de reproceso</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/ver">Ver producción</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertar">Insertar producción de proceso seco</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/insertarReproceso">Insertar producción de reproceso</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/ver">Ver producción</a>
         </div></li>
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Otros</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Otros</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verAhorro">Ver caja de ahorro</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verNominas">Ver información de nóminas</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verAhorro">Ver caja de ahorro</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operariops/verNominas">Ver información de nóminas</a>
         </div></li>
     </ul>
   </div>

@@ -24,14 +24,14 @@ class Administracion extends CI_Controller
                         'texto2' => "Favor de reportarlo"
                     );
                     break;
-                
+
                 case 'reproceso':
                     $data = array(
                         'texto1' => "El reproceso",
                         'texto2' => "Se ha registrado con éxito"
                     );
                     break;
-                
+
                 case 'folio':
                     $data = array(
                         'texto1' => "El corte con folio " . $this->input->get()['folio'],
@@ -1290,7 +1290,7 @@ class Administracion extends CI_Controller
                 'ProduccionReproceso',
                 'ProduccionProcesoSeco'
             ));
-            
+
             // Produccion proceso seco
             if (isset($this->input->post()['cantidad_pagar_produccion_proceso_seco_']))
             {
@@ -1306,7 +1306,7 @@ class Administracion extends CI_Controller
                     $this->ProduccionProcesoSeco->update($data);
                 }
             }
-            
+
             // Pendientes proceso seco
             if (isset($this->input->post()['cantidad_pagar_pendientes_proceso_seco']))
             {
@@ -1322,7 +1322,7 @@ class Administracion extends CI_Controller
                     $this->ProduccionProcesoSeco->update($data);
                 }
             }
-            
+
             // Reproceso
             if (isset($this->input->post()['estado_nomina_reproceso']))
             {
@@ -1338,7 +1338,7 @@ class Administracion extends CI_Controller
                     $this->ProduccionReproceso->update($data);
                 }
             }
-            
+
             // Pendientes Reproceso
             if (isset($this->input->post()['estado_nomina_pendientes_reproceso']))
             {
@@ -1877,7 +1877,7 @@ class Administracion extends CI_Controller
                 utf8_decode($piezas),
                 utf8_decode($precio),
                 utf8_decode($costo)
-            
+
             ));
         }
         $pdf->AddPage();
@@ -2031,7 +2031,7 @@ class Administracion extends CI_Controller
                 $pdf->SetFont('Arial', 'B', 10);
                 $pdf->Cell(0, 0, "Datos generales", 0, 1, 'C');
                 $pdf->ln(5);
-                
+
                 // Datos generales
                 $pdf->SetWidths(array(
                     21.111111111,
@@ -2109,7 +2109,7 @@ class Administracion extends CI_Controller
                     utf8_decode($corte['piezas']),
                     utf8_decode($corte['ojales'])
                 ));
-                
+
                 // Autorización del corete
                 $pdf->ln(10);
                 $corte = $this->CorteAutorizado->getByFolioEspecifico($this->input->post()['id']);
@@ -2141,7 +2141,7 @@ class Administracion extends CI_Controller
                     utf8_decode($corte['operario']),
                     utf8_decode($corte['cargas'])
                 ));
-                
+
                 // Datos específicos de autorización del corte del corete
                 $pdf->ln(10);
                 $corte = $this->CorteAutorizadoDatos->reporte($this->input->post()['id']);
@@ -2215,7 +2215,7 @@ class Administracion extends CI_Controller
                         utf8_decode($usuario)
                     ));
                 }
-                
+
                 // Datos generales de salida interna
                 $pdf->ln(10);
                 $corte = $this->SalidaInterna1->getByFolioEspecifico($this->input->post()['id']);
@@ -2248,7 +2248,7 @@ class Administracion extends CI_Controller
                     utf8_decode($corte['muestras']),
                     utf8_decode($corte['usuario'])
                 ));
-                
+
                 // Datos específicos de salida interna
                 $pdf->ln(10);
                 $corte = $this->SalidaInterna1Datos->getByFolioEspecifico2($this->input->post()['id']);
@@ -2280,7 +2280,7 @@ class Administracion extends CI_Controller
                         utf8_decode($value['piezas'])
                     ));
                 }
-                
+
                 // Entrega almacen
                 $pdf->ln(10);
                 $pdf->SetFont('Arial', 'B', 10);
@@ -2313,7 +2313,7 @@ class Administracion extends CI_Controller
                 }
                 else
                     $pdf->Cell(0, 0, utf8_decode("No hay datos de entrega a almacen de este corte"), 0, 1, 'C');
-                
+
                 // Entrega externa
                 $pdf->ln(10);
                 $pdf->SetFont('Arial', 'B', 10);
@@ -2346,7 +2346,7 @@ class Administracion extends CI_Controller
                 }
                 else
                     $pdf->Cell(0, 0, utf8_decode("No hay datos de entrega externa de este corte"), 0, 1, 'C');
-                
+
                 // datos de costos de producción de proceso seco
                 $pdf->AddPage();
                 $pdf->SetFont('Arial', 'B', 10);
@@ -2387,7 +2387,7 @@ class Administracion extends CI_Controller
                         ));
                     }
                 }
-                
+
                 // Producción de reprocesos
                 $pdf->ln(10);
                 $pdf->SetFont('Arial', 'B', 10);
@@ -2434,7 +2434,7 @@ class Administracion extends CI_Controller
                 }
                 else
                     $pdf->Cell(0, 0, utf8_decode("No hay datos de producción de reprocesos de este corte"), 0, 1, 'C');
-                
+
                 // Totales
                 $pdf->ln(10);
                 $pdf->SetFont('Arial', 'B', 10);
@@ -2461,7 +2461,7 @@ class Administracion extends CI_Controller
                     utf8_decode("Total"),
                     utf8_decode("$" . $this->input->post()['total-'])
                 ));
-                
+
                 /*
                  * Se manda el pdf al navegador
                  *

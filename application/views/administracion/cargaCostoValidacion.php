@@ -9,26 +9,26 @@ $input_folio = array(
 );
 ?>
 <script>
-$(document).ready(function() {
-  $("#folio").focus().keyup(function() {
-    $.ajax({
-      url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
-      data: { folio: $('#folio').val() },
-      type: 'POST',
-      dataType: "text",
-      success: function(result) {
-        $( "#cargas" ).html(result);
+  $(document).ready(function() {
+    $("#folio").focus().keyup(function() {
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
+        data: { folio: $('#folio').val() },
+        type: 'POST',
+        dataType: "text",
+        success: function(result) {
+          $( "#cargas" ).html(result);
+        }
+      });
+    });
+    $('#costos').submit(function() {
+      if ($('#folio').val() == "") {
+        alert("Favor de completar el campo del folio");
+        return false;
       }
+      else return true;
     });
   });
-  $('#costos').submit(function() {
-    if ($('#folio').val() == "") {
-      alert("Favor de completar el campo del folio");
-      return false;
-    }
-    else return true;
-  });
-});
 </script>
 <div class="container-fluid">
   <div class="table">

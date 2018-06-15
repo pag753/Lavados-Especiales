@@ -8,7 +8,7 @@ class Gestion extends CI_Controller
     {
         parent::__construct();
         $idusuario = $_SESSION['id'];
-        if ($idusuario != 2 && $idusuario != 5)
+        if ($idusuario != 2 && $idusuario != 5 && $idusuario != 1)
             redirect('/');
     }
 
@@ -1278,5 +1278,10 @@ class Gestion extends CI_Controller
             $this->load->view('comunes/cambiarDatos', $data);
             $this->load->view('comunes/foot');
         }
+    }
+
+    private function cargarMenu()
+    {
+        
     }
 }

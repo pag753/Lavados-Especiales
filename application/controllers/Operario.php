@@ -8,7 +8,7 @@ class Operario extends CI_Controller
     {
         parent::__construct();
         $idusuario = $_SESSION['id'];
-        if ($idusuario != 4 && $idusuario != 5)
+        if ($idusuario != 4 && $idusuario != 5 && $idusuario != 6)
             redirect('/');
     }
 
@@ -26,21 +26,21 @@ class Operario extends CI_Controller
                         'texto2' => "Favor de notificar al administrador"
                     );
                     break;
-                
+
                 case 'reproceso':
                     $data = array(
                         'texto1' => "La producción de reproceso",
                         'texto2' => "Se ha registrado con éxito"
                     );
                     break;
-                
+
                 case 'cerrarReproceso':
                     $data = array(
                         'texto1' => "El reproceso",
                         'texto2' => "Se ha cerrado con éxito"
                     );
                     break;
-                
+
                 default:
                     redirect("/");
                     break;
@@ -61,13 +61,14 @@ class Operario extends CI_Controller
         }
         $titulo['titulo'] = 'Bienvenido a lavados especiales';
         $this->load->view('comunes/head', $titulo);
-        $this->load->view('operario/menu');
+        $this->cargaMenu();
         $this->load->view('operario/index', $data);
         $this->load->view('comunes/foot');
     }
 
     public function alta($id = null)
     {
+        if($_SESSION['id'] != 4) redirect('/');
         if ($this->input->post())
         {
             $this->load->model('corteAutorizadoDatos');
@@ -304,13 +305,13 @@ class Operario extends CI_Controller
                         $this->ProduccionReproceso->insertar($data);
                         redirect("operario/index?q=reproceso");
                         break;
-                    
+
                     case 1:
                         // registro ya existente
                         $this->ProduccionReproceso->updateByOperario($data);
                         redirect("operario/index?q=reproceso");
                         break;
-                    
+
                     default:
                         redirect("operario/index?q=error");
                         break;
@@ -329,6 +330,7 @@ class Operario extends CI_Controller
 
     public function cerrarReproceso()
     {
+        if($_SESSION['id'] != 4) redirect('/');
         if ($this->input->get())
         {
             // validación
@@ -433,7 +435,7 @@ class Operario extends CI_Controller
                  * el color de relleno predeterminado
                  */
                 $pdf->SetTitle(utf8_decode("Ver nómina del generada el " . $this->input->post()['fecha']));
-                
+
                 $pdf->SetFont('Arial', 'B', 10);
                 $pdf->Cell(0, 0, utf8_decode("Datos generales de la nómina"), 0, 1, 'C');
                 $pdf->ln(5);
@@ -490,7 +492,7 @@ class Operario extends CI_Controller
                     utf8_decode('Cantidad que se pagó'),
                     utf8_decode('$' . $this->input->post()['pagado'])
                 ));
-                
+
                 // Datos de la producción en proceso seco.
                 if (isset($this->input->post()['produccion_folio']))
                 {
@@ -527,7 +529,7 @@ class Operario extends CI_Controller
                         utf8_decode("Estado de nómina\n\n"),
                         utf8_decode("Razón por la que no se pagó")
                     ));
-                    
+
                     $pdf->SetFont('Arial', '', 8);
                     $pdf->ban = false;
                     foreach ($this->input->post()['produccion_folio'] as $key => $value)
@@ -546,7 +548,7 @@ class Operario extends CI_Controller
                         ));
                     }
                 }
-                
+
                 // Datos de la producción en proceso seco.
                 if (isset($this->input->post()['reprocesos_folio']))
                 {
@@ -583,7 +585,7 @@ class Operario extends CI_Controller
                         utf8_decode("Estado de nómina\n\n"),
                         utf8_decode("Razón por la que no se pagó")
                     ));
-                    
+
                     $pdf->SetFont('Arial', '', 8);
                     $pdf->ban = false;
                     foreach ($this->input->post()['produccion_folio'] as $key => $value)

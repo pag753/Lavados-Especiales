@@ -73,13 +73,11 @@ class Welcome extends CI_Controller
                 redirect('/produccion');
                 break;
             case 4: // encargado de proceso seco
+            case 6: // operario de proceso seco
                 redirect('/operario');
                 break;
             case 5: // root
                 redirect('/root');
-                break;
-            case 6: // operario de proceso seco
-                redirect('/operariops');
                 break;
         }
     }

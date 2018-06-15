@@ -8,18 +8,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username']; ?></a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username']; ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarPass">Cambiar Contraseña</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarDatos">Cambiar Datos Personales</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cerrar_sesion">Cerrar Sesión</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarPass">Cambiar Contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cambiarDatos">Cambiar Datos Personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/cerrar_sesion">Cerrar Sesión</a>
         </div></li>
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/ver">Ver detalles de corte</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte y entrada</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/ver">Ver detalles de corte</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte y entrada</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar corte</a>
         </div></li>
-      <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Salidas</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Salidas</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaInterna">Salida interna</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaAlmacen">Entrega a almacen</a> <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaExterna">Entrega externa</a>
-        </div></li>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaInterna">Salida interna</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaAlmacen">Entrega a almacen</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaExterna">Entrega externa</a>
+        </div>
+      </li>
       <li class="nav-item"><a class="nav-link" href="reportes">Reportes</a></li>
     </ul>
   </div>
