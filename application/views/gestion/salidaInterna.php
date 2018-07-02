@@ -2,62 +2,60 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
-$(document).ready(function() {
-  $("#folio").focus();
-  $("#info").hide();
-  $("#info").click(function() {
-    $("#infoCorte").modal("show");
-  });
-  $('#folio').keyup(function() {
-    $.ajax({
-      url: "<?php echo base_url() ?>index.php/ajax/salidaInterna",
-      data: { folio: $('#folio').val() },
-      dataType: 'text',
-      type: 'POST',
-      success: function(result) {
-        result = JSON.parse(result);
-        console.log(result);
-        if (result.info!=''){
-          $("#imagenModal").html(result.info.imagen);
-          $("#folioModal").html(result.info.folio);
-          $("#corteModal").html(result.info.corte);
-          $("#marcaModal").html(result.info.marca);
-          $("#maquileroModal").html(result.info.maquilero);
-          $("#clienteModal").html(result.info.cliente);
-          $("#tipoModal").html(result.info.tipo);
-          $("#fechaModal").html(result.info.fecha);
-          $("#piezasModal").html(result.info.piezas);
-          $("#ojalesModal").html(result.info.ojales);
-          $("#info").show();
+  $(document).ready(function() {
+    $("#info").hide().click(function() {
+      $("#infoCorte").modal("show");
+    });
+    $("#folio").focus().keyup(function() {
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/salidaInterna",
+        data: { folio: $('#folio').val() },
+        dataType: 'text',
+        type: 'POST',
+        success: function(result) {
+          result = JSON.parse(result);
+          console.log(result);
+          if (result.info!=''){
+            $("#imagenModal").html(result.info.imagen);
+            $("#folioModal").html(result.info.folio);
+            $("#corteModal").html(result.info.corte);
+            $("#marcaModal").html(result.info.marca);
+            $("#maquileroModal").html(result.info.maquilero);
+            $("#clienteModal").html(result.info.cliente);
+            $("#tipoModal").html(result.info.tipo);
+            $("#fechaModal").html(result.info.fecha);
+            $("#piezasModal").html(result.info.piezas);
+            $("#ojalesModal").html(result.info.ojales);
+            $("#info").show();
+          }
+          else
+            $("#info").hide();
+          $("#complemento").html(decodeURIComponent(escape(result.respuesta)));
         }
-        else
-        $("#info").hide();
-        $("#complemento").html(decodeURIComponent(escape(result.respuesta)));
+      });
+    });
+    $("form").submit(function( event ) {
+      var suma=0;
+      for (var i = 0; i < $('#cargas').val(); i++)
+        suma+=parseInt($('#piezas_parcial'+i).val());
+      suma+=parseInt($('#muestras').val());
+      if (suma!=$('#piezas').val()) {
+        alert("La suma de las piezas y las muestras no son iguales que el total");
+        return false;
+      }
+      else {
+        var fechabd=$('#fechabd').val();
+        var fecha=$('#fecha').val().substr(0,10);
+        var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
+        var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
+        if (f>=fbd) return true;
+        else {
+          alert("La fecha que ingresó no puede ser anterior a la de su autorización");
+          return false;
+        }
       }
     });
   });
-  $("form").submit(function( event ) {
-    var suma=0;
-    for (var i = 0; i < $('#cargas').val(); i++)
-    suma+=parseInt($('#piezas_parcial'+i).val());
-    suma+=parseInt($('#muestras').val());
-    if (suma!=$('#piezas').val()) {
-      alert("La suma de las piezas y las muestras no son iguales que el total");
-      return false;
-    }
-    else {
-      var fechabd=$('#fechabd').val();
-      var fecha=$('#fecha').val().substr(0,10);
-      var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
-      var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
-      if (f>=fbd) return true;
-      else {
-        alert("La fecha que ingresó no puede ser anterior a la de su autorización");
-        return false;
-      }
-    }
-  });
-});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -103,46 +101,46 @@ $(document).ready(function() {
             <div class="col-12">
               <table class="table table-striped table-bordered">
                 <tbody>
-                  <tr>
-                    <td>Imágen</td>
-                    <td id="imagenModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Folio</td>
-                    <td id="folioModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Corte</td>
-                    <td id="corteModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Marca</td>
-                    <td id="marcaModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Maquilero</td>
-                    <td id="maquileroModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Cliente</td>
-                    <td id="clienteModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Tipo</td>
-                    <td id="tipoModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de entrada</td>
-                    <td id="fechaModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Piezas</td>
-                    <td id="piezasModal"></td>
-                  </tr>
-                  <tr>
-                    <td>Ojales</td>
-                    <td id="ojalesModal"></td>
-                  </tr>
+                <tr>
+                  <td>Imágen</td>
+                  <td id="imagenModal"></td>
+                </tr>
+                <tr>
+                  <td>Folio</td>
+                  <td id="folioModal"></td>
+                </tr>
+                <tr>
+                  <td>Corte</td>
+                  <td id="corteModal"></td>
+                </tr>
+                <tr>
+                  <td>Marca</td>
+                  <td id="marcaModal"></td>
+                </tr>
+                <tr>
+                  <td>Maquilero</td>
+                  <td id="maquileroModal"></td>
+                </tr>
+                <tr>
+                  <td>Cliente</td>
+                  <td id="clienteModal"></td>
+                </tr>
+                <tr>
+                  <td>Tipo</td>
+                  <td id="tipoModal"></td>
+                </tr>
+                <tr>
+                  <td>Fecha de entrada</td>
+                  <td id="fechaModal"></td>
+                </tr>
+                <tr>
+                  <td>Piezas</td>
+                  <td id="piezasModal"></td>
+                </tr>
+                <tr>
+                  <td>Ojales</td>
+                  <td id="ojalesModal"></td>
+                </tr>
                 </tbody>
               </table>
             </div>

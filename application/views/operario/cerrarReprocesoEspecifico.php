@@ -11,40 +11,40 @@ foreach ($reprocesos as $key => $value)
 }
 ?>
 <script>
-$(document).ready(function() {
-  <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
-  $("#cerrarReproceso").submit(function( event ) {
-    return confirm('¿Está seguro de querer cerrar el reproceso?');
-  });
-  <?php endif; ?>
-  $('#especificos').DataTable({
-    language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+  $(document).ready(function() {
+      <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
+    $("#cerrarReproceso").submit(function( event ) {
+      return confirm('¿Está seguro de querer cerrar el reproceso?');
+    });
+      <?php endif; ?>
+    $('#especificos').DataTable({
+      language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    },
-    "lengthMenu": [ 5, 10, 20, 50, 100 ],
+      "lengthMenu": [ 5, 10, 20, 50, 100 ],
+    });
   });
-});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -57,26 +57,26 @@ $(document).ready(function() {
           <div class='table-responsive'>
             <table class="table table-bordered">
               <thead>
-                <tr class="danger">
-                  <th>Folio</th>
-                  <th>Carga o lavado</th>
-                  <th>Proceso</th>
-                  <th>Piezas registradas</th>
-                  <th>Piezas trabajadas</th>
-                  <th>Defectos</th>
-                  <th>piezas faltantes</th>
-                </tr>
+              <tr class="danger">
+                <th>Folio</th>
+                <th>Carga o lavado</th>
+                <th>Proceso</th>
+                <th>Piezas registradas</th>
+                <th>Piezas trabajadas</th>
+                <th>Defectos</th>
+                <th>piezas faltantes</th>
+              </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><?php echo $folio ?></td>
-                  <td><?php echo $lavado ?></td>
-                  <td><?php echo $proceso ?></td>
-                  <td><?php echo $piezasRegistradas ?></td>
-                  <td><?php echo $totalPiezasTrabajadas ?></td>
-                  <td><?php echo $totalDefectos ?></td>
-                  <td><?php echo $piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos) ?></td>
-                </tr>
+              <tr>
+                <td><?php echo $folio ?></td>
+                <td><?php echo $lavado ?></td>
+                <td><?php echo $proceso ?></td>
+                <td><?php echo $piezasRegistradas ?></td>
+                <td><?php echo $totalPiezasTrabajadas ?></td>
+                <td><?php echo $totalDefectos ?></td>
+                <td><?php echo $piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos) ?></td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -91,19 +91,19 @@ $(document).ready(function() {
             <div class='table-responsive'>
               <table class="table table-bordered" id="especificos">
                 <thead>
-                  <tr class="danger">
-                    <th>Empleado</th>
-                    <th>Piezas que registró</th>
-                    <th>Defectos que registró</th>
-                    <th>Fecha en que registró</th>
-                  </tr>
+                <tr class="danger">
+                  <th>Empleado</th>
+                  <th>Piezas que registró</th>
+                  <th>Defectos que registró</th>
+                  <th>Fecha en que registró</th>
+                </tr>
                 </thead>
                 <tbody><?php foreach ($reprocesos as $key => $value): ?>
                   <tr>
-                    <td><?php echo $value['nombre'] ?></td>
-                    <td><?php echo $value['piezas'] ?></td>
-                    <td><?php echo $value['defectos'] ?></td>
-                    <td><?php echo $value['fecha'] ?></td>
+                  <td><?php echo $value['nombre'] ?></td>
+                  <td><?php echo $value['piezas'] ?></td>
+                  <td><?php echo $value['defectos'] ?></td>
+                  <td><?php echo $value['fecha'] ?></td>
                   </tr><?php endforeach; ?>
                 </tbody>
               </table>
@@ -111,20 +111,20 @@ $(document).ready(function() {
           </div>
         </div>
       </div>
-      <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
-        <div class="card">
-        <div class="card-body">
-          <form action="cerrarReproceso" name="cerrarReproceso" id="cerrarReproceso" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?php echo $reproceso['id'] ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $totalPiezasTrabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $totalDefectos ?>">
-            <div class="mx-auto">
-              <input type="submit" name="aceptar" id="aceptar" value="Cerrar el reproceso" class="btn btn-primary" />
+        <?php if (($piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos)) == 0): ?>
+          <div class="card">
+            <div class="card-body">
+              <form action="cerrarReproceso" name="cerrarReproceso" id="cerrarReproceso" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?php echo $reproceso['id'] ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $totalPiezasTrabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $totalDefectos ?>">
+                <div class="mx-auto">
+                  <input type="submit" name="aceptar" id="aceptar" value="Cerrar el reproceso" class="btn btn-primary" />
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </div>
-      <?php else: ?>
-        <div class="alert alert-danger" role="alert">La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.</div>
-      <?php endif; ?>
+          </div>
+        <?php else: ?>
+          <div class="alert alert-danger" role="alert">La suma de las piezas de producción y defecectos no son iguales a las piezas registradas. Favor de revisar con los operarios.</div>
+        <?php endif; ?>
     </div>
   </div>
 </div>

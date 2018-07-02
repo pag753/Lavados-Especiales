@@ -14,7 +14,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/cambiarPass">Cambiar contraseña</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/datos">Cambiar datos personales</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/cerrar_sesion">Cerrar Sesión</a>
-        </div></li>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -25,7 +26,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/ojal">Costo de ojal</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reproceso">Nuevo reproceso</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar Corte</a>
-        </div></li>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catálogos</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

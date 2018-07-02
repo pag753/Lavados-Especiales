@@ -2,9 +2,9 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
-  $("#costo").focus();
-});
+  $(document).ready(function() {
+    $("#costo").focus();
+  });
 </script>
 <div class="container-fluid">
   <div class="row">

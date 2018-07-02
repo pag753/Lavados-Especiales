@@ -29,11 +29,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                   <th>Costo $</th>
                 </tr>
                 </thead>
-                <tbody><?php foreach ($procesos as $key => $value): ?>
+                <tbody>
+                <?php foreach ($procesos as $key => $value): ?>
                   <tr>
-                  <td><input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" /></td>
-                  <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
-                  </tr><?php endforeach; ?>
+                    <td><input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" /></td>
+                    <td><input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>"></td>
+                  </tr>
+                <?php endforeach; ?>
                 </tbody>
               </table>
             </div>

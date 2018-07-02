@@ -40,7 +40,7 @@ class Gestion extends CI_Controller
         }
         $titulo['titulo'] = 'Bienvenido a lavados especiales';
         $this->load->view('comunes/head', $titulo);
-        $this->load->view('gestion/menu');
+        $this->cargarMenu();
         $this->load->view('gestion/index', $data);
         $this->load->view('comunes/foot');
     }
@@ -103,7 +103,7 @@ class Gestion extends CI_Controller
             );
             $titulo['titulo'] = 'Alta de corte';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('gestion/alta', $datos);
             $this->load->view('comunes/foot');
         }
@@ -113,7 +113,7 @@ class Gestion extends CI_Controller
     {
         $titulo['titulo'] = 'Ver detalles de corte';
         $this->load->view('comunes/head', $titulo);
-        $this->load->view('gestion/menu');
+        $this->cargarMenu();
         $this->load->view('comunes/ver');
         $this->load->view('comunes/foot');
     }
@@ -147,7 +147,7 @@ class Gestion extends CI_Controller
         {
             $titulo['titulo'] = 'Salida interna';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('gestion/salidaInterna');
             $this->load->view('comunes/foot');
         }
@@ -168,7 +168,7 @@ class Gestion extends CI_Controller
         {
             $titulo['titulo'] = 'Salida a almacen';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('gestion/salidaAlmacen');
             $this->load->view('comunes/foot');
         }
@@ -189,7 +189,7 @@ class Gestion extends CI_Controller
         {
             $titulo['titulo'] = 'Salida externa';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('gestion/salidaExterna');
             $this->load->view('comunes/foot');
         }
@@ -211,7 +211,7 @@ class Gestion extends CI_Controller
         );
         $titulo['titulo'] = 'Reportes';
         $this->load->view('comunes/head', $titulo);
-        $this->load->view('gestion/menu');
+        $this->cargarMenu();
         $this->load->view('gestion/reportes', $datos);
         $this->load->view('comunes/foot');
     }
@@ -223,19 +223,19 @@ class Gestion extends CI_Controller
         switch ($this->input->post()['reporte'])
         {
             case 1: // reporte de cortes en almacen -> cortes no autorizados
-                    // campos: todos los de de corte
+                // campos: todos los de de corte
                 $this->reporte1();
                 break;
             case 2: // reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
-                    // campos: todos los de corte, datos de autorización y si hay de salida interna
+                // campos: todos los de corte, datos de autorización y si hay de salida interna
                 $this->reporte2();
                 break;
             case 3: // reporte de cortes entregados -> cortes que ya se entregaron
-                    // campos: TODOS
+                // campos: TODOS
                 $this->reporte3();
                 break;
             case 4: // reporte de cortes en proceso -> cortes que están en proceso sin salida externa
-                    // campos: todos los de corte, datos de autorización y salida interna
+                // campos: todos los de corte, datos de autorización y salida interna
                 $this->reporte4();
                 break;
         }
@@ -1253,7 +1253,7 @@ class Gestion extends CI_Controller
             $data['link'] = base_url() . 'index.php/Gestion/cambiarPass';
             $titulo['titulo'] = 'Cambiar contraseña';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('comunes/cambiarPass', $data);
             $this->load->view('comunes/foot');
         }
@@ -1274,7 +1274,7 @@ class Gestion extends CI_Controller
             $data['data'] = $this->Usuarios->getById($_SESSION['usuario_id']);
             $titulo['titulo'] = 'Cambiar datos personales';
             $this->load->view('comunes/head', $titulo);
-            $this->load->view('gestion/menu');
+            $this->cargarMenu();
             $this->load->view('comunes/cambiarDatos', $data);
             $this->load->view('comunes/foot');
         }
@@ -1282,6 +1282,14 @@ class Gestion extends CI_Controller
 
     private function cargarMenu()
     {
-        
+        switch ($_SESSION['id'])
+        {
+            case 1: $this->load->view('administracion/menu');
+                break;
+            case 2: $this->load->view('gestion/menu');
+                break;
+            default: redirect('/');
+                break;
+        }
     }
 }

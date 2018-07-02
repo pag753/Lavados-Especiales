@@ -47,16 +47,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <th>Ver ahorro</th>
           </tr>
           </thead>
-          <tbody><?php foreach ($data as $key => $value): ?>
+          <tbody>
+          <?php foreach ($data as $key => $value): ?>
             <tr>
-            <td><?php echo $value['nombre']; ?></td>
-            <td><?php echo $value['nombre_completo']; ?></td>
-            <td><a href="ahorros?id=<?php echo $value['id']; ?>">
-                <button type="button" class="btn btn-light">
-                  <i class="fas fa-eye"></i>
-                </button>
-              </a></td>
-            </tr><?php endforeach; ?>
+              <td><?php echo $value['nombre']; ?></td>
+              <td><?php echo $value['nombre_completo']; ?></td>
+              <td>
+                <a href="ahorros?id=<?php echo $value['id']; ?>">
+                  <button type="button" class="btn btn-light">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div>

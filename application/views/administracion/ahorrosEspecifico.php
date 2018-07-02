@@ -75,18 +75,20 @@ $retiros = 0;
             <th>Eliminar</th>
           </tr>
           </thead>
-          <tbody><?php foreach ($ahorros as $key => $value): ?>
+          <tbody>
+          <?php foreach ($ahorros as $key => $value): ?>
             <tr>
-            <td id="aportacion<?php echo $value['id']; ?>"><?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?></td>
-            <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
-            <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-            <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
-                <i class="far fa-edit"></i>
-              </button></td>
-            <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
-                <i class="far fa-trash-alt"></i>
-              </button></td>
-            </tr><?php endforeach; ?>
+              <td id="aportacion<?php echo $value['id']; ?>"><?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?></td>
+              <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
+              <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
+              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-edit"></i>
+                </button></td>
+              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-trash-alt"></i>
+                </button></td>
+            </tr>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div>

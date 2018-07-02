@@ -36,13 +36,13 @@ $input_fechaf = array(
         <div class="form-group row">
           <label for="fechai" class="col-3 col-form-label">Fecha inicial</label>
           <div class="col-9">
-            <?php echo form_input($input_fechai); ?>
+              <?php echo form_input($input_fechai); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="fechaf" class="col-3 col-form-label">Fecha final</label>
           <div class="col-9">
-            <?php echo form_input($input_fechaf); ?>
+              <?php echo form_input($input_fechaf); ?>
           </div>
         </div>
         <div class="form-group row">
@@ -62,9 +62,9 @@ $input_fechaf = array(
           <div class="col-9">
             <select name="cliente_id" class="form-control">
               <option value="0">Escoja si es necesario</option>
-              <?php foreach ($clientes as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-              <?php endforeach ?>
+                <?php foreach ($clientes as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach ?>
             </select>
           </div>
         </div>
@@ -73,9 +73,9 @@ $input_fechaf = array(
           <div class="col-9">
             <select name="marca_id" class="form-control">
               <option value="0">Escoja si es necesario</option>
-              <?php foreach ($marcas as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-              <?php endforeach ?>
+                <?php foreach ($marcas as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach ?>
             </select>
           </div>
         </div>
@@ -84,9 +84,9 @@ $input_fechaf = array(
           <div class="col-9">
             <select name="maquilero_id" class="form-control">
               <option value="0">Escoja si es necesario</option>
-              <?php foreach ($maquileros as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-              <?php endforeach ?>
+                <?php foreach ($maquileros as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach ?>
             </select>
           </div>
         </div>
@@ -95,9 +95,9 @@ $input_fechaf = array(
           <div class="col-9">
             <select name="tipo_pantalon_id" class="form-control">
               <option value="0">Escoja si es necesario</option>
-              <?php foreach ($tipos as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-              <?php endforeach ?>
+                <?php foreach ($tipos as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach ?>
             </select>
           </div>
         </div>

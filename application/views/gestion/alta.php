@@ -62,36 +62,36 @@ $select_tipo = array(
 );
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
-  $("#corte").focus();
-  $("#ojales").hide();
-  $("#ojal").click(function(){
-    if ($(this).is(":checked")) $("#ojales").show();
-    else{
-      $("#ojales").hide();
-      $("#cantidadOjales").val(0);
-    }
-  });
-  $('#cliente').change(function() {
-    $.ajax({
-      url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
-      data: { cliente: $('#cliente').val() },
-      type: 'POST',
-      dataType: 'text',
-      success: function(result){
-        $('#marcas').html(result);
+  $(document).ready(function() {
+    $("#corte").focus();
+    $("#ojales").hide();
+    $("#ojal").click(function(){
+      if ($(this).is(":checked")) $("#ojales").show();
+      else{
+        $("#ojales").hide();
+        $("#cantidadOjales").val(0);
       }
     });
+    $('#cliente').change(function() {
+      $.ajax({
+        url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
+        data: { cliente: $('#cliente').val() },
+        type: 'POST',
+        dataType: 'text',
+        success: function(result){
+          $('#marcas').html(result);
+        }
+      });
+    });
+    $("form").submit(function( event ) {
+      var val=$("#cliente").val();
+      if(parseInt(val)==-1){
+        alert("Por favor escoja un cliente.");
+        return false;
+      }
+      else return true;
+    });
   });
-  $("form").submit(function( event ) {
-    var val=$("#cliente").val();
-    if(parseInt(val)==-1){
-      alert("Por favor escoja un cliente.");
-      return false;
-    }
-    else return true;
-  });
-});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -101,31 +101,31 @@ $(document).ready(function() {
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
-            <?php echo form_input($input_folio); ?>
+              <?php echo form_input($input_folio); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="fecha" class="col-3 col-form-label">Fecha</label>
           <div class="col-9">
-            <?php echo form_input($input_fecha); ?>
+              <?php echo form_input($input_fecha); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="corte" class="col-3 col-form-label">Corte</label>
           <div class="col-9">
-            <?php echo form_input($input_corte); ?>
+              <?php echo form_input($input_corte); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="piezas" class="col-3 col-form-label">Piezas</label>
           <div class="col-9">
-            <?php echo form_input($input_piezas); ?>
+              <?php echo form_input($input_piezas); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="cliente" class="col-3 col-form-label">Cliente</label>
           <div class="col-9">
-            <?php echo form_dropdown($select_cliente,$opciones_cliente,set_value('cliente',@$datos_corte[0]->cliente)); ?>
+              <?php echo form_dropdown($select_cliente,$opciones_cliente,set_value('cliente',@$datos_corte[0]->cliente)); ?>
           </div>
         </div>
         <div class="form-group row">
@@ -139,13 +139,13 @@ $(document).ready(function() {
         <div class="form-group row">
           <label for="maquilero" class="col-3 col-form-label">Maquilero</label>
           <div class="col-9">
-            <?php echo form_dropdown($select_maquilero,$opciones_maquilero,set_value('maquilero',@$datos_corte[0]->maquilero)); ?>
+              <?php echo form_dropdown($select_maquilero,$opciones_maquilero,set_value('maquilero',@$datos_corte[0]->maquilero)); ?>
           </div>
         </div>
         <div class="form-group row">
           <label for="tipo" class="col-3 col-form-label">Tipo</label>
           <div class="col-9">
-            <?php echo form_dropdown($select_tipo,$opciones_tipo,set_value('tipo',@$datos_corte[0]->tipo)); ?>
+              <?php echo form_dropdown($select_tipo,$opciones_tipo,set_value('tipo',@$datos_corte[0]->tipo)); ?>
           </div>
         </div>
         <div class="form-group row">
@@ -166,7 +166,7 @@ $(document).ready(function() {
         <div class="form-group row">
           <label for="imagen" class="col-3 col-form-label">Imágen</label>
           <div class="col-9">
-            <?php echo form_input($input_imagen); ?>
+              <?php echo form_input($input_imagen); ?>
           </div>
         </div>
         <div class="offset-sm-2 col-sm-10">

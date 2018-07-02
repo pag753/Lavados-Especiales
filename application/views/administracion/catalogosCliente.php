@@ -55,13 +55,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <th>Editar</th>
           </tr>
           </thead>
-          <tbody><?php foreach ($data as $key => $value): ?>
+          <tbody>
+          <?php foreach ($data as $key => $value): ?>
             <tr>
             <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
             <td id="direccion<?php echo $value['id'] ?>"><?php echo $value['direccion']; ?></td>
             <td id="telefono<?php echo $value['id'] ?>"><?php echo $value['telefono']; ?></td>
             <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-            </tr><?php endforeach; ?>
+            </tr>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div>

@@ -48,19 +48,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class='table-responsive'>
         <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Costo $</th>
-              <th>Abreviatura</th>
-              <th>Editar</th>
-            </tr>
+          <tr>
+            <th>Nombre</th>
+            <th>Costo $</th>
+            <th>Abreviatura</th>
+            <th>Editar</th>
+          </tr>
           </thead>
           <tbody><?php foreach ($data as $key => $value): ?>
             <tr>
-              <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
-              <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+            <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+            <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
+            <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
+            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
             </tr><?php endforeach; ?>
           </tbody>
         </table>

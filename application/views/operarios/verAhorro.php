@@ -4,35 +4,35 @@ $aportaciones = 0;
 $retiros = 0;
 ?>
 <script type="text/javascript">
-$(document).ready(function() {
-  $('#tabla').DataTable({
-    language: {
-      "sProcessing": "Procesando...",
-      "sLengthMenu": "Mostrar _MENU_ registros",
-      "sZeroRecords": "No se encontraron resultados",
-      "sEmptyTable": "Ningún dato disponible en esta tabla",
-      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix": "",
-      "sSearch": "Buscar:",
-      "sUrl": "",
-      "sInfoThousands": ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst": "Primero",
-        "sLast": "Último",
-        "sNext": "Siguiente",
-        "sPrevious": "Anterior"
+  $(document).ready(function() {
+    $('#tabla').DataTable({
+      language: {
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst": "Primero",
+          "sLast": "Último",
+          "sNext": "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
       },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    },
-    "lengthMenu": [ 5, 10, 20, 50, 100 ],
+      "lengthMenu": [ 5, 10, 20, 50, 100 ],
+    });
   });
-});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -43,22 +43,22 @@ $(document).ready(function() {
       <div class='table-responsive'>
         <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
-            <tr>
-              <th>Tipo</th>
-              <th>Fecha</th>
-              <th>Cantidad $</th>
-            </tr>
+          <tr>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Cantidad $</th>
+          </tr>
           </thead>
           <tbody>
-            <?php foreach ($ahorros as $key => $value): ?>
-              <tr>
+          <?php foreach ($ahorros as $key => $value): ?>
+            <tr>
               <td id="aportacion<?php echo $value['id']; ?>">
                   <?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?>
-                </td>
+              </td>
               <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
               <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
             </tr>
-            <?php endforeach; ?>
+          <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -84,18 +84,18 @@ $(document).ready(function() {
       <div class="modal-body">
         <table class="table" style="background: rgba(255, 255, 255, 0.9);">
           <tbody>
-            <tr>
-              <td>Total de aportaciones</td>
-              <td>$<?php echo $aportaciones; ?></td>
-            </tr>
-            <tr>
-              <td>Total de retiros</td>
-              <td>$<?php echo $retiros; ?></td>
-            </tr>
-            <tr>
-              <td>Total de ahorro</td>
-              <td>$<?php echo $aportaciones - $retiros; ?></td>
-            </tr>
+          <tr>
+            <td>Total de aportaciones</td>
+            <td>$<?php echo $aportaciones; ?></td>
+          </tr>
+          <tr>
+            <td>Total de retiros</td>
+            <td>$<?php echo $retiros; ?></td>
+          </tr>
+          <tr>
+            <td>Total de ahorro</td>
+            <td>$<?php echo $aportaciones - $retiros; ?></td>
+          </tr>
           </tbody>
         </table>
       </div>
