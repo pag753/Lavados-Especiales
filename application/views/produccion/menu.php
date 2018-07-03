@@ -9,15 +9,17 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/cambiarPass">Cambiar contraseña</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/datos">Cambiar datos personales</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/cerrar_sesion">Cerrar Sesión</a>
-        </div></li>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarPass">Cambiar contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarDatos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cerrarSesion">Cerrar Sesión</a>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar corte</a>
-        </div></li>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

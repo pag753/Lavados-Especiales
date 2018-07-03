@@ -2,11 +2,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
-  $(document).ready(function() {
-    $('#formulario').submit(function() {
-      return confirm('¿Está seguro de registrar esta producción de reproceso?')
-    });
+$(document).ready(function() {
+  $('#formulario').submit(function() {
+    return confirm('¿Está seguro de registrar esta producción de reproceso?')
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -16,22 +16,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <input type="hidden" id="tipo" name="tipo" value="<?php echo $tipo ?>"> <input type="hidden" id="id" name="id" value="<?php echo $id ?>">
         <table class="table table-striped table-hover" id="tabla" style="background: rgba(255, 255, 255, 0.9)">
           <tbody>
-          <tr>
-            <th>Carga o lavado</th>
-            <td><?php echo $lavado ?></td>
-          </tr>
-          <tr>
-            <th>Proceso</th>
-            <td><?php echo $proceso ?></td>
-          </tr>
-          <tr>
-            <th>Número de piezas</th>
-            <td><input class="form-control" type="number" id="piezas" name="piezas" value="<?php echo $piezas ?>" required></td>
-          </tr>
-          <tr>
-            <th>Número de defectos</th>
-            <td><input class="form-control" type="number" id="defectos" name="defectos" value="<?php echo $defectos ?>" required></td>
-          </tr>
+            <tr>
+              <th>Carga o lavado</th>
+              <td><?php echo $lavado ?></td>
+            </tr>
+            <tr>
+              <th>Proceso</th>
+              <td><?php echo $proceso ?></td>
+            </tr>
+            <tr>
+              <th>Número de piezas</th>
+              <td><input class="form-control" type="number" id="piezas" name="piezas" value="<?php echo $piezas ?>" required></td>
+            </tr>
+            <tr>
+              <th>Número de defectos</th>
+              <td><input class="form-control" type="number" id="defectos" name="defectos" value="<?php echo $defectos ?>" required></td>
+            </tr>
           </tbody>
         </table>
         <div class="mx-auto">

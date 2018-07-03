@@ -2,42 +2,42 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  function editar(id) {
-    $('#nombreE').val($('#nombre'+id).text());
-    $('#costoE').val($('#costo'+id).text());
-    $('#abreviaturaE').val($('#abreviatura'+id).text());
-    $('#id').val(id);
-    $('#editar').modal('show');
-  }
-  $(document).ready(function() {
-    $('#tabla').DataTable({
-      language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de maneLavadora descendente"
-        }
+function editar(id) {
+  $('#nombreE').val($('#nombre'+id).text());
+  $('#costoE').val($('#costo'+id).text());
+  $('#abreviaturaE').val($('#abreviatura'+id).text());
+  $('#id').val(id);
+  $('#editar').modal('show');
+}
+$(document).ready(function() {
+  $('#tabla').DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
       },
-      "lengthMenu": [ 5, 10, 20, 50, 100 ],
-    });
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de maneLavadora descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -48,19 +48,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class='table-responsive'>
         <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Costo $</th>
-            <th>Abreviatura</th>
-            <th>Editar</th>
-          </tr>
+            <tr>
+              <th>Nombre</th>
+              <th>Costo $</th>
+              <th>Abreviatura</th>
+              <th>Editar</th>
+            </tr>
           </thead>
           <tbody><?php foreach ($data as $key => $value): ?>
             <tr>
-            <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-            <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
-            <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
-            <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+              <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
+              <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
+              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
             </tr><?php endforeach; ?>
           </tbody>
         </table>

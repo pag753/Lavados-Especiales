@@ -13,9 +13,12 @@ $retiros = 0;
     $('#editar').modal('show');
   }
   function eliminar(id){
-    var r=confirm("¿Está seguro de que desea elimiar el ahorro seleccionado?");
+    var r = confirm("¿Está seguro de que desea elimiar el ahorro seleccionado?");
     if (r) {
       $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
         type: "POST",
         url: "eliminarAhorro",
         data: { "id": id },
@@ -81,12 +84,16 @@ $retiros = 0;
               <td id="aportacion<?php echo $value['id']; ?>"><?php echo ($value['aportacion']!=0) ? "Aportación" : "Retiro" ; ($value['aportacion']!=0) ? $aportaciones += $value['cantidad'] : $retiros += $value['cantidad'] ;?></td>
               <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
               <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
+              <td>
+                <button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
                   <i class="far fa-edit"></i>
-                </button></td>
-              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
+                </button>
+              </td>
+              <td>
+                <button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
                   <i class="far fa-trash-alt"></i>
-                </button></td>
+                </button>
+              </td>
             </tr>
           <?php endforeach; ?>
           </tbody>

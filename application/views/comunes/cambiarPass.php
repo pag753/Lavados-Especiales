@@ -2,32 +2,32 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
-  var ban=false;
-  $(document).ready(function() {
-    $("#pass1").focus();
-    $('input').keyup(function() {
-      if ($('#pass2').val()==$( '#pass1' ).val()) {
-        if ($( '#pass2' ).val() =='') $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas están vacías.</div>");
-        else {
-          $('#mensaje').html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
-          ban=true;
-        }
-      }
+var ban=false;
+$(document).ready(function() {
+  $("#pass1").focus();
+  $('input').keyup(function() {
+    if ($('#pass2').val()==$( '#pass1' ).val()) {
+      if ($( '#pass2' ).val() =='') $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas están vacías.</div>");
       else {
-        $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
-        ban=false;
+        $('#mensaje').html("<div class='alert alert-success' role='alert'><strong>¡Perfecto!</strong> Las contraseñas son iguales.</div>");
+        ban=true;
       }
-    });
-    $("form").submit(function() {
-      if (!ban) alert("¡Las contraseñas no son iguales! Favor de verificar.")
-      return ban;
-    });
+    }
+    else {
+      $('#mensaje').html("<div class='alert alert-danger' role='alert'><strong>¡Error!</strong> Las contraseñas no son iguales.</div>");
+      ban=false;
+    }
   });
+  $("form").submit(function() {
+    if (!ban) alert("¡Las contraseñas no son iguales! Favor de verificar.")
+    return ban;
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
-      <form action="<?php echo $link ?>" method="post" enctype="multipart/form-data">
+      <form action="cambiarPass" method="post" enctype="multipart/form-data">
         <h1>Cambiar contraseña</h1>
         <div class="form-group row">
           <div class="input-group mb-2 col-12">

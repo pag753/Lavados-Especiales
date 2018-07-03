@@ -1,27 +1,26 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $input_folio = array(
-    'name' => 'folio',
-    'id' => 'folio',
-    'type' => 'number',
-    'class' => 'form-control',
-    'placeholder' => 'Ingresa folio de corte',
-    'value' => set_value('folio', @$datos_corte->folio),
-    'required' => 'true'
+  'name' => 'folio',
+  'id' => 'folio',
+  'type' => 'number',
+  'class' => 'form-control',
+  'placeholder' => 'Ingresa folio de corte',
+  'value' => set_value('folio', @$datos_corte->folio),
+  'required' => 'true'
 );
 $input_fecha = array(
-    'name' => 'fecha',
-    'id' => 'fecha',
-    'type' => 'datetime',
-    'class' => 'form-control',
-    'value' => set_value('fecha', date("Y/m/d")),
-    'readonly' => 'true',
-    'required' => 'true'
+  'name' => 'fecha',
+  'id' => 'fecha',
+  'type' => 'datetime',
+  'class' => 'form-control',
+  'value' => set_value('fecha', date("Y/m/d")),
+  'readonly' => 'true',
+  'required' => 'true'
 );
 ?>
 <script>
-function eliminar(renglon)
-{
+function eliminar(renglon) {
   $("#renglon"+renglon).remove();
   var numero=$("#numero");
   numero.val(parseInt(numero.val())-1);
@@ -29,6 +28,9 @@ function eliminar(renglon)
 $(document).ready(function() {
   $("#folio").focus().keyup(function() {
     $.ajax({
+      error: function(request, status, error){
+        window.location.replace("<?php echo base_url() ?>");
+      },
       url: "<?php echo base_url() ?>index.php/ajax/autorizacionCorte",
       data: { folio: $('#folio').val() },
       dataType: 'json',
@@ -58,6 +60,9 @@ $(document).ready(function() {
     var numero=$("#numero");
     var numero2=$("#numero2");
     $.ajax({
+      error: function(request, status, error){
+        window.location.replace("<?php echo base_url() ?>");
+      },
       url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
       data: { numero: numero2.val() },
       dataType: 'text',

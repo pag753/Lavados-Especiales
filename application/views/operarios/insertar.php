@@ -1,95 +1,110 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php if (! isset($folio)): ?>
-    <?php
-    $input_folio = array(
-        'type' => 'number',
-        'name' => 'folio',
-        'id' => 'folio',
-        'class' => 'form-control',
-        'value' => set_value('folio', @$folio),
-        'placeholder' => 'Inserte número de folio'
-    );
-    ?>
+  <?php
+  $input_folio = array(
+    'type' => 'number',
+    'name' => 'folio',
+    'id' => 'folio',
+    'class' => 'form-control',
+    'value' => set_value('folio', @$folio),
+    'placeholder' => 'Inserte número de folio'
+  );
+  ?>
   <script type="text/javascript">
-    $(document).ready(function() {
-      $('form').submit(function() {
-        if ($('#folio').val() == "") {
-          alert('Campo de folio vacío.')
+  $(document).ready(function() {
+    $('form').submit(function() {
+      if ($('#folio').val() == "") {
+        alert('Campo de folio vacío.')
+        return false;
+      }
+      else {
+        if ($('#carga').val()*1 == -1) {
+          alert('Favor de seleccionar la carga.');
           return false;
         }
         else {
-          if ($('#carga').val()*1 == -1) {
-            alert('Favor de seleccionar la carga.');
+          if ($('#proceso').val()<=0 || !$('#proceso').length) {
+            alert("Valor de proceso inválido.");
             return false;
           }
-          else {
-            if ($('#proceso').val()<=0 || !$('#proceso').length) {
-              alert("Valor de proceso inválido.");
-              return false;
-            }
-            else return true;
-          }
+          else return true;
+        }
+      }
+    });
+    $("#folio").focus().keyup(function() {
+      $('#procesos').html('');
+      $('#valida').html('');
+      $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
+        url: "<?php echo base_url() ?>index.php/ajax/operarioCargas",
+        data: { folio: $('#folio').val() },
+        dataType: 'text',
+        type: "POST",
+        success: function(result) {
+          $("#cargas").html(result);
+          $( '#carga' ).change(function() {
+            $('#valida').html('');
+            $.ajax({
+              error: function(request, status, error){
+                window.location.replace("<?php echo base_url() ?>");
+              },
+              url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
+              data: { folio: $('#folio').val(), carga: $('#carga').val() },
+              dataType: 'text',
+              type: 'POST',
+              success: function(result) {
+                $('#procesos').html(result);
+                $( '#proceso' ).change(function() {
+                  $.ajax({
+                    error: function(request, status, error){
+                      window.location.replace("<?php echo base_url() ?>");
+                    },
+                    url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
+                    data: { folio: $('#folio').val(), carga: $('#carga').val(), proceso: $('#proceso').val() },
+                    dataType: 'text',
+                    type: 'POST',
+                    success: function(result) {
+                      $('#valida').html(result);
+                    }
+                  });
+                });
+              }
+            });
+          });
         }
       });
-      $("#folio").focus().keyup(function() {
-        $('#procesos').html('');
-        $('#valida').html('');
-        $.ajax({
-          url: "<?php echo base_url() ?>index.php/ajax/operarioCargas",
-          data: { folio: $('#folio').val() },
-          dataType: 'text',
-          type: "POST",
-          success: function(result) {
-            $("#cargas").html(result);
-            $( '#carga' ).change(function() {
-              $('#valida').html('');
-              $.ajax({
-                url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
-                data: { folio: $('#folio').val(), carga: $('#carga').val() },
-                dataType: 'text',
-                type: 'POST',
-                success: function(result) {
-                  $('#procesos').html(result);
-                  $( '#proceso' ).change(function() {
-                    $.ajax({
-                      url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
-                      data: { folio: $('#folio').val(), carga: $('#carga').val(), proceso: $('#proceso').val() },
-                      dataType: 'text',
-                      type: 'POST',
-                      success: function(result) {
-                        $('#valida').html(result);
-                      }
-                    });
-                  });
-                }
-              });
-            });
-          }
-        });
-      });
-      $('#carga').change(function() {
-        $.ajax({
-          url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
-          data: { folio: $('#folio').val(), carga: $('#carga').val() },
-          dataType: 'text',
-          type: 'POST',
-          success: function(result) {
-            $('#procesos').html(result);
-          }
-        });
-      });
-      $('#proceso').change(function() {
-        $.ajax({
-          url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
-          data: { folio: $('#folio').val(), carga: $('#carga').val(), proceso: $('#proceso').val() },
-          dataType: 'text',
-          type: 'POST',
-          success: function(result) {
-            $('#valida').html(result);
-          }
-        });
+    });
+    $('#carga').change(function() {
+      $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
+        url: '<?php echo base_url() ?>index.php/ajax/operarioProcesos',
+        data: { folio: $('#folio').val(), carga: $('#carga').val() },
+        dataType: 'text',
+        type: 'POST',
+        success: function(result) {
+          $('#procesos').html(result);
+        }
       });
     });
+    $('#proceso').change(function() {
+      $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
+        url: '<?php echo base_url() ?>index.php/ajax/operarioValida',
+        data: { folio: $('#folio').val(), carga: $('#carga').val(), proceso: $('#proceso').val() },
+        dataType: 'text',
+        type: 'POST',
+        success: function(result) {
+          $('#valida').html(result);
+        }
+      });
+    });
+  });
   </script>
   <div class="container-fluid">
     <div class="row">
@@ -99,7 +114,7 @@
           <div class="form-group row">
             <label for="folio" class="col-3 col-form-label">Folio</label>
             <div class="col-9">
-                <?php echo form_input($input_folio); ?>
+              <?php echo form_input($input_folio); ?>
             </div>
           </div>
           <div id="cargas" class="form-group row"></div>

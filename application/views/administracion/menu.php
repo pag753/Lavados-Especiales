@@ -11,14 +11,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/cambiarPass">Cambiar contraseña</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/datos">Cambiar datos personales</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/cerrar_sesion">Cerrar Sesión</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarPass">Cambiar contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarDatos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cerrarSesion">Cerrar Sesión</a>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/ver">Ver detalles de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/modificar">Modificar corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/costos">Reasignación de costos</a>
@@ -39,7 +40,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/catalogosUsuarios">Usuarios</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/catalogosTipos">Tipos de pantalón</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/catalogosPuestos">Puestos</a>
-        </div></li>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reportes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">

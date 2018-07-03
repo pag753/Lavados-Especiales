@@ -12,6 +12,9 @@ $input_folio = array(
   $(document).ready(function() {
     $("#folio").focus().keyup(function() {
       $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
         url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
         data: { folio: $('#folio').val() },
         type: 'POST',

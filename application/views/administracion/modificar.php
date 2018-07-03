@@ -11,24 +11,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
         $('#alerta').html("El campo de folio está vacío.");
         $('#alerta').show();
       }
-      var s = $.ajax({
+      $.ajax({
         type: "POST",
         url: "<?php echo base_url("index.php/ajax/detalleCorte/") ?>",
         data: { "folio": $("#folio").val() },
         success: function(res) {
           if (res.folio == ''){
-            $('#alerta').html("El corte con folio "+$('#folio').val()+" no existe en la base de datos.");
-            $('#alerta').show();
+            $('#alerta').html("El corte con folio "+$('#folio').val()+" no existe en la base de datos.").show();
           }
           else $("#formulario").submit();
         },
-        dataType: "json"
+        dataType: "json",
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        }
       });
     });
     $("#formulario").submit(function() {
       if ($('#folio').val() == "") {
-        $('#alerta').html("El campo de folio está vacío.");
-        $('#alerta').show();
+        $('#alerta').html("El campo de folio está vacío.").show();
         return false;
       }
       else return true;

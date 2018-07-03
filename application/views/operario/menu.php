@@ -11,10 +11,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i><?php echo $_SESSION['username'] ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cambiarPass">Cambiar contraseña</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/datos">Cambiar datos personales</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrar_sesion">Cerrar Sesión</a>
-        </div></li>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarPass">Cambiar contraseña</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarDatos">Cambiar datos personales</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cerrarSesion">Cerrar Sesión</a>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -25,13 +26,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrarReproceso">Cerrar reproceso</a>
             <?php endif; ?>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/ver">Ver producción</a>
-        </div></li>
+        </div>
+      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Otros</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/verAhorro">Ver caja de ahorro</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/verNominas">Ver información de nóminas</a>
-        </div></li>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

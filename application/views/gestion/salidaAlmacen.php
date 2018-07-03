@@ -2,36 +2,39 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
-  $(document).ready(function(){
-    $("#info").hide().click(function() {
-      $("#infoCorte").modal("show");
-    });
-    $("#folio").focus().keyup(function(){
-      $.ajax({
-        url: "<?php echo base_url() ?>index.php/ajax/salidaAlmacen",
-        data: { folio: $('#folio').val() },
-        type: 'POST',
-        dataType: 'json',
-        success: function(result) {
-          if (result.info!=''){
-            $("#imagenModal").html(result.info.imagen);
-            $("#folioModal").html(result.info.folio);
-            $("#corteModal").html(result.info.corte);
-            $("#marcaModal").html(result.info.marca);
-            $("#maquileroModal").html(result.info.maquilero);
-            $("#clienteModal").html(result.info.cliente);
-            $("#tipoModal").html(result.info.tipo);
-            $("#fechaModal").html(result.info.fecha);
-            $("#piezasModal").html(result.info.piezas);
-            $("#ojalesModal").html(result.info.ojales);
-            $("#info").show();
-          }
-          else $("#info").hide();
-          $("#complemento").html(result.respuesta);
+$(document).ready(function(){
+  $("#info").hide().click(function() {
+    $("#infoCorte").modal("show");
+  });
+  $("#folio").focus().keyup(function(){
+    $.ajax({
+      error: function(request, status, error){
+        window.location.replace("<?php echo base_url() ?>");
+      },
+      url: "<?php echo base_url() ?>index.php/ajax/salidaAlmacen",
+      data: { folio: $('#folio').val() },
+      type: 'POST',
+      dataType: 'json',
+      success: function(result) {
+        if (result.info!=''){
+          $("#imagenModal").html(result.info.imagen);
+          $("#folioModal").html(result.info.folio);
+          $("#corteModal").html(result.info.corte);
+          $("#marcaModal").html(result.info.marca);
+          $("#maquileroModal").html(result.info.maquilero);
+          $("#clienteModal").html(result.info.cliente);
+          $("#tipoModal").html(result.info.tipo);
+          $("#fechaModal").html(result.info.fecha);
+          $("#piezasModal").html(result.info.piezas);
+          $("#ojalesModal").html(result.info.ojales);
+          $("#info").show();
         }
-      });
+        else $("#info").hide();
+        $("#complemento").html(result.respuesta);
+      }
     });
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -70,46 +73,46 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="col-12">
               <table class="table table-striped table-bordered">
                 <tbody>
-                <tr>
-                  <td>Imágen</td>
-                  <td id="imagenModal"></td>
-                </tr>
-                <tr>
-                  <td>Folio</td>
-                  <td id="folioModal"></td>
-                </tr>
-                <tr>
-                  <td>Corte</td>
-                  <td id="corteModal"></td>
-                </tr>
-                <tr>
-                  <td>Marca</td>
-                  <td id="marcaModal"></td>
-                </tr>
-                <tr>
-                  <td>Maquilero</td>
-                  <td id="maquileroModal"></td>
-                </tr>
-                <tr>
-                  <td>Cliente</td>
-                  <td id="clienteModal"></td>
-                </tr>
-                <tr>
-                  <td>Tipo</td>
-                  <td id="tipoModal"></td>
-                </tr>
-                <tr>
-                  <td>Fecha de entrada</td>
-                  <td id="fechaModal"></td>
-                </tr>
-                <tr>
-                  <td>Piezas</td>
-                  <td id="piezasModal"></td>
-                </tr>
-                <tr>
-                  <td>Ojales</td>
-                  <td id="ojalesModal"></td>
-                </tr>
+                  <tr>
+                    <td>Imágen</td>
+                    <td id="imagenModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Folio</td>
+                    <td id="folioModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Corte</td>
+                    <td id="corteModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Marca</td>
+                    <td id="marcaModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Maquilero</td>
+                    <td id="maquileroModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Cliente</td>
+                    <td id="clienteModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Tipo</td>
+                    <td id="tipoModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de entrada</td>
+                    <td id="fechaModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Piezas</td>
+                    <td id="piezasModal"></td>
+                  </tr>
+                  <tr>
+                    <td>Ojales</td>
+                    <td id="ojalesModal"></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

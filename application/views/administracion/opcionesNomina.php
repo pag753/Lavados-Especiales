@@ -2,17 +2,17 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  $('#document').ready(function() {
-    $('#porFolios').hide();
-    $('#optionsRadios1').click(function() {
-      $('#porFechas').show(800);
-      $('#porFolios').hide(800);
-    });
-    $('#optionsRadios2').click(function() {
-      $('#porFechas').hide(800);
-      $('#porFolios').show(800);
-    });
+$('#document').ready(function() {
+  $('#porFolios').hide();
+  $('#optionsRadios1').click(function() {
+    $('#porFechas').show(800);
+    $('#porFolios').hide(800);
   });
+  $('#optionsRadios2').click(function() {
+    $('#porFechas').hide(800);
+    $('#porFolios').show(800);
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -32,24 +32,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="form-group" id="porFechas">
           <table class="table">
             <tbody>
-            <tr>
-              <td>Fecha inicial</td>
-              <td><input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaInicial" id="fechaInicial"></td>
-            </tr>
-            <tr>
-              <td>Fecha final</td>
-              <td><input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal"></td>
-            </tr>
+              <tr>
+                <td>Fecha inicial</td>
+                <td><input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaInicial" id="fechaInicial"></td>
+              </tr>
+              <tr>
+                <td>Fecha final</td>
+                <td><input class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fechaFinal" id="fechaFinal"></td>
+              </tr>
             </tbody>
           </table>
         </div>
         <div class="form-group" id="porFolios">
           <table class="table">
             <tbody>
-            <tr>
-              <td>Folios</td>
-              <td><textarea placeholder="Escribe los folios separados por comas. Ej.: 1,3,6,9,7,41,100" name="folios" id="folios" class="form-control"></textarea></td>
-            </tr>
+              <tr>
+                <td>Folios</td>
+                <td><textarea placeholder="Escribe los folios separados por comas. Ej.: 1,3,6,9,7,41,100" name="folios" id="folios" class="form-control"></textarea></td>
+              </tr>
             </tbody>
           </table>
         </div>

@@ -2,38 +2,41 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  $(document).ready(function() {
-    $("#folio").focus();
-    $('#alerta').hide();
-    $("#boton").click(function (){
-      if ($('#folio').val() == "")
-      {
-        $('#alerta').html("El campo de folio está vacío.");
-        $('#alerta').show();
-      }
-      var s = $.ajax({
-        type: "POST",
-        url: "<?php echo base_url("index.php/ajax/detalleCorte/") ?>",
-        data: { "folio": $("#folio").val() },
-        success: function(res) {
-          if (res.folio == ''){
-            $('#alerta').html("El corte con folio "+$('#folio').val()+" no existe en la base de datos.");
-            $('#alerta').show();
-          }
-          else $("#formulario").submit();
-        },
-        dataType: "json"
-      });
-    });
-    $("#formulario").submit(function() {
-      if ($('#folio').val() == "") {
-        $('#alerta').html("El campo de folio está vacío.");
-        $('#alerta').show();
-        return false;
-      }
-      else return true;
+$(document).ready(function() {
+  $("#folio").focus();
+  $('#alerta').hide();
+  $("#boton").click(function (){
+    if ($('#folio').val() == "")
+    {
+      $('#alerta').html("El campo de folio está vacío.");
+      $('#alerta').show();
+    }
+    var s = $.ajax({
+      error: function(request, status, error){
+        window.location.replace("<?php echo base_url() ?>");
+      },
+      type: "POST",
+      url: "<?php echo base_url("index.php/ajax/detalleCorte/") ?>",
+      data: { "folio": $("#folio").val() },
+      success: function(res) {
+        if (res.folio == ''){
+          $('#alerta').html("El corte con folio "+$('#folio').val()+" no existe en la base de datos.");
+          $('#alerta').show();
+        }
+        else $("#formulario").submit();
+      },
+      dataType: "json"
     });
   });
+  $("#formulario").submit(function() {
+    if ($('#folio').val() == "") {
+      $('#alerta').html("El campo de folio está vacío.");
+      $('#alerta').show();
+      return false;
+    }
+    else return true;
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="table">

@@ -12,6 +12,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
     });
     $('#boton').click(function() {
       $.ajax({
+        error: function(request, status, error){
+          window.location.replace("<?php echo base_url() ?>");
+        },
         url: "<?php echo base_url() ?>index.php/ajax/detalleCorte",
         data: { folio: $('#folio').val() },
         type: 'POST',
