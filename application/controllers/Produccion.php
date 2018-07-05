@@ -30,7 +30,7 @@ class Produccion extends CI_Controller
     );
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
-    $this->cargaMenu();
+    $this->cargarMenu();
     $this->load->view('produccion/index', $data);
     $this->load->view('comunes/foot');
   }
@@ -59,18 +59,15 @@ class Produccion extends CI_Controller
         {
           $this->load->model('procesoSeco');
           $ps = $this->procesoSeco->get();
-          foreach ($ps as $key2 => $value)
-          $precios[$value['id']] = $value['costo'];
+          foreach ($ps as $key2 => $value) $precios[$value['id']] = $value['costo'];
           $data['id_carga'] = $contador;
           $data['lavado_id'] = $this->input->post()['lavado'][$key];
           foreach ($this->input->post()['proceso_seco'][$key] as $num => $valor)
           {
             $data['proceso_seco_id'] = $valor;
             $data['costo'] = $precios[$valor];
-            if ($data['costo'] == 0)
-            $data['status'] = 2;
-            else
-            $data['status'] = 0;
+            if ($data['costo'] == 0) $data['status'] = 2;
+            else $data['status'] = 0;
             $data['usuario_id'] = $_SESSION['usuario_id'];
             $data['fecha_registro'] = date('Y-m-d');
             $n = $this->corteAutorizadoDatos->agregar($data);
@@ -99,7 +96,7 @@ class Produccion extends CI_Controller
     );
     $titulo['titulo'] = 'Autorizar corte';
     $this->load->view('comunes/head', $titulo);
-    $this->cargaMenu();
+    $this->cargarMenu();
     $this->load->view('produccion/cargarAutorizacion', $datos);
     $this->load->view('comunes/foot');
   }

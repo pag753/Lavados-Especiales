@@ -72,7 +72,7 @@ $(document).ready(function() {
   $('#cliente').change(function() {
     $.ajax({
       error: function(request, status, error){
-        window.location.replace("<?php echo base_url() ?>");
+        console.log(request);
       },
       url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
       data: { cliente: $('#cliente').val() },

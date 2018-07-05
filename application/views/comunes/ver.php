@@ -24,7 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           $('#alerta').hide();
           if (result.folio != ''){
             $("#imagen").html(result.imagen);
-            $("#folio").html(result.folio);
+            $("#folio-").html(result.folio);
             $("#corte").html(result.corte);
             $("#marca").html(result.marca);
             $("#maquilero").html(result.maquilero);
@@ -33,6 +33,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             $("#fecha").html(result.fecha);
             $("#piezas").html(result.piezas);
             $("#ojales").html(result.ojales);
+            $('#button').attr("onclick","document.location.href='<?php echo base_url()?>index.php/administracion/modificar?folio="+result.folio+"'");
           }
           else
           {
@@ -72,7 +73,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </tr>
           <tr>
             <td>Folio</td>
-            <td id="folio"></td>
+            <td id="folio-"></td>
           </tr>
           <tr>
             <td>Corte</td>
@@ -108,6 +109,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </tr>
           </tbody>
         </table>
+        <button type="button" id="button" class="btn btn-info btn-lg" title="Editar este corte"><i class="far fa-edit"></i></button>
       </div>
       <div class="alert alert-info" role="alert" id="alerta">Ingresa el número de folio y da click en ver.</div>
     </div>

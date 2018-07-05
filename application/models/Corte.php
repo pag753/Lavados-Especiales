@@ -9,7 +9,7 @@ class Corte extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  
+
   public function get()
   {
     $query = $this->db->get("corte");
@@ -274,6 +274,30 @@ class Corte extends CI_Model
     ->where('corte.fecha_entrada<=', $fechaf)
     ->where('entrega_almacen.corte_folio IS NULL')
     ->order_by('corte.folio', 'ASC');
+    return $this->db->get()->result_array();
+  }
+
+  public function getCortesOjal($data)
+  {
+    $this->db->select('
+    corte.folio as folio,
+    corte.corte as corte,
+    marca.nombre as marca,
+    maquilero.nombre as maquilero,
+    cliente.nombre as cliente,
+    tipo_pantalon.nombre as tipo,
+    corte.piezas as piezas,
+    corte.fecha_entrada as fecha,
+    corte.ojales as ojales
+    ')
+    ->from('corte')
+    ->join('marca', 'corte.marca_id=marca.id', 'left')
+    ->join('maquilero', 'corte.maquilero_id=maquilero.id')
+    ->join('cliente', 'corte.cliente_id=cliente.id')
+    ->join('tipo_pantalon', 'corte.tipo_pantalon_id=tipo_pantalon.id')
+    ->where('ojales!=',0)
+    ->where('fecha_entrada>=',$data['fechaInicial'])
+    ->where('fecha_entrada<=',$data['fechaFinal']);
     return $this->db->get()->result_array();
   }
 }

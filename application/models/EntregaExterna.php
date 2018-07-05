@@ -1,6 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+* Modelo de tabla entrega_externa
+* +-------------+---------+------+-----+---------+----------------+
+* | Field       | Type    | Null | Key | Default | Extra          |
+* +-------------+---------+------+-----+---------+----------------+
+* | corte_folio | int(11) | NO   | MUL | NULL    |                |
+* | fecha       | date    | NO   |     | NULL    |                |
+* | usuario_id  | int(11) | NO   | MUL | NULL    |                |
+* | lavado_id   | int(11) | NO   | MUL | NULL    |                |
+* | id          | int(11) | NO   | PRI | NULL    | auto_increment |
+* +-------------+---------+------+-----+---------+----------------+
+*/
 class EntregaExterna extends CI_Model
 {
 
@@ -8,6 +19,12 @@ class EntregaExterna extends CI_Model
   {
     parent::__construct();
     $this->load->database();
+  }
+
+  public function existe($folio,$lavado)
+  {
+    $query = $this->db->get_where('entrega_externa',array('corte_folio' => $folio, 'lavado_id' => $lavado));
+    return $query->result_array();
   }
 
   public function getByFolio($folio = null)

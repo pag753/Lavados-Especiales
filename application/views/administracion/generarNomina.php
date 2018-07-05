@@ -528,8 +528,7 @@ $(document).ready(function() {
         </form>
         <div class="card">
           <div class="card-header">
-            <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot"> </a>
-            <h5>Totales.</h5>
+            <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot"><strong>Totales.</strong></a>
           </div>
           <div class="collapse" id="tot">
             <div class="card-body">

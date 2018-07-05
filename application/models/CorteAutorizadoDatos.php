@@ -29,6 +29,7 @@ class CorteAutorizadoDatos extends CI_Model
     $this->db->select('
     corte_autorizado_datos.id_carga as idcarga,
     lavado.nombre as lavado,
+    lavado.id as idlavado,
     proceso_seco.nombre as proceso,
     corte_autorizado_datos.piezas_trabajadas as piezas,
     corte_autorizado_datos.defectos as defectos,
@@ -204,6 +205,25 @@ class CorteAutorizadoDatos extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function joinLavadoProcesosCargaNoCeros6($folio)
+  {
+    $this->db->select('
+    lavado.id as idlavado,
+    lavado.nombre as lavado,
+    proceso_seco.nombre as proceso,
+    proceso_seco.id as idproceso,
+    corte_autorizado_datos.costo as costo,
+    corte_autorizado_datos.id_carga as idcarga
+    ')
+    ->from('corte_autorizado_datos')
+    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+    ->where('corte_autorizado_datos.corte_folio', $folio)
+    ->where('corte_autorizado_datos.costo !=', 0)
+    ->where('corte_autorizado_datos.status', 1);
+    return $this->db->get()->result_array();
+  }
+
   public function actualizaCosto($folio, $carga, $proceso, $costo, $lavado)
   {
     $query = $this->db->where('corte_folio', $folio)
@@ -291,6 +311,7 @@ class CorteAutorizadoDatos extends CI_Model
   {
     $this->db->where('id', $data['id']);
     unset($data['id']);
+    $data['usuario_id'] = $_SESSION['usuario_id'];
     $this->db->set($data);
     $this->db->update('corte_autorizado_datos');
   }

@@ -789,8 +789,8 @@ class Administracion extends CI_Controller
   */
   public function modificarImagen()
   {
-    if (! $this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post())
+    echo "string";
     $folio = $this->input->post()['folioCambiarImagen'];
     // Eliminar la imágen actualizaCosto
     $extensiones = array(
@@ -823,7 +823,7 @@ class Administracion extends CI_Controller
     $data['uploadError'] = $this->upload->display_errors();
     $data['uploadSuccess'] = $this->upload->data();
     // Retornar
-    redirect('/administracion/modificar?folio=' . $this->input->post()['folio']);
+    redirect('/administracion/modificar?folio=' . $this->input->post()['folioCambiarImagen']);
   }
 
   /*
@@ -1351,16 +1351,14 @@ class Administracion extends CI_Controller
       // Por fechas
       if ($this->input->post()['optionsRadios'] == 'option1')
       {
-        if (! isset($this->input->post()['fechaInicial']) || ! isset($this->input->post()['fechaFinal']))
-        redirect('/administracion/index?q=error');
+        if (! isset($this->input->post()['fechaInicial']) || ! isset($this->input->post()['fechaFinal'])) redirect('/administracion/index?q=error');
         $data['reprocesos'] = $this->ProduccionReproceso->getByFechas($this->input->post()['fechaInicial'], $this->input->post()['fechaFinal']);
         $data['descripcion'] = "Nómina destajo del " . $this->input->post()['fechaInicial'] . " al " . $this->input->post()['fechaFinal'];
         $data['produccion'] = $this->ProduccionProcesoSeco->getByFechas($this->input->post()['fechaInicial'], $this->input->post()['fechaFinal']);
       } // Por folios
       else
       {
-        if (! isset($this->input->post()['folios']))
-        redirect('/administracion/index?q=error');
+        if (! isset($this->input->post()['folios'])) redirect('/administracion/index?q=error');
         $data['descripcion'] = "Nómina destajo de los folios " . $this->input->post()['folios'];
         $folios = explode(",", $this->input->post()['folios']);
         $data['produccion'] = $this->ProduccionProcesoSeco->getByFolios($folios);
@@ -2109,8 +2107,7 @@ class Administracion extends CI_Controller
     {
       if ($this->input->post())
       {
-        if (! isset($this->input->post()['id']))
-        redirect('/administracion/index?q=error');
+        if (! isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
         $this->load->model(array(
           'Corte',
           'CorteAutorizado',
@@ -2122,8 +2119,7 @@ class Administracion extends CI_Controller
           'EntregaExterna'
         ));
         $corte = $this->Corte->getByFolioGeneral($this->input->post()['id']);
-        if (count($corte) == 0)
-        redirect('/administracion/index?q=error');
+        if (count($corte) == 0) redirect('/administracion/index?q=error');
         $corte = $corte[0];
         $this->load->library('pdf');
         // tamaño 190 mm
@@ -2591,6 +2587,108 @@ class Administracion extends CI_Controller
         $this->load->view('administracion/reporteCostos');
         $this->load->view('comunes/foot');
       }
+    }
+  }
+  public function reporteOjal()
+  {
+    if ($this->input->post())
+    {
+      //print_r($this->input->post());
+      //Hacer PDF
+      $this->load->library('pdf');
+      // tamaño 190 mm
+      $pdf = new Pdf(utf8_decode("Reporte de cortes con ojal del " . $this->input->post()['fechaInicial'] . " al " . $this->input->post()['fechaFinal']));
+      // Agregamos una página
+      $pdf->SetAutoPageBreak(1, 20);
+      // Define el alias para el número de página que se imprimirá en el pie
+      $pdf->AliasNbPages();
+      $pdf->AddPage();
+      /*
+      * Se define el titulo, márgenes izquierdo, derecho y
+      * el color de relleno predeterminado
+      */
+      $pdf->SetTitle(utf8_decode("Reporte de cortes con ojal del " . $this->input->post()['fechaInicial'] . " al " . $this->input->post()['fechaFinal']));
+      $pdf->SetFont('Arial', 'B', 10);
+      // Datos generales
+      $pdf->SetWidths(array(
+        47.5,
+        47.5,
+        47.5,
+        47.5,
+      ));
+      // Encabezado de tabla
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->SetFont('Arial', 'B', 8);
+      $pdf->ban = true;
+      $pdf->Row(array(
+        utf8_decode("Folio de corte"),
+        utf8_decode("Número de piezas"),
+        utf8_decode("Número de ojales"),
+        utf8_decode("Fecha de entrada del corte"),
+      ));
+      // Cortes
+      $pdf->SetFont('Arial', '', 8);
+      $pdf->ban = false;
+      foreach ($this->input->post()['piezas'] as $key => $value)
+      {
+        $pdf->Row(array(
+          utf8_decode($key),
+          utf8_decode($value),
+          utf8_decode($this->input->post()['ojales'][$key]),
+          utf8_decode($this->input->post()['fecha'][$key]),
+        ));
+      }
+      /*
+      * Se manda el pdf al navegador
+      *
+      * $this->pdf->Output(nombredelarchivo, destino);
+      *
+      * I = Muestra el pdf en el navegador
+      * D = Envia el pdf para descarga
+      *
+      */
+      $pdf->Output(utf8_decode("Reporte de cortes con ojal del " . $this->input->post()['fechaInicial'] . " al " . $this->input->post()['fechaFinal']) . ".pdf", 'I');
+    }
+    else
+    {
+      $titulo['titulo'] = 'Generar reporte de cortes con ojal';
+      $this->load->view('comunes/head', $titulo);
+      $this->load->view('administracion/menu');
+      if ($this->input->get())
+      {
+        //Verificación
+        if (!isset($this->input->get()['fechaInicial']) || !isset($this->input->get()['fechaFinal'])) redirect('/administracion/index?q=error');
+        //recuperar datos
+        $this->load->model('corte');
+        $data['cortes'] = $this->corte->getCortesOjal($this->input->get());
+        //Cortes pata json
+        $extensiones = array(
+          "jpg",
+          "jpeg",
+          "png"
+        );
+        $ban = false;
+        foreach ($data['cortes'] as $key => $value)
+        {
+          $data['cortesJson'][$value['folio']] = $value;
+          foreach ($extensiones as $key2 => $extension)
+          {
+            $url = base_url() . "img/fotos/" . $value['folio'] . "." . $extension;
+            $headers = get_headers($url);
+            if (stripos($headers[0], "200 OK"))
+            {
+              $ban = true;
+              $imagen = "<img src='" . base_url() . "img/fotos/" . $value['folio'] . "." . $extension . "' class='img-fluid' alt='Responsive image'>";
+              break;
+            }
+          }
+          if (! $ban) $imagen = "No hay imágen";
+          $data['cortesJson'][$value['folio']]['imagen'] = $imagen;
+        }
+        $this->load->view('administracion/reporteOjalEspecifico',$data);
+      }
+      else $this->load->view('administracion/reporteOjal');
+      $this->load->view('comunes/foot');
     }
   }
 }

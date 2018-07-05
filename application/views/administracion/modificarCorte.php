@@ -40,7 +40,8 @@ function editarLavado(carga){
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -59,7 +60,8 @@ function eliminarLavado(carga){
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -93,7 +95,8 @@ function eliminarAutorizadoDatos(id){
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -117,7 +120,8 @@ function editarSalidaInternaDatos(id_carga){
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -144,7 +148,8 @@ function editarProduccion(id) {
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -163,7 +168,8 @@ function eliminarProduccion(id) {
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -190,7 +196,8 @@ function editarReproceso(id) {
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -210,7 +217,8 @@ function eliminarReproceso(id) {
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -237,7 +245,8 @@ function editarProduccionReproceso(id)
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -257,7 +266,8 @@ function eliminarProduccionReproceso(id)
       },
       dataType: "json",
       error: function (request, status, error) {
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       }
     });
   }
@@ -299,7 +309,8 @@ $(document).ready(function() {
           },
           dataType: "json",
           error: function (request, status, error) {
-            console.log(request.responseText);
+            window.location.replace("<?php echo base_url() ?>");
+            //console.log(request.responseText);
           }
         });
       }
@@ -344,7 +355,8 @@ $(document).ready(function() {
           },
           dataType: "json",
           error: function (request, status, error) {
-            console.log(request.responseText);
+            window.location.replace("<?php echo base_url() ?>");
+            //console.log(request.responseText);
           }
         });
       }
@@ -363,7 +375,8 @@ $(document).ready(function() {
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -392,7 +405,8 @@ $(document).ready(function() {
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -417,7 +431,8 @@ $(document).ready(function() {
           },
           dataType: "json",
           error: function (request, status, error) {
-            console.log(request.responseText);
+            window.location.replace("<?php echo base_url() ?>");
+            //console.log(request.responseText);
           }
         });
       }
@@ -436,7 +451,8 @@ $(document).ready(function() {
         },
         dataType: "json",
         error: function (request, status, error) {
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
@@ -567,7 +583,7 @@ $(document).ready(function() {
             </div>
             <div class="ml-auto">
               <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary">
-                <i class="fas fa-check"></i> Aceptar
+                <i class="fas fa-check"></i> Aplicar cambios
               </button>
             </div>
           </div>
@@ -652,7 +668,7 @@ $(document).ready(function() {
               </div>
               <div class="ml-auto">
                 <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion">
-                  <i class="fas fa-check"></i> Aceptar
+                  <i class="fas fa-check"></i> Aplicar cambios
                 </button>
                 <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar">
                   <i class="far fa-trash-alt"></i> Eliminar
@@ -783,7 +799,7 @@ $(document).ready(function() {
               </div>
               <div class="ml-auto">
                 <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna">
-                  <i class="fas fa-check"></i> Aceptar
+                  <i class="fas fa-check"></i> Aplicar cambios
                 </button>
                 <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar">
                   <i class="far fa-trash-alt"></i> Eliminar
@@ -1076,7 +1092,7 @@ $(document).ready(function() {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="cambiarImagen" id="cambiarImagen" action="<?php echo base_url('index.php/administracion/modificarImagen') ?>" method="post" enctype="multipart/form-data">
+      <form name="cambiarImagen" id="cambiarImagen" action="modificarImagen" method="post" enctype="multipart/form-data">
         <div class="modal-body">
           <ul>
             <li class="list-group-item"><?php echo $generales['imagen'] ?></li>
@@ -1092,7 +1108,7 @@ $(document).ready(function() {
             <i class="fas fa-window-close"></i> Cerrar
           </button>
           <button type="button" id="botonModalImagen" name="botonModalImagen" class="btn btn-primary">
-            <i class="fas fa-check"></i> Aceptar
+            <i class="fas fa-check"></i> Aplicar cambios
           </button>
         </div>
       </form>
@@ -1187,7 +1203,7 @@ $(document).ready(function() {
             <i class="fas fa-window-close"></i> Cerrar
           </button>
           <button type="button" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
-            <i class="fas fa-check"></i> Aceptar
+            <i class="fas fa-check"></i> Aplicar cambios
           </button>
         </div>
       </div>
@@ -1289,7 +1305,7 @@ $(document).ready(function() {
               <i class="fas fa-window-close"></i> Cerrar
             </button>
             <button type="submit" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
-              <i class="fas fa-check"></i> Aceptar
+              <i class="fas fa-check"></i> Aplicar cambios
             </button>
           </div>
         </form>

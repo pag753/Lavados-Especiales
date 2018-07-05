@@ -2,6 +2,23 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
+function alta(id) {
+  $.ajax({
+    error: function(request, status, error){
+      window.location.replace("<?php echo base_url() ?>");
+    },
+    url: "<?php echo base_url() ?>index.php/gestion/salidaExterna",
+    data: {
+      folio: $('#folio').val(),
+      idl : id,
+    },
+    type: 'POST',
+    dataType: 'json',
+    success: function(result) {
+      window.location.reload(true);
+    }
+  });
+}
 $(document).ready(function() {
   $("#folio").focus();
   $("#info").hide();
@@ -31,9 +48,19 @@ $(document).ready(function() {
           $("#ojalesModal").html(result.info.ojales);
           $("#info").show();
         }
-        else
-        $("#info").hide();
-        $("#complemento").html(result.respuesta);
+        else $("#info").hide();
+        if (result.respuesta[0] == '<') $("#complemento").html(result.respuesta);
+        else {
+          if (result.respuesta.length == 0) $("#complemento").html('<div class="alert alert-warning" role="alert">No hay cargas que registrar en almacén para este corte.</div>');
+          else {
+            var cadena = "<strong>Seleccione la carga que desea dar salida externa.</strong><table class='table table-bordered' id='tabla'><thead><tr><th>Lavado</th><th>Dar salida externa</th></tr></thead><tbody class='table-success'>";
+            $.each(result.respuesta,function(index,value) {
+              cadena += "<tr class='table-succes'><td>" + value.lavado + "</td><td><button type='button' class='btn btn-info' onclick='alta(" + value.lavadoid + ")' title='Dar clic aquí para dar salida externa a esta carga.'><i class='fas fa-arrow-up'></i></button></td></tr>";
+            });
+            cadena += "</tbody></table>";
+            $("#complemento").html(cadena);
+          }
+        }
       }
     });
   });
@@ -54,7 +81,7 @@ $(document).ready(function() {
           <div class="alert alert-info" role="alert">Ingresa el número de folio.</div>
         </div>
         <div>
-          <button type="button" class="btn btn-info" name="info" id="info">
+          <button type="button" class="btn btn-info" name="info" id="info" title="Dar clic aquí para ver la información del corte.">
             <i class="fas fa-info"></i>
           </button>
         </div>

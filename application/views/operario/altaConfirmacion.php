@@ -67,7 +67,7 @@ $(document).ready(function() {
               </thead>
               <tbody>
                 <tr>
-                  <td><?php echo $folio; ?></td>
+                  <td><?php echo $f; ?></td>
                   <td><?php echo strtoupper($nombreCarga); ?></td>
                   <td><?php echo strtoupper($nombreProceso); ?></td>
                   <td><?php echo $piezas ?></td>
@@ -110,9 +110,9 @@ $(document).ready(function() {
           </div>
         </div>
       </div>
-      <?php if ($trabajadas+$defectos==$piezas): ?>
+      <?php if ($trabajadas+$defectos == $piezas): ?>
         <div class="card">
-          <?php if (count($faltantes)!=0): ?>
+          <?php if (count($faltantes) != 0): ?>
             <div class="card-header">
               <strong>Seleccione el siguiente proceso.</strong>
             </div>
@@ -122,8 +122,9 @@ $(document).ready(function() {
             </div>
           <?php endif; ?>
           <div class="card-body">
-            <form action="registro" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="proceso" id="proceso" value="<?php echo $proceso ?>" /> <input type="hidden" name="carga" id="carga" value="<?php echo $carga ?>" /> <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" /> <input type="hidden" name="folio" id="folio" value="<?php echo $folio ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
+            <form action="alta" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="proceso" id="proceso" value="<?php echo $p ?>" /> <input type="hidden" name="carga" id="carga" value="<?php echo $c ?>" />
+              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" /> <input type="hidden" name="folio" id="folio" value="<?php echo $f ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
               <?php if (count($faltantes)!=0): ?>
                 <div class="form-group row">
                   <select name='siguiente' id='siguiente' class="form-control">

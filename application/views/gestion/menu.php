@@ -30,7 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
               <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/salidaExterna">Entrega externa</a>
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link" href="reportes">Reportes</a></li>
+          <li class="nav-item"><a class="nav-link" href="<?php echo base_url() ?>index.php/gestion/reportes">Reportes</a></li>
         </ul>
       </div>
     </nav>

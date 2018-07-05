@@ -49,6 +49,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte2">Reporte de periodo de producción</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/nomina">Nómina</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte4">Reporte de producción de trabajador</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporteOjal">Reporte de cortes con ojal</a>
         </div>
       </li>
       <li class="nav-item dropdown">

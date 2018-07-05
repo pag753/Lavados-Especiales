@@ -145,11 +145,13 @@ class Gestion extends CI_Controller
     if ($this->input->post())
     {
       $this->load->model('entregaAlmacen');
-      $this->entregaAlmacen->agregar(array(
+      $resp = $this->entregaAlmacen->agregar(array(
         'corte_folio' => $this->input->post()['folio'],
+        'lavado_id' => $this->input->post()['idl'],
+        'usuario_id' => $_SESSION['usuario_id'],
         'fecha' => date("Y-m-d")
       ));
-      redirect("/");
+      echo $resp;
     }
     else
     {
@@ -166,11 +168,15 @@ class Gestion extends CI_Controller
     if ($this->input->post())
     {
       $this->load->model('entregaExterna');
-      $this->entregaExterna->agregar(array(
+      $a = $this->entregaExterna->agregar(array(
         'corte_folio' => $this->input->post()['folio'],
-        'fecha' => date("Y-m-d")
+        'fecha' => date("Y-m-d"),
+        'usuario_id' => $_SESSION['usuario_id'],
+        'lavado_id' => $this->input->post()['idl']
       ));
-      redirect("/");
+      echo $a;
+      /*
+      redirect("/");*/
     }
     else
     {
