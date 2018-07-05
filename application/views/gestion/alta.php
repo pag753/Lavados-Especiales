@@ -11,9 +11,9 @@ $input_folio = array(
 $input_fecha = array(
   'name' => 'fecha',
   'id' => 'fecha',
-  'type' => 'datetime-local',
+  'type' => 'datetime',
   'class' => 'form-control',
-  'value' => set_value('fecha', date("Y-m-d") . "T00:00"),
+  'value' => set_value('fecha', date("Y-m-d")),
   'readonly' => 'true'
 );
 $input_corte = array(
