@@ -8,7 +8,7 @@ class Gestion extends CI_Controller
   {
     parent::__construct();
     $idusuario = $_SESSION['id'];
-    if ($idusuario != 2 && $idusuario != 5 && $idusuario != 1) redirect('/');
+    if (!in_array($idusuario, array(1,2,5))) redirect('/');
   }
 
   public function index($datos = null)
@@ -40,7 +40,7 @@ class Gestion extends CI_Controller
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->cargarMenu();
-    $this->load->view('gestion/index', $data);
+    $this->load->view('comunes/index', $data);
     $this->load->view('comunes/foot');
   }
 
@@ -211,1019 +211,442 @@ class Gestion extends CI_Controller
 
   public function generaReporte()
   {
-    if (! $this->input->post()) redirect('/');
-    switch ($this->input->post()['reporte'])
+    if (! $this->input->get()) redirect('/');
+    switch ($this->input->get()['reporte'])
     {
-      case 1: // reporte de cortes en almacen -> cortes no autorizados
-      // campos: todos los de de corte
+      case 1:
+      /*
+      * reporte de cortes en almacen de entrada
+      * -> cortes autorizados y no autorizados
+      * -> cortes sin salida interna
+      */
       $this->reporte1();
       break;
-      case 2: // reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
-      // campos: todos los de corte, datos de autorización y si hay de salida interna
+      case 2:
+      /*
+      * reporte de cortes autorizados
+      * cortes autorizados
+      * cortes sin salida interna
+      */
       $this->reporte2();
       break;
-      case 3: // reporte de cortes entregados -> cortes que ya se entregaron
-      // campos: TODOS
+      case 3:
+      /*
+      * reporte de cargas entregadas
+      * cargas con salida externa
+      */
       $this->reporte3();
       break;
-      case 4: // reporte de cortes en proceso -> cortes que están en proceso sin salida externa
-      // campos: todos los de corte, datos de autorización y salida interna
+      case 4:
+      /*
+      * Reporte de cargas en producción
+      * -> cargas autorizadas
+      * -> cargas con salida interna
+      * -> cargas sin salida a almacén
+      */
       $this->reporte4();
+      break;
+      case 5:
+      /*
+      * Reporte de cargas en almacén de salida
+      * -> cargas con salida a almacén
+      * -> cargas sin salida externa
+      */
+      $this->reporte5();
       break;
     }
     // print_r($this->input->post());
   }
 
+  /*
+  * reporte de cortes en almacen de entrada
+  * -> cortes autorizados y no autorizados
+  * -> cortes sin salida interna
+  */
   public function reporte1()
   {
-    if (! $this->input->post())
-    redirect("/");
-    // Se carga la libreria fpdf
-    if (isset($this->input->post()['check']))
-    $check = TRUE;
-    else
-    $check = FALSE;
-    $this->load->library('pdf');
-    // Creacion del PDF
-    /*
-    * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    * heredó todos las variables y métodos de fpdf
-    */
-    $this->load->model('Corte');
-    $cortes = $this->Corte->reporte1($this->input->post());
-    $pdf = new Pdf("REPORTE DE CORTES EN ALMACEN");
-    // Agregamos una página
-    $pdf->SetAutoPageBreak(1, 20);
-    // Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
-    $pdf->AddPage();
-    /*
-    * Se define el titulo, márgenes izquierdo, derecho y
-    * el color de relleno predeterminado
-    */
-    $pdf->SetTitle("Reporte");
-    // 190 vertical
-    if ($check)
+    $titulo['titulo'] = 'Reporte de cortes en almacen de entrada.';
+    if (!$this->input->post())
     {
-      $pdf->SetWidths(array(
-        52.44,
-        10,
-        10,
-        21.11,
-        21.11,
-        21.11,
-        21.11,
-        11,
-        21.11
-      ));
-      $pdf->Row(array(
-        utf8_decode("Imágen"),
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha")
-      ));
-      $extensiones = array(
-        "jpg",
-        "jpeg",
-        "png"
-      );
-      foreach ($cortes as $key => $value)
-      {
-        if ($key > 0 && $key % 6 == 0)
-        {
-          $pdf->SetFont('Arial', 'B', 8);
-          $pdf->AddPage();
-          $pdf->Row(array(
-            utf8_decode("Imágen"),
-            utf8_decode("Folio"),
-            utf8_decode("Corte"),
-            utf8_decode("Marca"),
-            utf8_decode("Maquilero"),
-            utf8_decode("Cliente"),
-            utf8_decode("Tipo"),
-            utf8_decode("Piezas"),
-            utf8_decode("Fecha")
-          ));
-        }
-        $pdf->SetFont('Arial', '', 8);
-        foreach ($extensiones as $key2 => $extension)
-        {
-          $url = base_url() . "img/fotos/" . $folio . "." . $extension;
-          $headers = get_headers($url);
-          if (stripos($headers[0], "200 OK"))
-          {
-            $pdf->Image(base_url() . "img/fotos/" . $value['folio'] . "." . $extension, $pdf->GetX(), $pdf->GetY(), 53, 30);
-            break;
-          }
-        }
-        $peso = "\n\n\n\n\n\n";
-        $pdf->Row(array(
-          $peso,
-          utf8_decode($value['folio']),
-          utf8_decode($value['corte']),
-          utf8_decode($value['marca']),
-          utf8_decode($value['maquilero']),
-          utf8_decode($value['cliente']),
-          utf8_decode($value['tipo']),
-          utf8_decode($value['piezas']),
-          utf8_decode($value['fecha'])
-        ));
-      }
+      $this->load->model('corte');
+      $data['data'] = $this->corte->reporte1();
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('gestion/reporte1',$data);
+      $this->load->view('comunes/foot');
     }
     else
     {
+      // Se carga la libreria fpdf
+      $this->load->library('pdf');
+      // Creacion del PDF
+      /*
+      * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+      * heredó todos las variables y métodos de fpdf
+      */
+      $pdf = new Pdf("Reporte de cortes en almacen de entrada");
+      // Agregamos una página
+      $pdf->SetAutoPageBreak(1, 20);
+      // Define el alias para el número de página que se imprimirá en el pie
+      $pdf->AliasNbPages();
+      $pdf->AddPage();
+      /*
+      * Se define el titulo, márgenes izquierdo, derecho y
+      * el color de relleno predeterminado
+      */
+      $pdf->SetTitle("Reporte de cortes en almacen de entrada");
+      // 190 vertical
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->ban = true;
+      $pdf->SetFont('Arial', 'B', 8);
       $pdf->SetWidths(array(
-        23.75,
-        23.75,
-        23.75,
-        23.75,
-        23.75,
-        23.75,
-        23.75,
-        23.75
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
+        21.111111111,
       ));
       $pdf->Row(array(
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha")
+        utf8_decode("Folio del corte"),
+        utf8_decode("Fecha de entrada"),
+        utf8_decode("Corte\n\n"),
+        utf8_decode("Marca\n\n"),
+        utf8_decode("Maquilero\n\n"),
+        utf8_decode("Cliente\n\n"),
+        utf8_decode("Tipo de pantalón"),
+        utf8_decode("Número de piezas"),
+        utf8_decode("Número de ojales"),
       ));
       $pdf->SetFont('Arial', '', 8);
-      foreach ($cortes as $key => $value)
+      $pdf->ban = false;
+      foreach ($this->input->post()['fecha'] as $key => $value)
       {
         $pdf->Row(array(
-          utf8_decode($value['folio']),
-          utf8_decode($value['corte']),
-          utf8_decode($value['marca']),
-          utf8_decode($value['maquilero']),
-          utf8_decode($value['cliente']),
-          utf8_decode($value['tipo']),
-          utf8_decode($value['piezas']),
-          utf8_decode($value['fecha'])
+          utf8_decode($key),
+          utf8_decode($value),
+          utf8_decode($this->input->post()['corte'][$key]),
+          utf8_decode($this->input->post()['marca'][$key]),
+          utf8_decode($this->input->post()['maquilero'][$key]),
+          utf8_decode($this->input->post()['cliente'][$key]),
+          utf8_decode($this->input->post()['tipo'][$key]),
+          utf8_decode($this->input->post()['piezas'][$key]),
+          utf8_decode($this->input->post()['ojales'][$key]),
         ));
       }
+
+      /*
+      * Se manda el pdf al navegador
+      *
+      * $this->pdf->Output(nombredelarchivo, destino);
+      *
+      * I = Muestra el pdf en el navegador
+      * D = Envia el pdf para descarga
+      *
+      */
+      $pdf->Output("Reporte de cortes en almacen de entrada.pdf", 'I');
     }
-    /*
-    * Se manda el pdf al navegador
-    *
-    * $this->pdf->Output(nombredelarchivo, destino);
-    *
-    * I = Muestra el pdf en el navegador
-    * D = Envia el pdf para descarga
-    *
-    */
-    $pdf->Output("Reporte.pdf", 'I');
   }
 
+  /*
+  * reporte de cortes autorizados
+  * cortes autorizados
+  * cortes sin salida interna
+  */
   public function reporte2()
   {
-    // reporte de cortes autorizados -> cortes autorizados no en proceso sin salida externa
-    // campos: todos los de corte, datos de autorización y si hay de salida interna
+    $titulo['titulo'] = 'Reporte de cortes autorizados.';
     if (! $this->input->post())
-    redirect("/");
-    // Se carga la libreria fpdf
-    if (isset($this->input->post()['check'])) $check = TRUE;
-    else $check = FALSE;
-    $this->load->library('pdf');
-    // Creacion del PDF
-    /*
-    * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    * heredó todos las variables y métodos de fpdf
-    */
-    $this->load->model('Corte');
-    $cortes = $this->Corte->reporte1($this->input->post());
-    $pdf = new Pdf("REPORTE DE CORTES AUTORIZADOS", 'L');
-    // Agregamos una página
-    $pdf->SetAutoPageBreak(1, 20);
-    // Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
-    // $pdf->Open();
-    $pdf->AddPage();
-    /*
-    * Se define el titulo, márgenes izquierdo, derecho y
-    * el color de relleno predeterminado
-    */
-    $pdf->SetTitle("Reporte");
-    $this->load->model('corte');
-    $cortes = $this->corte->reporte2($this->input->post());
-    // 190 vertical
-    if ($check)
     {
-      $valor = 42.769230769;
-      $arregloPrincipal = array(
-        $valor,
-        8.769230769,
-        10.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769,
-        20.769230769
-      );
-      $pdf->SetWidths($arregloPrincipal);
-      $pdf->Row(array(
-        utf8_decode('Imágen'),
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Fecha salida interna"),
-        utf8_decode("Lavado")
-      ));
-      $extensiones = array(
-        "jpg",
-        "jpeg",
-        "png"
-      );
-      foreach ($cortes as $key => $value)
-      {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        if ($pdf->GetY() + ($cargas * 15) > 170)
-        {
-          $pdf->AddPage();
-          $pdf->SetFont('Arial', 'B', 9);
-          $pdf->SetWidths($arregloPrincipal);
-          $pdf->Row(array(
-            utf8_decode('Imágen'),
-            utf8_decode("Folio"),
-            utf8_decode("Corte"),
-            utf8_decode("Marca"),
-            utf8_decode("Maquilero"),
-            utf8_decode("Cliente"),
-            utf8_decode("Tipo"),
-            utf8_decode("Piezas"),
-            utf8_decode("Fecha entrada"),
-            utf8_decode("Cargas"),
-            utf8_decode("Fecha autorización"),
-            utf8_decode("Fecha salida interna"),
-            utf8_decode("Lavado")
-          ));
-        }
-        $pdf->SetWidths(array(
-          8.769230769,
-          10.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769,
-          20.769230769
-        ));
-        $pdf->SetFont('Arial', '', 9);
-        foreach ($extensiones as $key2 => $extension)
-        {
-          $url = base_url() . "img/fotos/" . $folio . "." . $extension;
-          $headers = get_headers($url);
-          if (stripos($headers[0], "200 OK"))
-          {
-            $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 49.75, 30);
-            break;
-          }
-        }
-        $this->load->model('corteAutorizadoDatos');
-        for ($carga = 1; $carga <= $cargas; $carga ++)
-        {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $pdf->SetX($pdf->GetX() + $valor);
-          $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($lavado),
-            utf8_decode($proceso)
-          ));
-        }
-        $pdf->SetY($pdf->GetY() + 5);
-      }
+      $this->load->model('corte');
+      $data['data'] = $this->corte->reporte2();
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('gestion/reporte2',$data);
+      $this->load->view('comunes/foot');
     }
     else
     {
-      $pdf->SetFont('Arial', 'B', 9);
+      // Se carga la libreria fpdf
+      $this->load->library('pdf');
+      // Creacion del PDF
+      /*
+      * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+      * heredó todos las variables y métodos de fpdf
+      */
+      $pdf = new Pdf("Reporte de cortes autorizados");
+      // Agregamos una página
+      $pdf->SetAutoPageBreak(1, 20);
+      // Define el alias para el número de página que se imprimirá en el pie
+      $pdf->AliasNbPages();
+      $pdf->AddPage();
+      /*
+      * Se define el titulo, márgenes izquierdo, derecho y
+      * el color de relleno predeterminado
+      */
+      $pdf->SetTitle("Reporte de cortes autorizados");
+      // 190 vertical
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->ban = true;
+      $pdf->SetFont('Arial', 'B', 8);
       $pdf->SetWidths(array(
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5,
-        22.5
+        63.333333333,
+        63.333333333,
+        63.333333333
       ));
       $pdf->Row(array(
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Lavado"),
-        utf8_decode("Procesos")
+        utf8_decode("Folio del corte"),
+        utf8_decode("Carga o lavado"),
+        utf8_decode("Proceso seco"),
       ));
-      $pdf->SetFont('Arial', '', 9);
-      foreach ($cortes as $key => $value)
+      $pdf->SetFont('Arial', '', 8);
+      $pdf->ban = false;
+      foreach ($this->input->post()['lavado'] as $key => $value)
       {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        $this->load->model('corteAutorizadoDatos');
-        $lavado = '';
-        $proceso = '';
-        for ($carga = 1; $carga <= $cargas; $carga ++)
-        {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($lavado),
-            utf8_decode($proceso)
-          ));
-        }
-        $pdf->SetY($pdf->GetY() + 5);
+        $pdf->Row(array(
+          utf8_decode($this->input->post()['folio'][$key]),
+          utf8_decode($value),
+          utf8_decode($this->input->post()['proceso'][$key]),
+        ));
       }
+
+      /*
+      * Se manda el pdf al navegador
+      *
+      * $this->pdf->Output(nombredelarchivo, destino);
+      *
+      * I = Muestra el pdf en el navegador
+      * D = Envia el pdf para descarga
+      *
+      */
+      $pdf->Output("Reporte de cortes autorizados.pdf", 'I');
     }
-    /*
-    * Se manda el pdf al navegador
-    *
-    *
-    * I = Muestra el pdf en el navegador
-    * D = Envia el pdf para descarga
-    *
-    */
-    $pdf->Output("Reporte.pdf", 'I');
   }
 
+  /*
+  * reporte de cargas entregadas
+  * cargas con salida externa
+  */
   public function reporte3()
   {
-    if (! $this->input->post()) redirect("/");
-    // reporte de cortes en proceso -> cortes que están en proceso sin salida externa
-    // campos: todos los de corte, datos de autorización y salida interna
-    // Se carga la libreria fpdf
-    if (isset($this->input->post()['check'])) $check = TRUE;
-    else $check = FALSE;
-    $this->load->library('pdf');
-    // Creacion del PDF
-    /*
-    * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    * heredó todos las variables y métodos de fpdf
-    */
-    $this->load->model('Corte');
-    $cortes = $this->Corte->reporte1($this->input->post());
-    $pdf = new Pdf("REPORTE DE CORTES EN PROCESO", 'L');
-    // Agregamos una página
-    $pdf->SetAutoPageBreak(1, 20);
-    // Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
-    // $pdf->Open();
-    $pdf->AddPage();
-    /*
-    * Se define el titulo, márgenes izquierdo, derecho y
-    * el color de relleno predeterminado
-    */
-    $pdf->SetTitle("Reporte");
-    $this->load->model('corte');
-    $cortes = $this->corte->reporte3($this->input->post());
-    // 190 vertical
-    if ($check)
+    $titulo['titulo'] = 'Reporte de cargas entregadas.';
+    if ($this->input->get())
     {
-      $pdf->SetWidths(array(
-        38,
-        9,
-        9.5,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        10.875,
-        16.875,
-        12.875,
-        16.875,
-        16.875,
-        16.875,
-        15,
-        16.875,
-        16.875,
-        16.875
-      ));
-      $pdf->Row(array(
-        utf8_decode('Imágen'),
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Fecha salida interna"),
-        utf8_decode("Fecha entrega"),
-        utf8_decode("Muestras"),
-        utf8_decode("Lavado"),
-        utf8_decode("Procesos"),
-        utf8_decode("Piezas de carga")
-      ));
-      $extensiones = array(
-        "jpg",
-        "jpeg",
-        "png"
-      );
-      foreach ($cortes as $key => $value)
-      {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        $fechaSalidaInterna = $value['fechaSalidaInterna'];
-        $muestras = $value['muestras'];
-        $fechaSalida = $value['fechaSalida'];
-        if ($pdf->GetY() + ($cargas * 15) > 170)
-        {
-          $pdf->AddPage();
-          $pdf->SetFont('Arial', 'B', 8);
-          $pdf->SetWidths(array(
-            38,
-            9,
-            9.5,
-            16.875,
-            16.875,
-            16.875,
-            16.875,
-            10.875,
-            16.875,
-            12.875,
-            16.875,
-            16.875,
-            16.875,
-            15,
-            16.875,
-            16.875,
-            16.875
-          ));
-          $pdf->Row(array(
-            utf8_decode('Imágen'),
-            utf8_decode("Folio"),
-            utf8_decode("Corte"),
-            utf8_decode("Marca"),
-            utf8_decode("Maquilero"),
-            utf8_decode("Cliente"),
-            utf8_decode("Tipo"),
-            utf8_decode("Piezas"),
-            utf8_decode("Fecha entrada"),
-            utf8_decode("Cargas"),
-            utf8_decode("Fecha autorización"),
-            utf8_decode("Fecha salida interna"),
-            utf8_decode("Fecha entrega"),
-            utf8_decode("Muestras"),
-            utf8_decode("Lavado"),
-            utf8_decode("Procesos"),
-            utf8_decode("Piezas de carga")
-          ));
-        }
-        $pdf->SetWidths(array(
-          9,
-          9.5,
-          16.875,
-          16.875,
-          16.875,
-          16.875,
-          10.875,
-          16.875,
-          12.875,
-          16.875,
-          16.875,
-          16.875,
-          15,
-          16.875,
-          16.875,
-          16.875
-        ));
-        $pdf->SetFont('Arial', '', 8);
-        foreach ($extensiones as $key2 => $extension)
-        {
-          $url = base_url() . "img/fotos/" . $folio . "." . $extension;
-          $headers = get_headers($url);
-          if (stripos($headers[0], "200 OK"))
-          {
-            $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 38, 21.4);
-            break;
-          }
-        }
-        $this->load->model('salidaInterna1Datos');
-        $salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
-        $this->load->model('corteAutorizadoDatos');
-        $lavado = '';
-        $proceso = '';
-        for ($carga = 1; $carga <= $cargas; $carga ++)
-        {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $piezasCarga = $salidaInterna[$carga - 1]['piezas'];
-          $pdf->SetX($pdf->GetX() + 38);
-          $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($fechaSalidaInterna),
-            utf8_decode($fechaSalida),
-            utf8_decode($muestras),
-            utf8_decode($lavado),
-            utf8_decode($proceso),
-            utf8_decode($piezasCarga)
-          ));
-        }
-        $pdf->SetY($pdf->GetY() + 5);
-      }
+      $this->load->model('corte');
+      $data['data'] = $this->corte->reporte3($this->input->get());
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('gestion/reporte3',$data);
+      $this->load->view('comunes/foot');
     }
     else
     {
-      $pdf->SetFont('Arial', 'B', 8);
-      $pdf->SetWidths(array(
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875
-      ));
-      $pdf->Row(array(
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Fecha salida interna"),
-        utf8_decode("Fecha entrega"),
-        utf8_decode("Muestras"),
-        utf8_decode("Lavado"),
-        utf8_decode("Procesos"),
-        utf8_decode("Piezas de carga")
-      ));
-      $pdf->SetFont('Arial', '', 8);
-      foreach ($cortes as $key => $value)
+      if ($this->input->post())
       {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        $fechaSalidaInterna = $value['fechaSalidaInterna'];
-        $muestras = $value['muestras'];
-        $fechaSalida = $value['fechaSalida'];
-        $this->load->model('salidaInterna1Datos');
-        $salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
-        $this->load->model('corteAutorizadoDatos');
-        for ($carga = 1; $carga <= $cargas; $carga ++)
+        // Se carga la libreria fpdf
+        $this->load->library('pdf');
+        // Creacion del PDF
+        /*
+        * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+        * heredó todos las variables y métodos de fpdf
+        */
+        $pdf = new Pdf("Reporte de cargas entregadas");
+        // Agregamos una página
+        $pdf->SetAutoPageBreak(1, 20);
+        // Define el alias para el número de página que se imprimirá en el pie
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+        /*
+        * Se define el titulo, márgenes izquierdo, derecho y
+        * el color de relleno predeterminado
+        */
+        $pdf->SetTitle("Reporte de cargas entregadas");
+        // 190 vertical
+        $pdf->SetFillColor(59, 131, 189);
+        $pdf->ban = true;
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->SetWidths(array(
+          63.333333333,
+          63.333333333,
+          63.333333333
+        ));
+        $pdf->Row(array(
+          utf8_decode("Folio del corte"),
+          utf8_decode("Carga o lavado"),
+          utf8_decode("Fecha de entrega"),
+        ));
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->ban = false;
+        foreach ($this->input->post()['lavado'] as $key => $value)
         {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $piezasCarga = $salidaInterna[$carga - 1]['piezas'];
           $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($fechaSalidaInterna),
-            utf8_decode($fechaSalida),
-            utf8_decode($muestras),
-            utf8_decode($lavado),
-            utf8_decode($proceso),
-            utf8_decode($piezasCarga)
+            utf8_decode($this->input->post()['folio'][$key]),
+            utf8_decode($value),
+            utf8_decode($this->input->post()['fecha'][$key]),
           ));
         }
-        $pdf->SetY($pdf->GetY() + 5);
+
+        /*
+        * Se manda el pdf al navegador
+        *
+        * $this->pdf->Output(nombredelarchivo, destino);
+        *
+        * I = Muestra el pdf en el navegador
+        * D = Envia el pdf para descarga
+        *
+        */
+        $pdf->Output("Reporte de cargas entregadas.pdf", 'I');
       }
+      else redirect('/');
     }
-    /*
-    * Se manda el pdf al navegador
-    *
-    * $this->pdf->Output(nombredelarchivo, destino);
-    *
-    * I = Muestra el pdf en el navegador
-    * D = Envia el pdf para descarga
-    *
-    */
-    $pdf->Output("Reporte.pdf", 'I');
   }
 
+  /*
+  * Reporte de cargas en producción
+  * -> cargas autorizadas
+  * -> cargas con salida interna
+  * -> cargas sin salida a almacén
+  */
   public function reporte4()
   {
-    // reporte de cortes en proceso -> cortes que están en proceso sin salida externa
-    // campos: todos los de corte, datos de autorización y salida interna
+    $titulo['titulo'] = "Reporte de cargas en producción";
     if (! $this->input->post())
-    redirect("/");
-    // Se carga la libreria fpdf
-    if (isset($this->input->post()['check']))
-    $check = TRUE;
-    else
-    $check = FALSE;
-    $this->load->library('pdf');
-    // Creacion del PDF
-    /*
-    * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
-    * heredó todos las variables y métodos de fpdf
-    */
-    $this->load->model('Corte');
-    $cortes = $this->Corte->reporte1($this->input->post());
-    $pdf = new Pdf("REPORTE DE CORTES EN PROCESO", 'L');
-    // Agregamos una página
-    $pdf->SetAutoPageBreak(1, 20);
-    // Define el alias para el número de página que se imprimirá en el pie
-    $pdf->AliasNbPages();
-    // $pdf->Open();
-    $pdf->AddPage();
-    /*
-    * Se define el titulo, márgenes izquierdo, derecho y
-    * el color de relleno predeterminado
-    */
-    $pdf->SetTitle("Reporte");
-    $this->load->model('corte');
-    $cortes = $this->corte->reporte4($this->input->post());
-    // 190 vertical
-    if ($check)
     {
-      $pdf->SetWidths(array(
-        49.75,
-        9,
-        10.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        10.875,
-        16.875,
-        12.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875,
-        16.875
-      ));
-      $pdf->Row(array(
-        utf8_decode('Imágen'),
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Fecha salida interna"),
-        utf8_decode("Muestras"),
-        utf8_decode("Lavado"),
-        utf8_decode("Procesos"),
-        utf8_decode("Piezas de carga")
-      ));
-      $extensiones = array(
-        "jpg",
-        "jpeg",
-        "png"
-      );
-      foreach ($cortes as $key => $value)
-      {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        if ($pdf->GetY() + ($cargas * 15) > 170)
-        {
-          $pdf->AddPage();
-          $pdf->SetFont('Arial', 'B', 8);
-          $pdf->SetWidths(array(
-            49.75,
-            9,
-            10.875,
-            16.875,
-            16.875,
-            16.875,
-            16.875,
-            10.875,
-            16.875,
-            12.875,
-            16.875,
-            16.875,
-            16.875,
-            16.875,
-            16.875,
-            16.875
-          ));
-          $pdf->Row(array(
-            utf8_decode('Imágen'),
-            utf8_decode("Folio"),
-            utf8_decode("Corte"),
-            utf8_decode("Marca"),
-            utf8_decode("Maquilero"),
-            utf8_decode("Cliente"),
-            utf8_decode("Tipo"),
-            utf8_decode("Piezas"),
-            utf8_decode("Fecha entrada"),
-            utf8_decode("Cargas"),
-            utf8_decode("Fecha autorización"),
-            utf8_decode("Fecha salida interna"),
-            utf8_decode("Muestras"),
-            utf8_decode("Lavado"),
-            utf8_decode("Procesos"),
-            utf8_decode("Piezas de carga")
-          ));
-        }
-        $pdf->SetWidths(array(
-          9,
-          10.875,
-          16.875,
-          16.875,
-          16.875,
-          16.875,
-          10.875,
-          16.875,
-          12.875,
-          16.875,
-          16.875,
-          16.875,
-          16.875,
-          16.875,
-          16.875
-        ));
-        $pdf->SetFont('Arial', '', 8);
-        foreach ($extensiones as $key2 => $extension)
-        {
-          $url = base_url() . "img/fotos/" . $folio . "." . $extension;
-          $headers = get_headers($url);
-          if (stripos($headers[0], "200 OK"))
-          {
-            $pdf->Image(base_url() . "img/fotos/" . $folio . "." . $extension, $pdf->GetX(), $pdf->GetY(), 49.75, 30);
-            break;
-          }
-        }
-        $fechaSalidaInterna = $value['fechaSalidaInterna'];
-        $muestras = $value['muestras'];
-        $this->load->model('salidaInterna1Datos');
-        $salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
-        $this->load->model('corteAutorizadoDatos');
-        $lavado = '';
-        $proceso = '';
-        for ($carga = 1; $carga <= $cargas; $carga ++)
-        {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $piezasCarga = $salidaInterna[$carga - 1]['piezas'];
-          $pdf->SetX($pdf->GetX() + 49.75);
-          $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($fechaSalidaInterna),
-            utf8_decode($muestras),
-            utf8_decode($lavado),
-            utf8_decode($proceso),
-            utf8_decode($piezasCarga)
-          ));
-        }
-        $pdf->SetY($pdf->GetY() + 5);
-      }
+      $this->load->model('corte');
+      $data['data'] = $this->corte->reporte4();
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('gestion/reporte4',$data);
+      $this->load->view('comunes/foot');
     }
     else
     {
+      // Se carga la libreria fpdf
+      $this->load->library('pdf');
+      // Creacion del PDF
+      /*
+      * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+      * heredó todos las variables y métodos de fpdf
+      */
+      $pdf = new Pdf(utf8_decode("Reporte de cargas en producción"));
+      // Agregamos una página
+      $pdf->SetAutoPageBreak(1, 20);
+      // Define el alias para el número de página que se imprimirá en el pie
+      $pdf->AliasNbPages();
+      $pdf->AddPage();
+      /*
+      * Se define el titulo, márgenes izquierdo, derecho y
+      * el color de relleno predeterminado
+      */
+      $pdf->SetTitle(utf8_decode("Reporte de cargas en producción"));
+      // 190 vertical
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->ban = true;
       $pdf->SetFont('Arial', 'B', 8);
       $pdf->SetWidths(array(
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18,
-        18
+        95,
+        95,
       ));
       $pdf->Row(array(
-        utf8_decode("Folio"),
-        utf8_decode("Corte"),
-        utf8_decode("Marca"),
-        utf8_decode("Maquilero"),
-        utf8_decode("Cliente"),
-        utf8_decode("Tipo"),
-        utf8_decode("Piezas"),
-        utf8_decode("Fecha entrada"),
-        utf8_decode("Cargas"),
-        utf8_decode("Fecha autorización"),
-        utf8_decode("Fecha salida interna"),
-        utf8_decode("Muestras"),
-        utf8_decode("Lavado"),
-        utf8_decode("Procesos"),
-        utf8_decode("Piezas de carga")
+        utf8_decode("Folio del corte"),
+        utf8_decode("Carga o lavado"),
       ));
       $pdf->SetFont('Arial', '', 8);
-      foreach ($cortes as $key => $value)
+      $pdf->ban = false;
+      foreach ($this->input->post()['lavado'] as $key => $value)
       {
-        $cargas = $value['cargas'];
-        $folio = $value['folio'];
-        $corte = $value['corte'];
-        $marca = $value['marca'];
-        $maquilero = $value['maquilero'];
-        $cliente = $value['cliente'];
-        $tipo = $value['tipo'];
-        $piezas = $value['piezas'];
-        $fecha = $value['fecha'];
-        $fechaAutorizado = $value['fechaAutorizado'];
-        $fechaSalidaInterna = $value['fechaSalidaInterna'];
-        $muestras = $value['muestras'];
-        $this->load->model('salidaInterna1Datos');
-        $salidaInterna = $this->salidaInterna1Datos->getByFolio($folio);
-        $this->load->model('corteAutorizadoDatos');
-        $lavado = '';
-        $proceso = '';
-        for ($carga = 1; $carga <= $cargas; $carga ++)
-        {
-          $corteAutorizado = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros5($folio, $carga);
-          $proceso = '';
-          foreach ($corteAutorizado as $key2 => $value2)
-          {
-            $lavado = $value2['lavado'];
-            $proceso = $proceso . $value2['proceso'] . ", ";
-          }
-          $piezasCarga = $salidaInterna[$carga - 1]['piezas'];
-          $pdf->Row(array(
-            utf8_decode($folio),
-            utf8_decode($corte),
-            utf8_decode($marca),
-            utf8_decode($maquilero),
-            utf8_decode($cliente),
-            utf8_decode($tipo),
-            utf8_decode($piezas),
-            utf8_decode($fecha),
-            utf8_decode($cargas),
-            utf8_decode($fechaAutorizado),
-            utf8_decode($fechaSalidaInterna),
-            utf8_decode($muestras),
-            utf8_decode($lavado),
-            utf8_decode($proceso),
-            utf8_decode($piezasCarga)
-          ));
-        }
-        $pdf->SetY($pdf->GetY() + 5);
+        $pdf->Row(array(
+          utf8_decode($this->input->post()['folio'][$key]),
+          utf8_decode($value),
+        ));
       }
+      /*
+      * Se manda el pdf al navegador
+      *
+      * $this->pdf->Output(nombredelarchivo, destino);
+      *
+      * I = Muestra el pdf en el navegador
+      * D = Envia el pdf para descarga
+      *
+      */
+      $pdf->Output(utf8_decode("Reporte de cargas en producción.pdf"), 'I');
     }
-    /*
-    * Se manda el pdf al navegador
-    *
-    * $this->pdf->Output(nombredelarchivo, destino);
-    *
-    * I = Muestra el pdf en el navegador
-    * D = Envia el pdf para descarga
-    *
-    */
-    $pdf->Output("Reporte.pdf", 'I');
+  }
+
+  /*
+  * Reporte de cargas en almacén de salida
+  * -> cargas con salida a almacén
+  * -> cargas sin salida externa
+  */
+  public function reporte5()
+  {
+    $titulo['titulo'] = "Reporte de cargas en el almacén de salida";
+    if (!$this->input->post())
+    {
+      $this->load->model('corte');
+      $data['data'] = $this->corte->reporte5();
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('gestion/reporte5',$data);
+      $this->load->view('comunes/foot');
+    }
+    else
+    {
+      // Se carga la libreria fpdf
+      $this->load->library('pdf');
+      // Creacion del PDF
+      /*
+      * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+      * heredó todos las variables y métodos de fpdf
+      */
+      $pdf = new Pdf(utf8_decode("Reporte de cargas en el almacén de salida"));
+      // Agregamos una página
+      $pdf->SetAutoPageBreak(1, 20);
+      // Define el alias para el número de página que se imprimirá en el pie
+      $pdf->AliasNbPages();
+      $pdf->AddPage();
+      /*
+      * Se define el titulo, márgenes izquierdo, derecho y
+      * el color de relleno predeterminado
+      */
+      $pdf->SetTitle(utf8_decode("Reporte de cargas en el almacén de salida"));
+      // 190 vertical
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->ban = true;
+      $pdf->SetFont('Arial', 'B', 8);
+      $pdf->SetWidths(array(
+        63.333333333,
+        63.333333333,
+        63.333333333,
+      ));
+      $pdf->Row(array(
+        utf8_decode("Folio del corte"),
+        utf8_decode("Carga o lavado"),
+        utf8_decode("Fecha de ingreso a almacén"),
+      ));
+      $pdf->SetFont('Arial', '', 8);
+      $pdf->ban = false;
+      foreach ($this->input->post()['lavado'] as $key => $value)
+      {
+        $pdf->Row(array(
+          utf8_decode($this->input->post()['folio'][$key]),
+          utf8_decode($value),
+          utf8_decode($this->input->post()['fecha'][$key]),
+        ));
+      }
+      /*
+      * Se manda el pdf al navegador
+      *
+      * $this->pdf->Output(nombredelarchivo, destino);
+      *
+      * I = Muestra el pdf en el navegador
+      * D = Envia el pdf para descarga
+      *
+      */
+      $pdf->Output(utf8_decode("Reporte de cargas en el almacén de salida.pdf"), 'I');
+    }
   }
 }

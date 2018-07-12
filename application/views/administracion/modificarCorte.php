@@ -4,7 +4,10 @@ $input_imagen = array(
   'name' => 'mi_imagen',
   'id' => 'mi_imagen',
   'type' => 'file',
-  'class' => 'form-control-file'
+  'class' => 'form-control-file',
+  'required' => '',
+  'onchange' => 'cambio(this.files);',
+  'accept' => 'image/png, .jpeg, .jpg, image/gif',
 );
 ?>
 <style>
@@ -20,9 +23,20 @@ ul.nav-pills {
 var procesos = <?php echo $jsonProcesos; ?>;
 var indiceProcesos = 0;
 var contadorProcesos = 0;
+function cambio(c) {
+  file = c[0];
+  var img = document.createElement("img");
+  img.classList.add("img-fluid");
+  img.file = file;
+  $('#nuevaImagen').html(img); // Assuming that "preview" is the div output where the content will be displayed.
+  var reader = new FileReader();
+
+  reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+  reader.readAsDataURL(file);
+}
 function eliminarRenglonPoceso(id) {
   $('#renglonNuevoLavado'+id).remove();
-  contadorProcesos--;
+  contadorProcesos --;
 }
 <?php if ($lavadosCorte != 0): //Funciones para los lavados ?>
 function editarLavado(carga){
@@ -68,6 +82,21 @@ function eliminarLavado(carga){
 }
 <?php endif; ?>
 <?php if ($autorizadoDatos != 0): //funciones para los datos del corte autorizado ?>
+function selectNuevoProceso(id) {
+  switch (id * 1) {
+    case 0: case 1: case null:
+    $('#piezasTrabajadasNuevoProceso').val(0).attr('readonly',true);
+    $('#defectosNuevoProceso').val(0).attr('readonly',true);
+    $('#ordenNuevoProceso').val(0).attr('readonly',true);
+    break;
+    case 2:
+    $('#piezasTrabajadasNuevoProceso').attr('readonly',false);
+    $('#defectosNuevoProceso').attr('readonly',false);
+    $('#ordenNuevoProceso').attr('readonly',false);
+    break;
+    default: break;
+  }
+}
 function editarAutorizadoDatos(id){
   $('#id_autorizado_datos').val(id);
   $('#id_carga_autorizado_datos').val($('#id_carga_autorizado_datos_anterior_'+id).val());
@@ -531,7 +560,7 @@ $(document).ready(function() {
                 <tbody>
                   <tr>
                     <td>Imágen</td>
-                    <td><a href="#" data-toggle="modal" data-target="#modalImagen"><?php echo $generales['imagen']; ?>
+                    <td><a href="#" data-toggle="modal" data-target="#modalImagen" title="Cambiar la imágen."><?php echo $generales['imagen']; ?>
                     </a></td>
                   </tr>
                   <tr>
@@ -582,7 +611,7 @@ $(document).ready(function() {
               </table>
             </div>
             <div class="ml-auto">
-              <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary">
+              <button type="button" name="botonGenerales" id="botonGenerales" class="btn btn-primary" title="Cambiar los datos generales del corte.">
                 <i class="fas fa-check"></i> Aplicar cambios
               </button>
             </div>
@@ -615,10 +644,10 @@ $(document).ready(function() {
                       <td><select class="form-control" id="lavado_<?php echo $value['id_carga']; ?>" name="lavado_<?php echo $value['id_carga']; ?>">
                         <?php foreach ($lavados as $key2 => $value2): ?><option <?php echo ($value2['id'] == $value['lavado_id'])? "selected": "" ?> value="<?php echo $value2['id'] ?>"><?php echo $value2['nombre'] ?></option><?php endforeach; ?>
                       </select></td>
-                      <td><button type="button" class="btn btn-warning" onclick="editarLavado(<?php echo $value['id_carga'] ?>)">
+                      <td><button type="button" class="btn btn-warning" onclick="editarLavado(<?php echo $value['id_carga'] ?>)" title="Cambiar los datos del lavado.">
                         <i class="far fa-edit"></i>
                       </button></td>
-                      <td><button type="button" class="btn btn-danger" onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)">
+                      <td><button type="button" class="btn btn-danger" onclick="eliminarLavado(<?php echo $value['id_carga'] ?>)" title="Eliminar este lavado.">
                         <i class="far fa-trash-alt"></i>
                       </button></td>
                     </tr><?php endforeach; ?>
@@ -628,7 +657,7 @@ $(document).ready(function() {
                 <div class="alert alert-danger" role="alert">No hay lavados para este corte.</div>
               <?php endif; ?>
               <div class="ml-auto">
-                <button type="button" name="botonAgregarLavado" id="botonAgregarLavado" class="btn btn-success" data-toggle="modal" data-target="#agregarLavado">
+                <button type="button" name="botonAgregarLavado" id="botonAgregarLavado" class="btn btn-success" data-toggle="modal" data-target="#agregarLavado" title="Agregar un nuevo lavado a este corte.">
                   <i class="fas fa-plus"></i> Nuevo
                 </button>
               </div>
@@ -667,10 +696,10 @@ $(document).ready(function() {
                 </table>
               </div>
               <div class="ml-auto">
-                <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion">
+                <button type="button" class="btn btn-primary" name="botonAutorizacion" id="botonAutorizacion" title="Cambiar los datos generales de autorización.">
                   <i class="fas fa-check"></i> Aplicar cambios
                 </button>
-                <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar">
+                <button type="button" class="btn btn-danger" name="botonAutorizacionEliminar" id="botonAutorizacionEliminar" title="Eliminar los datos generales de autorización">
                   <i class="far fa-trash-alt"></i> Eliminar
                 </button>
               </div>
@@ -717,7 +746,7 @@ $(document).ready(function() {
                           <input type="hidden" name="status_autorizado_datos_<?php echo $value['id']; ?>" id="status_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['status']; ?>">
                           <input type="hidden" name="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" id="fecha_registro_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['fecha_registro']; ?>">
                           <input type="hidden" name="orden_autorizado_datos_<?php echo $value['id']; ?>" id="orden_autorizado_datos_<?php echo $value['id']; ?>" value="<?php echo $value['orden']; ?>">
-                          <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>"/>
+                          <input type="hidden" name="usuario_id_autorizado_datos_<?php echo $value['id']; ?>" id="usuario_id_autorizado_datos_<?php echo $value['id']; ?>"/ value="<?php echo $value['usuario_id'] ?>">
                           <?php echo $value['id_carga'] ?>
                         </td>
                         <td>
@@ -746,16 +775,119 @@ $(document).ready(function() {
                         <td>
                           <?php foreach ($usuarios as $key2 => $value2):  if ($value2['id'] == $value['usuario_id']): echo $value2['nombre']; break;  endif; endforeach; ?>
                         </td>
-                        <td><button type="button" class="btn btn-warning" onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);">
+                        <td><button type="button" class="btn btn-warning" onclick="editarAutorizadoDatos(<?php echo $value['id']; ?>);" title="Editar los cambios a este proceso.">
                           <i class="far fa-edit"></i>
                         </button></td>
-                        <td><button type="button" class="btn btn-danger" onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);">
+                        <td><button type="button" class="btn btn-danger" onclick="eliminarAutorizadoDatos(<?php echo $value['id']; ?>);" title="Eliminar este proceso.">
                           <i class="far fa-trash-alt"></i>
                         </button></td>
                       </tr>
                     <?php endforeach; ?>
                   </tbody>
                 </table>
+              </div>
+              <div class="mx-auto">
+                <button type="button" name="botonAgregarProceso" id="botonAgregarProceso" class="btn btn-success" data-toggle="modal" data-target="#modalAgregarProceso" title="Agregar un nuevo proceso a este corte.">
+                  <i class="fas fa-plus"></i> Nuevo
+                </button>
+              </div>
+              <div class="modal fade" id="modalAgregarProceso" tabindex="-1" role="dialog" aria-labelledby="modalAgregarProceso" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo proceso</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form name="agregarProceso" id="agregarProceso" action="agregarProceso" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="folioNuevoProceso" value="<?php echo $this->input->get()['folio'] ?>">
+                      <div class="modal-body">
+                        <div class="table-responsive">
+                          <table class="table table-striped">
+                            <tbody>
+                              <tr>
+                                <th>Carga o lavado</th>
+                                <td>
+                                  <select name="idCargaLavadoNuevoProceso" class="form-control" required title="Seleccione la carga o lavado">
+                                    <option label="Seleccione la carga o lavado">
+                                    </option>
+                                    <?php foreach ($autorizadoDatos as $key => $value): ?>
+                                      <?php if (!isset($carga[$value['id_carga']][$value['lavado_id']])): ?>
+                                        <?php $carga[$value['id_carga']][$value['lavado_id']] = 'ok';  ?>
+                                        <option value="<?php echo $value['lavado_id'] . "-" . $value['id_carga'] ?>">
+                                          <?php foreach ($lavados as $key2 => $value2): ?>
+                                            <?php if ($value2['id'] == $value['lavado_id']): ?>
+                                              <?php echo $value2['nombre']; break;?>
+                                            <?php endif; ?>
+                                          <?php endforeach; ?>
+                                        </option>
+                                      <?php endif; ?>
+                                    <?php endforeach; ?>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Proceso seco</th>
+                                <td>
+                                  <select class="form-control" name="idNuevoProceso" required>
+                                    <option label="Seleccione el nuevo proceso" title="Seleccione el nuevo proceso"></option>
+                                    <?php foreach ($procesosecos as $key => $value): ?>
+                                      <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                                    <?php endforeach; ?>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Costo del proceso $</th>
+                                <td>
+                                  <input type="number" name="costoNuevoProceso" value="0.00" step="any" required placeholder="Escribe el costo del nuevo proceso." title="Costo del nuevo proceso." class="form-control">
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Estado del proceso</th>
+                                <td>
+                                  <select class="form-control" name="estadoProcesoNuevo" title="Escoja el estado del proceso" required onchange="selectNuevoProceso(this.value)">
+                                    <option label="Escoja el estado del proceso"></option>
+                                    <option value="0">No registrado</option>
+                                    <option value="1">Para registrar</option>
+                                    <option value="2">Registrado</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Piezas trabajadas</th>
+                                <td>
+                                  <input type="number" name="piezasTrabajadasNuevoProceso" id="piezasTrabajadasNuevoProceso" value="0" required placeholder="Si el proceso ya fue cerrardo escriba un valor mayor a cero." title="Si el proceso ya fue cerrardo escriba un valor mayor a cero." class="form-control" readonly>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Defectos</th>
+                                <td>
+                                  <input type="number" name="defectosNuevoProceso" id="defectosNuevoProceso" value="0" required placeholder="Si el proceso no ha sido cerrardo deje el valor en cero." title="Si el proceso no ha sido cerrardo deje el valor en cero." class="form-control" readonly>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Orden</th>
+                                <td>
+                                  <input type="number" name="ordenNuevoProceso" id="ordenNuevoProceso" value="0" required placeholder="Si el proceso ya fue cerrado escriba un número mayor a cero." title="Si el proceso ya fue cerrado escriba un número mayor a cero." class="form-control" readonly>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Cerrar">
+                          <i class="fas fa-window-close"></i> Cerrar
+                        </button>
+                        <button type="submit" id="botonModalNuevoProceso" name="botonModalNuevoProceso" class="btn btn-primary" title="Aceptar." onclick="return confirm('¿Está seguro de agregar este lavado?')">
+                          <i class="fas fa-check"></i> Aplicar cambios
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             <?php else: ?>
               <div class="alert alert-danger" role="alert">No hay datos de autorización de este corte.</div>
@@ -798,10 +930,10 @@ $(document).ready(function() {
                 </table>
               </div>
               <div class="ml-auto">
-                <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna">
+                <button type="button" class="btn btn-primary" name="botonSalidaInterna" id="botonSalidaInterna" title="Confirmar cambios.">
                   <i class="fas fa-check"></i> Aplicar cambios
                 </button>
-                <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar">
+                <button type="button" class="btn btn-danger" name="botonSalidaInternaEliminar" id="botonSalidaInternaEliminar" title="Eliminar los datos.">
                   <i class="far fa-trash-alt"></i> Eliminar
                 </button>
               </div>
@@ -848,7 +980,7 @@ $(document).ready(function() {
                         </td>
                         <td><input placeholder="Inserta número de piezas" class="form-control" type="number" id="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" name="piezasSalidaInternaDatos<?php echo $value['id_carga']; ?>" value="<?php echo $value['piezas'] ?>"></td>
                         <td>
-                          <button type="button" class="btn btn-warning" onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)">
+                          <button type="button" class="btn btn-warning" onclick="editarSalidaInternaDatos(<?php echo $value['id_carga']; ?>)" title="Editar los datos de la carga.">
                             <i class="far fa-edit"></i>
                           </button>
                         </td>
@@ -914,12 +1046,12 @@ $(document).ready(function() {
                           </textarea>
                         </td>
                         <td>
-                          <button type="button" class="btn btn-warning" onclick="editarProduccion(<?php echo $value['id']; ?>);">
+                          <button type="button" class="btn btn-warning" onclick="editarProduccion(<?php echo $value['id']; ?>);" title="Editar los datos de producción de este proceso.">
                             <i class="far fa-edit"></i>
                           </button>
                         </td>
                         <td>
-                          <button type="button" class="btn btn-danger" onclick="eliminarProduccion(<?php echo $value['id']; ?>);">
+                          <button type="button" class="btn btn-danger" onclick="eliminarProduccion(<?php echo $value['id']; ?>);" title="Eliminar los datos de este proceso.">
                             <i class="far fa-trash-alt"></i>
                           </button>
                         </td>
@@ -989,12 +1121,12 @@ $(document).ready(function() {
                         <td><input class="form-control" type="number" name="piezasReproceso<?php echo $value['id']; ?>" id="piezasReproceso<?php echo $value['id']; ?>" value="<?php echo $value['piezas_trabajadas'] ?>"></td>
                         <td><input class="form-control" type="number" name="defectosReproceso<?php echo $value['id']; ?>" id="defectosReproceso<?php echo $value['id']; ?>" value="<?php echo $value['defectos'] ?>"></td>
                         <td>
-                          <button type="button" onclick="editarReproceso(<?php echo $value['id'] ?>)" class="btn btn-warning">
+                          <button type="button" onclick="editarReproceso(<?php echo $value['id'] ?>)" class="btn btn-warning" title="Editar los datos del reproceso.">
                             <i class="far fa-edit"></i>
                           </button>
                         </td>
                         <td>
-                          <button type="button" onclick="eliminarReproceso(<?php echo $value['id'] ?>)" class="btn btn-danger">
+                          <button type="button" onclick="eliminarReproceso(<?php echo $value['id'] ?>)" class="btn btn-danger" title="Eliminar este reproceso.">
                             <i class="far fa-trash-alt"></i>
                           </button>
                         </td>
@@ -1060,11 +1192,11 @@ $(document).ready(function() {
                       </td>
                       <td>
                         <button type="button" class="btn btn-warning" onclick="editarProduccionReproceso(<?php echo $value['id']; ?>);">
-                          <i class="far fa-edit"></i>
+                          <i class="far fa-edit" title="Editar los datos de producción del reproceso."></i>
                         </button>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-danger" onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);">
+                        <button type="button" class="btn btn-danger" onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);" title="Eliminar estos datos de producción de este reproceso.">
                           <i class="far fa-trash-alt"></i>
                         </button>
                       </td>
@@ -1088,14 +1220,18 @@ $(document).ready(function() {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modificar imágen actual</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Cerrar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form name="cambiarImagen" id="cambiarImagen" action="modificarImagen" method="post" enctype="multipart/form-data">
         <div class="modal-body">
           <ul>
-            <li class="list-group-item"><?php echo $generales['imagen'] ?></li>
+            <li class="list-group-item">
+              <div id="nuevaImagen">
+                <?php echo $generales['imagen'] ?>
+              </div>
+            </li>
             <li class="list-group-item">
               <h6>Imágen nueva</h6>
               <?php echo form_input($input_imagen); ?>
@@ -1104,10 +1240,10 @@ $(document).ready(function() {
           </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Cerrar">
             <i class="fas fa-window-close"></i> Cerrar
           </button>
-          <button type="button" id="botonModalImagen" name="botonModalImagen" class="btn btn-primary">
+          <button type="button" id="botonModalImagen" name="botonModalImagen" class="btn btn-primary" title="Aplicar los cambios.">
             <i class="fas fa-check"></i> Aplicar cambios
           </button>
         </div>
@@ -1121,7 +1257,7 @@ $(document).ready(function() {
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Modificar datos del corte autorizado</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Cerrar">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -1199,10 +1335,10 @@ $(document).ready(function() {
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Cerrar">
             <i class="fas fa-window-close"></i> Cerrar
           </button>
-          <button type="button" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
+          <button type="button" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado" title="Aplicar cambios.">
             <i class="fas fa-check"></i> Aplicar cambios
           </button>
         </div>
@@ -1215,7 +1351,7 @@ $(document).ready(function() {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Agregar lavado nuevo.</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" title="Cerrar">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -1260,7 +1396,7 @@ $(document).ready(function() {
                       </div>
                     </div>
                     <div class="mx-auto">
-                      <button type="button" name="botonAgregarProcesos" id="botonAgregarProcesos" class="btn btn-success">
+                      <button type="button" name="botonAgregarProcesos" id="botonAgregarProcesos" class="btn btn-success" title="Agregar proceso.">
                         <i class="fas fa-plus"></i> Agregar Proceso
                       </button>
                     </div>
@@ -1287,28 +1423,29 @@ $(document).ready(function() {
                                     <?php foreach ($procesosecos as $key => $value): ?>
                                       <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                                     <?php endforeach; ?>
-                                  </select></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
                   </div>
-                <?php endif; ?>
-              </div>
+                </div>
+              <?php endif; ?>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              <i class="fas fa-window-close"></i> Cerrar
-            </button>
-            <button type="submit" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado">
-              <i class="fas fa-check"></i> Aplicar cambios
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" title=">Cerrar">
+            <i class="fas fa-window-close"></i> Cerrar
+          </button>
+          <button type="submit" class="btn btn-primary" name="editarDatosCorteAutorizado" id="editarDatosCorteAutorizado" title="Aplicar cambios.">
+            <i class="fas fa-check"></i> Aplicar cambios
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+</div>

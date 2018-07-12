@@ -25,8 +25,8 @@ function verInfo(id) {
       <h3>Reporte de cortes con ojal del <?php echo $this->input->get()['fechaInicial'] ?> al <?php echo $this->input->get()['fechaFinal'] ?></h3>
       <?php if (isset($cortesJson)): ?>
         <form action="reporteOjal" method="post" target="_blank">
-          <input type="hidden" name="fechaInicial" value="<?php echo $this->input->get['fechaInicial'] ?>">
-          <input type="hidden" name="fechaFinal" value="<?php echo $this->input->get['fechaFinal'] ?>">
+          <input type="hidden" name="fechaInicial" value="<?php echo $this->input->get()['fechaInicial'] ?>">
+          <input type="hidden" name="fechaFinal" value="<?php echo $this->input->get()['fechaFinal'] ?>">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

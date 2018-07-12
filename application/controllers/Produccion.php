@@ -31,7 +31,7 @@ class Produccion extends CI_Controller
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->cargarMenu();
-    $this->load->view('produccion/index', $data);
+    $this->load->view('comunes/index', $data);
     $this->load->view('comunes/foot');
   }
 

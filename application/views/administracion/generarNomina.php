@@ -128,7 +128,8 @@ function cambioReproceso(idUsuario,idProduccion)
   }
   $('#tr_reproceso_'+idProduccion).attr('class',clase);
 }
-<?php endif; if (count($pendientes_reproceso) != 0): ?>
+<?php endif;?>
+<?php if (count($pendientes_reproceso) != 0): ?>
 function cambioPendientesReproceso(idUsuario,idProduccion)
 {
   //Cambiar la clase del renglón
@@ -266,11 +267,13 @@ $(document).ready(function() {
         </div>
       </div>
       <form action="verNomina" method="post" id="verNomina" name="verNomina" target="_blank">
-        <input type="hidden" name="idNomina" id="idNomina" value="<?php echo $id ?>"> <input type="hidden" name="descripcion" id="descripcion" value="<?php echo $descripcion ?>">
+        <input type="hidden" name="idNomina" id="idNomina" value="<?php echo $id ?>">
+        <input type="hidden" name="descripcion" id="descripcion" value="<?php echo $descripcion ?>">
         <?php if (count($produccion) != 0): ?>
           <div class="card">
             <div class="card-header">
-              <a data-toggle="collapse" href="#prodProcSeco" role="button" aria-expanded="true" aria-controls="prodProcSeco"> <strong>Tabla de producción de proceso seco.</strong>
+              <a data-toggle="collapse" href="#prodProcSeco" role="button" aria-expanded="true" aria-controls="prodProcSeco">
+                <strong>Tabla de producción de proceso seco.</strong>
               </a>
             </div>
             <div class="collapse" id="prodProcSeco">
@@ -298,8 +301,10 @@ $(document).ready(function() {
                           <td><?php echo $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
-                          <td>$<?php echo $value['precio'] ?></td>
-                          <td><input type="hidden" id="cantidad_pagar_produccion_proceso_seco_<?php echo $value['id_produccion'] ?>" name="cantidad_pagar_produccion_proceso_seco_[<?php echo $value['id_produccion'] ?>]" value="<?php echo $value['costo'] ?>">$<?php echo $value['costo'] ?>
+                          <td>$<?php echo round($value['precio'],2) ?></td>
+                          <td>
+                            <input type="hidden" id="cantidad_pagar_produccion_proceso_seco_<?php echo $value['id_produccion'] ?>" name="cantidad_pagar_produccion_proceso_seco_[<?php echo $value['id_produccion'] ?>]" value="<?php echo round($value['costo'],2) ?>">
+                            $<?php echo round($value['costo'],2) ?>
                           </td>
                           <td><select class="form-control" onchange="cambioProduccionProcesoSeco(<?php echo $value['id'] ?>,<?php echo $value['id_produccion'] ?>)" class="form-control" name="estado_nomina_proceso_seco[<?php echo $value['id_produccion'] ?>]" id="estado_nomina_proceso_seco_<?php echo $value['id_produccion'] ?>">
                             <option value="1" selected>Se pagará</option>
@@ -315,10 +320,12 @@ $(document).ready(function() {
               </div>
             </div>
           </div>
-        <?php endif; if (count($pendientes_produccion) != 0): ?>
+        <?php endif;?>
+        <?php if (count($pendientes_produccion) != 0): ?>
           <div class="card">
             <div class="card-header">
-              <a data-toggle="collapse" href="#penProcSeco" role="button" aria-expanded="true" aria-controls="penProcSeco"> <strong>Tabla de pendientes en producción de proceso seco.</strong>
+              <a data-toggle="collapse" href="#penProcSeco" role="button" aria-expanded="true" aria-controls="penProcSeco">
+                <strong>Tabla de pendientes en producción de proceso seco.</strong>
               </a>
             </div>
             <div class="collapse" id="penProcSeco">
@@ -346,14 +353,17 @@ $(document).ready(function() {
                           <td><?php echo $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
-                          <td>$<?php echo $value['precio'] ?></td>
-                          <td><input type="hidden" id="cantidad_pagar_pendientes_proceso_seco<?php echo $value['id_produccion'] ?>" name="cantidad_pagar_pendientes_proceso_seco[<?php echo $value['id_produccion'] ?>]" value="<?php echo $value['costo'] ?>">$<?php echo $value['costo'] ?>
+                          <td>$<?php echo round($value['precio'],2) ?></td>
+                          <td>
+                            <input type="hidden" id="cantidad_pagar_pendientes_proceso_seco<?php echo $value['id_produccion'] ?>" name="cantidad_pagar_pendientes_proceso_seco[<?php echo $value['id_produccion'] ?>]" value="<?php echo round($value['costo'],2) ?>">$<?php echo round($value['costo'],2) ?>
                           </td>
-                          <td><select class="form-control" onchange="cambioPendientesProcesoSeco(<?php echo $value['id'] ?>,<?php echo $value['id_produccion'] ?>)" class="form-control" name="estado_nomina_pendientes_proceso_seco[<?php echo $value['id_produccion'] ?>]" id="estado_nomina_pendientes_proceso_seco<?php echo $value['id_produccion'] ?>">
-                            <option value="1">Se pagará</option>
-                            <option value="2" selected>Quedará pendiente</option>
-                            <option value="3">No se pagará jamás</option>
-                          </select></td>
+                          <td>
+                            <select class="form-control" onchange="cambioPendientesProcesoSeco(<?php echo $value['id'] ?>,<?php echo $value['id_produccion'] ?>)" class="form-control" name="estado_nomina_pendientes_proceso_seco[<?php echo $value['id_produccion'] ?>]" id="estado_nomina_pendientes_proceso_seco<?php echo $value['id_produccion'] ?>">
+                              <option value="1">Se pagará</option>
+                              <option value="2" selected>Quedará pendiente</option>
+                              <option value="3">No se pagará jamás</option>
+                            </select>
+                          </td>
                           <td><textarea id="razonPendientesProcesoSeco<?php echo $value['id_produccion'] ?>" name="razonPendientesProcesoSeco[<?php echo $value['id_produccion'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
                         </tr>
                       <?php endforeach; ?>
@@ -362,158 +372,52 @@ $(document).ready(function() {
                 </div>
               </div>
             </div>
-          </div><?php endif; if (count($reprocesos) != 0): ?>
-            <div class="card">
-              <div class="card-header">
-                <a data-toggle="collapse" href="#repr" role="button" aria-expanded="true" aria-controls="repr"><strong>Tabla de producción de reprocesos.</strong> </a>
-              </div>
-              <div class="collapse" id="repr">
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover" id="tablaRepr">
-                      <thead>
-                        <tr>
-                          <th>Nombre del operario</th>
-                          <th>Folio</th>
-                          <th>Carga o lavado</th>
-                          <th>Proceso</th>
-                          <th>Piezas Trabajadas</th>
-                          <th>Costo unitario</th>
-                          <th>Total</th>
-                          <th>¿Se pagará?</th>
-                          <th>Razón por la que no se pagará</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($reprocesos as $key => $value): ?>
-                          <tr id="tr_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-success">
-                            <td><?php echo $value['usuario_nombre'] ?></td>
-                            <td><?php echo $value['folio'] ?></td>
-                            <td><?php echo $value['lavado'] ?></td>
-                            <td><?php echo $value['proceso'] ?></td>
-                            <td><?php echo $value['piezas'] ?></td>
-                            <td>$<?php echo $value['precio'] ?></td>
-                            <td><input type="hidden" id="cantidad_pagar_reproceso<?php echo $value['id_produccion_reproceso'] ?>" name="cantidad_pagar_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" value="<?php echo $value['costo'] ?>">
-                              $<?php echo $value['costo'] ?>
-                            </td>
-                            <td><select class="form-control" onchange="cambioReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
-                              <option value="1" selected>Se pagará</option>
-                              <option value="2">Quedará pendiente</option>
-                              <option value="3">No se pagará jamás</option>
-                            </select></td>
-                            <td><textarea readonly id="razonReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
-                          </tr>
-                        <?php endforeach; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <?php endif; if (count($pendientes_reproceso) != 0): ?>
-            <div class="card">
-              <div class="card-header">
-                <a data-toggle="collapse" href="#penRepr" role="button" aria-expanded="true" aria-controls="penRepr"> <strong>Tabla de producción de pendientes de reprocesos.</strong>
-                </a>
-              </div>
-              <div class="collapse" id="penRepr">
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover" id="tablaPenReproc">
-                      <thead>
-                        <tr>
-                          <th>Nombre del operario</th>
-                          <th>Folio</th>
-                          <th>Carga o lavado</th>
-                          <th>Proceso</th>
-                          <th>Piezas Trabajadas</th>
-                          <th>Costo unitario</th>
-                          <th>Total</th>
-                          <th>¿Se pagará?</th>
-                          <th>Razón por la que no se pagará</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php foreach ($pendientes_reproceso as $key => $value): ?>
-                          <tr id="tr_pendeientes_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-warning">
-                            <td><?php echo $value['usuario_nombre'] ?></td>
-                            <td><?php echo $value['folio'] ?></td>
-                            <td><?php echo $value['lavado'] ?></td>
-                            <td><?php echo $value['proceso'] ?></td>
-                            <td><?php echo $value['piezas'] ?></td>
-                            <td>$<?php echo $value['precio'] ?></td>
-                            <td><input type="hidden" id="cantidad_pagar_pendientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>" name="cantidad_pagar_pendientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" value="<?php echo $value['costo'] ?>">
-                              $<?php echo $value['costo'] ?>
-                            </td>
-                            <td><select class="form-control" onchange="cambioPendientesReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_pendientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_pendientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
-                              <option value="1">Se pagará</option>
-                              <option value="2" selected>Quedará pendiente</option>
-                              <option value="3">No se pagará jamás</option>
-                            </select></td>
-                            <td><textarea id="razonPendientesReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonPendientesReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
-                          </tr>
-                        <?php endforeach; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <?php endif; ?>
+          </div>
+        <?php endif;?>
+        <?php if (count($reprocesos) != 0): ?>
           <div class="card">
             <div class="card-header">
-              <a data-toggle="collapse" href="#nom" role="button" aria-expanded="true" aria-controls="nom"> <strong>Resúmen final.</strong>
+              <a data-toggle="collapse" href="#repr" role="button" aria-expanded="true" aria-controls="repr"><strong>Tabla de producción de reprocesos.</strong>
               </a>
             </div>
-            <div class="collapse" id="nom">
+            <div class="collapse" id="repr">
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-hover" id="tabla">
+                  <table class="table table-hover" id="tablaRepr">
                     <thead>
                       <tr>
-                        <th rowspan="2">Nombre</th>
-                        <th rowspan="2">Puesto</th>
-                        <th rowspan="2">Saldo anterior</th>
-                        <th rowspan="2">Nómina</th>
-                        <th colspan="3" class="table-primary">Ahorros</th>
-                        <th rowspan="2" class="table-success">Bonos</th>
-                        <th colspan="3" class="table-danger">Descuentos</th>
-                        <th rowspan="2">Total</th>
-                        <th rowspan="2">Pagado</th>
-                      </tr>
-                      <tr>
-                        <th class="table-primary">Anterior</th>
-                        <th class="table-primary">Abono</th>
-                        <th class="table-primary">Saldo</th>
-                        <th class="table-danger">Anterior</th>
-                        <th class="table-danger">Abono</th>
-                        <th class="table-danger">Saldo</th>
+                        <th>Nombre del operario</th>
+                        <th>Folio</th>
+                        <th>Carga o lavado</th>
+                        <th>Proceso</th>
+                        <th>Piezas Trabajadas</th>
+                        <th>Costo unitario</th>
+                        <th>Total</th>
+                        <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach ($operarios as $key => $value): ?>
-                        <tr>
-                          <td><input type="hidden" name="nombre[<?php echo $value['id'] ?>]" id="nombre[<?php echo $value['id'] ?>]" value="<?php echo $value['nombre_completo']; ?>"> <label><?php echo $value['nombre_completo']; ?></label></td>
-                          <td><input type="hidden" name="puesto[<?php echo $value['id'] ?>]" id="puesto[<?php echo $value['id'] ?>]" value="<?php echo $value['puesto']; ?>"> <label><?php echo $value['puesto']; ?></label></td>
-                          <td><input type="hidden" id="saldo_anterior_<?php echo $value['id'] ?>" name="saldo_anterior[<?php echo $value['id'] ?>]" value="<?php $s  = (isset($saldant[$value['id']])) ? $saldant[$value['id']] : 0 ; echo $s; ?>"> <label><i class="fas fa-dollar-sign"></i><?php echo $s; ?></label></td>
-                          <td><input type="hidden" id="nomina_<?php echo $value['id'] ?>" name="nomina[<?php echo $value['id'] ?>]" value="<?php $p  = (isset($prod[$value['id']])) ? $prod[$value['id']] : 0 ; echo $p; ?>"> <i class="fas fa-dollar-sign"></i><label id="label_nomina_<?php echo $value['id'];?>"><?php echo $p; ?></label></td>
-                          <td class="table-primary"><input type="hidden" id="ahorro_anterior_<?php echo $value['id'] ?>" name="ahorro_anterior[<?php echo $value['id'] ?>]" value="<?php $a  = (isset($ahorr[$value['id']])) ? $ahorr[$value['id']] : 0 ; echo $a; ?>"> <i class="fas fa-dollar-sign"></i><label><?php echo $a; ?></label></td>
-                          <td class="table-primary"><div class="input-group input-group-sm mb-3">
-                            <input type="number" required class="form-control" step="any" id="ahorro_abono_<?php echo $value['id'] ?>" name="ahorro_abono[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
-                          </div></td>
-                          <td class="table-primary"><input type="hidden" id="ahorro_saldo_<?php echo $value['id'] ?>" name="ahorro_saldo[<?php echo $value['id'] ?>]" value="<?php echo $a ?>"> <i class="fas fa-dollar-sign"></i><label id="td_ahorro_saldo_<?php echo $value['id'];?>"><?php echo $a ?></label></td>
-                          <td class="table-success"><div class="input-group input-group-sm mb-3">
-                            <input type="number" required class="form-control" step="any" id="bonos_<?php echo $value['id'] ?>" name="bonos[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
-                          </div></td>
-                          <td class="table-danger"><input type="hidden" id="descuentos_anterior_<?php echo $value['id'] ?>" name="descuentos_anterior[<?php echo $value['id'] ?>]" value="<?php $d  = (isset($desc[$value['id']])) ? $desc[$value['id']] : 0 ; echo $d; ?>"> <i class="fas fa-dollar-sign"></i><label><?php echo $d; ?></label></td>
-                          <td class="table-danger"><div class="input-group input-group-sm mb-3">
-                            <input type="number" required class="form-control" step="any" id="descuentos_abono_<?php echo $value['id'] ?>" name="descuentos_abono[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
-                          </div></td>
-                          <td class="table-danger"><input type="hidden" id="descuentos_saldo_<?php echo $value['id'] ?>" name="descuentos_saldo[<?php echo $value['id'] ?>]" value="<?php echo $d ?>"> <i class="fas fa-dollar-sign"></i><label id="td_descuentos_saldo_<?php echo $value['id'];?>"><?php echo $d ?></label></td>
-                          <td><input type="hidden" id="total_<?php echo $value['id'] ?>" name="total[<?php echo $value['id'] ?>]" value="<?php $total += $s+$p; echo $s+$p; ?>"> <i class="fas fa-dollar-sign"></i><label id="td_total_<?php echo $value['id'];?>"><?php echo $s+$p; ?></label></td>
-                          <td><div class="input-group input-group-sm mb-3">
-                            <input type="number" required class="form-control" step="any" id="pagado_<?php echo $value['id'] ?>" name="pagado[<?php echo $value['id'] ?>]" value="0" oninput="pagado();">
-                          </div></td>
+                      <?php foreach ($reprocesos as $key => $value): ?>
+                        <tr id="tr_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-success">
+                          <td><?php echo $value['usuario_nombre'] ?></td>
+                          <td><?php echo $value['folio'] ?></td>
+                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['proceso'] ?></td>
+                          <td><?php echo $value['piezas'] ?></td>
+                          <td>$<?php echo round($value['precio'],2) ?></td>
+                          <td>
+                            <input type="hidden" id="cantidad_pagar_reproceso<?php echo $value['id_produccion_reproceso'] ?>" name="cantidad_pagar_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" value="<?php echo round($value['costo'],2) ?>">
+                            $<?php echo round($value['costo'],2) ?>
+                          </td>
+                          <td>
+                            <select class="form-control" onchange="cambioReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
+                              <option value="1" selected>Se pagará</option>
+                              <option value="2">Quedará pendiente</option>
+                              <option value="3">No se pagará jamás</option>
+                            </select>
+                          </td>
+                          <td><textarea readonly id="razonReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
                         </tr>
                       <?php endforeach; ?>
                     </tbody>
@@ -522,33 +426,190 @@ $(document).ready(function() {
               </div>
             </div>
           </div>
-          <div class="mx-auto">
-            <input type="submit" class="btn btn-primary" value="Generar nómina">
+        <?php endif;?>
+        <?php if (count($pendientes_reproceso) != 0): ?>
+          <div class="card">
+            <div class="card-header">
+              <a data-toggle="collapse" href="#penRepr" role="button" aria-expanded="true" aria-controls="penRepr">
+                <strong>Tabla de producción de pendientes de reprocesos.</strong>
+              </a>
+            </div>
+            <div class="collapse" id="penRepr">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="tablaPenReproc">
+                    <thead>
+                      <tr>
+                        <th>Nombre del operario</th>
+                        <th>Folio</th>
+                        <th>Carga o lavado</th>
+                        <th>Proceso</th>
+                        <th>Piezas Trabajadas</th>
+                        <th>Costo unitario</th>
+                        <th>Total</th>
+                        <th>¿Se pagará?</th>
+                        <th>Razón por la que no se pagará</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach ($pendientes_reproceso as $key => $value): ?>
+                        <tr id="tr_pendeientes_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-warning">
+                          <td><?php echo $value['usuario_nombre'] ?></td>
+                          <td><?php echo $value['folio'] ?></td>
+                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['proceso'] ?></td>
+                          <td><?php echo $value['piezas'] ?></td>
+                          <td>$<?php echo round($value['precio'],2) ?></td>
+                          <td>
+                            <input type="hidden" id="cantidad_pagar_pendientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>" name="cantidad_pagar_pendientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" value="<?php echo round($value['costo'],2) ?>">
+                            $<?php echo round($value['costo'],2) ?>
+                          </td>
+                          <td><select class="form-control" onchange="cambioPendientesReproceso(<?php echo $value['usuario_id'] ?>,<?php echo $value['id_produccion_reproceso'] ?>)" class="form-control" name="estado_nomina_pendientes_reproceso[<?php echo $value['id_produccion_reproceso'] ?>]" id="estado_nomina_pendientes_reproceso<?php echo $value['id_produccion_reproceso'] ?>">
+                            <option value="1">Se pagará</option>
+                            <option value="2" selected>Quedará pendiente</option>
+                            <option value="3">No se pagará jamás</option>
+                          </select></td>
+                          <td><textarea id="razonPendientesReproceso<?php echo $value['id_produccion_reproceso'] ?>" name="razonPendientesReproceso[<?php echo $value['id_produccion_reproceso'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
+                        </tr>
+                      <?php endforeach; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
-        </form>
+        <?php endif; ?>
         <div class="card">
           <div class="card-header">
-            <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot"><strong>Totales.</strong></a>
+            <a data-toggle="collapse" href="#nom" role="button" aria-expanded="true" aria-controls="nom">
+              <strong>Resúmen final.</strong>
+            </a>
           </div>
-          <div class="collapse" id="tot">
+          <div class="collapse" id="nom">
             <div class="card-body">
-              <table class="table table-hover">
-                <tr>
-                  <th>Total</th>
-                  <td><i class="fas fa-dollar-sign"></i> <label id="totalTotal"><?php echo $total ?></label></td>
-                </tr>
-                <tr>
-                  <th>Total a pagar</th>
-                  <td><i class="fas fa-dollar-sign"></i> <label id="totalPagar">0</label></td>
-                </tr>
-                <tr>
-                  <th>Diferencia</th>
-                  <td><i class="fas fa-dollar-sign"></i> <label id="diferencia">0</label></td>
-                </tr>
-              </table>
+              <div class="table-responsive">
+                <table class="table table-hover" id="tabla">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">Nombre</th>
+                      <th rowspan="2">Puesto</th>
+                      <th rowspan="2">Saldo anterior</th>
+                      <th rowspan="2">Nómina</th>
+                      <th colspan="3" class="table-primary">Ahorros</th>
+                      <th rowspan="2" class="table-success">Bonos</th>
+                      <th colspan="3" class="table-danger">Descuentos</th>
+                      <th rowspan="2">Total</th>
+                      <th rowspan="2">Pagado</th>
+                    </tr>
+                    <tr>
+                      <th class="table-primary">Anterior</th>
+                      <th class="table-primary">Abono</th>
+                      <th class="table-primary">Saldo</th>
+                      <th class="table-danger">Anterior</th>
+                      <th class="table-danger">Abono</th>
+                      <th class="table-danger">Saldo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($operarios as $key => $value): ?>
+                      <tr>
+                        <td>
+                          <input type="hidden" name="nombre[<?php echo $value['id'] ?>]" id="nombre[<?php echo $value['id'] ?>]" value="<?php echo $value['nombre_completo']; ?>">
+                          <label>
+                            <?php echo $value['nombre_completo']; ?>
+                          </label>
+                        </td>
+                        <td>
+                          <input type="hidden" name="puesto[<?php echo $value['id'] ?>]" id="puesto[<?php echo $value['id'] ?>]" value="<?php echo $value['puesto']; ?>">
+                          <label><?php echo $value['puesto']; ?></label>
+                        </td>
+                        <td>
+                          <input type="hidden" id="saldo_anterior_<?php echo $value['id'] ?>" name="saldo_anterior[<?php echo $value['id'] ?>]" value="<?php $s  = (isset($saldant[$value['id']])) ? $saldant[$value['id']] : 0 ; echo round($s,2); ?>">
+                          <label>
+                            <i class="fas fa-dollar-sign"></i><?php echo round($s,2); ?>
+                          </label>
+                        </td>
+                        <td>
+                          <input type="hidden" id="nomina_<?php echo $value['id'] ?>" name="nomina[<?php echo $value['id'] ?>]" value="<?php $p  = (isset($prod[$value['id']])) ? $prod[$value['id']] : 0 ; echo round($p,2); ?>">
+                          <i class="fas fa-dollar-sign"></i>
+                          <label id="label_nomina_<?php echo $value['id'];?>"><?php echo round($p,2); ?></label>
+                        </td>
+                        <td class="table-primary">
+                          <input type="hidden" id="ahorro_anterior_<?php echo $value['id'] ?>" name="ahorro_anterior[<?php echo $value['id'] ?>]" value="<?php $a  = (isset($ahorr[$value['id']])) ? $ahorr[$value['id']] : 0 ; echo round($a,2); ?>">
+                          <i class="fas fa-dollar-sign"></i><label><?php echo round($a,2); ?></label>
+                        </td>
+                        <td class="table-primary">
+                          <div class="input-group input-group-sm mb-3">
+                            <input type="number" required class="form-control" step="any" id="ahorro_abono_<?php echo $value['id'] ?>" name="ahorro_abono[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
+                          </div>
+                        </td>
+                        <td class="table-primary">
+                          <input type="hidden" id="ahorro_saldo_<?php echo $value['id'] ?>" name="ahorro_saldo[<?php echo $value['id'] ?>]" value="<?php echo round($a,2); ?>">
+                          <i class="fas fa-dollar-sign"></i><label id="td_ahorro_saldo_<?php echo $value['id'];?>"><?php echo round($a,2); ?></label>
+                        </td>
+                        <td class="table-success">
+                          <div class="input-group input-group-sm mb-3">
+                            <input type="number" required class="form-control" step="any" id="bonos_<?php echo $value['id'] ?>" name="bonos[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
+                          </div>
+                        </td>
+                        <td class="table-danger">
+                          <input type="hidden" id="descuentos_anterior_<?php echo $value['id'] ?>" name="descuentos_anterior[<?php echo $value['id'] ?>]" value="<?php $d  = (isset($desc[$value['id']])) ? $desc[$value['id']] : 0 ; echo round($d,2); ?>">
+                          <i class="fas fa-dollar-sign"></i><label><?php echo round($d,2); ?></label>
+                        </td>
+                        <td class="table-danger">
+                          <div class="input-group input-group-sm mb-3">
+                            <input type="number" required class="form-control" step="any" id="descuentos_abono_<?php echo $value['id'] ?>" name="descuentos_abono[<?php echo $value['id'] ?>]" value="0" oninput="calcula(<?php echo $value['id'] ?>);">
+                          </div>
+                        </td>
+                        <td class="table-danger">
+                          <input type="hidden" id="descuentos_saldo_<?php echo $value['id'] ?>" name="descuentos_saldo[<?php echo $value['id'] ?>]" value="<?php echo round($d,2); ?>">
+                          <i class="fas fa-dollar-sign">
+                          </i><label id="td_descuentos_saldo_<?php echo $value['id'];?>"><?php echo round($d,2); ?></label>
+                        </td>
+                        <td>
+                          <input type="hidden" id="total_<?php echo $value['id'] ?>" name="total[<?php echo $value['id'] ?>]" value="<?php $total += $s + $p; echo round($s + $p,2); ?>">
+                          <i class="fas fa-dollar-sign"></i><label id="td_total_<?php echo $value['id'];?>"><?php echo round($s + $p,2); ?></label>
+                        </td>
+                        <td>
+                          <div class="input-group input-group-sm mb-3">
+                            <input type="number" required class="form-control" step="any" id="pagado_<?php echo $value['id'] ?>" name="pagado[<?php echo $value['id'] ?>]" value="0" oninput="pagado();">
+                          </div>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+        </div>
+        <div class="mx-auto">
+          <input type="submit" class="btn btn-primary" value="Generar nómina">
+        </div>
+      </form>
+      <div class="card">
+        <div class="card-header">
+          <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot"><strong>Totales.</strong></a>
+        </div>
+        <div class="collapse" id="tot">
+          <div class="card-body">
+            <table class="table table-hover">
+              <tr>
+                <th>Total</th>
+                <td><i class="fas fa-dollar-sign"></i><label id="totalTotal"><?php echo round($total,2) ?></label></td>
+              </tr>
+              <tr>
+                <th>Total a pagar</th>
+                <td><i class="fas fa-dollar-sign"></i><label id="totalPagar">0</label></td>
+              </tr>
+              <tr>
+                <th>Diferencia</th>
+                <td><i class="fas fa-dollar-sign"></i><label id="diferencia">0</label></td>
+              </tr>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

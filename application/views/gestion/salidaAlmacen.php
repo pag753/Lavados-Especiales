@@ -35,6 +35,7 @@ $(document).ready(function(){
       type: 'POST',
       dataType: 'json',
       success: function(result) {
+        $('#tabla tbody').html('');
         if (result.info != ''){
           $("#imagenModal").html(result.info.imagen);
           $("#folioModal").html(result.info.folio);

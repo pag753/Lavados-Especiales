@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo $_SESSION['username'] ?></a>
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> <?php echo strtoupper($_SESSION['username']) ?></a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarPass">Cambiar contraseña</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/welcome/cambiarDatos">Cambiar datos personales</a>
@@ -50,6 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/nomina">Nómina</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporte4">Reporte de producción de trabajador</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reporteOjal">Reporte de cortes con ojal</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/reportes">Reportes de estado de cortes</a>
         </div>
       </li>
       <li class="nav-item dropdown">

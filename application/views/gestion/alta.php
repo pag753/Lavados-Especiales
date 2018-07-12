@@ -11,7 +11,7 @@ $input_folio = array(
 $input_fecha = array(
   'name' => 'fecha',
   'id' => 'fecha',
-  'type' => 'datetime',
+  'type' => 'date',
   'class' => 'form-control',
   'value' => set_value('fecha', date("Y-m-d")),
   'readonly' => 'true'
@@ -36,7 +36,9 @@ $input_imagen = array(
   'name' => 'mi_imagen',
   'id' => 'mi_imagen',
   'type' => 'file',
-  'class' => 'form-control-file'
+  'class' => 'form-control-file',
+  'onchange' => 'cambio(this.files);',
+  'accept' => 'image/png, .jpeg, .jpg, image/gif',
 );
 foreach ($maquileros as $key => $value) $opciones_maquilero[$value['id']] = $value['nombre'];
 $select_maquilero = array(
@@ -59,6 +61,17 @@ $select_tipo = array(
 );
 ?>
 <script type="text/javascript">
+function cambio(c) {
+  file = c[0];
+  var img = document.createElement("img");
+  img.classList.add("img-fluid");
+  img.file = file;
+  $('#nuevaImagen').html(img); // Assuming that "preview" is the div output where the content will be displayed.
+  var reader = new FileReader();
+
+  reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+  reader.readAsDataURL(file);
+}
 $(document).ready(function() {
   $("#corte").focus();
   $("#ojales").hide();
@@ -72,7 +85,7 @@ $(document).ready(function() {
   $('#cliente').change(function() {
     $.ajax({
       error: function(request, status, error){
-        console.log(request);
+        window.location.replace("<?php echo base_url() ?>");
       },
       url: "<?php echo base_url() ?>index.php/ajax/gestionMarcas",
       data: { cliente: $('#cliente').val() },
@@ -169,7 +182,8 @@ $(document).ready(function() {
             <?php echo form_input($input_imagen); ?>
           </div>
         </div>
-        <div class="offset-sm-2 col-sm-10">
+        <div id="nuevaImagen" class="ml-auto"></div>
+        <div class="ml-auto">
           <input type="submit" class="btn btn-primary" value="Aceptar" />
         </div>
       </form>

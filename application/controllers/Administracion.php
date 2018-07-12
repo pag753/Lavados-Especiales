@@ -81,7 +81,7 @@ class Administracion extends CI_Controller
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->load->view('administracion/menu');
-    $this->load->view('administracion/index', $data);
+    $this->load->view('comunes/index', $data);
     $this->load->view('comunes/foot');
   }
 
@@ -1283,6 +1283,33 @@ class Administracion extends CI_Controller
     ));
   }
 
+  /*
+  * Método para agregar un nuevo proceso a la base de Datos
+  */
+  public function agregarProceso()
+  {
+    if (!$this->input->post()) redirect('/');
+    $lavado = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[0];
+    $carga = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[1];
+    $data = array(
+      'corte_folio' => $this->input->post()['folioNuevoProceso'],
+      'id_carga' => $carga,
+      'lavado_id' => $lavado,
+      'proceso_seco_id' => $this->input->post()['idNuevoProceso'],
+      'costo' => $this->input->post()['costoNuevoProceso'],
+      'piezas_trabajadas' => $this->input->post()['piezasTrabajadasNuevoProceso'],
+      'defectos' => $this->input->post()['defectosNuevoProceso'],
+      'status' => $this->input->post()['estadoProcesoNuevo'],
+      'orden' => $this->input->post()['ordenNuevoProceso'],
+      'fecha_registro' => date('Y-m-d'),
+      'usuario_id' => $_SESSION['usuario_id'],
+    );
+    $this->load->model('corteAutorizadoDatos');
+    $this->corteAutorizadoDatos->agregar($data);
+    redirect("/administracion/modificar?folio=" . $this->input->post()['folioNuevoProceso']);
+  }
+
+
   //Métodos de nómina.
   /*
   * Método para ver las nóminas.
@@ -1301,10 +1328,10 @@ class Administracion extends CI_Controller
   /*
   * Método que elimina una nómina.
   */
+  /*
   public function eliminarNomina()
   {
-    if (! isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (! isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model(array(
       'Nomina',
       'ProduccionReproceso',
@@ -1318,6 +1345,7 @@ class Administracion extends CI_Controller
       'respuesta' => true
     ));
   }
+  */
 
   /*
   * Método que agrega una nueva nómina a la base de datos.
@@ -1748,8 +1776,7 @@ class Administracion extends CI_Controller
         */
         $pdf->Output(utf8_decode($nomina[0]['descripcion']) . ".pdf", 'I');
       }
-      else
-      redirect('/administracion/index?q=error');
+      else redirect('/administracion/index?q=error');
     }
   }
 
@@ -1984,62 +2011,65 @@ class Administracion extends CI_Controller
 
       ));
     }
-    $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(0, 0, "Datos de produccion de reproceso", 0, 2, '');
-    $pdf->ln(5);
-    $pdf->SetFillColor(59, 131, 189);
-    $pdf->ban = true;
-    $pdf->SetFont('Arial', 'B', 8);
-    $pdf->Row(array(
-      utf8_decode("Nombre\n\n"),
-      utf8_decode("Folio\n\n"),
-      utf8_decode("Lavado o carga\n\n"),
-      utf8_decode("Proceso\n\n"),
-      utf8_decode("¿Se pagó?\n\n"),
-      utf8_decode("Razón por la cual no se pagó"),
-      utf8_decode("Piezas trabajadas\n\n"),
-      utf8_decode("Precio unitario\n\n"),
-      utf8_decode("Total\n\n")
-    ));
-    $pdf->ban = false;
-    $pdf->SetFont('Arial', '', 10);
-    foreach ($reproceso as $key => $value)
+    if (count($reproceso) > 0)
     {
-      $n = $value['usuario_nombre'];
-      $folio = $value['folio'];
-      $lavado = $value['lavado'];
-      $proceso = $value['proceso'];
-      $estado = $value['estado'];
-      $razon = $value['razon'];
-      $piezas = $value['piezas'];
-      $precio = '$' . $value['precio'];
-      $costo = '$' . $value['costo'];
-      switch ($estado)
-      {
-        case 1:
-        $estado = "Se pagó";
-        $razon = "";
-        break;
-        case 2:
-        $estado = "Queda pendiente";
-        break;
-        default:
-        $estado = "No se pagará nunca";
-        break;
-      }
-      $pdf->SetFont('Arial', '', 8);
+      $pdf->AddPage();
+      $pdf->SetFont('Arial', 'B', 10);
+      $pdf->Cell(0, 0, "Datos de produccion de reproceso", 0, 2, '');
+      $pdf->ln(5);
+      $pdf->SetFillColor(59, 131, 189);
+      $pdf->ban = true;
+      $pdf->SetFont('Arial', 'B', 8);
       $pdf->Row(array(
-        utf8_decode($n),
-        utf8_decode($folio),
-        utf8_decode($lavado),
-        utf8_decode($proceso),
-        utf8_decode($estado),
-        utf8_decode($razon),
-        utf8_decode($piezas),
-        utf8_decode($precio),
-        utf8_decode($costo)
+        utf8_decode("Nombre\n\n"),
+        utf8_decode("Folio\n\n"),
+        utf8_decode("Lavado o carga\n\n"),
+        utf8_decode("Proceso\n\n"),
+        utf8_decode("¿Se pagó?\n\n"),
+        utf8_decode("Razón por la cual no se pagó"),
+        utf8_decode("Piezas trabajadas\n\n"),
+        utf8_decode("Precio unitario\n\n"),
+        utf8_decode("Total\n\n")
       ));
+      $pdf->ban = false;
+      $pdf->SetFont('Arial', '', 10);
+      foreach ($reproceso as $key => $value)
+      {
+        $n = $value['usuario_nombre'];
+        $folio = $value['folio'];
+        $lavado = $value['lavado'];
+        $proceso = $value['proceso'];
+        $estado = $value['estado'];
+        $razon = $value['razon'];
+        $piezas = $value['piezas'];
+        $precio = '$' . $value['precio'];
+        $costo = '$' . $value['costo'];
+        switch ($estado)
+        {
+          case 1:
+          $estado = "Se pagó";
+          $razon = "";
+          break;
+          case 2:
+          $estado = "Queda pendiente";
+          break;
+          default:
+          $estado = "No se pagará nunca";
+          break;
+        }
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Row(array(
+          utf8_decode($n),
+          utf8_decode($folio),
+          utf8_decode($lavado),
+          utf8_decode($proceso),
+          utf8_decode($estado),
+          utf8_decode($razon),
+          utf8_decode($piezas),
+          utf8_decode($precio),
+          utf8_decode($costo)
+        ));
+      }
     }
     /*
     * Se manda el pdf al navegador

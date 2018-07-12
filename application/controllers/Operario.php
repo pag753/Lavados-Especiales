@@ -62,7 +62,7 @@ class Operario extends CI_Controller
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->cargarMenu();
-    $this->load->view('operario/index', $data);
+    $this->load->view('comunes/index', $data);
     $this->load->view('comunes/foot');
   }
 
