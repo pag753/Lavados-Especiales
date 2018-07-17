@@ -73,19 +73,21 @@ $(document).ready(function() {
               <th>Eliminar</th>
             </tr>
           </thead>
-          <tbody><?php foreach ($descuentos as $key => $value): ?>
-            <tr>
-              <td id="razon<?php echo $value['id'] ?>"><?php echo $value['razon']; ?></td>
-              <td id="folio<?php echo $value['id'] ?>"><?php echo $value['corte_folio']; ?></td>
-              <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
-              <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
-              <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
-                <i class="far fa-edit"></i>
-              </button></td>
-              <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
-                <i class="far fa-trash-alt"></i>
-              </button></td>
-            </tr><?php endforeach; ?>
+          <tbody>
+            <?php foreach ($descuentos as $key => $value): ?>
+              <tr>
+                <td id="razon<?php echo $value['id'] ?>"><?php echo $value['razon']; ?></td>
+                <td id="folio<?php echo $value['id'] ?>"><?php echo $value['corte_folio']; ?></td>
+                <td id="fecha<?php echo $value['id'] ?>"><?php echo $value['fecha']; ?></td>
+                <td id="cantidad<?php echo $value['id'] ?>"><?php echo $value['cantidad']; ?></td>
+                <td><button type="button" class="btn btn-success" onclick="editar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-edit"></i>
+                </button></td>
+                <td><button type="button" class="btn btn-danger" onclick="eliminar(<?php echo $value['id']; ?>)">
+                  <i class="far fa-trash-alt"></i>
+                </button></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

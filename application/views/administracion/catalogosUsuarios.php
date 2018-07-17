@@ -9,10 +9,8 @@ function editar(id) {
   $('#direccionE').val($('#direccion'+id).text());
   $('#telefonoE').val($('#telefono'+id).text());
   $('#puesto_idE').val($('#puesto_id_'+id).val());
-  if ($('#activo'+id).text() == 'No')
-  $('#activoE').val(0);
-  else
-  $('#activoE').val(1);
+  if ($('#activo'+id).text() == 'No') $('#activoE').val(0);
+  else $('#activoE').val(1);
   $('#id').val(id);
   $('#editar').modal('show');
 }
@@ -131,16 +129,20 @@ $(document).ready(function() {
           <div class="form-group row">
             <label for="tipo_usuario_id" class="col-3 col-form-label">Tipo de Usuario</label>
             <div class="col-9">
-              <select class="form-control" name="tipo_usuario_id" id="tipo_usuario_id"><?php foreach ($TipoUsuario as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option><?php endforeach; ?>
+              <select class="form-control" name="tipo_usuario_id" id="tipo_usuario_id">
+                <?php foreach ($TipoUsuario as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['tipo_usuariocol'] ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="puesto_id" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
-              <select class="form-control" name="puesto_id" id="puesto_id"><?php foreach ($puestos as $key => $value): ?>
-                <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option><?php endforeach; ?>
+              <select class="form-control" name="puesto_id" id="puesto_id">
+                <?php foreach ($puestos as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -218,7 +220,8 @@ $(document).ready(function() {
             <label for="puesto_idE" class="col-3 col-form-label">Puesto</label>
             <div class="col-9">
               <select class="form-control" name="puesto_idE" id="puesto_idE">
-                <?php foreach ($puestos as $key => $value): ?><option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php foreach ($puestos as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                 <?php endforeach; ?>
               </select>
             </div>

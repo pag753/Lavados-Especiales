@@ -53,24 +53,24 @@ $(document).ready(function() {
               <tr>
                 <td><?php echo $value['fecha']; ?></td>
                 <td><?php echo $value['descripcion']; ?></td>
-                  <td><a href="verNomina?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-primary">
-                    <i class="fas fa-eye"></i>
-                  </button></a></td>
-                  <td>
-                    <a href="verNominaDetalles?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-info">
+                <td><a href="verNomina?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-primary">
+                  <i class="fas fa-eye"></i>
+                </button></a></td>
+                <td>
+                  <a href="verNominaDetalles?id=<?php echo $value['id'] ?>" target="_blank"><button type="button" class="btn btn-info">
                     <i class="fas fa-info"></i>
                   </button></a>
                 </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-          <div class="mx-auto">
-            <a href="nuevaNomina"><button type="button" class="btn btn-success">
-              <i class="fas fa-plus"></i> Nuevo
-            </button></a>
-          </div>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+        <div class="mx-auto">
+          <a href="nuevaNomina"><button type="button" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nuevo
+          </button></a>
         </div>
       </div>
     </div>
-  </diV>
+  </div>
+</diV>

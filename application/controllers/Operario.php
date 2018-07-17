@@ -8,16 +8,14 @@ class Operario extends CI_Controller
   {
     parent::__construct();
     $idusuario = $_SESSION['id'];
-    if ($idusuario != 4 && $idusuario != 5 && $idusuario != 6)
-    redirect('/');
+    if ($idusuario != 4 && $idusuario != 5 && $idusuario != 6) redirect('/');
   }
 
   public function index($datos = null)
   {
     if ($this->input->get())
     {
-      if (! isset($this->input->get()['q']))
-      redirect('/');
+      if (! isset($this->input->get()['q'])) redirect('/');
       switch ($this->input->get()['q'])
       {
         case 'error':
@@ -297,10 +295,8 @@ class Operario extends CI_Controller
       // Recuerar datos
       $data['reprocesos'] = $this->ProduccionReproceso->getByIdEspecifico($this->input->get()['id']);
       $data['reproceso'] = $this->Reproceso->getById($this->input->get()['id'])[0];
-      if (count($data['reproceso']) == 0)
-      redirect("operario/index?q=error");
-      if ($data['reproceso']['status'] == 2)
-      redirect("operario/index?q=error");
+      if (count($data['reproceso']) == 0) redirect("operario/index?q=error");
+      if ($data['reproceso']['status'] == 2) redirect("operario/index?q=error");
       $data['lavado'] = $this->input->get()['lavado'];
       $data['proceso'] = $this->input->get()['proceso'];
       $titulo['titulo'] = "Cerrar reproceso";

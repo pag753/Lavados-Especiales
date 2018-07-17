@@ -21,10 +21,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertar">Insertar producción de proceso seco</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertarReproceso">Insertar producción de reproceso</a>
-            <?php if ($_SESSION['id'] == 4):?>
-              <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/alta">Cerrar proceso</a>
-              <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrarReproceso">Cerrar reproceso</a>
-            <?php endif; ?>
+          <?php if ($_SESSION['id'] == 4):?>
+            <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/alta">Cerrar proceso</a>
+            <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrarReproceso">Cerrar reproceso</a>
+          <?php endif; ?>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/ver">Ver producción</a>
         </div>
       </li>

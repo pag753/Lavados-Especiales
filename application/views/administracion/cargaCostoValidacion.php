@@ -1,37 +1,37 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 $input_folio = array(
-    'type' => 'number',
-    'name' => 'folio',
-    'id' => 'folio',
-    'class' => 'form-control',
-    'value' => set_value('folio', @$folio)
+  'type' => 'number',
+  'name' => 'folio',
+  'id' => 'folio',
+  'class' => 'form-control',
+  'value' => set_value('folio', @$folio)
 );
 ?>
 <script>
-  $(document).ready(function() {
-    $("#folio").focus().keyup(function() {
-      $.ajax({
-        error: function(request, status, error){
-          window.location.replace("<?php echo base_url() ?>");
-        },
-        url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
-        data: { folio: $('#folio').val() },
-        type: 'POST',
-        dataType: "text",
-        success: function(result) {
-          $( "#cargas" ).html(result);
-        }
-      });
-    });
-    $('#costos').submit(function() {
-      if ($('#folio').val() == "") {
-        alert("Favor de completar el campo del folio");
-        return false;
+$(document).ready(function() {
+  $("#folio").focus().keyup(function() {
+    $.ajax({
+      error: function(request, status, error){
+        window.location.replace("<?php echo base_url() ?>");
+      },
+      url: "<?php echo base_url() ?>index.php/ajax/costosAdministracion",
+      data: { folio: $('#folio').val() },
+      type: 'POST',
+      dataType: "text",
+      success: function(result) {
+        $( "#cargas" ).html(result);
       }
-      else return true;
     });
   });
+  $('#costos').submit(function() {
+    if ($('#folio').val() == "") {
+      alert("Favor de completar el campo del folio");
+      return false;
+    }
+    else return true;
+  });
+});
 </script>
 <div class="container-fluid">
   <div class="table">

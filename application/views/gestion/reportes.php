@@ -55,7 +55,7 @@ function cambio(val) {
                 <th>Tipo de Reporte</th>
                 <td>
                   <select name="reporte" id="reporte" class="form-control" required onchange="cambio(this.value)">
-                    <option label="Selecciona el tipo de reporte"></option>
+                    <option label="Selecciona el tipo de reporte">Selecciona el tipo de reporte</option>
                     <option value="1">Cortes en almacen de entrada</option>
                     <option value="2">Cortes autorizados</option>
                     <option value="3">Cortes entregados al cliente</option>

@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-if (! isset($titulo))
-    $titulo = 'Lavados Especiales';
+if (! isset($titulo)) $titulo = 'Lavados Especiales';
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,26 +27,26 @@ if (! isset($titulo))
   <script src="<?php echo base_url()?>js/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url()?>js/dataTables.bootstrap4.min.js"></script>
   <style media="screen">
-    body {
-      background: url("<?php echo base_url()?>img/fondo2.png") no-repeat fixed;
-      height: 591px;
-      background-size: cover;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-      "Helvetica Neue", sans-serif;
-    }
+  body {
+    background: url("<?php echo base_url()?>img/fondo2.png") no-repeat fixed;
+    height: 591px;
+    background-size: cover;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  }
 
-    .jumbotron {
-      background: rgba(255, 255, 255, .5);
-    }
+  .jumbotron {
+    background: rgba(255, 255, 255, .5);
+  }
 
-    nav {
-      background-color: #0180ff4f !important;
-    }
+  nav {
+    background-color: #0180ff4f !important;
+  }
 
-    form {
-      background-color: rgba(255, 255, 255, .9);
-    }
+  form {
+    background-color: rgba(255, 255, 255, .9);
+  }
   </style>
 </head>
 <body>

@@ -306,11 +306,13 @@ $(document).ready(function() {
                             <input type="hidden" id="cantidad_pagar_produccion_proceso_seco_<?php echo $value['id_produccion'] ?>" name="cantidad_pagar_produccion_proceso_seco_[<?php echo $value['id_produccion'] ?>]" value="<?php echo round($value['costo'],2) ?>">
                             $<?php echo round($value['costo'],2) ?>
                           </td>
-                          <td><select class="form-control" onchange="cambioProduccionProcesoSeco(<?php echo $value['id'] ?>,<?php echo $value['id_produccion'] ?>)" class="form-control" name="estado_nomina_proceso_seco[<?php echo $value['id_produccion'] ?>]" id="estado_nomina_proceso_seco_<?php echo $value['id_produccion'] ?>">
-                            <option value="1" selected>Se pagará</option>
-                            <option value="2">Quedará pendiente</option>
-                            <option value="3">No se pagará jamás</option>
-                          </select></td>
+                          <td>
+                            <select class="form-control" onchange="cambioProduccionProcesoSeco(<?php echo $value['id'] ?>,<?php echo $value['id_produccion'] ?>)" class="form-control" name="estado_nomina_proceso_seco[<?php echo $value['id_produccion'] ?>]" id="estado_nomina_proceso_seco_<?php echo $value['id_produccion'] ?>">
+                              <option value="1" selected>Se pagará</option>
+                              <option value="2">Quedará pendiente</option>
+                              <option value="3">No se pagará jamás</option>
+                            </select>
+                          </td>
                           <td><textarea readonly id="razonProduccionProcesoSeco<?php echo $value['id_produccion'] ?>" name="razonProduccionProcesoSeco[<?php echo $value['id_produccion'] ?>]" class="form-control"><?php echo $value['razon'] ?></textarea></td>
                         </tr>
                       <?php endforeach; ?>

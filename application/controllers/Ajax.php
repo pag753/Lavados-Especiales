@@ -18,8 +18,7 @@ class Ajax extends CI_Controller
   // ROOT
   public function rootReporte($folio = null)
   {
-    if ($folio == null)
-    echo "<div class='alert alert-info' role='alert'>Favor de insertar el número de folio.</div>";
+    if ($folio == null) echo "<div class='alert alert-info' role='alert'>Favor de insertar el número de folio.</div>";
     else
     {
       if ($this->existeCorte($folio)) echo "<input type='submit' value='aceptar'/>";
@@ -35,13 +34,11 @@ class Ajax extends CI_Controller
       {
         $this->load->model('corteAutorizadoDatos');
         $query = $this->corteAutorizadoDatos->joinLavadoProcesos($folio);
-        if (count($query) == 0)
-        echo "<div class='alert alert-info' role='alert'>Corte aún no autorizado.</div>";
+        if (count($query) == 0) echo "<div class='alert alert-info' role='alert'>Corte aún no autorizado.</div>";
         else
         {
           echo "<label>Carga: </label><select name='carga' id='carga'><option value=-1>Seleccione la carga</option>";
-          foreach ($query as $key => $value)
-          echo "<option value=" . ($key + 1) . ">" . strtoupper($value['lavado']) . "</option>";
+          foreach ($query as $key => $value) echo "<option value=" . ($key + 1) . ">" . strtoupper($value['lavado']) . "</option>";
           echo "</select><br />";
         }
       }
@@ -80,21 +77,15 @@ class Ajax extends CI_Controller
       $this->load->model('marca');
       $query = $this->marca->getByCliente($cliente);
       echo "<select class='form-control' name='marca' id='marca'>";
-      if ($query == null)
-      echo "<option value='0'>Ninguna</option>";
-      else
-      {
-        foreach ($query as $key => $value)
-        echo "<option value='" . $value['marcaId'] . "'>" . $value['marcaNombre'] . "</option>";
-      }
+      if ($query == null) echo "<option value='0'>Ninguna</option>";
+      else foreach ($query as $key => $value) echo "<option value='" . $value['marcaId'] . "'>" . $value['marcaNombre'] . "</option>";
       echo "</select>";
     }
   }
 
   public function salidaInterna()
   {
-    if (!in_array($_SESSION['id'],array(1,2)) || !$this->input->post() || ! isset($this->input->post()["folio"]))
-    $this->output->set_status_header('404');
+    if (!in_array($_SESSION['id'],array(1,2)) || !$this->input->post() || ! isset($this->input->post()["folio"])) $this->output->set_status_header('404');
     else
     {
       $folio = $this->input->post()["folio"];
@@ -157,8 +148,7 @@ class Ajax extends CI_Controller
                 $cadena .= "<tr><td>" . $value['id_carga'] . " " . strtoupper($value['nombre']) . "</td><td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
                 $query10 = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros($folio, $key + 1);
                 $cadena .= "<td><select name='primero[$key]' class='form-control'>";
-                foreach ($query10 as $key => $value)
-                $cadena .= "<option value='" . $value['idproceso'] . "'>" . $value['proceso'] . "</option>";
+                foreach ($query10 as $key => $value) $cadena .= "<option value='" . $value['idproceso'] . "'>" . $value['proceso'] . "</option>";
                 $cadena .= "</select></td></tr>";
               }
               $cadena .= "</tbody></table></div><div class='col-6'><input type='submit' class='btn btn-primary' value='Aceptar'/></div><input type='hidden' name='fechabd' id='fechabd' value='" . $query2[0]['fecha_entrada'] . "'/><input type='hidden' name='cargas' id='cargas' value='" . count($autorizado) . "'/></div></div>";
@@ -403,8 +393,7 @@ class Ajax extends CI_Controller
     else
     {
       $datos['folio'] = $folio;
-      if (! $this->existeCorte($folio))
-      echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
+      if (! $this->existeCorte($folio)) echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
       else
       {
         $this->load->model('corteAutorizadoDatos');
@@ -450,8 +439,7 @@ class Ajax extends CI_Controller
   // ADMINISTRACIÓN
   public function costosAdministracion()
   {
-    if ($_SESSION['id'] != 1 || ! $this->input->post())
-    $this->output->set_status_header('404');
+    if ($_SESSION['id'] != 1 || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     if ($folio != null)
     {
@@ -475,8 +463,7 @@ class Ajax extends CI_Controller
 
   public function existeUsuario()
   {
-    if ($_SESSION['id'] != 1 || ! $this->input->post() || ! isset($this->input->post()["nombre"]))
-    $this->output->set_status_header('404');
+    if ($_SESSION['id'] != 1 || ! $this->input->post() || ! isset($this->input->post()["nombre"])) $this->output->set_status_header('404');
     $nombre = $this->input->post()["nombre"];
     $this->load->model("Usuarios");
     return $this->Usuarios->exists($nombre);

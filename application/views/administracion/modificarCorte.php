@@ -810,8 +810,7 @@ $(document).ready(function() {
                                 <th>Carga o lavado</th>
                                 <td>
                                   <select name="idCargaLavadoNuevoProceso" class="form-control" required title="Seleccione la carga o lavado">
-                                    <option label="Seleccione la carga o lavado">
-                                    </option>
+                                    <option label="Seleccione la carga o lavado">Seleccione la carga o lavado</option>
                                     <?php foreach ($autorizadoDatos as $key => $value): ?>
                                       <?php if (!isset($carga[$value['id_carga']][$value['lavado_id']])): ?>
                                         <?php $carga[$value['id_carga']][$value['lavado_id']] = 'ok';  ?>
@@ -831,7 +830,7 @@ $(document).ready(function() {
                                 <th>Proceso seco</th>
                                 <td>
                                   <select class="form-control" name="idNuevoProceso" required>
-                                    <option label="Seleccione el nuevo proceso" title="Seleccione el nuevo proceso"></option>
+                                    <option label="Seleccione el nuevo proceso" title="Seleccione el nuevo proceso">Seleccione el nuevo proceso</option>
                                     <?php foreach ($procesosecos as $key => $value): ?>
                                       <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
                                     <?php endforeach; ?>
@@ -848,7 +847,7 @@ $(document).ready(function() {
                                 <th>Estado del proceso</th>
                                 <td>
                                   <select class="form-control" name="estadoProcesoNuevo" title="Escoja el estado del proceso" required onchange="selectNuevoProceso(this.value)">
-                                    <option label="Escoja el estado del proceso"></option>
+                                    <option label="Escoja el estado del proceso">Escoja el estado del proceso</option>
                                     <option value="0">No registrado</option>
                                     <option value="1">Para registrar</option>
                                     <option value="2">Registrado</option>

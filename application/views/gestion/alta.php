@@ -77,7 +77,7 @@ $(document).ready(function() {
   $("#ojales").hide();
   $("#ojal").click(function(){
     if ($(this).is(":checked")) $("#ojales").show();
-    else{
+    else {
       $("#ojales").hide();
       $("#cantidadOjales").val(0);
     }
@@ -98,7 +98,7 @@ $(document).ready(function() {
   });
   $("form").submit(function( event ) {
     var val=$("#cliente").val();
-    if(parseInt(val)==-1){
+    if(parseInt(val)==-1) {
       alert("Por favor escoja un cliente.");
       return false;
     }

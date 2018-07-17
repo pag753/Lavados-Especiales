@@ -93,8 +93,7 @@ class Administracion extends CI_Controller
     if ($this->input->post())
     {
       $this->load->model('corteAutorizadoDatos');
-      foreach ($this->input->post()['costo'] as $key => $value)
-      $query = $this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'], $this->input->post()['carga'], $key, $value, $this->input->post()['idlavado']);
+      foreach ($this->input->post()['costo'] as $key => $value) $query = $this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'], $this->input->post()['carga'], $key, $value, $this->input->post()['idlavado']);
       redirect('/administracion/index?q=folio&' . $this->input->post()['folio']);
     }
     else

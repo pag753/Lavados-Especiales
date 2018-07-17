@@ -55,13 +55,15 @@ $(document).ready(function() {
               <th>Editar</th>
             </tr>
           </thead>
-          <tbody><?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
-              <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
-              <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
-            </tr><?php endforeach; ?>
+          <tbody>
+            <?php foreach ($data as $key => $value): ?>
+              <tr>
+                <td id="nombre<?php echo $value['id'] ?>"><?php echo $value['nombre']; ?></td>
+                <td id="costo<?php echo $value['id'] ?>"><?php echo $value['costo']; ?></td>
+                <td id="abreviatura<?php echo $value['id'] ?>"><?php echo $value['abreviatura']; ?></td>
+                <td><a href="#" onclick="editar(<?php echo $value['id']; ?>)"><i class="far fa-edit"></i>Editar</a></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

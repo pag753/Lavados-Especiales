@@ -76,11 +76,9 @@ class Produccion extends CI_Controller
         }
         redirect('/produccion/index/' . $datos['datos_corte']['folio']);
       }
-      else
-      $this->cargarAutorizacion($this->input->post(), 'Autorización de Corte', 'No agregó ningún lavado');
+      else $this->cargarAutorizacion($this->input->post(), 'Autorización de Corte', 'No agregó ningún lavado');
     }
-    else
-    $this->cargarAutorizacion('', 'Autorización de Corte', 'Ingrese los datos');
+    else $this->cargarAutorizacion('', 'Autorización de Corte', 'Ingrese los datos');
   }
 
   private function cargarAutorizacion($entrada = null, $texto1, $texto2)

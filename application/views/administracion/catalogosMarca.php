@@ -2,41 +2,41 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script type="text/javascript">
-  function editar(id){
-    $('#nombreE').val($('#nombre'+id).text());
-    $('#clienteE').val($('#clienteID_'+id).val());
-    $('#id').val(id);
-    $('#editar').modal('show');
-  }
-  $(document).ready(function() {
-    $('#tabla').DataTable({
-      language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-          "sFirst": "Primero",
-          "sLast": "Último",
-          "sNext": "Siguiente",
-          "sPrevious": "Anterior"
-        },
-        "oAria": {
-          "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
+function editar(id){
+  $('#nombreE').val($('#nombre'+id).text());
+  $('#clienteE').val($('#clienteID_'+id).val());
+  $('#id').val(id);
+  $('#editar').modal('show');
+}
+$(document).ready(function() {
+  $('#tabla').DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
       },
-      "lengthMenu": [ 5, 10, 20, 50, 100 ],
-    });
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    },
+    "lengthMenu": [ 5, 10, 20, 50, 100 ],
   });
+});
 </script>
 <div class="container-fluid">
   <div class="row">
@@ -47,20 +47,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
       <div class='table-responsive'>
         <table id="tabla" class="table" style="background: rgba(255, 255, 255, 0.9);">
           <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Cliente</th>
-            <th>Editar</th>
-          </tr>
+            <tr>
+              <th>Nombre</th>
+              <th>Cliente</th>
+              <th>Editar</th>
+            </tr>
           </thead>
           <tbody>
-          <?php foreach ($data as $key => $value): ?>
-            <tr>
-              <td id="nombre<?php echo $value['marcaId'] ?>"><?php echo $value['marcaNombre']; ?></td>
-              <td><?php echo $value['clienteNombre'] ?></td>
-              <td><a href="#" onclick="editar(<?php echo $value['marcaId']; ?>)"><i class="far fa-edit"></i>Editar</a><input type="hidden" name="clienteID_<?php echo $value['marcaId'] ?>" id="clienteID_<?php echo $value['marcaId'] ?>" value="<?php echo $value['clienteId'] ?>"></td>
-            </tr>
-          <?php endforeach; ?>
+            <?php foreach ($data as $key => $value): ?>
+              <tr>
+                <td id="nombre<?php echo $value['marcaId'] ?>"><?php echo $value['marcaNombre']; ?></td>
+                <td><?php echo $value['clienteNombre'] ?></td>
+                <td><a href="#" onclick="editar(<?php echo $value['marcaId']; ?>)"><i class="far fa-edit"></i>Editar</a><input type="hidden" name="clienteID_<?php echo $value['marcaId'] ?>" id="clienteID_<?php echo $value['marcaId'] ?>" value="<?php echo $value['clienteId'] ?>"></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -93,9 +93,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <label for="cliente" class="col-3 col-form-label">Cliente</label>
             <div class="col-9">
               <select class="form-control" name="cliente" id="cliente">
-                  <?php foreach ($clientes as $key => $value): ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                  <?php endforeach; ?>
+                <?php foreach ($clientes as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -130,9 +130,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <label for="clienteE" class="col-3 col-form-label">Cliente</label>
             <div class="col-9">
               <select class="form-control" name="clienteE" id="clienteE">
-                  <?php foreach ($clientes as $key => $value): ?>
-                    <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
-                  <?php endforeach; ?>
+                <?php foreach ($clientes as $key => $value): ?>
+                  <option value="<?php echo $value['id'] ?>"><?php echo $value['nombre'] ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>

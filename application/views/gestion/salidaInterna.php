@@ -41,16 +41,16 @@ $(document).ready(function() {
     var suma=0;
     for (var i = 0; i < $('#cargas').val(); i++) suma += parseInt($('#piezas_parcial'+i).val());
     suma += parseInt($('#muestras').val());
-    if (suma!=$('#piezas').val()) {
+    if (suma != $('#piezas').val()) {
       alert("La suma de las piezas y las muestras no son iguales que el total");
       return false;
     }
     else {
-      var fechabd=$('#fechabd').val();
-      var fecha=$('#fecha').val().substr(0,10);
-      var fbd=new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
-      var f=new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
-      if (f>=fbd) return true;
+      var fechabd = $('#fechabd').val();
+      var fecha = $('#fecha').val().substr(0,10);
+      var fbd = new Date(fechabd.split("-")[0],fechabd.split("-")[1],fechabd.split("-")[2]);
+      var f = new Date(fecha.split("-")[0],fecha.split("-")[1],fecha.split("-")[2]);
+      if (f >= fbd) return true;
       else {
         alert("La fecha que ingresó no puede ser anterior a la de su autorización");
         return false;

@@ -227,84 +227,83 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
                   </thead>
                   <tbody><?php
-
                   foreach ($produccionReprocesos as $key => $value):
-                  switch ($value['estado'])
-                  {
-                    case 0:
-                    $razon = "No se ha pagado";
-                    $clase = "table-primary";
-                    break;
-                    case 1:
-                    $razon = "Se pagó";
-                    $clase = "table-success";
-                    break;
-                    case 2:
-                    $razon = "Está pendiente";
-                    $clase = "table-warning";
-                    break;
-                    default:
-                    $razon = "No se pagará";
-                    $clase = "table-danger";
-                    break;
-                  }
-                  ?>
-                  <tr class="<?php echo $clase ?>">
-                    <td>
-                      <?php echo $value['folio'] ?>
-                      <input type="hidden" name="reprocesos_folio[<?php echo $key ?>]" value="<?php echo $value['folio'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['fecha'] ?>
-                      <input type="hidden" name="reprocesos_fecha[<?php echo $key ?>]" value="<?php echo $value['fecha'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['lavado'] ?>
-                      <input type="hidden" name="reprocesos_lavado[<?php echo $key ?>]" value="<?php echo $value['lavado'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['proceso'] ?>
-                      <input type="hidden" name="reprocesos_proceso[<?php echo $key ?>]" value="<?php echo $value['proceso'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['piezas'] ?>
-                      <input type="hidden" name="reprocesos_piezas[<?php echo $key ?>]" value="<?php echo $value['piezas'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['defectos'] ?>
-                      <input type="hidden" name="reprocesos_defectos[<?php echo $key ?>]" value="<?php echo $value['defectos'] ?>">
-                    </td>
-                    <td>
-                      $<?php echo $value['cantidad_pagar']/$value['piezas'] ?>
-                      <input type="hidden" name="reprocesos_unitario[<?php echo $key ?>]" value="<?php echo $value['cantidad_pagar']/$value['piezas'] ?>">
-                    </td>
-                    <td>
-                      $<?php echo $value['cantidad_pagar'] ?>
-                      <input type="hidden" name="reprocesos_cantidad_pagar[<?php echo $key ?>]" value="<?php echo $value['cantidad_pagar'] ?>">
-                    </td>
-                    <td>
-                      <?php echo $razon ?>
-                      <input type="hidden" name="reprocesos_razon[<?php echo $key ?>]" value="<?php echo $razon ?>">
-                    </td>
-                    <td>
-                      <?php echo $value['razon_pagar'] ?>
-                      <input type="hidden" name="reprocesos_razon_pagar[<?php echo $key ?>]" value="<?php echo $value['razon_pagar'] ?>">
-                    </td>
-                  </tr><?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">No existen registros de reproceso.</div>
-          <?php endif; ?>
+                    switch ($value['estado'])
+                    {
+                      case 0:
+                      $razon = "No se ha pagado";
+                      $clase = "table-primary";
+                      break;
+                      case 1:
+                      $razon = "Se pagó";
+                      $clase = "table-success";
+                      break;
+                      case 2:
+                      $razon = "Está pendiente";
+                      $clase = "table-warning";
+                      break;
+                      default:
+                      $razon = "No se pagará";
+                      $clase = "table-danger";
+                      break;
+                    }
+                    ?>
+                    <tr class="<?php echo $clase ?>">
+                      <td>
+                        <?php echo $value['folio'] ?>
+                        <input type="hidden" name="reprocesos_folio[<?php echo $key ?>]" value="<?php echo $value['folio'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['fecha'] ?>
+                        <input type="hidden" name="reprocesos_fecha[<?php echo $key ?>]" value="<?php echo $value['fecha'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['lavado'] ?>
+                        <input type="hidden" name="reprocesos_lavado[<?php echo $key ?>]" value="<?php echo $value['lavado'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['proceso'] ?>
+                        <input type="hidden" name="reprocesos_proceso[<?php echo $key ?>]" value="<?php echo $value['proceso'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['piezas'] ?>
+                        <input type="hidden" name="reprocesos_piezas[<?php echo $key ?>]" value="<?php echo $value['piezas'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['defectos'] ?>
+                        <input type="hidden" name="reprocesos_defectos[<?php echo $key ?>]" value="<?php echo $value['defectos'] ?>">
+                      </td>
+                      <td>
+                        $<?php echo $value['cantidad_pagar']/$value['piezas'] ?>
+                        <input type="hidden" name="reprocesos_unitario[<?php echo $key ?>]" value="<?php echo $value['cantidad_pagar']/$value['piezas'] ?>">
+                      </td>
+                      <td>
+                        $<?php echo $value['cantidad_pagar'] ?>
+                        <input type="hidden" name="reprocesos_cantidad_pagar[<?php echo $key ?>]" value="<?php echo $value['cantidad_pagar'] ?>">
+                      </td>
+                      <td>
+                        <?php echo $razon ?>
+                        <input type="hidden" name="reprocesos_razon[<?php echo $key ?>]" value="<?php echo $razon ?>">
+                      </td>
+                      <td>
+                        <?php echo $value['razon_pagar'] ?>
+                        <input type="hidden" name="reprocesos_razon_pagar[<?php echo $key ?>]" value="<?php echo $value['razon_pagar'] ?>">
+                      </td>
+                    </tr><?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">No existen registros de reproceso.</div>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="mx-auto">
-      <button type="submit" class="btn btn-info btn-lg">
-        <i class="far fa-file-pdf"></i>
-      </button>
-    </div>
-  </form>
-</div>
+      <div class="mx-auto">
+        <button type="submit" class="btn btn-info btn-lg">
+          <i class="far fa-file-pdf"></i>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

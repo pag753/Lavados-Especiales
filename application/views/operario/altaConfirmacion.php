@@ -4,11 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script>
 $(document).ready(function() {
   $("form").submit(function( event ) {
-    var total=parseInt($("#total").val());
-    var trabajadas=parseInt($("#piezas_trabajadas").val());
-    var defectos=parseInt($("#defectos").val());
-    if ($("#siguiente")!=null) {
-      if (parseInt($("#siguiente").val())==-1) {
+    var total = parseInt($("#total").val());
+    var trabajadas = parseInt($("#piezas_trabajadas").val());
+    var defectos = parseInt($("#defectos").val());
+    if ($("#siguiente") != null) {
+      if (parseInt($("#siguiente").val()) == -1) {
         alert("Seleccione una opción válida en siguiente");
         return false;
       }

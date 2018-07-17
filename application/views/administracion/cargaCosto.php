@@ -31,22 +31,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class='table-responsive'>
               <table class="table">
                 <thead>
-                <tr>
-                  <th>Proceso</th>
-                  <th>Costo $</th>
-                </tr>
+                  <tr>
+                    <th>Proceso</th>
+                    <th>Costo $</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($procesos as $key => $value): ?>
-                  <tr>
-                    <td>
-                      <input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" />
-                    </td>
-                    <td>
-                      <input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>">
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
+                  <?php foreach ($procesos as $key => $value): ?>
+                    <tr>
+                      <td>
+                        <input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" />
+                      </td>
+                      <td>
+                        <input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>">
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -77,46 +77,46 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="col-12">
               <table class="table table-striped table-bordered">
                 <tbody>
-                <tr>
-                  <td>Imágen</td>
-                  <td><?php echo $imagen; ?></td>
-                </tr>
-                <tr>
-                  <td>Folio</td>
-                  <td><?php echo $folio; ?></td>
-                </tr>
-                <tr>
-                  <td>Corte</td>
-                  <td><?php echo $corte; ?></td>
-                </tr>
-                <tr>
-                  <td>Marca</td>
-                  <td><?php echo $marca; ?></td>
-                </tr>
-                <tr>
-                  <td>Maquilero</td>
-                  <td><?php echo $maquilero; ?></td>
-                </tr>
-                <tr>
-                  <td>Cliente</td>
-                  <td><?php echo $cliente; ?></td>
-                </tr>
-                <tr>
-                  <td>Tipo</td>
-                  <td><?php echo $tipo; ?></td>
-                </tr>
-                <tr>
-                  <td>Fecha de entrada</td>
-                  <td><?php echo $fecha; ?></td>
-                </tr>
-                <tr>
-                  <td>Piezas</td>
-                  <td><?php echo $piezas; ?></td>
-                </tr>
-                <tr>
-                  <td>Ojales</td>
-                  <td><?php echo $ojales; ?></td>
-                </tr>
+                  <tr>
+                    <td>Imágen</td>
+                    <td><?php echo $imagen; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Folio</td>
+                    <td><?php echo $folio; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Corte</td>
+                    <td><?php echo $corte; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Marca</td>
+                    <td><?php echo $marca; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Maquilero</td>
+                    <td><?php echo $maquilero; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Cliente</td>
+                    <td><?php echo $cliente; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Tipo</td>
+                    <td><?php echo $tipo; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Fecha de entrada</td>
+                    <td><?php echo $fecha; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Piezas</td>
+                    <td><?php echo $piezas; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Ojales</td>
+                    <td><?php echo $ojales; ?></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
