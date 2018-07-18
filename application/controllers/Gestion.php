@@ -469,13 +469,17 @@ class Gestion extends CI_Controller
         $pdf->ban = true;
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->SetWidths(array(
-          63.333333333,
-          63.333333333,
-          63.333333333
+          38,
+          38,
+          38,
+          38,
+          38
         ));
         $pdf->Row(array(
           utf8_decode("Folio del corte"),
           utf8_decode("Carga o lavado"),
+          utf8_decode("# de piezas"),
+          utf8_decode("Cliente"),
           utf8_decode("Fecha de entrega"),
         ));
         $pdf->SetFont('Arial', '', 8);
@@ -485,6 +489,8 @@ class Gestion extends CI_Controller
           $pdf->Row(array(
             utf8_decode($this->input->post()['folio'][$key]),
             utf8_decode($value),
+            utf8_decode($this->input->post()['piezas'][$key]),
+            utf8_decode($this->input->post()['cliente'][$key]),
             utf8_decode($this->input->post()['fecha'][$key]),
           ));
         }
@@ -515,11 +521,17 @@ class Gestion extends CI_Controller
     $titulo['titulo'] = "Reporte de cargas en producción";
     if (! $this->input->post())
     {
-      $this->load->model('corte');
-      $data['data'] = $this->corte->reporte4();
+      $this->load->model(array('corte','corteAutorizadoDatos'));
+      $data = $this->corte->reporte4();
+      foreach ($data as $key => $value)
+      {
+        $proceso = $this->corteAutorizadoDatos->getProcesoActivo($value['folio'],$value['lavado']);
+        $data[$key]['proceso'] = (count($proceso) == 0)? "Ninguno" : $proceso[0]['proceso'];
+      }
+      $datos['data'] = $data;
       $this->load->view('comunes/head', $titulo);
       $this->cargarMenu();
-      $this->load->view('gestion/reporte4',$data);
+      $this->load->view('gestion/reporte4',$datos);
       $this->load->view('comunes/foot');
     }
     else
@@ -547,12 +559,14 @@ class Gestion extends CI_Controller
       $pdf->ban = true;
       $pdf->SetFont('Arial', 'B', 8);
       $pdf->SetWidths(array(
-        95,
-        95,
+        63.333333333,
+        63.333333333,
+        63.333333333,
       ));
       $pdf->Row(array(
         utf8_decode("Folio del corte"),
         utf8_decode("Carga o lavado"),
+        utf8_decode("Proceso abierto"),
       ));
       $pdf->SetFont('Arial', '', 8);
       $pdf->ban = false;
@@ -561,6 +575,7 @@ class Gestion extends CI_Controller
         $pdf->Row(array(
           utf8_decode($this->input->post()['folio'][$key]),
           utf8_decode($value),
+          utf8_decode($this->input->post()['proceso'][$key]),
         ));
       }
       /*
@@ -618,13 +633,17 @@ class Gestion extends CI_Controller
       $pdf->ban = true;
       $pdf->SetFont('Arial', 'B', 8);
       $pdf->SetWidths(array(
-        63.333333333,
-        63.333333333,
-        63.333333333,
+        38,
+        38,
+        38,
+        38,
+        38,
       ));
       $pdf->Row(array(
-        utf8_decode("Folio del corte"),
-        utf8_decode("Carga o lavado"),
+        utf8_decode("Folio del corte\n\n"),
+        utf8_decode("Carga o lavado\n\n"),
+        utf8_decode("Cliente\n\n"),
+        utf8_decode("# de piezas\n\n"),
         utf8_decode("Fecha de ingreso a almacén"),
       ));
       $pdf->SetFont('Arial', '', 8);
@@ -634,6 +653,8 @@ class Gestion extends CI_Controller
         $pdf->Row(array(
           utf8_decode($this->input->post()['folio'][$key]),
           utf8_decode($value),
+          utf8_decode($this->input->post()['cliente'][$key]),
+          utf8_decode($this->input->post()['piezas'][$key]),
           utf8_decode($this->input->post()['fecha'][$key]),
         ));
       }

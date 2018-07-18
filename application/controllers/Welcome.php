@@ -78,6 +78,9 @@ class Welcome extends CI_Controller
       case 5: // root
       redirect('/root');
       break;
+      case 7: // lavanderia
+      redirect('/lavanderia');
+      break;
     }
   }
 
@@ -154,6 +157,9 @@ class Welcome extends CI_Controller
       break;
       case 5:
       redirect('root/index/-1');
+      break;
+      case 7:
+      redirect('lavanderia/index/-1');
       break;
       default:
       redirect('/');

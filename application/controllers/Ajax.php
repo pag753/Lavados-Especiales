@@ -411,7 +411,7 @@ class Ajax extends CI_Controller
 
   public function operarioProcesos()
   {
-    if (!in_array($_SESSION['id'],array(4,6,1)) || ! $this->input->post()) $this->output->set_status_header('404');
+    if (!in_array($_SESSION['id'],array(4,6,1,7)) || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     //$carga = $this->input->post()["carga"];
     $this->load->model('corteAutorizadoDatos');
@@ -422,7 +422,7 @@ class Ajax extends CI_Controller
 
   public function operarioValida()
   {
-    if (!in_array($_SESSION['id'],array(4,6)) || ! $this->input->post()) $this->output->set_status_header('404');
+    if (!in_array($_SESSION['id'],array(4,6,7)) || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     $carga = $this->input->post()["carga"];
     $proceso = $this->input->post()["proceso"];

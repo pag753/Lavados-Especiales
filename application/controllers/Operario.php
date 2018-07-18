@@ -8,7 +8,7 @@ class Operario extends CI_Controller
   {
     parent::__construct();
     $idusuario = $_SESSION['id'];
-    if ($idusuario != 4 && $idusuario != 5 && $idusuario != 6) redirect('/');
+    if (!in_array($idusuario,array(4,5,6,7))) redirect('/');
   }
 
   public function index($datos = null)
@@ -66,7 +66,7 @@ class Operario extends CI_Controller
 
   public function alta()
   {
-    if($_SESSION['id'] != 4) redirect('/');
+    if(!in_array($_SESSION['id'],array(4,7))) redirect('/');
     $titulo['titulo'] = 'Cerrar proceso';
     if ($this->input->post())
     {

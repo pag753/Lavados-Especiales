@@ -20,19 +20,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertar">Insertar producción de proceso seco</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/insertarReproceso">Insertar producción de reproceso</a>
-          <?php if ($_SESSION['id'] == 4):?>
             <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/alta">Cerrar proceso</a>
-            <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/cerrarReproceso">Cerrar reproceso</a>
-          <?php endif; ?>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/ver">Ver producción</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Otros</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/verAhorro">Ver caja de ahorro</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/operario/verNominas">Ver información de nóminas</a>
         </div>
       </li>
     </ul>

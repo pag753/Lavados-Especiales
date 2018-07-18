@@ -117,6 +117,9 @@ class CI_Controller {
 			case 5:
 			$this->load->view('root/menu');
 			break;
+			case 7:
+			$this->load->view('lavanderia/menu');
+			break;
 			default:
 			redirect('/');
 			break;

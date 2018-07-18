@@ -181,36 +181,24 @@ function disminuyeTotalUsuario(idUsuario,cantidad)
 }
 function calcula(id)
 {
-  $('#ahorro_saldo_'+id).val(
-    ($('#ahorro_anterior_'+id).val() * 1) +
-    ($('#ahorro_abono_'+id).val()) * 1
-  );
+  $('#ahorro_saldo_'+id).val( parseFloat(($('#ahorro_anterior_'+id).val() * 1) + ($('#ahorro_abono_'+id).val()) * 1).toFixed(2) );
   $('#td_ahorro_saldo_'+id).html($('#ahorro_saldo_'+id).val());
-  $('#descuentos_saldo_'+id).val(
-    ($('#descuentos_anterior_'+id).val() * 1) -
-    ($('#descuentos_abono_'+id).val() * 1)
-  );
+  $('#descuentos_saldo_'+id).val( parseFloat(($('#descuentos_anterior_'+id).val() * 1) - ($('#descuentos_abono_'+id).val() * 1)).toFixed(2) );
   $('#td_descuentos_saldo_'+id).html($('#descuentos_saldo_'+id).val());
-  $('#total_'+id).val(
-    ($('#nomina_'+id).val() * 1) +
-    ($('#saldo_anterior_'+id).val() * 1) -
-    ($('#descuentos_abono_'+id).val() * 1) -
-    ($('#ahorro_abono_'+id).val() * 1) +
-    ($('#bonos_'+id).val() * 1)
-  );
+  $('#total_'+id).val( parseFloat(($('#nomina_'+id).val() * 1) + ($('#saldo_anterior_'+id).val() * 1) - ($('#descuentos_abono_'+id).val() * 1) - ($('#ahorro_abono_'+id).val() * 1) + ($('#bonos_'+id).val() * 1)).toFixed(2) );
   $('#td_total_'+id).html($('#total_'+id).val());
   var totales = $("[id^='total_']");
   var total = 0;
   $.each(totales, function( index, value ) {
     total += (value.value * 1);
   });
-  $('#totalTotal').html(total);
+  $('#totalTotal').html(total.toFixed(2));
   var pagados = $("[id^='pagado_']");
   totalPagar = 0;
   $.each(pagados, function( index, value ) {
     totalPagar += (value.value * 1);
   });
-  $('#diferencia').val(total - totalPagar);
+  $('#diferencia').val(total.toFixed(2) - totalPagar.toFixed(2));
 }
 function pagado()
 {
@@ -219,8 +207,8 @@ function pagado()
   $.each(pagados, function( index, value ) {
     totalPagar += (value.value * 1);
   });
-  $('#totalPagar').html(totalPagar);
-  $('#diferencia').html(($('#totalTotal').html() * 1) - totalPagar);
+  $('#totalPagar').html(totalPagar.toFixed(2));
+  $('#diferencia').html(parseFloat(($('#totalTotal').html() * 1) - totalPagar).toFixed(2));
 }
 $(document).ready(function() {
   $('#verNomina').submit(function() {

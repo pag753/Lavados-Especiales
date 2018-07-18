@@ -121,7 +121,10 @@ class Corte extends CI_Model
 
   public function reporte3($datos)
   {
-    $c = $this->db->select('
+    $c = $this->db->distinct();
+    $c->select('
+    salida_interna1_datos.piezas as piezas,
+    cliente.nombre as cliente,
     entrega_externa.corte_folio as folio,
     lavado.nombre as lavado,
     entrega_externa.fecha as fecha,
@@ -129,6 +132,9 @@ class Corte extends CI_Model
     $c->from('entrega_externa');
     $c->join('lavado','lavado.id=entrega_externa.lavado_id');
     $c->join('corte','corte.folio=entrega_externa.corte_folio');
+    $c->join('cliente','corte.cliente_id=cliente.id');
+    $c->join('corte_autorizado_datos','corte_autorizado_datos.corte_folio=entrega_externa.corte_folio AND corte_autorizado_datos.lavado_id=entrega_externa.lavado_id');
+    $c->join('salida_interna1_datos','salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio AND corte_autorizado_datos.id_carga=salida_interna1_datos.id_carga');
     $c->where('entrega_externa.fecha>=',$datos['fechai']);
     $c->where('entrega_externa.fecha<=',$datos['fechaf']);
     if ($datos['corte'] != "") $c->where('corte.corte',$datos['corte']);
@@ -176,7 +182,10 @@ class Corte extends CI_Model
   */
   public function reporte5()
   {
-    $this->db->select('
+    $this->db->distinct()
+    ->select('
+    salida_interna1_datos.piezas as piezas,
+    cliente.nombre as cliente,
     entrega_almacen.corte_folio as folio,
     entrega_almacen.fecha as fecha,
     lavado.nombre as lavado
@@ -184,6 +193,10 @@ class Corte extends CI_Model
     ->from('entrega_almacen')
     ->join('entrega_externa','entrega_externa.corte_folio=entrega_almacen.corte_folio and entrega_externa.lavado_id=entrega_almacen.lavado_id','left')
     ->join('lavado','lavado.id=entrega_almacen.lavado_id')
+    ->join('corte','corte.folio=entrega_almacen.corte_folio')
+    ->join('cliente','corte.cliente_id=cliente.id')
+    ->join('corte_autorizado_datos','corte_autorizado_datos.corte_folio=entrega_almacen.corte_folio AND corte_autorizado_datos.lavado_id=entrega_almacen.lavado_id')
+    ->join('salida_interna1_datos','salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio AND corte_autorizado_datos.id_carga=salida_interna1_datos.id_carga')
     ->where('entrega_externa.corte_folio=',NULL)
     ->where('entrega_externa.lavado_id=',NULL)
     ->order_by('entrega_almacen.corte_folio')
