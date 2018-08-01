@@ -99,4 +99,25 @@ class CorteAutorizado extends CI_Model
     $this->db->insert('corte_autorizado', $data);
     return $this->db->insert_id();
   }
+
+  public function getCargasPiezas($folio = NULL)
+  {
+    $this->db->select('
+    corte_autorizado.id,
+    corte_autorizado.corte_folio,
+    corte_autorizado.fecha_autorizado,
+    corte_autorizado.id_carga,
+    corte_autorizado.lavado_id,
+    lavado.nombre as lavado,
+    corte_autorizado.usuario_id,
+    corte_autorizado.color_hilo,
+    corte_autorizado.tipo,
+    salida_interna1_datos.piezas,
+    ')
+    ->from('corte_autorizado')
+    ->join('salida_interna1_datos','salida_interna1_datos.corte_autorizado_id=corte_autorizado.id')
+    ->join('lavado','lavado.id=corte_autorizado.lavado_id')
+    ->where('corte_autorizado.corte_folio',$folio);
+    return $this->db->get()->result_array();
+  }
 }

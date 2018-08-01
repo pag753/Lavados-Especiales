@@ -117,6 +117,25 @@ class Produccion extends CI_Controller
     else $this->cargarAutorizacion('', 'Autorización de Corte', 'Ingrese los datos');
   }
 
+  public function primerProceso()
+  {
+    if ($this->input->post())
+    {
+      $this->load->model('corteAutorizadoDatos');
+      foreach ($this->input->post()['abrirCon'] as $key => $value) $this->corteAutorizadoDatos->actualiza($value, $this->input->post()['piezas'][$key], 1);
+      redirect('/produccion/index/' . $this->input->post()['folio']);
+    }
+    else
+    {
+      $titulo = null;
+      $titulo['titulo'] = 'Abrir primer proceso de cargas';
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('produccion/primerProceso');
+      $this->load->view('comunes/foot');
+    }
+  }
+
   private function cargarAutorizacion($entrada = null, $texto1, $texto2)
   {
     $this->load->model('lavado');

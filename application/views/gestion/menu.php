@@ -24,6 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/ver">Ver detalles de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte y entrada</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar corte</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/primerProceso">Abrir primer proceso de cargas</a>
         </div>
       </li>
       <li class="nav-item dropdown">

@@ -18,6 +18,7 @@
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cortes</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar corte</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/primerProceso">Abrir primer proceso de cargas</a>
         </div>
       </li>
     </ul>

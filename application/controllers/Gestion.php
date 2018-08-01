@@ -64,9 +64,9 @@ class Gestion extends CI_Controller
         'upload_path' => "img/fotos",
         'file_name' => $datos['datos_corte']['folio'],
         'allowed_types' => "gif|jpg|jpeg|png",
-        'max_size' => "500000",
-        'max_width' => "20000",
-        'max_height' => "20000"
+        'max_size' => "500000000000",
+        'max_width' => "20000000000",
+        'max_height' => "20000000000"
       );
       $this->load->library('upload', $config);
       if (! $this->upload->do_upload($mi_imagen))
@@ -132,8 +132,10 @@ class Gestion extends CI_Controller
       //Agregar a la tabla de la salida interna
       $this->salidaInterna1->agregar($data);
       $data = null;
+
       //$this->load->model('salidaInterna1Datos');
       //$data['corte_folio'] = $this->input->post()['folio'];
+
       foreach ($this->input->post()['piezas_parcial'] as $key => $value)
       {
         //Agregar a la salida interna datos
@@ -141,8 +143,10 @@ class Gestion extends CI_Controller
         $data['piezas'] = $value;
         $this->salidaInterna1Datos->agregar($data);
         //actualizar en corte autorizado datos
-        $this->corteAutorizadoDatos->actualiza($this->input->post()['primero'][$key], $value, 1);
+        //Cuando se daba de alta la apertura del primer proceso
+        //$this->corteAutorizadoDatos->actualiza($this->input->post()['primero'][$key], $value, 1);
       }
+
       /*
       for ($i = 1; $i <= $this->input->post()['cargas']; $i ++)
       {

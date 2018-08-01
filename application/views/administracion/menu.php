@@ -22,11 +22,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/gestion/alta">Alta de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/ver">Ver detalles de corte</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/modificar">Modificar corte</a>
-          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/costos">Reasignación de costos</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/costos">Reasignación de costos a procesos</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/descuentos">Descuentos</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/ojal">Costo de ojal</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/administracion/reproceso">Nuevo reproceso</a>
           <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/autorizar">Autorizar Corte</a>
+          <a class="dropdown-item" href="<?php echo base_url() ?>index.php/produccion/primerProceso">Abrir primer proceso de cargas</a>
         </div>
       </li>
       <li class="nav-item dropdown">

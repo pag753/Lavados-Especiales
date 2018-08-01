@@ -138,16 +138,17 @@ class Ajax extends CI_Controller
             }
             else
             {
-              $cadena = "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='" . $query2[0]['piezas'] . "'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th># Carga</th><th>Lavado</th><th>Color de hilo</th><th>Tipo</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
+              $cadena = "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='" . $query2[0]['piezas'] . "'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th># Carga</th><th>Lavado</th><th>Color de hilo</th><th>Tipo</th><th>Piezas</th></tr></thead><tbody>";
               $this->load->model('corteAutorizadoDatos');
               $autorizado = $this->corteAutorizado->getCargas($folio);
               foreach ($autorizado as $key => $value)
               {
                 $cadena .= "<tr><td>" . $value['id_carga'] . "<td>" . strtoupper($value['lavado']) . "</td><td>" . $value['color_hilo'] . "</td><td>" . $value['tipo'] . "</td><td><input type='number' name='piezas_parcial[" . $value['id'] . "]' id='piezas_parcial" . ($key + 1) . "' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
                 $query10 = $this->corteAutorizadoDatos->getProcesosSinCeros($value['id']);
-                $cadena .= "<td><select required name='primero[" . ($value['id']) . "]' class='form-control'>";
-                foreach ($query10 as $key => $value) $cadena .= "<option value='" . $value['id'] . "'>" . $value['proceso'] . "</option>";
-                $cadena .= "</select></td></tr>";
+                //$cadena .= "<td><select required name='primero[" . ($value['id']) . "]' class='form-control'>";
+                //foreach ($query10 as $key => $value) $cadena .= "<option value='" . $value['id'] . "'>" . $value['proceso'] . "</option>";
+                //$cadena .= "</select></td></tr>";
+                $cadena .= "</tr>";
               }
               $cadena .= "</tbody></table></div><div class='col-6'><input type='submit' class='btn btn-primary' value='Aceptar'/></div><input type='hidden' name='fechabd' id='fechabd' value='" . $query2[0]['fecha_entrada'] . "'/><input type='hidden' name='cargas' id='cargas' value='" . count($autorizado) . "'/></div></div>";
               $infoCorte = $this->infoCorte($folio);
@@ -360,6 +361,89 @@ class Ajax extends CI_Controller
           );
           $info = json_encode($info);
           echo $info;
+        }
+      }
+    }
+  }
+
+  public function primerProceso($folio = null)
+  {
+    if (!in_array($_SESSION['id'],array(1,3)) || ! $this->input->post()) $this->output->set_status_header('404');
+    $folio = $this->input->post()["folio"];
+    if ($folio == null)
+    {
+      $info = array(
+        'respuesta' => "<div class='alert alert-info' role='alert'>Escriba el número del corte.</div>",
+        'info' => ''
+      );
+      $info = json_encode($info);
+      echo $info;
+    }
+    else
+    {
+      $this->load->model('corte');
+      $resultado = $this->corte->getByFolio($folio);
+      if (count($resultado) == 0)
+      {
+        $info = array(
+          'respuesta' => "<div class='alert alert-info' role='alert'>El corte no se encuentra en la base de datos.</div>",
+          'info' => ''
+        );
+        $info = json_encode($info);
+        echo $info;
+      }
+      else
+      {
+        $this->load->model('corteAutorizado');
+        $resultado2 = $this->corteAutorizado->getByFolio($folio);
+        if (count($resultado2) == 0)
+        {
+          $info = array(
+            'respuesta' => "<div class='alert alert-warning' role='alert'>El corte no ha sido autorizado.</div>",
+            'info' => ''
+          );
+          $info = json_encode($info);
+          echo $info;
+        }
+        else
+        {
+          $this->load->model('salidaInterna1');
+          $resultado2 = $this->salidaInterna1->getByFolio($folio);
+          if (count($resultado2) == 0)
+          {
+            $info = array(
+              'respuesta' => "<div class='alert alert-warning' role='alert'>El corte no tiene salida interna.</div>",
+              'info' => ''
+            );
+            $info = json_encode($info);
+            echo $info;
+          }
+          else
+          {
+            $this->load->model('corteAutorizadoDatos');
+            $resultado2 = $this->corteAutorizadoDatos->procesosAbiertos($folio);
+            if (count($resultado2) != 0)
+            {
+              $info = array(
+                'respuesta' => "<div class='alert alert-warning' role='alert'>El corte ya tiene procesos abiertos.</div>",
+                'info' => ''
+              );
+              $info = json_encode($info);
+              echo $info;
+            }
+            else
+            {
+              $this->load->model('corteAutorizado');
+              $cargas = $this->corteAutorizado->getCargasPiezas($folio);
+              foreach ($cargas as $key => $value) $cargas[$key]['procesos'] = $this->corteAutorizadoDatos->procesosActivos($value['id']);
+              $info = array(
+                'respuesta' => $cargas,
+                'info' => $this->infoCorte($folio),
+              );
+              $info = json_encode($info);
+              echo $info;
+            }
+          }
         }
       }
     }

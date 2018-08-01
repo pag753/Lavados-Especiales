@@ -478,4 +478,26 @@ class CorteAutorizadoDatos extends CI_Model
     ->where('corte_autorizado_datos.corte_autorizado_id', $id);
     return $this->db->get()->result_array();
   }
+
+  public function procesosAbiertos($folio=null)
+  {
+    $this->db->select('*')
+    ->from('corte_autorizado_datos')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->where('corte_autorizado.corte_folio',$folio)
+    ->where('corte_autorizado_datos.status',1);
+    return $this->db->get()->result_array();
+  }
+
+  public function procesosActivos($idCorteAutorizado)
+  {
+    $this->db->select('
+    corte_autorizado_datos.id,
+    proceso_seco.nombre
+    ')
+    ->from('corte_autorizado_datos')
+    ->join('proceso_seco','proceso_seco.id=corte_autorizado_datos.proceso_seco_id')
+    ->where('corte_autorizado_datos.corte_autorizado_id',$idCorteAutorizado);
+    return $this->db->get()->result_array();
+  }
 }
