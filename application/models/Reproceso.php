@@ -45,25 +45,34 @@ class Reproceso extends CI_Model
     return $this->db->insert_id();
   }
 
+  //Cambios aplicados por la base de datos
   public function getByFolioOperarios($folio)
   {
     $this->db->select('
     reproceso.id as id,
+    corte_autorizado.id_carga as id_carga,
+    corte_autorizado.color_hilo as color_hilo,
+    corte_autorizado.tipo as tipo,
+    reproceso.corte_autorizado_id as corte_autorizado_id,
+    reproceso.status as status,
     proceso_seco.nombre as proceso_seco,
-    lavado.nombre as lavado,
-    reproceso.status as status
+    lavado.nombre as lavado
     ')
     ->from("reproceso")
+    ->join('corte_autorizado','corte_autorizado.id=reproceso.corte_autorizado_id')
     ->join("proceso_seco", "proceso_seco.id=reproceso.proceso_seco_id")
-    ->join("lavado", "lavado.id=reproceso.lavado_id")
+    ->join("lavado", "lavado.id=corte_autorizado.lavado_id")
     ->where("corte_folio", $folio)
     ->order_by("lavado.nombre,proceso_seco.nombre");
     return $this->db->get()->result_array();
   }
 
+  //Cambios por base de datos
   public function getByFolioEspecifico($folio)
   {
     $this->db->select('
+    corte_autorizado.id as corte_autorizado_id,
+    corte_autorizado.id_carga as id_carga,
     reproceso.id as id,
     proceso_seco.nombre as proceso_seco,
     lavado.nombre as lavado,
@@ -78,10 +87,11 @@ class Reproceso extends CI_Model
     usuario.nombre_completo as usuario_nombre
     ')
     ->from("reproceso")
+    ->join('corte_autorizado','reproceso.corte_autorizado_id=corte_autorizado.id')
     ->join("proceso_seco", "proceso_seco.id=reproceso.proceso_seco_id")
-    ->join("lavado", "lavado.id=reproceso.lavado_id")
+    ->join("lavado", "lavado.id=corte_autorizado.lavado_id")
     ->join("usuario", "reproceso.usuario_id=usuario.id")
-    ->where("reproceso.corte_folio", $folio)
+    ->where("corte_autorizado.corte_folio", $folio)
     ->order_by("lavado.nombre,proceso_seco.nombre");
     return $this->db->get()->result_array();
   }

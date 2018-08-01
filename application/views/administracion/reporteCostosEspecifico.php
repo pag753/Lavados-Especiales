@@ -10,7 +10,8 @@ foreach ($produccion as $key => $value)
       'proceso' => $value['proceso'],
       'piezas' => $value['piezas'],
       'costo' => $value['costo'],
-      'total' => $value['total']
+      'total' => $value['total'],
+      'carga' => $value['carga']
     );
   }
   else
@@ -29,7 +30,8 @@ foreach ($reproceso as $key => $value)
       'proceso' => $value['proceso_seco'],
       'piezas' => $value['piezas'],
       'costo' => $value['costo'],
-      'total' => $value['total']
+      'total' => $value['total'],
+      'carga' => $value['carga']
     );
   }
   else
@@ -139,7 +141,7 @@ $(document).ready(function() {
                   <table class="table table-hover" id="tablaProdProcSec">
                     <thead>
                       <tr>
-                        <th>Carga o lavado</th>
+                        <th>Carga - lavado</th>
                         <th>Proceso</th>
                         <th>Piezas trabajadas</th>
                         <th>Costo unitario</th>
@@ -149,8 +151,8 @@ $(document).ready(function() {
                     <tbody><?php foreach ($p as $key => $value): foreach ($value as $key2 => $value2): ?>
                       <tr onclick="modal(1,<?php echo $key; ?>,<?php echo $key2; ?>)" data-toggle="tooltip" data-placement="top" title="De click para saber la información de este proceso">
                         <td>
-                          <input type="hidden" name="lavadoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['lavado'] ?>">
-                          <?php echo $value2['lavado'] ?>
+                          <input type="hidden" name="lavadoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['carga'] . " " . $value2['lavado'] ?>">
+                          <?php echo $value2['carga'] . " " . $value2['lavado'] ?>
                         </td>
                         <td>
                           <input type="hidden" name="procesoProduccion[<?php echo $key;?>][<?php echo $key2;?>]" value="<?php echo $value2['proceso'] ?>">

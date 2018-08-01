@@ -16,18 +16,43 @@ class CorteAutorizadoDatos extends CI_Model
     $this->load->database();
   }
 
+  //Cambios por base de datos
   public function getByFolio($folio = null)
   {
-    $query = $this->db->get_where('corte_autorizado_datos', array(
-      'corte_folio' => $folio
-    ));
-    return $query->result_array();
+    $query = $this->db->select('
+     corte_autorizado_datos.id,
+     corte_autorizado_datos.corte_autorizado_id,
+     corte_autorizado_datos.proceso_seco_id,
+     corte_autorizado_datos.costo,
+     corte_autorizado_datos.piezas_trabajadas,
+     corte_autorizado_datos.defectos,
+     corte_autorizado_datos.status,
+     corte_autorizado_datos.orden,
+     corte_autorizado_datos.fecha_registro,
+     corte_autorizado_datos.usuario_id,
+     corte_autorizado.corte_folio,
+     corte_autorizado.fecha_autorizado,
+     corte_autorizado.id_carga,
+     corte_autorizado.lavado_id,
+     corte_autorizado.usuario_id,
+     corte_autorizado.color_hilo,
+     corte_autorizado.tipo
+    ')
+    ->from('corte_autorizado_datos')
+//    ->join('proceso_seco','proceso_seco.id=corte_autorizado_datos.proceso_seco_id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+//    ->join('lavado','corte_autorizado.lavado_id=lavado.id')
+    ->where('corte_autorizado.corte_folio',$folio);
+    return $query->get()->result_array();
   }
 
-  public function getByFolioEspecifico($folio = null)
+  //Cambiado por los cambios en la base de datos
+  public function getByFolioEspecifico($folio)
   {
     $this->db->select('
-    corte_autorizado_datos.id_carga as idcarga,
+    corte_autorizado.id as id_corte_autorizado,
+    corte_autorizado_datos.id as id_corte_autorizado_datos,
+    corte_autorizado.id_carga as idcarga,
     lavado.nombre as lavado,
     lavado.id as idlavado,
     proceso_seco.nombre as proceso,
@@ -36,19 +61,75 @@ class CorteAutorizadoDatos extends CI_Model
     corte_autorizado_datos.status as status,
     corte_autorizado_datos.orden as orden,
     corte_autorizado_datos.fecha_registro as fecha,
-    usuario.nombre as usuario,
+    usuario.nombre as usuario
     ')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
-    ->join('usuario', 'corte_autorizado_datos.usuario_id=usuario.id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    ->join('usuario', 'corte_autorizado.usuario_id=usuario.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
-    ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.orden');
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->order_by('corte_autorizado.id_carga, corte_autorizado_datos.orden');
+    return $this->db->get()->result_array();
+  }
+
+  //Cambios por base de datos
+  public function getByFolioEspecifico2($folio)
+  {
+    $this->db->select('
+    corte_autorizado.color_hilo as color_hilo,
+    corte_autorizado.tipo as tipo,
+    corte_autorizado.id as id_corte_autorizado,
+    corte_autorizado_datos.id as id_corte_autorizado_datos,
+    corte_autorizado.id_carga as idcarga,
+    lavado.nombre as lavado,
+    lavado.id as idlavado,
+    proceso_seco.nombre as proceso,
+    corte_autorizado_datos.piezas_trabajadas as piezas,
+    corte_autorizado_datos.defectos as defectos,
+    corte_autorizado_datos.status as status,
+    corte_autorizado_datos.orden as orden,
+    corte_autorizado_datos.fecha_registro as fecha,
+    usuario.nombre as usuario
+    ')
+    ->from('corte_autorizado_datos')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    ->join('usuario', 'corte_autorizado.usuario_id=usuario.id')
+    ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+    ->join('entrega_almacen','entrega_almacen.corte_autorizado_id=corte_autorizado.id','left')
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->where('entrega_almacen.corte_autorizado_id=',NULL)
+    ->order_by('corte_autorizado.id_carga, corte_autorizado_datos.orden');
+    return $this->db->get()->result_array();
+  }
+
+  //Cambios por base de datos
+  public function getByFolioEspecifico3($folio)
+  {
+    $this->db->select('
+    corte_autorizado.color_hilo as color_hilo,
+    corte_autorizado.tipo as tipo,
+    corte_autorizado.id as id_corte_autorizado,
+    corte_autorizado.id_carga as idcarga,
+    lavado.nombre as lavado,
+    lavado.id as idlavado,
+    usuario.nombre as usuario
+    ')
+    ->from('entrega_almacen')
+    ->join('corte_autorizado','corte_autorizado.id=entrega_almacen.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    ->join('usuario', 'corte_autorizado.usuario_id=usuario.id')
+    ->join('entrega_externa','entrega_externa.corte_autorizado_id=corte_autorizado.id','left')
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->where('entrega_externa.corte_autorizado_id=',NULL)
+    ->order_by('corte_autorizado.id_carga');
     return $this->db->get()->result_array();
   }
 
   public function agregar($datos = null)
   {
+    $datos['usuario_id'] = $_SESSION['usuario_id'];
     $data = $this->db->insert('corte_autorizado_datos', $datos);
     return $data;
   }
@@ -68,17 +149,20 @@ class CorteAutorizadoDatos extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  //Cambiado por los cambios a la base de datos
   public function joinLavadoProcesos($folio)
   {
-    $this->db->distinct()
-    ->select('
+    $this->db->select('
+    corte_autorizado.id as id,
+    corte_autorizado.id_carga,
     lavado.id as idlavado,
-    lavado.nombre as lavado,
+    lavado.nombre as lavado
     ')
-    ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
-    ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio);
+    ->from('corte_autorizado')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    //->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->order_by('corte_autorizado.id_carga');
     // ->group_by("corte_autorizado_datos.id_carga");
     return $this->db->get()->result_array();
   }
@@ -127,7 +211,7 @@ class CorteAutorizadoDatos extends CI_Model
     return $this->db->get()->result_array();
   }
 
-  public function joinLavadoProcesosCargaNoCeros2($folio, $carga, $proceso)
+  public function joinLavadoProcesosCargaNoCeros2($id)
   {
     $this->db->select('
     lavado.id as idlavado,
@@ -140,12 +224,11 @@ class CorteAutorizadoDatos extends CI_Model
     corte_autorizado_datos.orden as orden
     ')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
-    ->where('corte_autorizado_datos.costo !=', 0)
-    ->where('corte_autorizado_datos.id_carga', $carga)
-    ->where('corte_autorizado_datos.proceso_seco_id', $proceso);
+    ->where('corte_autorizado_datos.id', $id)
+    ->where('corte_autorizado_datos.costo !=', 0);
     return $this->db->get()->result_array();
   }
 
@@ -171,6 +254,7 @@ class CorteAutorizadoDatos extends CI_Model
   public function joinLavadoProcesosCargaNoCeros4($folio, $carga)
   {
     $this->db->select('
+    corte_autorizado_datos.id as id,
     lavado.id as idlavado,
     lavado.nombre as lavado,
     proceso_seco.nombre as proceso,
@@ -178,11 +262,12 @@ class CorteAutorizadoDatos extends CI_Model
     corte_autorizado_datos.costo as costo
     ')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
+    ->where('corte_autorizado.corte_folio', $folio)
     ->where('corte_autorizado_datos.costo !=', 0)
-    ->where('corte_autorizado_datos.id_carga', $carga)
+    ->where('corte_autorizado.id_carga', $carga)
     ->where('corte_autorizado_datos.status', 0);
     return $this->db->get()->result_array();
   }
@@ -205,20 +290,25 @@ class CorteAutorizadoDatos extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  //Cambiado por los cambios en la base de datos
   public function joinLavadoProcesosCargaNoCeros6($folio)
   {
     $this->db->select('
-    lavado.id as idlavado,
-    lavado.nombre as lavado,
+    corte_autorizado_datos.id as id,
     proceso_seco.nombre as proceso,
     proceso_seco.id as idproceso,
+    lavado.id as idlavado,
+    lavado.nombre as lavado,
     corte_autorizado_datos.costo as costo,
-    corte_autorizado_datos.id_carga as idcarga
+    corte_autorizado.color_hilo as color_hilo,
+    corte_autorizado.tipo as tipo,
+    corte_autorizado.id_carga as id_carga
     ')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('corte_autorizado','corte_autorizado_datos.corte_autorizado_id=corte_autorizado.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    ->where('corte_autorizado.corte_folio', $folio)
     ->where('corte_autorizado_datos.costo !=', 0)
     ->where('corte_autorizado_datos.status', 1);
     return $this->db->get()->result_array();
@@ -236,20 +326,19 @@ class CorteAutorizadoDatos extends CI_Model
     return $query;
   }
 
-  public function actualiza($id_proceso, $folio, $id_carga, $inicio, $orden)
+  //Se cambió cuando se cambió la base de datos
+  public function actualiza($id, $piezas, $orden)
   {
     $data = array(
-      'piezas_trabajadas' => $inicio,
+      'piezas_trabajadas' => $piezas,
       'status' => 1,
       'orden' => $orden
     );
-    $this->db->where('proceso_seco_id', $id_proceso);
-    $this->db->where('corte_folio', $folio);
-    $this->db->where('id_carga', $id_carga);
+    $this->db->where('corte_autorizado_datos.id', $id);
     $this->db->update('corte_autorizado_datos', $data);
   }
 
-  public function actualiza2($id_proceso, $folio, $id_carga, $trabajadas, $defectos, $fecha, $usuario)
+  public function actualiza2($id, $trabajadas, $defectos, $fecha, $usuario)
   {
     $data = array(
       'piezas_trabajadas' => $trabajadas,
@@ -258,9 +347,7 @@ class CorteAutorizadoDatos extends CI_Model
       'defectos' => $defectos,
       'usuario_id' => $usuario
     );
-    $this->db->where('proceso_seco_id', $id_proceso);
-    $this->db->where('corte_folio', $folio);
-    $this->db->where('id_carga', $id_carga);
+    $this->db->where('id', $id);
     $this->db->update('corte_autorizado_datos', $data);
   }
 
@@ -273,21 +360,22 @@ class CorteAutorizadoDatos extends CI_Model
     lavado.nombre as lavado,
     proceso_seco.nombre as proceso,
     proceso_seco.id as idproceso,
-    corte_autorizado_datos.corte_folio as folio,
+    corte_autorizado.corte_folio as folio,
     TRUNCATE(corte_autorizado_datos.costo,2) as costo,
     corte_autorizado_datos.status as status,
     corte_autorizado_datos.piezas_trabajadas as piezas,
     corte_autorizado_datos.orden as orden,
-    corte_autorizado_datos.id_carga as idcarga,
+    corte_autorizado.id_carga as idcarga,
     corte_autorizado_datos.fecha_registro as fecha,
     Round((corte_autorizado_datos.costo*corte_autorizado_datos.piezas_trabajadas),2) as total,
     corte_autorizado_datos.defectos as defectos')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->join('usuario', 'corte_autorizado_datos.usuario_id=usuario.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
-    ->order_by('corte_autorizado_datos.id_carga, corte_autorizado_datos.lavado_id, corte_autorizado_datos.orden');
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->order_by('corte_autorizado.id_carga, corte_autorizado.lavado_id, corte_autorizado_datos.orden');
     return $this->db->get()->result_array();
   }
 
@@ -341,10 +429,18 @@ class CorteAutorizadoDatos extends CI_Model
   public function getLavadosByFolio($folio)
   {
     $this->db->distinct()
-    ->select('corte_autorizado_datos.id_carga , corte_autorizado_datos.lavado_id, lavado.nombre')
-    ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id = lavado.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio);
+    ->select('
+    corte_autorizado.id as id,
+    corte_autorizado.color_hilo as color_hilo,
+    corte_autorizado.tipo as tipo,
+    corte_autorizado.id_carga,
+    corte_autorizado.lavado_id,
+    lavado.nombre
+    ')
+    ->from('corte_autorizado')
+    //->join('corte_autorizado','corte_autorizado_datos.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id = lavado.id')
+    ->where('corte_autorizado.corte_folio', $folio);
     return $this->db->get()->result_array();
   }
 
@@ -352,8 +448,8 @@ class CorteAutorizadoDatos extends CI_Model
   {
     $this->db->distinct()
     ->select('MAX(id_carga) as maxima')
-    ->from('corte_autorizado_datos')
-    ->where('corte_autorizado_datos.corte_folio', $folio);
+    ->from('corte_autorizado')
+    ->where('corte_autorizado.corte_folio', $folio);
     return $this->db->get()->result_array();
   }
 
@@ -361,10 +457,25 @@ class CorteAutorizadoDatos extends CI_Model
   {
     $this->db->select('proceso_seco.nombre as proceso')
     ->from('corte_autorizado_datos')
-    ->join('proceso_seco','proceso_seco.id=corte_autorizado_datos.proceso_seco_id')
-    ->where('corte_autorizado_datos.corte_folio',$folio)
-    ->where('corte_autorizado_datos.lavado_id',$lavado)
-    ->where('corte_autorizado_datos.status',1);
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('proceso_seco', 'proceso_seco.id=corte_autorizado_datos.proceso_seco_id')
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->where('corte_autorizado.lavado_id', $lavado)
+    ->where('corte_autorizado_datos.status', 1);
+    return $this->db->get()->result_array();
+  }
+
+  //QUERYS DESPUÉS DE LOS CAMBIOS A LA BASE DE DATOS
+  public function getProcesosSinCeros($id)
+  {
+    $this->db->select('
+    corte_autorizado_datos.id as id,
+    proceso_seco.nombre as proceso,
+    ')
+    ->from('corte_autorizado_datos')
+    ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+    ->where('corte_autorizado_datos.costo !=', 0)
+    ->where('corte_autorizado_datos.corte_autorizado_id', $id);
     return $this->db->get()->result_array();
   }
 }

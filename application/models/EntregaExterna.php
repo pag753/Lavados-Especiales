@@ -42,8 +42,9 @@ class EntregaExterna extends CI_Model
     usuario.nombre_completo as usuario
     ')
     ->from('entrega_externa')
+    ->join('corte_autorizado','corte_autorizado.id=entrega_externa.corte_autorizado_id')
     ->join('usuario', 'usuario.id = entrega_externa.usuario_id')
-    ->where('entrega_externa.corte_folio', $folio);
+    ->where('corte_autorizado.corte_folio', $folio);
     return $this->db->get()->result_array();
   }
 

@@ -9,8 +9,7 @@ function alta(id) {
     },
     url: "<?php echo base_url() ?>index.php/gestion/salidaExterna",
     data: {
-      folio: $('#folio').val(),
-      idl : id,
+      id : id,
     },
     type: 'POST',
     dataType: 'json',
@@ -53,9 +52,9 @@ $(document).ready(function() {
         else {
           if (result.respuesta.length == 0) $("#complemento").html('<div class="alert alert-warning" role="alert">No hay cargas que registrar en almacén para este corte.</div>');
           else {
-            var cadena = "<strong>Seleccione la carga que desea dar salida externa.</strong><table class='table table-bordered' id='tabla'><thead><tr><th>Lavado</th><th>Dar salida externa</th></tr></thead><tbody class='table-success'>";
+            var cadena = "<strong>Seleccione la carga que desea dar salida externa.</strong><table class='table table-bordered' id='tabla'><thead><tr><th># Carga</th><th>Lavado</th><th>Color de hilo</th><th>Tipo</th><th>Dar salida externa</th></tr></thead><tbody class='table-success'>";
             $.each(result.respuesta,function(index,value) {
-              cadena += "<tr class='table-succes'><td>" + value.lavado + "</td><td><button type='button' class='btn btn-info' onclick='alta(" + value.lavadoid + ")' title='Dar clic aquí para dar salida externa a esta carga.'><i class='fas fa-arrow-up'></i></button></td></tr>";
+              cadena += "<tr class='table-succes'><td>" + value.idcarga + "</td><td>" + value.lavado + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td><button type='button' class='btn btn-info' onclick='alta(" + value.id_corte_autorizado + ")' title='Dar clic aquí para dar salida externa a esta carga.'><i class='fas fa-arrow-up'></i></button></td></tr>";
             });
             cadena += "</tbody></table>";
             $("#complemento").html(cadena);
@@ -68,15 +67,15 @@ $(document).ready(function() {
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+    <div class="col-12">
       <form action="salidaExterna" method="post" enctype="multipart/form-data">
         <h1>Salida Externa</h1>
-        <div class="form-group row">
-          <label for="folio" class="col-3 col-form-label">Folio</label>
-          <div class="col-9">
-            <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required />
-          </div>
-        </div>
+        <table class="table table-striped table-bordered">
+          <tbody>
+            <th>Folio</th>
+            <td><input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese folio" required /></td>
+          </tbody>
+        </table>
         <div id="complemento">
           <div class="alert alert-info" role="alert">Ingresa el número de folio.</div>
         </div>

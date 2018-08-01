@@ -7,7 +7,7 @@ class Root extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    if ($_SESSION['id'] != 5) redirect('/');
+    if (!in_array($_SESSION['id'],array(5))) redirect('/');
   }
 
   public function index()
@@ -16,6 +16,7 @@ class Root extends CI_Controller
       'texto1' => "Bienvenido(a) usuario",
       'texto2' => $_SESSION['username']
     );
+    $titulo = null;
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->load->view('root/menu');
@@ -33,6 +34,8 @@ class Root extends CI_Controller
     }
     else
     {
+      $titulo = null;
+      $data = null;
       $data['link'] = base_url() . 'index.php/root/cambiarPass';
       $titulo['titulo'] = 'Cambiar contraseña';
       $this->load->view('comunes/head', $titulo);
@@ -57,6 +60,7 @@ class Root extends CI_Controller
         'link' => base_url() . 'index.php/root/cambiarDatos',
         'data' => $this->Usuarios->getById($_SESSION['usuario_id'])
       );
+      $titulo = null;
       $titulo['titulo'] = 'Cambiar datos personales';
       $this->load->view('comunes/head', $titulo);
       $this->load->view('root/menu');

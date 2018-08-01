@@ -24,13 +24,15 @@ $(document).ready(function() {
       $.ajax({
         error: function(request, status, error){
           window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         },
         url: "<?php echo base_url() ?>index.php/ajax/getProcesosReproceso",
         data: { folio: $('#folio').val() },
         dataType: 'json',
         type: "POST",
         success: function(result) {
-          if (result.length == 0) {
+          console.log(result);
+          if (result.datos.length == 0) {
             $('#tabla').hide(500);
             $('#alerta').attr("class","alert alert-warning" )
             .html("No hay reprocesos para este folio.")
@@ -38,21 +40,21 @@ $(document).ready(function() {
           }
           else {
             $('#tabla tbody').html("");
-            $.each(result, function( index, value ) {
+            $.each(result.datos, function( index, value ) {
               var contenido = "", clase = "", estado="", boton="";
-              if ((value.status*1) != 1) {
+              if ((value.status * 1) != 1) {
                 clase = ' class="table-danger"';
                 estado = "Cerrado";
               }
               else {
                 estado = "Abierto";
-                boton = '<a href="cerrarReproceso?id='+value.id+'&lavado='+value.lavado+'&proceso='+value.proceso_seco+'"><button type="button" class="btn btn-primary"><i class="far fa-edit"></i></button></a>'
+                boton = '<a href="cerrarReproceso?id=' + value.id + '&lavado=' + value.lavado + '&proceso=' + value.proceso_seco + '&folio=' + $('#folio').val() + '&marca=' + result.corte.marca + '&cliente=' + result.corte.cliente + '&color_hilo=' + value.color_hilo + '&tipo=' + value.tipo + '&carga=' + value.id_carga + '"><button type="button" class="btn btn-primary"><i class="far fa-edit"></i></button></a>'
               }
-              contenido = '<tr'+clase+'><td>'+value.lavado+'</td><td>'+value.proceso_seco+'</td><td>'+estado+'</td>'+value.lavado+'<td>'+boton+'</td></tr>';
+              contenido = '<tr' + clase + '><td>' + value.id_carga + '</td><td>' + value.lavado + '</td><td>' + value.proceso_seco + '</td><td>' + value.color_hilo + '</td><td>' + value.tipo + '</td><td>' + estado + '</td>' + value.lavado + '<td>' + boton + '</td></tr>';
               $("#tabla tbody").append(contenido);
-              $('#tabla').show(500);
-              $('#alerta').hide(500);
             });
+            $('#tabla').show(500);
+            $('#alerta').hide(500);
           }
         },
       });
@@ -62,7 +64,7 @@ $(document).ready(function() {
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+    <div class="col-12">
       <h3>Cerrar reproceso</h3>
       <div class="form-group row">
         <label for="folio" class="col-3 col-form-label">Folio</label>
@@ -74,8 +76,11 @@ $(document).ready(function() {
         <table class="table table-striped table-hover" id="tabla" style="background: rgba(255, 255, 255, 0.9)">
           <thead>
             <tr>
-              <th>Carga o lavado</th>
+              <th># Carga</th>
+              <th>Lavado</th>
               <th>Proceso</th>
+              <th>Color de hilo</th>
+              <th>Tipo</th>
               <th>Estado</th>
               <th>Cerrar</th>
             </tr>

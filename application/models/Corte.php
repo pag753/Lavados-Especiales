@@ -104,16 +104,17 @@ class Corte extends CI_Model
   {
     //select * from corte_autorizado_datos left join salida_interna1_datos on corte_autorizado_datos.corte_folio=salida_interna1_datos.corte_folio where salida_interna1_datos.corte_folio  is null;
     $this->db->select('
-    corte_autorizado_datos.corte_folio as folio,
+    corte_autorizado.corte_folio as folio,
     lavado.nombre as lavado,
     proceso_seco.nombre as proceso,
     ')
     ->from('corte_autorizado_datos')
-    ->join('lavado','lavado.id=corte_autorizado_datos.lavado_id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado','lavado.id=corte_autorizado.lavado_id')
     ->join('proceso_seco','proceso_seco.id=corte_autorizado_datos.proceso_seco_id')
-    ->join('salida_interna1_datos','salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio','left')
-    ->where('salida_interna1_datos.corte_folio = ',NULL)
-    ->order_by('corte_autorizado_datos.corte_folio')
+    ->join('salida_interna1_datos','salida_interna1_datos.corte_autorizado_id=corte_autorizado.id','left')
+    ->where('salida_interna1_datos.corte_autorizado_id = ',NULL)
+    ->order_by('corte_autorizado.corte_folio')
     ->order_by('lavado.nombre')
     ->order_by('proceso_seco.nombre');
     return $this->db->get()->result_array();
@@ -125,16 +126,17 @@ class Corte extends CI_Model
     $c->select('
     salida_interna1_datos.piezas as piezas,
     cliente.nombre as cliente,
-    entrega_externa.corte_folio as folio,
+    corte_autorizado.corte_folio as folio,
     lavado.nombre as lavado,
     entrega_externa.fecha as fecha,
     ');
     $c->from('entrega_externa');
-    $c->join('lavado','lavado.id=entrega_externa.lavado_id');
-    $c->join('corte','corte.folio=entrega_externa.corte_folio');
+    $c->join('corte_autorizado','corte_autorizado.id=entrega_externa.corte_autorizado_id');
+    $c->join('lavado','lavado.id=corte_autorizado.lavado_id');
+    $c->join('corte','corte.folio=corte_autorizado.corte_folio');
     $c->join('cliente','corte.cliente_id=cliente.id');
-    $c->join('corte_autorizado_datos','corte_autorizado_datos.corte_folio=entrega_externa.corte_folio AND corte_autorizado_datos.lavado_id=entrega_externa.lavado_id');
-    $c->join('salida_interna1_datos','salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio AND corte_autorizado_datos.id_carga=salida_interna1_datos.id_carga');
+    $c->join('corte_autorizado_datos','corte_autorizado_datos.corte_autorizado_id=corte_autorizado.id');
+    $c->join('salida_interna1_datos','salida_interna1_datos.corte_autorizado_id=corte_autorizado.id');
     $c->where('entrega_externa.fecha>=',$datos['fechai']);
     $c->where('entrega_externa.fecha<=',$datos['fechaf']);
     if ($datos['corte'] != "") $c->where('corte.corte',$datos['corte']);
@@ -143,7 +145,7 @@ class Corte extends CI_Model
     if ($datos['marca_id'] != 0) $c->where('corte.marca_id',$datos['marca_id']);
     if ($datos['maquilero_id'] != 0) $c->where('corte.maquilero_id',$datos['maquilero_id']);
     if ($datos['tipo_pantalon_id'] != 0) $c->where('corte.tipo_pantalon_id',$datos['tipo_pantalon_id']);
-    $c->order_by('entrega_externa.corte_folio');
+    $c->order_by('corte_autorizado.corte_folio');
     $c->order_by('lavado.nombre');
     return $c->get()->result_array();
   }
@@ -161,16 +163,18 @@ class Corte extends CI_Model
     */
     $this->db->distinct()
     ->select('
-    corte_autorizado_datos.corte_folio as folio,
+    corte_autorizado.id_carga as carga,
+    corte_autorizado.corte_folio as folio,
     lavado.nombre as lavado
     ')
     ->from('corte_autorizado_datos')
-    ->join('salida_interna1','corte_autorizado_datos.corte_folio=salida_interna1.corte_folio','left')
-    ->join('entrega_almacen','entrega_almacen.corte_folio=corte_autorizado_datos.corte_folio and corte_autorizado_datos.lavado_id=entrega_almacen.lavado_id','left')
-    ->join('lavado','lavado.id=corte_autorizado_datos.lavado_id')
-    ->where('entrega_almacen.corte_folio=',NULL)
-    ->where('entrega_almacen.lavado_id=',NULL)
-    ->order_by('corte_autorizado_datos.corte_folio')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('entrega_almacen','entrega_almacen.corte_autorizado_id=corte_autorizado.id','left')
+    ->join('salida_interna1_datos','salida_interna1_datos.corte_autorizado_id=corte_autorizado.id','left')
+    ->join('lavado','lavado.id=corte_autorizado.lavado_id')
+    ->where('entrega_almacen.corte_autorizado_id=',NULL)
+    //->where('entrega_almacen.lavado_id=',NULL)
+    ->order_by('corte_autorizado.corte_folio')
     ->order_by('lavado.nombre');
     return $this->db->get()->result_array();
   }
@@ -184,22 +188,24 @@ class Corte extends CI_Model
   {
     $this->db->distinct()
     ->select('
+    corte_autorizado.id_carga as carga,
     salida_interna1_datos.piezas as piezas,
     cliente.nombre as cliente,
-    entrega_almacen.corte_folio as folio,
+    corte_autorizado.corte_folio as folio,
     entrega_almacen.fecha as fecha,
     lavado.nombre as lavado
     ')
     ->from('entrega_almacen')
-    ->join('entrega_externa','entrega_externa.corte_folio=entrega_almacen.corte_folio and entrega_externa.lavado_id=entrega_almacen.lavado_id','left')
-    ->join('lavado','lavado.id=entrega_almacen.lavado_id')
-    ->join('corte','corte.folio=entrega_almacen.corte_folio')
+    ->join('corte_autorizado','corte_autorizado.id=entrega_almacen.corte_autorizado_id')
+    ->join('entrega_externa','entrega_externa.corte_autorizado_id=corte_autorizado.id','left')
+    ->join('lavado','lavado.id=corte_autorizado.lavado_id')
+    ->join('corte','corte.folio=corte_autorizado.corte_folio')
     ->join('cliente','corte.cliente_id=cliente.id')
-    ->join('corte_autorizado_datos','corte_autorizado_datos.corte_folio=entrega_almacen.corte_folio AND corte_autorizado_datos.lavado_id=entrega_almacen.lavado_id')
-    ->join('salida_interna1_datos','salida_interna1_datos.corte_folio=corte_autorizado_datos.corte_folio AND corte_autorizado_datos.id_carga=salida_interna1_datos.id_carga')
-    ->where('entrega_externa.corte_folio=',NULL)
-    ->where('entrega_externa.lavado_id=',NULL)
-    ->order_by('entrega_almacen.corte_folio')
+    ->join('corte_autorizado_datos','corte_autorizado_datos.corte_autorizado_id=corte_autorizado.id')
+    ->join('salida_interna1_datos','corte_autorizado_datos.corte_autorizado_id=corte_autorizado.id')
+    ->where('entrega_externa.corte_autorizado_id=',NULL)
+    //->where('entrega_externa.lavado_id=',NULL)
+    ->order_by('corte_autorizado.corte_folio')
     ->order_by('lavado.nombre');
     return $this->db->get()->result_array();
   }

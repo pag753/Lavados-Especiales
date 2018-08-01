@@ -272,7 +272,7 @@ $(document).ready(function() {
                       <tr>
                         <th>Nombre del operario</th>
                         <th>Folio</th>
-                        <th>Carga o lavado</th>
+                        <th>Carga - lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
@@ -286,7 +286,7 @@ $(document).ready(function() {
                         <tr id="tr_produccion_proceso_seco_<?php echo $value['id_produccion'];?>" class="table-success">
                           <td><?php echo $value['usuario_nombre'] ?></td>
                           <td><?php echo $value['folio'] ?></td>
-                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['carga'] . " " . $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
                           <td>$<?php echo round($value['precio'],2) ?></td>
@@ -326,7 +326,7 @@ $(document).ready(function() {
                       <tr>
                         <th>Nombre del operario</th>
                         <th>Folio</th>
-                        <th>Carga o lavado</th>
+                        <th>Carga - lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
@@ -340,7 +340,7 @@ $(document).ready(function() {
                         <tr id="tr_pendientes_proceso_seco_<?php echo $value['id_produccion'];?>" class="table-warning">
                           <td><?php echo $value['usuario_nombre'] ?></td>
                           <td><?php echo $value['folio'] ?></td>
-                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['carga'] . " " . $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
                           <td>$<?php echo round($value['precio'],2) ?></td>
@@ -367,7 +367,8 @@ $(document).ready(function() {
         <?php if (count($reprocesos) != 0): ?>
           <div class="card">
             <div class="card-header">
-              <a data-toggle="collapse" href="#repr" role="button" aria-expanded="true" aria-controls="repr"><strong>Tabla de producción de reprocesos.</strong>
+              <a data-toggle="collapse" href="#repr" role="button" aria-expanded="true" aria-controls="repr">
+                <strong>Tabla de producción de reprocesos.</strong>
               </a>
             </div>
             <div class="collapse" id="repr">
@@ -378,7 +379,7 @@ $(document).ready(function() {
                       <tr>
                         <th>Nombre del operario</th>
                         <th>Folio</th>
-                        <th>Carga o lavado</th>
+                        <th>Carga - lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
@@ -392,7 +393,7 @@ $(document).ready(function() {
                         <tr id="tr_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-success">
                           <td><?php echo $value['usuario_nombre'] ?></td>
                           <td><?php echo $value['folio'] ?></td>
-                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['carga'] . " " . $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
                           <td>$<?php echo round($value['precio'],2) ?></td>
@@ -432,7 +433,7 @@ $(document).ready(function() {
                       <tr>
                         <th>Nombre del operario</th>
                         <th>Folio</th>
-                        <th>Carga o lavado</th>
+                        <th>Carga - lavado</th>
                         <th>Proceso</th>
                         <th>Piezas Trabajadas</th>
                         <th>Costo unitario</th>
@@ -446,7 +447,7 @@ $(document).ready(function() {
                         <tr id="tr_pendeientes_reproceso_<?php echo $value['id_produccion_reproceso'];?>" class="table-warning">
                           <td><?php echo $value['usuario_nombre'] ?></td>
                           <td><?php echo $value['folio'] ?></td>
-                          <td><?php echo $value['lavado'] ?></td>
+                          <td><?php echo $value['carga'] . " " . $value['lavado'] ?></td>
                           <td><?php echo $value['proceso'] ?></td>
                           <td><?php echo $value['piezas'] ?></td>
                           <td>$<?php echo round($value['precio'],2) ?></td>
@@ -579,7 +580,9 @@ $(document).ready(function() {
       </form>
       <div class="card">
         <div class="card-header">
-          <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot"><strong>Totales.</strong></a>
+          <a data-toggle="collapse" href="#tot" role="button" aria-expanded="false" aria-controls="tot">
+            <strong>Totales.</strong>
+          </a>
         </div>
         <div class="collapse" id="tot">
           <div class="card-body">

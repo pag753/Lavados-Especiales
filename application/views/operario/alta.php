@@ -23,9 +23,9 @@ $(document).ready(function() {
         if (res.datos[0] == '<') $('#mensaje').html(res.datos)
         else {
           console.log(res.datos);
-          var cadena = "<h5>Seleccione el proceso que desea cerrar del corte con folio " + $("#folio").val() + "</h5><div class='table-responsive'><table class='table table-striped'><thead><tr><th>Carga o lavado</th><th>Proceso seco</th><th>Insertar producción</th></tr></thead><tbody>";
+          var cadena = "<p class='text-primary'>Seleccione el proceso en el que desea agregar la producción correspondiente del corte con folio " + $("#folio").val() + "</p><div class='table-responsive'><table class='table table-striped'><thead><tr><th># Carga</th><th>Lavado</th><th>Proceso seco</th><th>Color de hilo</th><th>Tipo</th><th>Cerra el proceso</th></tr></thead><tbody>";
           $.each(res.datos, function( index, value ) {
-            cadena += "<tr><td>" + value.lavado + "</td><td>" + value.proceso + "</td><td><a title='Insertar producción en este proceso' href='alta?f=" + $("#folio").val() + "&c=" + value.idcarga + "&p=" + value.idproceso + "&nc=" + value.lavado + "&np=" + value.proceso + "&il=" + value.idlavado + "'><i class='far fa-edit'></i></a></td></tr>"
+            cadena += "<tr><td>" + value.id_carga + "</td><td>" + value.lavado + "</td><td>" + value.proceso + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td><a title='Cerrar este proceso' href='alta?id=" + value.id + "&f=" + $("#folio").val() + "&c=" + value.id_carga + "&p=" + value.idproceso + "&nc=" + value.lavado + "&np=" + value.proceso + "&il=" + value.idlavado + "&m=" + res.corte[0].marca + "&cl=" + res.corte[0].cliente + "&pie=" + res.corte[0].piezas + "&color_hilo=" + value.color_hilo + "&tipo=" + value.tipo + "'><i class='far fa-edit'></i></a></td></tr>"
           });
           cadena += "</tbody></table></div>";
           $('#mensaje').html(cadena);
@@ -38,7 +38,7 @@ $(document).ready(function() {
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+    <div class="col-12">
       <h3>Cerrar proceso</h3>
       <div class="form-group row">
         <label for="folio" class="col-3 col-form-label">Folio</label>

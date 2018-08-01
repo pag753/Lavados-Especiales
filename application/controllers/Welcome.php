@@ -47,6 +47,7 @@ class Welcome extends CI_Controller
           'texto1' => 'Bienvenido',
           'texto2' => 'Lavados especiales'
         );
+        $titulo = null;
         $titulo['titulo'] = 'Bienvenido a lavados especiales';
         $this->load->view('comunes/head', $titulo);
         $this->load->view('welcome/menu');
@@ -81,6 +82,9 @@ class Welcome extends CI_Controller
       case 7: // lavanderia
       redirect('/lavanderia');
       break;
+      case 8: // lavanderia
+      redirect('/entallado');
+      break;
     }
   }
 
@@ -97,6 +101,7 @@ class Welcome extends CI_Controller
     }
     else
     {
+      $titulo = null;
       $titulo['titulo'] = 'Cambiar contraseña';
       $this->load->view('comunes/head', $titulo);
       $this->cargarMenu();
@@ -122,6 +127,7 @@ class Welcome extends CI_Controller
       $data = array(
         'data' => $this->Usuarios->getById($_SESSION['usuario_id'])
       );
+      $titulo = null;
       $titulo['titulo'] = 'Cambiar datos personales';
       $this->load->view('comunes/head', $titulo);
       $this->cargarMenu();

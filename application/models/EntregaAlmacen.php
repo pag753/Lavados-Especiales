@@ -21,9 +21,10 @@ class EntregaAlmacen extends CI_Model
     $this->load->database();
   }
 
-  public function existe($folio,$lavado)
+  //Cambiado por los cambios en la base de datos
+  public function existe($id)
   {
-    $query = $this->db->get_where('entrega_almacen',array('corte_folio' => $folio, 'lavado_id' => $lavado));
+    $query = $this->db->get_where('entrega_almacen',array('corte_autorizado_id',$id));
     return $query->result_array();
   }
 
@@ -40,13 +41,14 @@ class EntregaAlmacen extends CI_Model
     $this->db->select('
     entrega_almacen.fecha,
     usuario.nombre_completo as usuario,
-    entrega_almacen.lavado_id as lavadoid,
+    corte_autorizado.lavado_id as lavadoid,
     lavado.nombre as lavado
     ')
     ->from('entrega_almacen')
+    ->join('corte_autorizado','corte_autorizado.id=entrega_almacen.corte_autorizado_id')
     ->join('usuario', 'usuario.id = entrega_almacen.usuario_id')
-    ->join('lavado', 'lavado.id = entrega_almacen.lavado_id')
-    ->where('entrega_almacen.corte_folio', $folio);
+    ->join('lavado', 'lavado.id = corte_autorizado.lavado_id')
+    ->where('corte_autorizado.corte_folio', $folio);
     return $this->db->get()->result_array();
   }
 

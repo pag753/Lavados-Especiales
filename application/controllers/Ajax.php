@@ -48,7 +48,6 @@ class Ajax extends CI_Controller
 
   public function rootValida($cadena = null)
   {
-    $folio = explode("_", $cadena)[0];
     $carga = explode("_", $cadena)[1];
     if ($carga == - 1) echo "<div class='alert alert-warning' role='alert'>Seleccione un opción válida.</div>";
     else echo "<input type='submit' name='orden' id='orden' value='Aceptar'/>";
@@ -59,7 +58,7 @@ class Ajax extends CI_Controller
     $this->load->model('Marca');
     $marcas = $this->Marca->get();
     echo "<tr id='renglon$numero' name='renglon$numero'><td>Marca</td><td><select id='marca[$numero]' name='marca[$numero]'>";
-    foreach ($marcas as $key => $value) echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
+    foreach ($marcas as $value) echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
     echo "</td><td><button type='button' name='eliminar$numero' id='eliminar$numero'>Eliminar</button></td></tr>";
   }
 
@@ -78,14 +77,14 @@ class Ajax extends CI_Controller
       $query = $this->marca->getByCliente($cliente);
       echo "<select class='form-control' name='marca' id='marca'>";
       if ($query == null) echo "<option value='0'>Ninguna</option>";
-      else foreach ($query as $key => $value) echo "<option value='" . $value['marcaId'] . "'>" . $value['marcaNombre'] . "</option>";
+      else foreach ($query as $value) echo "<option value='" . $value['marcaId'] . "'>" . $value['marcaNombre'] . "</option>";
       echo "</select>";
     }
   }
 
   public function salidaInterna()
   {
-    if (!in_array($_SESSION['id'],array(1,2)) || !$this->input->post() || ! isset($this->input->post()["folio"])) $this->output->set_status_header('404');
+    if (!in_array($_SESSION['id'],array(1,2,8)) || !$this->input->post() || ! isset($this->input->post()["folio"])) $this->output->set_status_header('404');
     else
     {
       $folio = $this->input->post()["folio"];
@@ -102,7 +101,6 @@ class Ajax extends CI_Controller
       {
         $this->load->model('corte');
         $query2 = $this->corte->getByFolio($folio);
-        $datos['folio'] = $folio;
         if (count($query2) == 0)
         {
           $info = array(
@@ -140,15 +138,15 @@ class Ajax extends CI_Controller
             }
             else
             {
-              $cadena = "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='" . $query2[0]['piezas'] . "'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th>Lavado</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
+              $cadena = "<div class='form-group row'><label for='Piezas' class='col-3 col-form-label'>Piezas</label><div class='col-9'><input type='number' name='piezas' id='piezas' readonly='true' class='form-control' value='" . $query2[0]['piezas'] . "'></input></div></div><div class='form-group row'><label for='Muestras' class='col-3 col-form-label'>Muestras</label><div class='col-9'><input type='number' required='true' name='muestras' id='muestras' placeholder='Inserte muestras' class='form-control'></input></div></div><div class='form-group row'><div class='col-12'><div class='table-responsive'><table name='tabla' id='tabla' class='table'><thead><tr><th># Carga</th><th>Lavado</th><th>Color de hilo</th><th>Tipo</th><th>Piezas</th><th>Abrir con</th></tr></thead><tbody>";
               $this->load->model('corteAutorizadoDatos');
-              $autorizado = $this->corteAutorizadoDatos->joinLavado($folio);
+              $autorizado = $this->corteAutorizado->getCargas($folio);
               foreach ($autorizado as $key => $value)
               {
-                $cadena .= "<tr><td>" . $value['id_carga'] . " " . strtoupper($value['nombre']) . "</td><td><input type='number' name='piezas_parcial$key' id='piezas_parcial$key' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
-                $query10 = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros($folio, $key + 1);
-                $cadena .= "<td><select name='primero[$key]' class='form-control'>";
-                foreach ($query10 as $key => $value) $cadena .= "<option value='" . $value['idproceso'] . "'>" . $value['proceso'] . "</option>";
+                $cadena .= "<tr><td>" . $value['id_carga'] . "<td>" . strtoupper($value['lavado']) . "</td><td>" . $value['color_hilo'] . "</td><td>" . $value['tipo'] . "</td><td><input type='number' name='piezas_parcial[" . $value['id'] . "]' id='piezas_parcial" . ($key + 1) . "' class='form-control' placeholder='Inserte # de piezas' required='true' class='form-control'/></td>";
+                $query10 = $this->corteAutorizadoDatos->getProcesosSinCeros($value['id']);
+                $cadena .= "<td><select required name='primero[" . ($value['id']) . "]' class='form-control'>";
+                foreach ($query10 as $key => $value) $cadena .= "<option value='" . $value['id'] . "'>" . $value['proceso'] . "</option>";
                 $cadena .= "</select></td></tr>";
               }
               $cadena .= "</tbody></table></div><div class='col-6'><input type='submit' class='btn btn-primary' value='Aceptar'/></div><input type='hidden' name='fechabd' id='fechabd' value='" . $query2[0]['fecha_entrada'] . "'/><input type='hidden' name='cargas' id='cargas' value='" . count($autorizado) . "'/></div></div>";
@@ -184,7 +182,6 @@ class Ajax extends CI_Controller
     else
     {
       // Verificar si el corte existe en la base de datos
-      $datos['folio'] = $folio;
       if (! $this->existeCorte($folio))
       {
         $info = array(
@@ -225,8 +222,8 @@ class Ajax extends CI_Controller
           else
           {
             $this->load->model(array('corteAutorizadoDatos','entregaAlmacen'));
-            $query = $this->corteAutorizadoDatos->getByFolioEspecifico($folio);
-            foreach ($query as $key => $value) if (count($this->entregaAlmacen->existe($folio,$value['idlavado'])) > 0) unset($query[$key]);
+            $query = $this->corteAutorizadoDatos->getByFolioEspecifico2($folio);
+            //foreach ($query as $key => $value) if (count($this->entregaAlmacen->existe($value['id_corte_autorizado'])) > 0) unset($query[$key]);
             $datos = $this->infoCorte($folio);
             $info = array(
               'respuesta' => $query,
@@ -258,7 +255,6 @@ class Ajax extends CI_Controller
     else
     {
       // Verificar si el corte existe en la base de datos
-      $datos['folio'] = $folio;
       if (!$this->existeCorte($folio))
       {
         $info = array(
@@ -298,9 +294,9 @@ class Ajax extends CI_Controller
           }
           else
           {
-            $this->load->model(array('entregaAlmacen','entregaExterna'));
-            $query = $this->entregaAlmacen->getByFolioEspecifico($folio);
-            foreach ($query as $key => $value) if (count($this->entregaExterna->existe($folio,$value['lavadoid'])) > 0) unset($query[$key]);
+            $this->load->model('corteAutorizadoDatos');
+            $query = $this->corteAutorizadoDatos->getByFolioEspecifico3($folio);
+            //foreach ($query as $key => $value) if (count($this->entregaExterna->existe($folio,$value['lavadoid'])) > 0) unset($query[$key]);
             $infoCorte = $this->infoCorte($folio);
             $info = array(
               'respuesta' => $query,
@@ -369,21 +365,6 @@ class Ajax extends CI_Controller
     }
   }
 
-  public function agregarRenglonProduccion()
-  {
-    if (! $this->input->post()) $this->output->set_status_header('404');
-    $numero = $this->input->post()["numero"];
-    echo "<tr name='renglon$numero' id='renglon$numero' ><td><center><select name='lavado[$numero]' id='lavado[$numero]' class='form-control'>";
-    $this->load->model('Lavado');
-    $lavados = $this->Lavado->get();
-    foreach ($lavados as $key => $value) echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
-    echo "</select></center></td><td><center><select name='proceso_seco[$numero][]' id='proceso_seco$numero' class='form-control' multiple='multiple'>";
-    $this->load->Model('ProcesoSeco');
-    $procesos = $this->ProcesoSeco->get();
-    foreach ($procesos as $key => $value) echo "<option value='" . $value['id'] . "'>" . $value['nombre'] . "</option>";
-    echo "</select></center></td><td><button type='button' name='eliminar$numero' id='eliminar$numero' class='btn btn-danger' onclick='eliminar($numero)'><i class='far fa-trash-alt'></i></button></td></tr>";
-  }
-
   // OPERARIO Y OPERARIO VALIDA
   public function operarioCargas()
   {
@@ -392,7 +373,6 @@ class Ajax extends CI_Controller
     if ($folio == null) echo "<div class='col-12'><div class='alert alert-info' role='alert'>Escriba el número de folio.</div></div>";
     else
     {
-      $datos['folio'] = $folio;
       if (! $this->existeCorte($folio)) echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
       else
       {
@@ -402,7 +382,7 @@ class Ajax extends CI_Controller
         else
         {
           echo "<label for='carga' class='col-3 col-form-label'>Carga</label><div class='col-9'><select name='carga' id='carga' class='form-control'><option value=-1>Seleccione la carga</option>";
-          foreach ($query as $key => $value) echo "<option value=" . ($value['idlavado']) . ">" . strtoupper($value['lavado']) . "</option>";
+          foreach ($query as $value) echo "<option value=" . ($value['idlavado']) . ">" . strtoupper($value['lavado']) . "</option>";
           echo "</select></div>";
         }
       }
@@ -414,10 +394,11 @@ class Ajax extends CI_Controller
     if (!in_array($_SESSION['id'],array(4,6,1,7)) || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     //$carga = $this->input->post()["carga"];
-    $this->load->model('corteAutorizadoDatos');
+    $this->load->model(array('corteAutorizadoDatos','corte'));
     $query = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros6($folio);
-    $cadena = (count($query) == 0)?  "<div class='col-12'><div class='alert alert-info' role='alert'>No hay procesos para el folio " . $folio . ".</div></div>" : $query;
-    echo json_encode(array('datos' => $cadena));
+    $cadena = (count($query) == 0)?  "<div class='alert alert-info' role='alert'>No hay procesos para el folio " . $folio . ".</div>" : $query;
+    $corte = $this->corte->getByFolioGeneral($this->input->post()["folio"]);
+    echo json_encode(array('datos' => $cadena, 'corte' => $corte));
   }
 
   public function operarioValida()
@@ -443,7 +424,6 @@ class Ajax extends CI_Controller
     $folio = $this->input->post()["folio"];
     if ($folio != null)
     {
-      $datos['folio'] = $folio;
       if ($this->existeCorte($folio))
       {
         $this->load->model('corteAutorizadoDatos');
@@ -488,7 +468,7 @@ class Ajax extends CI_Controller
       "png"
     );
     $ban = false;
-    foreach ($extensiones as $key2 => $extension)
+    foreach ($extensiones as $extension)
     {
       $url = base_url() . "img/fotos/" . $folio . "." . $extension;
       $headers = get_headers($url);
@@ -499,10 +479,11 @@ class Ajax extends CI_Controller
         break;
       }
     }
-    if (! $ban) $imagen = "No hay imágen";
+    if (!$ban) $imagen = "No hay imágen";
     // Información del corte
     $this->load->model("corte");
-    $corte = $this->corte->getByFolioGeneral($folio)[0];
+    $corte = $this->corte->getByFolioGeneral($folio);
+    $corte = (count($corte) > 0)? $corte[0] : array();
     $corte['imagen'] = $imagen;
     return $corte;
   }
@@ -526,9 +507,9 @@ class Ajax extends CI_Controller
 
   public function getProcesosReproceso()
   {
-    if (! isset($this->input->post()['folio'])) redirect("/");
+    if (!isset($this->input->post()['folio'])) redirect("/");
     $this->load->model("Reproceso");
     $query = $this->Reproceso->getByFolioOperarios($this->input->post()['folio']);
-    echo json_encode($query);
+    echo json_encode(array('datos' => $query, 'corte' => $this->infoCorte($this->input->post()['folio'])));
   }
 }

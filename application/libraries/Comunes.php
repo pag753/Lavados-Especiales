@@ -47,7 +47,7 @@ class Comunes
     $pdf->Row(array(
       utf8_decode("Fecha"),
       utf8_decode("Folio"),
-      utf8_decode("Carga"),
+      utf8_decode("Carga - Lavado"),
       utf8_decode("Proceso"),
       utf8_decode("Piezas"),
       utf8_decode("Precio"),
@@ -57,11 +57,11 @@ class Comunes
     $pdf->ban = false;
     $pdf->SetFont('Arial', '', 8);
     $produccion = 0;
-    foreach ($reporte as $key => $value) {
+    foreach ($reporte as $value) {
       $pdf->Row(array(
         utf8_decode($value['fecha']),
         utf8_decode($value['folio']),
-        utf8_decode($value['carga']),
+        utf8_decode($value['carga'] . " " . $value['lavado']),
         utf8_decode($value['proceso']),
         utf8_decode($value['piezas']),
         utf8_decode("$" . $value['precio']),
@@ -104,7 +104,7 @@ class Comunes
     $pdf->ban = false;
     $pdf->SetFont('Arial', '', 8);
     $desc = 0;
-    foreach ($descuentos as $key => $value) {
+    foreach ($descuentos as $value) {
       $pdf->Row(array(
         $value['fecha'],
         $value["corte_folio"],

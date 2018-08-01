@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $totalPiezasTrabajadas = 0;
 $totalDefectos = 0;
 $piezasRegistradas = $reproceso['piezas_trabajadas'];
-$folio = $reproceso['corte_folio'];
 foreach ($reprocesos as $key => $value)
 {
   $totalPiezasTrabajadas += $value['piezas'];
@@ -57,27 +56,55 @@ $(document).ready(function() {
           <div class='table-responsive'>
             <table class="table table-bordered">
               <thead>
-                <tr class="danger">
-                  <th>Folio</th>
-                  <th>Carga o lavado</th>
-                  <th>Proceso</th>
-                  <th>Piezas registradas</th>
-                  <th>Piezas trabajadas</th>
-                  <th>Defectos</th>
-                  <th>piezas faltantes</th>
-                </tr>
-              </thead>
-              <tbody>
                 <tr>
+                  <th>Folio</th>
                   <td><?php echo $folio ?></td>
+                </tr>
+                <tr>
+                  <th>Marca</th>
+                  <td><?php echo $marca ?></td>
+                </tr>
+                <tr>
+                  <th>Cliente</th>
+                  <td><?php echo $cliente ?></td>
+                </tr>
+                <tr>
+                  <th>Color de hilo</th>
+                  <td><?php echo $color_hilo ?></td>
+                </tr>
+                <tr>
+                  <th>Tipo</th>
+                  <td><?php echo $tipo ?></td>
+                </tr>
+                <tr>
+                  <th># Carga</th>
+                  <td><?php echo $carga ?></td>
+                </tr>
+                <tr>
+                  <th>Lavado</th>
                   <td><?php echo $lavado ?></td>
+                </tr>
+                <tr>
+                  <th>Proceso</th>
                   <td><?php echo $proceso ?></td>
+                </tr>
+                <tr>
+                  <th>Piezas registradas</th>
                   <td><?php echo $piezasRegistradas ?></td>
+                </tr>
+                <tr>
+                  <th>Piezas trabajadas</th>
                   <td><?php echo $totalPiezasTrabajadas ?></td>
+                </tr>
+                <tr>
+                  <th>Defectos</th>
                   <td><?php echo $totalDefectos ?></td>
+                </tr>
+                <tr>
+                  <th>Piezas faltantes</th>
                   <td><?php echo $piezasRegistradas - ($totalPiezasTrabajadas + $totalDefectos) ?></td>
                 </tr>
-              </tbody>
+              </thead>
             </table>
           </div>
         </div>
@@ -88,26 +115,30 @@ $(document).ready(function() {
         </div>
         <div class="collapse" id="ver">
           <div class="card-body">
-            <div class='table-responsive'>
-              <table class="table table-bordered" id="especificos">
-                <thead>
-                  <tr class="danger">
-                    <th>Empleado</th>
-                    <th>Piezas que registró</th>
-                    <th>Defectos que registró</th>
-                    <th>Fecha en que registró</th>
-                  </tr>
-                </thead>
-                <tbody><?php foreach ($reprocesos as $key => $value): ?>
-                  <tr>
-                    <td><?php echo $value['nombre'] ?></td>
-                    <td><?php echo $value['piezas'] ?></td>
-                    <td><?php echo $value['defectos'] ?></td>
-                    <td><?php echo $value['fecha'] ?></td>
-                  </tr><?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
+            <?php if (count($reprocesos) > 0): ?>
+              <div class='table-responsive'>
+                <table class="table table-bordered" id="especificos">
+                  <thead>
+                    <tr class="danger">
+                      <th>Empleado</th>
+                      <th>Piezas que registró</th>
+                      <th>Defectos que registró</th>
+                      <th>Fecha en que registró</th>
+                    </tr>
+                  </thead>
+                  <tbody><?php foreach ($reprocesos as $key => $value): ?>
+                    <tr>
+                      <td><?php echo $value['nombre'] ?></td>
+                      <td><?php echo $value['piezas'] ?></td>
+                      <td><?php echo $value['defectos'] ?></td>
+                      <td><?php echo $value['fecha'] ?></td>
+                    </tr><?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">No hay datos de reproceso registrados.</div>
+            <?php endif; ?>
           </div>
         </div>
       </div>

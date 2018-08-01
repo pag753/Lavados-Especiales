@@ -53,28 +53,61 @@ $(document).ready(function() {
         </div>
         <div class="card-body">
           <div class='table-responsive'>
-            <table class="table table-bordered">
-              <thead>
-                <tr class="danger">
-                  <th>Folio</th>
-                  <th>Carga</th>
-                  <th>Proceso</th>
-                  <th>Piezas registradas</th>
-                  <th>Piezas trabajadas</th>
-                  <th>Defectos</th>
-                  <th>Faltantes</th>
-                </tr>
-              </thead>
+            <table class="table table-striped table-bordered">
               <tbody>
                 <tr>
+                  <th>Folio</th>
                   <td><?php echo $f; ?></td>
+                </tr>
+                <tr>
+                  <th>Marca</th>
+                  <td><?php echo $this->input->get()['m'] ?></td>
+                </tr>
+                <tr>
+                  <th>Cliente</th>
+                  <td><?php echo $this->input->get()['cl'] ?></td>
+                </tr>
+                <tr>
+                  <th># piezas del corte</th>
+                  <td><?php echo $this->input->get()['pie'] ?></td>
+                </tr>
+                <tr>
+                  <th>Color de hilo</th>
+                  <td><?php echo $this->input->get()['color_hilo'] ?></td>
+                </tr>
+                <tr>
+                  <th>Tipo</th>
+                  <td><?php echo $this->input->get()['tipo'] ?></td>
+                </tr>
+                <tr>
+                  <th># de carga</th>
+                  <td><?php echo $this->input->get()['c'] ?></td>
+                </tr>
+                <tr>
+                  <th>Lavado</th>
                   <td><?php echo strtoupper($nombreCarga); ?></td>
+                </tr>
+                <tr>
+                  <th>Proceso</th>
                   <td><?php echo strtoupper($nombreProceso); ?></td>
+                </tr>
+                <tr>
+                  <th>Piezas registradas</th>
                   <td><?php echo $piezas ?></td>
+                </tr>
+                <tr>
+                  <th>Piezas trabajadas</th>
                   <td><?php echo $trabajadas ?></td>
+                </tr>
+                <tr>
+                  <th>Defectos</th>
                   <td><?php echo $defectos ?></td>
+                </tr>
+                <tr>
+                  <th>Faltantes</th>
                   <td><?php echo $piezas-($trabajadas+$defectos); ?></td>
                 </tr>
+                <tr>
               </tbody>
             </table>
           </div>
@@ -87,26 +120,30 @@ $(document).ready(function() {
         </div>
         <div class="collapse" id="ver">
           <div class="card-body">
-            <div class='table-responsive'>
-              <table class="table table-bordered" id="especificos">
-                <thead>
-                  <tr class="danger">
-                    <th>Empleado</th>
-                    <th>Piezas que registró</th>
-                    <th>Defectos que registró</th>
-                    <th>Fecha</th>
-                  </tr>
-                </thead>
-                <tbody><?php foreach ($query as $key => $value): ?>
-                  <tr>
-                    <td><?php echo $value['usuario'] ?></td>
-                    <td><?php echo $value['piezas'] ?></td>
-                    <td><?php echo $value['defectos'] ?></td>
-                    <td><?php echo $value['fecha'] ?></td>
-                  </tr><?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
+            <?php if (count($query) > 0): ?>
+              <div class='table-responsive'>
+                <table class="table table-bordered" id="especificos">
+                  <thead>
+                    <tr class="danger">
+                      <th>Empleado</th>
+                      <th>Piezas que registró</th>
+                      <th>Defectos que registró</th>
+                      <th>Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody><?php foreach ($query as $key => $value): ?>
+                    <tr>
+                      <td><?php echo $value['usuario'] ?></td>
+                      <td><?php echo $value['piezas'] ?></td>
+                      <td><?php echo $value['defectos'] ?></td>
+                      <td><?php echo $value['fecha'] ?></td>
+                    </tr><?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">No hay datos de producción de proceso seco.</div>
+            <?php endif; ?>
           </div>
         </div>
       </div>
@@ -123,14 +160,16 @@ $(document).ready(function() {
           <?php endif; ?>
           <div class="card-body">
             <form action="alta" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="proceso" id="proceso" value="<?php echo $p ?>" /> <input type="hidden" name="carga" id="carga" value="<?php echo $c ?>" />
-              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" /> <input type="hidden" name="folio" id="folio" value="<?php echo $f ?>"> <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>"> <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
+              <input type="hidden" name="anterior" value="<?php echo $this->input->get()['id'] ?>">
+              <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" />
+              <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">
+              <input type="hidden" name="defectos" id="defectos" value="<?php echo $defectos ?>">
               <?php if (count($faltantes)!=0): ?>
                 <div class="form-group row">
                   <select name='siguiente' id='siguiente' class="form-control">
                     <option value="-1">SELECCIONE UNA OPCIÓN</option>
                     <?php foreach ($faltantes as $key => $value): ?>
-                      <option value="<?php echo $value['idproceso']?>"><?php echo strtoupper($value['proceso'])?></option>
+                      <option value="<?php echo $value['id']?>"><?php echo strtoupper($value['proceso'])?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>

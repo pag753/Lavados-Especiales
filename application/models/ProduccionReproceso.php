@@ -64,10 +64,11 @@ class ProduccionReproceso extends CI_Model
   public function getByFechas($fechaInicial, $fechaFinal)
   {
     $this->db->select('
+    t7.id_carga as carga,
     t1.razon_pagar as razon,
-    t4.corte_folio as folio,
+    t7.corte_folio as folio,
     t2.nombre as lavado,
-    t3.nombre as proceso
+    t3.nombre as proceso,
     t1.id as id_produccion_reproceso,
     t1.usuario_id as usuario_id,
     t5.nombre_completo as usuario_nombre,
@@ -75,8 +76,10 @@ class ProduccionReproceso extends CI_Model
     TRUNCATE(t4.costo,2) as precio,
     TRUNCATE((t1.piezas*t4.costo),2) as costo')
     ->from('produccion_reproceso as t1')
+    ->join('reproceso t6','t6.id=t1.reproceso_id')
+    ->join('corte_autorizado t7','t7.id=t6.corte_autorizado_id')
     ->join('reproceso t4', 't4.id=t1.reproceso_id')
-    ->join('lavado t2', 't2.id=t4.lavado_id')
+    ->join('lavado t2', 't2.id=t7.lavado_id')
     ->join('proceso_seco t3', 't3.id=t4.proceso_seco_id')
     ->join('usuario t5', 't5.id=t1.usuario_id')
     ->where('t1.fecha<=', $fechaFinal)
@@ -86,7 +89,7 @@ class ProduccionReproceso extends CI_Model
     ->where('t4.costo!=', 0)
     ->where('t5.activo', 1)
     ->order_by('t5.nombre_completo')
-    ->order_by('t1.corte_folio')
+    ->order_by('t7.corte_folio')
     ->order_by('t2.nombre')
     ->order_by('t3.nombre');
     return $this->db->get()->result_array();
@@ -95,8 +98,9 @@ class ProduccionReproceso extends CI_Model
   public function getByFolios($folios)
   {
     $this->db->select('
+    t7.id_carga as carga,
     t1.razon_pagar as razon,
-    t4.corte_folio as folio,
+    t7.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso,
     t1.id as id_produccion_reproceso,
@@ -106,17 +110,19 @@ class ProduccionReproceso extends CI_Model
     TRUNCATE(t4.costo,2) as precio,
     TRUNCATE((t1.piezas*t4.costo),2) as costo')
     ->from('produccion_reproceso as t1')
+    ->join('reproceso t6','t6.id=t1.reproceso_id')
+    ->join('corte_autorizado t7','t7.id=t6.corte_autorizado_id')
     ->join('reproceso t4', 't4.id=t1.reproceso_id')
-    ->join('lavado t2', 't2.id=t4.lavado_id')
+    ->join('lavado t2', 't2.id=t7.lavado_id')
     ->join('proceso_seco t3', 't3.id=t4.proceso_seco_id')
     ->join('usuario t5', 't5.id=t1.usuario_id')
-    ->where_in('t4.corte_folio', $folios)
+    ->where_in('t7.corte_folio', $folios)
     ->where('t4.status=', 2)
     ->where('t1.estado_nomina', 0)
     ->where('t4.costo!=', 0)
     ->where('t5.activo', 1)
     ->order_by('t5.nombre_completo')
-    ->order_by('t4.corte_folio')
+    ->order_by('t7.corte_folio')
     ->order_by('t2.nombre')
     ->order_by('t3.nombre');
     return $this->db->get()->result_array();
@@ -125,8 +131,9 @@ class ProduccionReproceso extends CI_Model
   public function getPendientes()
   {
     $this->db->select('
+    t6.id_carga as carga,
     t1.razon_pagar as razon,
-    t4.corte_folio as folio,
+    t6.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso,
     t1.id as id_produccion_reproceso,
@@ -136,15 +143,17 @@ class ProduccionReproceso extends CI_Model
     TRUNCATE(t4.costo,2) as precio,
     TRUNCATE((t1.piezas*t4.costo),2) as costo')
     ->from('produccion_reproceso as t1')
+    //->join('corte_autorizado_datos t7','t7.id=t1.corte_autorizado_datos_id')
     ->join('reproceso t4', 't4.id=t1.reproceso_id')
-    ->join('lavado t2', 't2.id=t4.lavado_id')
+    ->join('corte_autorizado t6','t6.id=t4.corte_autorizado_id')
+    ->join('lavado t2', 't2.id=t6.lavado_id')
     ->join('proceso_seco t3', 't3.id=t4.proceso_seco_id')
     ->join('usuario t5', 't5.id=t1.usuario_id')
     ->where('t1.estado_nomina', 2)
     ->where('t4.costo!=', 0)
     ->where('t5.activo', 1)
     ->order_by('t5.nombre_completo')
-    ->order_by('t4.corte_folio')
+    ->order_by('t6.corte_folio')
     ->order_by('t2.nombre')
     ->order_by('t3.nombre');
     return $this->db->get()->result_array();
@@ -160,9 +169,10 @@ class ProduccionReproceso extends CI_Model
   public function nominaEspecifico($id)
   {
     $this->db->select('
+    t6.id_carga as carga,
     t1.estado_nomina as estado,
     t1.razon_pagar as razon,
-    t4.corte_folio as folio,
+    t6.corte_folio as folio,
     t2.nombre as lavado,
     t3.nombre as proceso,
     t1.id as id_produccion_reproceso,
@@ -173,13 +183,14 @@ class ProduccionReproceso extends CI_Model
     TRUNCATE((t1.piezas*t4.costo),2) as costo')
     ->from('produccion_reproceso as t1')
     ->join('reproceso t4', 't4.id=t1.reproceso_id')
-    ->join('lavado t2', 't2.id=t4.lavado_id')
+    ->join('corte_autorizado t6','t6.id=t4.corte_autorizado_id')
+    ->join('lavado t2', 't2.id=t6.lavado_id')
     ->join('proceso_seco t3', 't3.id=t4.proceso_seco_id')
     ->join('usuario t5', 't5.id=t1.usuario_id')
-    ->where('t1.id_nomina', $id)
+    ->where('t1.nomina_id', $id)
     ->where('t4.costo!=', 0)
     ->order_by('t5.nombre_completo')
-    ->order_by('t4.corte_folio')
+    ->order_by('t6.corte_folio')
     ->order_by('t2.nombre')
     ->order_by('t3.nombre');
     return $this->db->get()->result_array();
@@ -200,6 +211,7 @@ class ProduccionReproceso extends CI_Model
   public function getByFolioEspecifico($folio)
   {
     $this->db->select('
+    corte_autorizado.id_carga as id_carga,
     produccion_reproceso.id as id,
     produccion_reproceso.piezas as piezas,
     produccion_reproceso.fecha as fecha,
@@ -215,10 +227,11 @@ class ProduccionReproceso extends CI_Model
     ')
     ->from("produccion_reproceso")
     ->join("reproceso", "reproceso.id=produccion_reproceso.reproceso_id")
+    ->join('corte_autorizado','corte_autorizado.id=reproceso.corte_autorizado_id')
     ->join("proceso_seco", "proceso_seco.id=reproceso.proceso_seco_id")
-    ->join("lavado", "lavado.id=reproceso.lavado_id")
+    ->join("lavado", "lavado.id=corte_autorizado.lavado_id")
     ->join("usuario", "produccion_reproceso.usuario_id=usuario.id")
-    ->where("corte_folio", $folio)
+    ->where("corte_autorizado.corte_folio", $folio)
     ->order_by("lavado.nombre,proceso_seco.nombre");
     return $this->db->get()->result_array();
   }
@@ -236,6 +249,7 @@ class ProduccionReproceso extends CI_Model
   public function getByFolioEspecifico2($folio)
   {
     $this->db->select('
+    corte_autorizado.id_carga as carga,
     produccion_reproceso.id as id,
     produccion_reproceso.piezas as piezas,
     produccion_reproceso.fecha as fecha,
@@ -253,10 +267,11 @@ class ProduccionReproceso extends CI_Model
     ')
     ->from("produccion_reproceso")
     ->join("reproceso", "reproceso.id=produccion_reproceso.reproceso_id")
+    ->join('corte_autorizado','corte_autorizado.id=reproceso.corte_autorizado_id')
     ->join("proceso_seco", "proceso_seco.id=reproceso.proceso_seco_id")
-    ->join("lavado", "lavado.id=reproceso.lavado_id")
+    ->join("lavado", "lavado.id=corte_autorizado.lavado_id")
     ->join("usuario", "produccion_reproceso.usuario_id=usuario.id")
-    ->where("reproceso.corte_folio", $folio)
+    ->where("corte_autorizado.corte_folio", $folio)
     ->where('produccion_reproceso.estado_nomina', 1)
     ->where('reproceso.costo!=', 0);
     return $this->db->get()->result_array();

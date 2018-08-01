@@ -2,15 +2,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <script>
-function alta(idl) {
+function alta(id) {
   $.ajax({
     error: function(request, status, error){
       window.location.replace("<?php echo base_url() ?>");
     },
     url: "<?php echo base_url() ?>index.php/gestion/salidaAlmacen",
     data: {
-      folio: $('#folio').val(),
-      idl: idl,
+      id: id,
     },
     type: 'POST',
     dataType: 'text',
@@ -64,7 +63,7 @@ $(document).ready(function(){
               var defectos = value.defectos;
               var status = value.status;
               var clase = '';
-              if (!$('#renglon' + idcarga).length) $('#tabla tbody').append("<tr id='renglon" + idcarga + "'><td>" + lavado + "</td><td><button type='button' class='btn btn-info' onclick='alta(" + value.idlavado + ")'><i class='fas fa-arrow-up'></i></button></td></tr>").attr('class','table-success')
+              if (!$('#renglon' + idcarga).length) $('#tabla tbody').append("<tr id='renglon" + idcarga + "'><td>" + value.idcarga + "</td><td>" + lavado + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td><button type='button' class='btn btn-info' onclick='alta(" + value.id_corte_autorizado + ")'><i class='fas fa-arrow-up'></i></button></td></tr>").attr('class','table-success')
               switch (status * 1)
               {
                 case 0:
@@ -73,7 +72,7 @@ $(document).ready(function(){
                 clase = "table-danger";
                 piezas = 'Ninguna';
                 defectos = 'Ninguno';
-                $('#renglon' + idcarga).html("<td>" + lavado + "</td><td>No se puede dar salida a almacén a este lavado porque tiene procesos sin cerrar, favor de verificar con los operarios y el encargado.</td>").attr('class','table-danger');
+                $('#renglon' + idcarga).html("<td>" + value.idcarga + "</td><td>" + lavado + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td>No se puede dar salida a almacén a este lavado porque tiene procesos sin cerrar, favor de verificar con los operarios y el encargado.</td>").attr('class','table-danger');
                 break;
                 case 1:
                 // azul
@@ -81,7 +80,7 @@ $(document).ready(function(){
                 clase = "table-primary";
                 piezas = 'Ninguna';
                 defectos = 'Ninguno';
-                $('#renglon' + idcarga).html("<td>" + lavado + "</td><td>No se puede dar salida a almacén a este lavado porque tiene procesos sin cerrar, favor de verificar con los operarios y el encargado.</td>").attr('class','table-danger');
+                $('#renglon' + idcarga).html("<td>" + value.idcarga + "</td><td>" + lavado + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td>No se puede dar salida a almacén a este lavado porque tiene procesos sin cerrar, favor de verificar con los operarios y el encargado.</td>").attr('class','table-danger');
                 break;
                 case 2:
                 // verde
@@ -117,7 +116,16 @@ $(document).ready(function(){
           <h1>Entrega a Almacen</h1>
         </div>
         <div class="card-body">
-          <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese el número de folio" required autofocus title="Ingrese el número de folio" />
+          <table class="table table-striped table-bordered">
+            <tbody>
+              <tr>
+                <th>Folio</th>
+                <td>
+                  <input type="number" name="folio" id="folio" class="form-control" placeholder="Ingrese el número de folio" autofocus title="Ingrese el número de folio" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div id="complemento">
@@ -133,7 +141,10 @@ $(document).ready(function(){
               <table class="table table-bordered" id="tabla">
                 <thead>
                   <tr>
+                    <th># Carga</th>
                     <th>Lavado</th>
+                    <th>Color de hilo</th>
+                    <th>Tipo</th>
                     <th>Dar de alta a almacén</th>
                   </tr>
                 </thead>

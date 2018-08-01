@@ -11,7 +11,7 @@ class Lavanderia extends CI_Controller
   {
     parent::__construct();
     $idusuario = $_SESSION['id'];
-    if ($idusuario != 1 && $idusuario != 7) redirect('/');
+    if (!in_array($idusuario,array(1,7))) redirect('/');
   }
 
   /*

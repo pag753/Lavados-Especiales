@@ -9,7 +9,7 @@ class SalidaInterna1 extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  
+
   public function getByFolio($folio = null)
   {
     $query = $this->db->get_where('salida_interna1', array(
@@ -40,8 +40,9 @@ class SalidaInterna1 extends CI_Model
 
   public function deleteByFolio($folio)
   {
-    $this->db->where('corte_folio', $folio);
-    $this->db->delete('salida_interna1');
+    $this->db->from('salida_interna1')
+    ->where('corte_folio', $folio)
+    ->delete('salida_interna1');
   }
 
   public function update($data)

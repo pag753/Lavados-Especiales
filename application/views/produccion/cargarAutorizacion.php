@@ -19,11 +19,39 @@ $input_fecha = array(
   'required' => 'true'
 );
 ?>
-<script>
-function eliminar(renglon) {
-  $("#renglon"+renglon).remove();
-  var numero=$("#numero");
-  numero.val(parseInt(numero.val())-1);
+<script type="text/javascript">
+var opslavados = "<option label='Selecciona'>Selecciona</option>";
+$.each(<?php echo json_encode($lavados); ?>, function(index,val){
+  opslavados += "<option value='" + val.id + "'>" + val.nombre + "</option>";
+});
+var opsprocesos = "";
+$.each(<?php echo json_encode($procesos); ?>, function(index,val){
+  opsprocesos += "<option value='" + val.id + "'>" + val.nombre + "</option>";
+});
+function carga(num) {
+  $('#tabla tbody').html("");
+  for (var i = 1; i <= num; i++) {
+    var result = "<tr><td>" + i + "</td><td><select required name='lavado[" + i + "]' class='form-control'>"
+    + opslavados + "</select></td><td><select required name='proceso_seco[" + i + "][]' id='proceso_seco" + i + "' class='form-control' multiple='multiple'>"
+    + opsprocesos + "</select></td><td><input type='text' class='form-control' name='color_hilo[" + i + "]'></td><td><input type='text' class='form-control' name='tipo[" + i + "]'></td></tr>";
+    $('#tabla tbody').append(result);
+    if ($(window).width() >= 700) {
+      $('#proceso_seco' + i).multiselect({
+        nonSelectedText: '¡Selecciona!',
+        buttonWidth: '100%',
+        maxHeight: '150',
+        numberDisplayed: 1,
+        templates: {
+          li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
+          ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
+          button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
+          filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
+          filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
+        },
+        buttonClass: 'btn btn-secondary'
+      });
+    }
+  }
 }
 $(document).ready(function() {
   $("#folio").focus().keyup(function() {
@@ -56,75 +84,16 @@ $(document).ready(function() {
   $("#info").click(function() {
     $("#infoCorte").modal("show");
   }).hide();
-  $("#boton").click(function() {
-    var numero=$("#numero");
-    var numero2=$("#numero2");
-    $.ajax({
-      error: function(request, status, error){
-        window.location.replace("<?php echo base_url() ?>");
-      },
-      url: "<?php echo base_url() ?>index.php/ajax/agregarRenglonProduccion",
-      data: { numero: numero2.val() },
-      dataType: 'text',
-      type: 'POST',
-      success: function(result){
-        $('#tabla tbody').append(result);
-        $('#proceso_seco'+numero2.val() ).multiselect({
-          nonSelectedText: '¡Selecciona!',
-          buttonWidth: '100%',
-          maxHeight: '150',
-          numberDisplayed: 1,
-          templates: {
-            li: '<li><a class="dropdown-item"><label class="m-0 pl-2 pr-0"></label></a></li>',
-            ul: ' <ul class="multiselect-container dropdown-menu p-1 m-0"></ul>',
-            button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown" data-flip="false"><span class="multiselect-selected-text"></span> <b class="caret"></b></button>',
-            filter: '<li class="multiselect-item filter"><div class="input-group m-0"><input class="form-control multiselect-search" type="text"></div></li>',
-            filterClearBtn: '<span class="input-group-btn"><button class="btn btn-secondary multiselect-clear-filter" type="button"><i class="fas fa-minus-circle"></i></button></span>'
-          },
-          buttonClass: 'btn btn-secondary'
-        });
-        numero2.val(parseInt(numero2.val())+1);
-        numero.val(parseInt(numero.val())+1);
-      }
-    });
-  });
   $('#autorizar').submit(function() {
-    var numero=$("#numero").val();
-    if (numero==0) {
-      alert("Debe agregar por lo menos un lavado.");
-      return false;
-    }
-    else {
-      if (!$('#respuesta input').length) {
-        return false;
-      }
-      else {
-        var lavados = $("[name*='lavado']");
-        var id = -100;
-        var bandera;
-        $.each(lavados, function( index, value ) {
-          if (id == value.value*1) {
-            bandera = true;
-          }
-          else bandera = false;
-          id = value.value*1;
-        });
-        if (bandera) {
-          alert('No pueden haber 2 o más lavados iguales, favor de rectificar.');
-          return false;
-        }
-        else return true;
-      }
-    }
+    return ($('#respuesta input').length);
   });
 });
 </script>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+    <div class="col-12">
       <form name="autorizar" id="autorizar" action="autorizar" method="post">
         <h1>Autorizar Corte</h1>
-        <input type="hidden" name="numero" id="numero" value="0"> <input type="hidden" name="numero2" id="numero2" value="0">
         <div class="form-group row">
           <label for="folio" class="col-3 col-form-label">Folio</label>
           <div class="col-9">
@@ -138,27 +107,26 @@ $(document).ready(function() {
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-12">
+          <label for="cargas" class="col-3 col-form-label">Cargas</label>
+          <div class="col-9">
+            <input type="number" name="cargas" value="0" onkeyup="carga(this.value);" onchange="carga(this.value);" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="table-responsive col-12">
             <table id="tabla" class="table">
               <thead>
                 <tr>
+                  <td>#</th>
                   <th>Lavado</th>
                   <th>Proceso Seco</th>
-                  <th>Eliminar</th>
+                  <th>Color de hilo</th>
+                  <th>Tipo</th>
                 </tr>
               </thead>
               <tbody>
               </tbody>
             </table>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-12">
-            <div class="mx-auto">
-              <button type="button" name="boton" id="boton" class="btn btn-success">
-                <i class="fas fa-plus"></i> Agregar Lavado
-              </button>
-            </div>
           </div>
         </div>
         <div class="form-group">

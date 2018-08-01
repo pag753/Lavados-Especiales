@@ -36,7 +36,7 @@ function ver(id) {
             <thead>
               <tr>
                 <th>Folio del corte</th>
-                <th>Carga o lavado</th>
+                <th>Carga - lavado</th>
                 <th>Cliente</th>
                 <th># de piezas</th>
                 <th>Fecha de ingreso a almacén</th>
@@ -51,8 +51,8 @@ function ver(id) {
                     <input type="hidden" name="folio[<?php echo $contador; ?>]" value="<?php echo $value['folio'] ?>">
                   </td>
                   <td>
-                    <?php echo $value['lavado'] ?>
-                    <input type="hidden" name="lavado[<?php echo $contador;?>]" value="<?php echo $value['lavado'] ?>">
+                    <?php echo $value['carga'] . "    " . $value['lavado'] ?>
+                    <input type="hidden" name="lavado[<?php echo $contador;?>]" value="<?php echo $value['carga'] . "   " . $value['lavado'] ?>">
                   </td>
                   <td>
                     <?php echo $value['cliente'] ?>

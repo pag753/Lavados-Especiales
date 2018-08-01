@@ -13,6 +13,9 @@
   <script type="text/javascript">
   $(document).ready(function() {
     $("#folio").focus().keyup(function() {
+      $("#marca").html('');
+      $("#cliente").html('');
+      $("#piezas").html('');
       $.ajax({
         error: function(request, status, error){folio
           window.location.replace("<?php echo base_url() ?>");
@@ -23,10 +26,13 @@
         success: function(res) {
           if (res.datos[0] == '<') $('#mensaje').html(res.datos)
           else {
-            console.log(res.datos);
-            var cadena = "<h5>Seleccione el proceso en el que desea agregar la producción correspondiente del corte con folio " + $("#folio").val() + "</h5><div class='table-responsive'><table class='table table-striped'><thead><tr><th>Carga o lavado</th><th>Proceso seco</th><th>Insertar producción</th></tr></thead><tbody>";
+            $("#marca").html(res.corte[0].marca);
+            $("#cliente").html(res.corte[0].cliente);
+            $("#piezas").html(res.corte[0].piezas);
+            console.log(res);
+            var cadena = "<p class='text-primary'>Seleccione el proceso en el que desea agregar la producción correspondiente del corte con folio " + $("#folio").val() + "</p><div class='table-responsive'><table class='table table-striped'><thead><tr><th># Carga</th><th>Lavado</th><th>Proceso seco</th><th>Color de hilo</th><th>Tipo</th><th>Insertar producción</th></tr></thead><tbody>";
             $.each(res.datos, function( index, value ) {
-              cadena += "<tr><td>" + value.lavado + "</td><td>" + value.proceso + "</td><td><a title='Insertar producción en este proceso' href='insertar?f=" + $("#folio").val() + "&c=" + value.idcarga + "&p=" + value.idproceso + "&nc=" + value.lavado + "&np=" + value.proceso + "&il=" + value.idlavado + "'><i class='far fa-edit'></i></a></td></tr>"
+              cadena += "<tr><td>" + value.id_carga + "</td><td>" + value.lavado + "</td><td>" + value.proceso + "</td><td>" + value.color_hilo + "</td><td>" + value.tipo + "</td><td><a title='Insertar producción en este proceso' href='insertar?id=" + value.id + "&f=" + $("#folio").val() + "&c=" + value.id_carga + "&p=" + value.idproceso + "&nc=" + value.lavado + "&np=" + value.proceso + "&il=" + value.idlavado + "&m=" + res.corte[0].marca + "&cl=" + res.corte[0].cliente + "&pie=" + res.corte[0].piezas + "&color_hilo=" + value.color_hilo + "&tipo=" + value.tipo + "'><i class='far fa-edit'></i></a></td></tr>"
             });
             cadena += "</tbody></table></div>";
             $('#mensaje').html(cadena);
@@ -39,14 +45,26 @@
   </script>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+      <div class="col-12">
         <h3>Alta de producción</h3>
-        <div class="form-group row">
-          <label for="folio" class="col-3 col-form-label">Folio</label>
-          <div class="col-9">
-            <?php echo form_input($input_folio); ?>
-          </div>
-        </div>
+        <table class="table table-striped" style="background-color: rgba(255,255,255,.8)">
+          <tr>
+            <th>Folio</th>
+            <td><?php echo form_input($input_folio); ?></td>
+          </tr>
+          <tr>
+            <th>Marca</th>
+            <td id="marca"></td>
+          </tr>
+          <tr>
+            <th>Cliente</th>
+            <td id="cliente"></td>
+          </tr>
+          <tr>
+            <th># Piezas del corte</th>
+            <td id="piezas"></td>
+          </tr>
+        </table>
         <div id="mensaje" style="background-color: rgba(255,255,255,.8)">
         </div>
       </div>
@@ -58,41 +76,54 @@
       <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
         <h3>Alta de producción</h3>
         <form action="<?php echo $url; ?>/1" method="post" enctype="multipart/form-data">
-          <div class="form-group row">
-            <label for="folio" class="col-3 col-form-label">Folio</label>
-            <div class="col-9">
-              <input type="text" name="folio" readonly class="form-control" value="<?php echo $f ?>" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="nombreCarga" class="col-3 col-form-label">Carga</label>
-            <div class="col-9">
-              <input type="text" name="nombreCarga" readonly class="form-control" value="<?php echo strtoupper($nc) ?>" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="nombreProceso" class="col-3 col-form-label">Proceso:</label>
-            <div class="col-9">
-              <input type="text" name="nombreProceso" readonly class="form-control" value="<?php echo strtoupper($np) ?>" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="piezas" class="col-3 col-form-label">Piezas de producción:</label>
-            <div class="col-9">
-              <input type="number" name="piezas" id="piezas" required class="form-control" placeholder="Inserte el valor" autofocus value="<?php echo $piezas ?>" />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="defectos" class="col-3 col-form-label">Defectos:</label>
-            <div class="col-9">
-              <input type="number" name="defectos" id="defectos" required class="form-control" placeholder="Inserte el valor" value="<?php echo $defectos ?>" />
-            </div>
-          </div>
-          <input type="hidden" name="carga" id="carga" value="<?php echo $c ?>" />
-          <input type="hidden" name="proceso" id="proceso" value="<?php echo $p ?>" />
+          <table class="table table-striped">
+            <tr>
+              <th>Folio</th>
+              <td><?php echo $f ?></td>
+            </tr>
+            <tr>
+              <th>Marca</th>
+              <td><?php echo $this->input->get()['m'] ?></td>
+            </tr>
+            <tr>
+              <th>Cliente</th>
+              <td><?php echo $this->input->get()['cl'] ?></td>
+            </tr>
+            <tr>
+              <th># piezas del corte</th>
+              <td><?php echo $this->input->get()['pie'] ?></td>
+            </tr>
+            <tr>
+              <th>Color de hilo</th>
+              <td><?php echo $this->input->get()['color_hilo'] ?></td>
+            </tr>
+            <tr>
+              <th>Tipo</th>
+              <td><?php echo $this->input->get()['tipo'] ?></td>
+            </tr>
+            <tr>
+              <th># carga</th>
+              <td><?php echo $this->input->get()['c'] ?></td>
+            </tr>
+            <tr>
+              <th>Lavado</th>
+              <td><?php echo strtoupper($nc) ?></td>
+            </tr>
+            <tr>
+              <th>Proceso</th>
+              <td><?php echo strtoupper($np) ?></td>
+            </tr>
+            <tr>
+              <th>Piezas de producción</th>
+              <th><input type="number" name="piezas" id="piezas" required class="form-control" placeholder="Inserte el valor" autofocus value="<?php echo $piezas ?>" /></th>
+            </tr>
+            <tr>
+              <th>Defectos</th>
+              <td><input type="number" name="defectos" id="defectos" required class="form-control" placeholder="Inserte el valor" value="<?php echo $defectos ?>" /></td>
+            </tr>
+          </table>
+          <input type="hidden" name="id" value="<?php echo $this->input->get()['id'] ?>">
           <input type="hidden" name="nuevo" id="nuevo" value="<?php echo $nuevo ?>" />
-          <input type="hidden" name="idprod" id="idprod" value="<?php echo $idprod ?>" /> <input type="hidden" name="usuarioid" id="usuarioid" value="<?php echo $usuarioid ?>" />
-          <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $il ?>" />
           <input type="submit" value="Aceptar" class="btn btn-primary" />
         </form>
       </div>

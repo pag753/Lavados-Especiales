@@ -8,7 +8,7 @@ class Produccion extends CI_Controller
   {
     parent::__construct();
     $idusuario = $_SESSION['id'];
-    if ($idusuario != 3 && $idusuario != 5 && $idusuario != 1 && $idusuario != 2) redirect('/');
+    if (!in_array($idusuario,array(3,5,1,2))) redirect('/');
   }
 
   public function index($datos = null)
@@ -28,6 +28,7 @@ class Produccion extends CI_Controller
       'texto1' => "El corte con folio " . $datos,
       'texto2' => "Se ha autorizado con éxito"
     );
+    $titulo = null;
     $titulo['titulo'] = 'Bienvenido a lavados especiales';
     $this->load->view('comunes/head', $titulo);
     $this->cargarMenu();
@@ -39,14 +40,49 @@ class Produccion extends CI_Controller
   {
     if ($this->input->post())
     {
+      if ($this->input->post()['cargas'] == 0) redirect('/');
+      //Cargar modelos
+      $this->load->model(array('corteAutorizado','corteAutorizadoDatos','procesoSeco'));
+      //Conseguir los costos
+      $ps = $this->procesoSeco->get();
+      $precios = null;
+      foreach ($ps as $value) $precios[$value['id']] = $value['costo'];
+      for ($i=1; $i <= $this->input->post()['cargas'] ; $i++)
+      {
+        //insertar en corte autorizado
+        $data = null;
+        $data['corte_folio'] = $this->input->post()['folio'];
+        $data['fecha_autorizado'] = $this->input->post()['fecha'];
+        $data['id_carga'] = $i;
+        $data['lavado_id'] = $this->input->post()['lavado'][$i];
+        $data['color_hilo'] = $this->input->post()['color_hilo'][$i];
+        $data['tipo'] = $this->input->post()['tipo'][$i];
+        $n = $this->corteAutorizado->agregar($data);
+        foreach ($this->input->post()['proceso_seco'][$i] as $value)
+        {
+          //Insertar en corte autorizado datos
+          $data = null;
+          $data['corte_autorizado_id'] = $n;
+          $data['proceso_seco_id'] = $value;
+          $data['costo'] = $precios[$value];
+          $data['status'] = ($data['costo'] == 0)? 2 : 0;
+          $data['piezas_trabajadas'] = 0;
+          $data['defectos'] = 0;
+          $data['orden'] = 0;
+          $data['fecha_registro'] = $this->input->post()['fecha'];
+          $this->corteAutorizadoDatos->agregar($data);
+        }
+      }
+      redirect('/produccion/index/' . $data['datos_corte']['folio']);
+      /*
       $datos['datos_corte'] = $this->input->post();
       $this->load->model('corte');
       $resultado = $this->corte->getByFolio($datos['datos_corte']['folio']);
-      $this->load->model('corteAutorizado');
+
       $resultado2 = $this->corteAutorizado->getByFolio($datos['datos_corte']['folio']);
       $data['corte_folio'] = $datos['datos_corte']['folio'];
       $data['fecha_autorizado'] = substr($datos['datos_corte']['fecha'], 0, 10);
-      if ($this->input->post()['numero'] != 0)
+      if ($this->input->post()['lavados'] != 0)
       {
         $data['cargas'] = count($this->input->post()['lavado']);
         $this->load->model('corteAutorizadoDatos');
@@ -75,8 +111,8 @@ class Produccion extends CI_Controller
           $contador ++;
         }
         redirect('/produccion/index/' . $datos['datos_corte']['folio']);
-      }
-      else $this->cargarAutorizacion($this->input->post(), 'Autorización de Corte', 'No agregó ningún lavado');
+      }*/
+
     }
     else $this->cargarAutorizacion('', 'Autorización de Corte', 'Ingrese los datos');
   }
@@ -92,6 +128,7 @@ class Produccion extends CI_Controller
       'texto1' => $texto1,
       'texto2' => $texto2
     );
+    $titulo = null;
     $titulo['titulo'] = 'Autorizar corte';
     $this->load->view('comunes/head', $titulo);
     $this->cargarMenu();
