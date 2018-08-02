@@ -817,14 +817,14 @@ class Administracion extends CI_Controller
       'upload_path' => "img/fotos",
       'file_name' => $folio,
       'allowed_types' => "gif|jpg|jpeg|png",
-      'max_size' => "500000000000",
-      'max_width' => "20000000000",
-      'max_height' => "20000000000"
+      'max_size' => "10000000000000000",
+      'max_width' => "1024000000000000000",
+      'max_height' => "7680000000000000"
     );
     $this->load->library('upload', $config);
-    if (!$this->upload->do_upload($mi_imagen))
-    $data['uploadError'] = $this->upload->display_errors();
+    if (! $this->upload->do_upload($mi_imagen)) $data['uploadError'] = $this->upload->display_errors();
     $data['uploadSuccess'] = $this->upload->data();
+    //print_r($data);
     // Retornar
     redirect('/administracion/modificar?folio=' . $this->input->post()['folioCambiarImagen']);
   }

@@ -1,5 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-------------+---------+------+-----+---------+-------+
+* | Field       | Type    | Null | Key | Default | Extra |
+* +-------------+---------+------+-----+---------+-------+
+* | corte_folio | int(11) | NO   | PRI | NULL    |       |
+* | fecha       | date    | NO   |     | NULL    |       |
+* | muestras    | int(11) | NO   |     | NULL    |       |
+* | usuario_id  | int(11) | NO   | MUL | NULL    |       |
+* +-------------+---------+------+-----+---------+-------+
+*/
 
 class SalidaInterna1 extends CI_Model
 {

@@ -1,6 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+* +-----------------+-------------+------+-----+---------+----------------+
+* | Field           | Type        | Null | Key | Default | Extra          |
+* +-----------------+-------------+------+-----+---------+----------------+
+* | id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+* | tipo_usuariocol | varchar(45) | NO   |     | NULL    |                |
+* +-----------------+-------------+------+-----+---------+----------------+
+*/
 class TipoUsuario extends CI_Model
 {
 

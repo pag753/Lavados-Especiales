@@ -1,5 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-----------+--------------+------+-----+---------+----------------+
+* | Field     | Type         | Null | Key | Default | Extra          |
+* +-----------+--------------+------+-----+---------+----------------+
+* | nombre    | varchar(100) | NO   |     | NULL    |                |
+* | direccion | varchar(100) | NO   |     | NULL    |                |
+* | telefono  | varchar(45)  | NO   |     | NULL    |                |
+* | id        | int(11)      | NO   | PRI | NULL    | auto_increment |
+* +-----------+--------------+------+-----+---------+----------------+
+*/
 
 class Cliente extends CI_Model
 {

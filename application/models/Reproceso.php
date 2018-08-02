@@ -1,5 +1,20 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +---------------------+-------------+------+-----+---------+----------------+
+* | Field               | Type        | Null | Key | Default | Extra          |
+* +---------------------+-------------+------+-----+---------+----------------+
+* | corte_autorizado_id | int(11)     | NO   | MUL | NULL    |                |
+* | proceso_seco_id     | int(11)     | NO   | MUL | NULL    |                |
+* | costo               | float       | NO   |     | NULL    |                |
+* | piezas_trabajadas   | varchar(45) | NO   |     | 0       |                |
+* | defectos            | varchar(45) | NO   |     | 0       |                |
+* | status              | varchar(45) | NO   |     | 0       |                |
+* | fecha_registro      | date        | NO   |     | NULL    |                |
+* | usuario_id          | int(11)     | NO   | MUL | 6       |                |
+* | id                  | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +---------------------+-------------+------+-----+---------+----------------+
+*/
 
 class Reproceso extends CI_Model
 {

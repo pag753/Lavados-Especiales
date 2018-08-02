@@ -1,5 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +---------------------+---------+------+-----+---------+-------+
+* | Field               | Type    | Null | Key | Default | Extra |
+* +---------------------+---------+------+-----+---------+-------+
+* | piezas              | int(11) | NO   |     | NULL    |       |
+* | corte_autorizado_id | int(11) | NO   | MUL | NULL    |       |
+* +---------------------+---------+------+-----+---------+-------+
+*/
 
 class SalidaInterna1Datos extends CI_Model
 {

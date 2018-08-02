@@ -1,5 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +--------+-------------+------+-----+---------+----------------+
+* | Field  | Type        | Null | Key | Default | Extra          |
+* +--------+-------------+------+-----+---------+----------------+
+* | nombre | varchar(45) | YES  |     | NULL    |                |
+* | id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +--------+-------------+------+-----+---------+----------------+
+*/
 
 class Tipo_pantalon extends CI_Model
 {

@@ -1,5 +1,26 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +---------------------+---------+------+-----+---------+-------+
+* | Field               | Type    | Null | Key | Default | Extra |
+* +---------------------+---------+------+-----+---------+-------+
+* | id                  | int(11) | NO   |     | NULL    |       |
+* | fecha               | date    | NO   |     | NULL    |       |
+* | descripcion         | text    | NO   |     | NULL    |       |
+* | usuario_id          | int(11) | NO   | MUL | NULL    |       |
+* | saldo_anterior      | float   | NO   |     | NULL    |       |
+* | nomina              | float   | NO   |     | NULL    |       |
+* | descuentos_anterior | float   | NO   |     | NULL    |       |
+* | descuentos_abono    | float   | NO   |     | NULL    |       |
+* | descuentos_saldo    | float   | NO   |     | NULL    |       |
+* | ahorro_anterior     | float   | NO   |     | NULL    |       |
+* | ahorro_abono        | float   | NO   |     | NULL    |       |
+* | ahorro_saldo        | float   | NO   |     | NULL    |       |
+* | bonos               | float   | NO   |     | NULL    |       |
+* | total               | float   | NO   |     | NULL    |       |
+* | pagado              | float   | NO   |     | NULL    |       |
+* +---------------------+---------+------+-----+---------+-------+
+*/
 
 class Nomina extends CI_Model
 {
@@ -9,7 +30,7 @@ class Nomina extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  
+
   public function get()
   {
     $this->db->from("nomina");

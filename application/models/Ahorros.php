@@ -1,5 +1,16 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +------------+------------+------+-----+---------+----------------+
+* | Field      | Type       | Null | Key | Default | Extra          |
+* +------------+------------+------+-----+---------+----------------+
+* | fecha      | date       | NO   |     | NULL    |                |
+* | cantidad   | float      | NO   |     | NULL    |                |
+* | usuario_id | int(11)    | NO   | MUL | NULL    |                |
+* | aportacion | tinyint(4) | NO   |     | NULL    |                |
+* | id         | int(11)    | NO   | PRI | NULL    | auto_increment |
+* +------------+------------+------+-----+---------+----------------+
+*/
 
 class Ahorros extends CI_Model
 {

@@ -2,15 +2,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 /*
 * Modelo de tabla entrega_almacen
-* +-------------+---------+------+-----+---------+----------------+
-* | Field       | Type    | Null | Key | Default | Extra          |
-* +-------------+---------+------+-----+---------+----------------+
-* | corte_folio | int(11) | NO   | MUL | NULL    |                |
-* | fecha       | date    | NO   |     | NULL    |                |
-* | usuario_id  | int(11) | NO   | MUL | NULL    |                |
-* | lavado_id   | int(11) | NO   | MUL | NULL    |                |
-* | id          | int(11) | NO   | PRI | NULL    | auto_increment |
-* +-------------+---------+------+-----+---------+----------------+
+* +---------------------+---------+------+-----+---------+----------------+
+* | Field               | Type    | Null | Key | Default | Extra          |
+* +---------------------+---------+------+-----+---------+----------------+
+* | corte_autorizado_id | int(11) | NO   | MUL | NULL    |                |
+* | fecha               | date    | NO   |     | NULL    |                |
+* | usuario_id          | int(11) | NO   | MUL | NULL    |                |
+* | id                  | int(11) | NO   | PRI | NULL    | auto_increment |
+* +---------------------+---------+------+-----+---------+----------------+
 */
 class EntregaAlmacen extends CI_Model
 {

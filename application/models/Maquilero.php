@@ -1,5 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-----------+--------------+------+-----+---------+----------------+
+* | Field     | Type         | Null | Key | Default | Extra          |
+* +-----------+--------------+------+-----+---------+----------------+
+* | nombre    | varchar(100) | NO   |     | NULL    |                |
+* | direccion | varchar(100) | YES  |     | NULL    |                |
+* | telefono  | varchar(45)  | YES  |     | NULL    |                |
+* | id        | int(11)      | NO   | PRI | NULL    | auto_increment |
+* +-----------+--------------+------+-----+---------+----------------+
+*/
 
 class Maquilero extends CI_Model
 {
@@ -9,7 +19,7 @@ class Maquilero extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  
+
   public function get()
   {
     $this->db->from("maquilero");

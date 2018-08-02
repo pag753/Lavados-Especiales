@@ -7,8 +7,8 @@ $(document).ready(function() {
   $("#folio").focus().keyup(function() {
     $.ajax({
       error: function(request, status, error){
-        //window.location.replace("<?php echo base_url() ?>");
-        console.log(request.responseText);
+        window.location.replace("<?php echo base_url() ?>");
+        //console.log(request.responseText);
       },
       url: "<?php echo base_url() ?>index.php/ajax/primerProceso",
       data: { folio: $('#folio').val() },

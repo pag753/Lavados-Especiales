@@ -1,5 +1,20 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +------------------+-------------+------+-----+---------+----------------+
+* | Field            | Type        | Null | Key | Default | Extra          |
+* +------------------+-------------+------+-----+---------+----------------+
+* | folio            | int(11)     | NO   | PRI | NULL    | auto_increment |
+* | fecha_entrada    | date        | NO   |     | NULL    |                |
+* | corte            | varchar(45) | NO   |     | NULL    |                |
+* | marca_id         | int(11)     | YES  | MUL | NULL    |                |
+* | maquilero_id     | int(11)     | NO   | MUL | NULL    |                |
+* | cliente_id       | int(11)     | NO   | MUL | NULL    |                |
+* | tipo_pantalon_id | int(11)     | NO   | MUL | NULL    |                |
+* | piezas           | varchar(45) | NO   |     | NULL    |                |
+* | ojales           | int(11)     | NO   |     | 0       |                |
+* +------------------+-------------+------+-----+---------+----------------+
+*/
 
 class Corte extends CI_Model
 {

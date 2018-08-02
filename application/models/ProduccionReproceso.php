@@ -1,5 +1,21 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +----------------+------------+------+-----+---------+----------------+
+* | Field          | Type       | Null | Key | Default | Extra          |
+* +----------------+------------+------+-----+---------+----------------+
+* | id             | int(11)    | NO   | PRI | NULL    | auto_increment |
+* | usuario_id     | int(11)    | NO   | MUL | NULL    |                |
+* | piezas         | int(11)    | NO   |     | NULL    |                |
+* | fecha          | date       | NO   |     | NULL    |                |
+* | defectos       | int(11)    | NO   |     | NULL    |                |
+* | reproceso_id   | int(11)    | NO   | MUL | NULL    |                |
+* | estado_nomina  | tinyint(4) | YES  |     | NULL    |                |
+* | cantidad_pagar | float      | NO   |     | NULL    |                |
+* | nomina_id      | int(11)    | YES  |     | NULL    |                |
+* | razon_pagar    | text       | YES  |     | NULL    |                |
+* +----------------+------------+------+-----+---------+----------------+
+*/
 
 class ProduccionReproceso extends CI_Model
 {

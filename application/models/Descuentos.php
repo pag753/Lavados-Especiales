@@ -1,5 +1,17 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-------------+---------+------+-----+---------+----------------+
+* | Field       | Type    | Null | Key | Default | Extra          |
+* +-------------+---------+------+-----+---------+----------------+
+* | fecha       | date    | NO   |     | NULL    |                |
+* | razon       | text    | NO   |     | NULL    |                |
+* | usuario_id  | int(11) | NO   | MUL | NULL    |                |
+* | cantidad    | float   | NO   |     | NULL    |                |
+* | corte_folio | int(11) | YES  | MUL | NULL    |                |
+* | id          | int(11) | NO   | PRI | NULL    | auto_increment |
+* +-------------+---------+------+-----+---------+----------------+
+*/
 
 class Descuentos extends CI_Model
 {

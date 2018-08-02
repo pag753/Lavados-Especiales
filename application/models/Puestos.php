@@ -1,5 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +--------+-------------+------+-----+---------+----------------+
+* | Field  | Type        | Null | Key | Default | Extra          |
+* +--------+-------------+------+-----+---------+----------------+
+* | nombre | varchar(50) | NO   |     | NULL    |                |
+* | id     | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +--------+-------------+------+-----+---------+----------------+
+*/
 
 class Puestos extends CI_Model
 {

@@ -314,7 +314,7 @@ class Ajax extends CI_Controller
   // PRODUCCIÓN
   public function autorizacionCorte($folio = null)
   {
-    if (!in_array($_SESSION['id'],array(1,3)) || ! $this->input->post()) $this->output->set_status_header('404');
+    if (!in_array($_SESSION['id'],array(1,2,3)) || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     if ($folio == null)
     {

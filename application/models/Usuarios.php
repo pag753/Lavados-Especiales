@@ -1,6 +1,20 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+* +-----------------+-------------+------+-----+---------+----------------+
+* | Field           | Type        | Null | Key | Default | Extra          |
+* +-----------------+-------------+------+-----+---------+----------------+
+* | nombre          | varchar(45) | NO   |     | NULL    |                |
+* | pass            | varchar(45) | NO   |     | NULL    |                |
+* | tipo_usuario_id | int(11)     | NO   | MUL | NULL    |                |
+* | nombre_completo | varchar(45) | NO   |     | NULL    |                |
+* | direccion       | varchar(45) | YES  |     | NULL    |                |
+* | telefono        | varchar(45) | YES  |     | NULL    |                |
+* | activo          | tinyint(4)  | NO   |     | NULL    |                |
+* | puesto_id       | int(11)     | NO   | MUL | NULL    |                |
+* | id              | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +-----------------+-------------+------+-----+---------+----------------+
+*/
 class Usuarios extends CI_Model
 {
 

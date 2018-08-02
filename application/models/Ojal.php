@@ -1,5 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-------+---------+------+-----+---------+----------------+
+* | Field | Type    | Null | Key | Default | Extra          |
+* +-------+---------+------+-----+---------+----------------+
+* | costo | float   | NO   |     | NULL    |                |
+* | id    | int(11) | NO   | PRI | NULL    | auto_increment |
+* +-------+---------+------+-----+---------+----------------+
+*/
 
 class Ojal extends CI_Model
 {

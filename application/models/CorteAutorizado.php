@@ -1,5 +1,19 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +------------------+-------------+------+-----+---------+----------------+
+* | Field            | Type        | Null | Key | Default | Extra          |
+* +------------------+-------------+------+-----+---------+----------------+
+* | id               | int(11)     | NO   | PRI | NULL    | auto_increment |
+* | corte_folio      | int(11)     | NO   | MUL | NULL    |                |
+* | fecha_autorizado | date        | NO   |     | NULL    |                |
+* | id_carga         | int(11)     | NO   |     | NULL    |                |
+* | lavado_id        | int(11)     | NO   | MUL | NULL    |                |
+* | usuario_id       | int(11)     | NO   | MUL | NULL    |                |
+* | color_hilo       | varchar(45) | YES  |     | NULL    |                |
+* | tipo             | varchar(45) | YES  |     | NULL    |                |
+* +------------------+-------------+------+-----+---------+----------------+
+*/
 
 class CorteAutorizado extends CI_Model
 {

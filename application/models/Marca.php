@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+* +------------+-------------+------+-----+---------+----------------+
+* | Field      | Type        | Null | Key | Default | Extra          |
+* +------------+-------------+------+-----+---------+----------------+
+* | nombre     | varchar(45) | NO   |     | NULL    |                |
+* | cliente_id | int(11)     | NO   | MUL | NULL    |                |
+* | id         | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +------------+-------------+------+-----+---------+----------------+
+*/
 class Marca extends CI_Model
 {
 
@@ -9,7 +17,7 @@ class Marca extends CI_Model
     parent::__construct();
     $this->load->database();
   }
-  
+
   public function get()
   {
     $this->db->from("marca");

@@ -1,5 +1,15 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+/*
+* +-------------+-------------+------+-----+---------+----------------+
+* | Field       | Type        | Null | Key | Default | Extra          |
+* +-------------+-------------+------+-----+---------+----------------+
+* | nombre      | varchar(45) | NO   |     | NULL    |                |
+* | costo       | float       | NO   |     | NULL    |                |
+* | abreviatura | varchar(45) | NO   |     | NULL    |                |
+* | id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+* +-------------+-------------+------+-----+---------+----------------+
+*/
 
 class ProcesoSeco extends CI_Model
 {
