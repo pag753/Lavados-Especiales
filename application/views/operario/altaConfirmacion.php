@@ -92,7 +92,7 @@ $(document).ready(function() {
                   <td><?php echo strtoupper($nombreProceso); ?></td>
                 </tr>
                 <tr>
-                  <th>Piezas registradas</th>
+                  <th>Piezas de la carga</th>
                   <td><?php echo $piezas ?></td>
                 </tr>
                 <tr>
@@ -107,7 +107,7 @@ $(document).ready(function() {
                   <th>Faltantes</th>
                   <td><?php echo $piezas-($trabajadas+$defectos); ?></td>
                 </tr>
-                <tr>
+
               </tbody>
             </table>
           </div>
@@ -131,13 +131,15 @@ $(document).ready(function() {
                       <th>Fecha</th>
                     </tr>
                   </thead>
-                  <tbody><?php foreach ($query as $key => $value): ?>
-                    <tr>
-                      <td><?php echo $value['usuario'] ?></td>
-                      <td><?php echo $value['piezas'] ?></td>
-                      <td><?php echo $value['defectos'] ?></td>
-                      <td><?php echo $value['fecha'] ?></td>
-                    </tr><?php endforeach; ?>
+                  <tbody>
+                    <?php foreach ($query as $key => $value): ?>
+                      <tr>
+                        <td><?php echo $value['usuario'] ?></td>
+                        <td><?php echo $value['piezas'] ?></td>
+                        <td><?php echo $value['defectos'] ?></td>
+                        <td><?php echo $value['fecha'] ?></td>
+                      </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -159,7 +161,7 @@ $(document).ready(function() {
             </div>
           <?php endif; ?>
           <div class="card-body">
-            <form action="alta" method="post" enctype="multipart/form-data">
+            <form action="alta/<?php echo $this->input->get()['f'] ?>" method="post" enctype="multipart/form-data">
               <input type="hidden" name="anterior" value="<?php echo $this->input->get()['id'] ?>">
               <input type="hidden" name="orden" id="orden" value="<?php echo $orden ?>" />
               <input type="hidden" name="piezas_trabajadas" id="piezas_trabajadas" value="<?php echo $trabajadas; ?>">

@@ -49,7 +49,7 @@ $(document).ready(function() {
                 estado = "Abierto";
                 boton = '<a href="insertarReproceso?id=' + value.id + '&lavado=' + value.lavado + '&proceso=' + value.proceso_seco + '&marca=' + result.corte.marca + '&cliente=' + result.corte.cliente + '&carga=' + value.id_carga + '&color_hilo=' + value.color_hilo + '&tip=' + value.tipo + '&folio=' + $('#folio').val() + '"><button type="button" class="btn btn-primary"><i class="far fa-edit"></i></button></a>'
               }
-              contenido = '<tr'+clase+'><td>' + value.id_carga + '</td><td>'+value.lavado+'</td><td>'+value.proceso_seco+'</td><td>' + value.color_hilo + '</td><td>' + value.tipo + '</td><td>'+estado+'</td><td>'+boton+'</td></tr>';
+              contenido = '<tr'+clase+'><td>' + value.id_carga + '</td><td>' + value.tipo + '</td><td>' + value.color_hilo + '</td><td>'+value.lavado+'</td><td>'+value.proceso_seco+'</td><td>'+estado+'</td><td>'+boton+'</td></tr>';
               $("#tabla tbody").append(contenido);
               $('#tabla').show(500);
               $('#alerta').hide(500);
@@ -88,10 +88,10 @@ $(document).ready(function() {
           <thead>
             <tr>
               <th># Carga</th>
+              <th>Tipo</th>
+              <th>Color de hilo</th>
               <th>Lavado</th>
               <th>Proceso seco</th>
-              <th>Color de hilo</th>
-              <th>Tipo</th>
               <th>Estado</th>
               <th>Ingresar producción</th>
             </tr>

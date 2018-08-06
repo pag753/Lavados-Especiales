@@ -326,7 +326,8 @@ class CorteAutorizadoDatos extends CI_Model
     ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->where('corte_autorizado.corte_folio', $folio)
     ->where('corte_autorizado_datos.costo !=', 0)
-    ->where('corte_autorizado_datos.status', 1);
+    ->where('corte_autorizado_datos.status', 1)
+    ->order_by('corte_autorizado.id_carga');
     return $this->db->get()->result_array();
   }
 

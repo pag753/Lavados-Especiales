@@ -65,7 +65,7 @@ class Operario extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  public function alta()
+  public function alta($f = null)
   {
     if(!in_array($_SESSION['id'],array(4,7))) redirect('/');
     $titulo = null;
@@ -78,52 +78,51 @@ class Operario extends CI_Controller
       $this->corteAutorizadoDatos->actualiza2($this->input->post()['anterior'], $this->input->post()['piezas_trabajadas'], $this->input->post()['defectos'], date("Y/m/d"), $_SESSION['usuario_id']);
       // Actualizando datos de proceso siguiente
       if (isset($this->input->post()['siguiente'])) $this->corteAutorizadoDatos->actualiza($this->input->post()['siguiente'],  $this->input->post()['piezas_trabajadas'], $this->input->post()['orden'] + 1);
-      redirect("/operario/index/2");
+      redirect("/operario/alta/".$f);
+    }
+    elseif ($this->input->get())
+    {
+      //si es GET
+      $this->load->model('corteAutorizadoDatos');
+      $query = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros2($this->input->get()['id']);
+      $data = $this->input->get();
+      $data['piezas'] = $query[0]['piezas'];
+      $data['nombreCarga'] = $query[0]['lavado'];
+      $data['nombreProceso'] = $query[0]['proceso'];
+      $data['idlavado'] = $query[0]['idlavado'];
+      $data['orden'] = $query[0]['orden'];
+      $data['faltantes'] = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->get()['f'], $this->input->get()['c']);
+      $data['trabajadas'] = 0;
+      $data['defectos'] = 0;
+      $this->load->model('produccionProcesoSeco');
+      $query = $this->produccionProcesoSeco->seleccionDefinidaPorProceso($this->input->get()['id']);
+      foreach ($query as $key => $value)
+      {
+        $data['trabajadas'] += $value['piezas'];
+        $data['defectos'] += $value['defectos'];
+      }
+      $data['query'] = $query;
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('operario/altaConfirmacion', $data);
+      $this->load->view('comunes/foot');
     }
     else
     {
-      if ($this->input->get())
-      {
-        //si es GET
-        $this->load->model('corteAutorizadoDatos');
-        $query = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros2($this->input->get()['id']);
-        $data = $this->input->get();
-        $data['piezas'] = $query[0]['piezas'];
-        $data['nombreCarga'] = $query[0]['lavado'];
-        $data['nombreProceso'] = $query[0]['proceso'];
-        $data['idlavado'] = $query[0]['idlavado'];
-        $data['orden'] = $query[0]['orden'];
-        $data['faltantes'] = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->get()['f'], $this->input->get()['c']);
-        $data['trabajadas'] = 0;
-        $data['defectos'] = 0;
-        $this->load->model('produccionProcesoSeco');
-        $query = $this->produccionProcesoSeco->seleccionDefinidaPorProceso($this->input->get()['id']);
-        foreach ($query as $key => $value)
-        {
-          $data['trabajadas'] += $value['piezas'];
-          $data['defectos'] += $value['defectos'];
-        }
-        $data['query'] = $query;
-        $this->load->view('comunes/head', $titulo);
-        $this->cargarMenu();
-        $this->load->view('operario/altaConfirmacion', $data);
-        $this->load->view('comunes/foot');
-      }
-      else
-      {
-        //si no es ninguno
-        $data['url'] = base_url() . "index.php/operario/insertar";
-        $titulo = null;
-        $titulo['titulo'] = 'Cerrar proceso';
-        $this->load->view('comunes/head', $titulo);
-        $this->cargarMenu();
-        $this->load->view('operario/alta', $data);
-        $this->load->view('comunes/foot');
-      }
+      //si no es ninguno
+      $data['folio'] = $f;
+      $data['url'] = base_url() . "index.php/operario/insertar";
+      $titulo = null;
+      $titulo['titulo'] = 'Cerrar proceso';
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('operario/alta', $data);
+      $this->load->view('comunes/foot');
     }
   }
 
-  public function insertar()
+
+  public function insertar($f = null)
   {
     if ($this->input->post())
     {
@@ -132,7 +131,7 @@ class Operario extends CI_Controller
       $datos['usuario_id'] = $_SESSION['usuario_id'];
       if ($this->input->post()['nuevo'] == 1) $this->produccionProcesoSeco->insertar($datos);
       else $this->produccionProcesoSeco->editar($datos);
-      redirect("/operario/index/2");
+      redirect("/operario/insertar/".$f);
     }
     else
     {
@@ -158,6 +157,7 @@ class Operario extends CI_Controller
         }
       }
       else $data = null;
+      $data['f'] = $f;
       $data['url'] = base_url() . "index.php/operario/insertar";
       $titulo = null;
       $titulo['titulo'] = 'Insertar producción';

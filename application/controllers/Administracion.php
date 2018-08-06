@@ -1299,12 +1299,12 @@ class Administracion extends CI_Controller
   public function agregarProceso()
   {
     if (!$this->input->post()) redirect('/');
-    $lavado = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[0];
-    $carga = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[1];
+    //$lavado = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[0];
+    //$carga = explode("-",$this->input->post()['idCargaLavadoNuevoProceso'])[1];
     $data = array(
-      'corte_folio' => $this->input->post()['folioNuevoProceso'],
-      'id_carga' => $carga,
-      'lavado_id' => $lavado,
+      'corte_autorizado_id' => $this->input->post()['idCargaLavadoNuevoProceso'],
+      //'id_carga' => $carga,
+      //'lavado_id' => $lavado,
       'proceso_seco_id' => $this->input->post()['idNuevoProceso'],
       'costo' => $this->input->post()['costoNuevoProceso'],
       'piezas_trabajadas' => $this->input->post()['piezasTrabajadasNuevoProceso'],

@@ -129,8 +129,8 @@ class ProduccionProcesoSeco extends CI_Model
     round((proceso_seco.costo*produccion_proceso_seco.piezas),2) as total,
     produccion_proceso_seco.fecha as fecha')
     ->from('produccion_proceso_seco')
-    ->join('corte_autorizado','corte_autorizado.id=produccion_proceso_seco.corte_autorizado_datos_id')
     ->join('corte_autorizado_datos','corte_autorizado_datos.id=produccion_proceso_seco.corte_autorizado_datos_id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')    
     ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->join('usuario', 'produccion_proceso_seco.usuario_id=usuario.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')

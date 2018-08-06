@@ -452,7 +452,8 @@ class Ajax extends CI_Controller
   // OPERARIO Y OPERARIO VALIDA
   public function operarioCargas()
   {
-    if (($_SESSION['id'] != 4 && $_SESSION['id'] != 6) || ! $this->input->post()) $this->output->set_status_header('404');
+    if(!in_array($_SESSION['id'],array(6,4)) || !$this->input->post()) $this->output->set_status_header('404');
+    //if (($_SESSION['id'] != 4 && $_SESSION['id'] != 6) || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
     if ($folio == null) echo "<div class='col-12'><div class='alert alert-info' role='alert'>Escriba el número de folio.</div></div>";
     else

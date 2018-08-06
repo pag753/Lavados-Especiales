@@ -84,4 +84,53 @@ class Lavanderia extends CI_Controller
     $this->load->view('comunes/index', $data);
     $this->load->view('comunes/foot');
   }
+
+  public function reportar($folio = null)
+  {
+    $titulo['titulo'] = 'Reportar piezas de lavandería';
+    $data['folio'] = $folio;
+    if ($this->input->post())
+    {
+      //print_r($this->input->post());
+      $this->load->model('corteAutorizadoDatos');
+      $id = $this->input->post()['id'];
+      $trabajadas = $this->input->post()['piezas'];
+      $defectos = $this->input->post()['defectos'];
+      $fecha = date('Y-m-d');
+      $usuario = $_SESSION['usuario_id'];
+      $this->corteAutorizadoDatos->actualiza2($id, $trabajadas, $defectos, $fecha, $usuario);
+      if (isset($this->input->post()['siguiente']))
+      {
+        $id = $this->input->post()['siguiente'];
+        $piezas = $trabajadas;
+        $orden = $this->input->post()['orden'] + 1;
+        $this->corteAutorizadoDatos->actualiza($id, $piezas, $orden);
+      }
+      redirect('lavanderia/reportar/'.$this->input->post()['folio']);
+    }
+    elseif ($this->input->get())
+    {
+      $this->load->model('corteAutorizadoDatos');
+      $query = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros2($this->input->get()['id']);
+      $data = $this->input->get();
+      $data['piezas'] = $query[0]['piezas'];
+      $data['nombreCarga'] = $query[0]['lavado'];
+      $data['nombreProceso'] = $query[0]['proceso'];
+      $data['idlavado'] = $query[0]['idlavado'];
+      $data['orden'] = $query[0]['orden'];
+      $data['faltantes'] = $this->corteAutorizadoDatos->joinLavadoProcesosCargaNoCeros4($this->input->get()['f'], $this->input->get()['c']);
+      //$data['query'] = $query;
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('lavanderia/reportarConfirmacion', $data);
+      $this->load->view('comunes/foot');
+    }
+    else
+    {
+      $this->load->view('comunes/head', $titulo);
+      $this->cargarMenu();
+      $this->load->view('lavanderia/reportar',$data);
+      $this->load->view('comunes/foot');
+    }
+  }
 }
