@@ -507,22 +507,19 @@ class Ajax extends CI_Controller
   {
     if ($_SESSION['id'] != 1 || ! $this->input->post()) $this->output->set_status_header('404');
     $folio = $this->input->post()["folio"];
-    if ($folio != null)
+    if ($folio != "")
     {
       if ($this->existeCorte($folio))
       {
         $this->load->model('corteAutorizadoDatos');
-        $this->load->model('corteAutorizadoDatos');
         $query = $this->corteAutorizadoDatos->joinLavadoProcesos($folio);
-        if (count($query) == 0) echo "<div class='col-12'><div class='alert alert-info' role='alert'>Corte aún no autorizado.</div></div>";
-        else
-        {
-          echo "<label for='carga' class='col-3 col-form-label'>Carga</label><div class='col-9'><select name='carga' id='carga' class='form-control'>";
-          foreach ($query as $key => $value) echo "<option value=" . ($key + 1) . ">" . strtoupper($value['lavado']) . "</option>";
-          echo "</select></div><div class='col-12'><input type='submit' class='btn btn-primary' value='Aceptar'/></div>";
-        }
+        if (count($query) == 0) echo json_encode(array('datos' => "<div class='col-12'><div class='alert alert-info' role='alert'>Corte con folio " . $folio . " aún no autorizado.</div></div>"));
+        else echo json_encode(array('datos' => $query , 'corte' => $this->infoCorte($folio)));
+          //echo "<label for='carga' class='col-3 col-form-label'>Carga</label><div class='col-9'><select name='carga' id='carga' class='form-control'>";
+          //foreach ($query as $key => $value) echo "<option value=" . ($key + 1) . ">" . strtoupper($value['lavado']) . "</option>";
+          //echo "</select></div><div class='col-12'><input type='submit' class='btn btn-primary' value='Aceptar'/></div>";
       }
-      else echo "<div class='col-12'><div class='alert alert-info' role='alert'>El corte aún no existe en la base de datos.</div></div>";
+      else echo json_encode(array('datos' => "<div class='col-12'><div class='alert alert-info' role='alert'>El corte con folio " . $folio . " aún no existe en la base de datos.</div></div>"));
     }
   }
 

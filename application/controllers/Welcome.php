@@ -88,8 +88,8 @@ class Welcome extends CI_Controller
     }
   }
 
-  /*
-  ** Método para cambiar la contraseña
+  /**
+  * Método para cambiar la contraseña
   */
   public function cambiarPass()
   {
@@ -110,8 +110,8 @@ class Welcome extends CI_Controller
     }
   }
 
-  /*
-  ** Método para cambiar los datos personales
+  /**
+  * Método para cambiar los datos personales
   */
   public function cambiarDatos()
   {
@@ -136,8 +136,8 @@ class Welcome extends CI_Controller
     }
   }
 
-  /*
-  ** Método para cerrar la sesión
+  /**
+  * Método para cerrar la sesión
   */
   public function cerrarSesion()
   {

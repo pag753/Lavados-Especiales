@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Administracion extends CI_Controller
 {
 
-  /*
+  /**
   *  Método constructor de la clase
   */
   public function __construct()
@@ -14,7 +14,7 @@ class Administracion extends CI_Controller
     if (!in_array($idusuario,array(1,5))) redirect('/');
   }
 
-  /*
+  /**
   *  Método de bienvenida en la sesión Administrador
   */
   public function index($datos = null)
@@ -85,16 +85,17 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cambiar los costos de los procesos
   */
-  public function costos()
+  public function costos($folio = null)
   {
+    $datos['folio'] = $folio;
     if ($this->input->post())
     {
       $this->load->model('corteAutorizadoDatos');
-      foreach ($this->input->post()['costo'] as $key => $value) $query = $this->corteAutorizadoDatos->actualizaCosto($this->input->post()['folio'], $this->input->post()['carga'], $key, $value, $this->input->post()['idlavado']);
-      redirect('/administracion/index?q=folio&' . $this->input->post()['folio']);
+      foreach ($this->input->post()['costo'] as $key => $value) $query = $this->corteAutorizadoDatos->actualizaCosto2($key,$value);
+      redirect('/administracion/costos/' . $this->input->post()['folio']);
     }
     else
     {
@@ -119,14 +120,16 @@ class Administracion extends CI_Controller
         $datos['fecha'] = $query[0]['fecha'];
         $datos['ojales'] = $query[0]['ojales'];
         $this->load->model('corteAutorizadoDatos');
-        $query = $this->corteAutorizadoDatos->joinLavadoProcesosCarga($folio, $cargaid);
+        $query = $this->corteAutorizadoDatos->joinLavadoProcesosCarga2($this->input->get()['id']);
         $datos['lavado'] = $query[0]['lavado'];
         $datos['idlavado'] = $query[0]['idlavado'];
+        $datos['procesos'] = $query;
+        /*
         foreach ($query as $key => $value)
         {
           $datos['procesos'][$value['idproceso']] = $value['proceso'];
           $datos['costos'][$value['idproceso']] = $value['costo'];
-        }
+        }*/
         // Buscar la imágen
         $extensiones = array(
           "jpg",
@@ -154,20 +157,18 @@ class Administracion extends CI_Controller
       }
       else
       {
-        $titulo = array();
-        $textos = array();
         $titulo['titulo'] = 'Cambiar costos';
-        $textos['texto1'] = "Costos del corte";
+        $datos['texto1'] = "Costos del corte";
         $this->load->view('comunes/head', $titulo);
         $this->load->view('administracion/menu');
-        $this->load->view('administracion/cargaCostoValidacion', $textos);
+        $this->load->view('administracion/cargaCostoValidacion', $datos);
         $this->load->view('comunes/foot');
       }
     }
   }
 
   // CATÁLOGOS
-  /*
+  /**
   * Método para cargar el catálogo de clientes
   */
   public function catalogosClientes()
@@ -181,7 +182,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de lavados
   */
   public function catalogosLavados()
@@ -195,7 +196,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de maquileros
   */
   public function catalogosMaquileros()
@@ -209,7 +210,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de marcas
   */
   public function catalogosMarcas()
@@ -227,7 +228,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de procesos
   */
   public function catalogosProcesos()
@@ -241,7 +242,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de usuarios
   */
   public function catalogosUsuarios()
@@ -263,7 +264,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de tipos
   */
   public function catalogosTipos()
@@ -277,7 +278,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método para cargar el catálogo de puestos
   */
   public function catalogosPuestos()
@@ -291,7 +292,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo cliente a la base de datos recibiendo los datos por POST
   */
   public function nuevoCliente()
@@ -311,7 +312,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un cliente en la base de datos recibiendo los datos por POST
   */
   public function editarCliente()
@@ -325,7 +326,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo lavado a la base de datos recibiendo los datos por POST
   */
   public function nuevoLavado()
@@ -341,8 +342,9 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que editar un lavado en la base de datos recibiendo los datos por POST
+  * @return void
   */
   public function editarLavado()
   {
@@ -352,11 +354,10 @@ class Administracion extends CI_Controller
       $this->Lavado->update(trim($this->input->post()['nombreE']), $this->input->post()['id']);
       redirect("/administracion/catalogosLavados");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo maquilero en la base de datos recibiendo los datos por POST
   */
   public function nuevoMaquilero()
@@ -375,7 +376,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un maquilero en la base de datos recibiendo los datos por POST
   */
   public function editarMaquilero()
@@ -390,7 +391,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega una nueva marca a la base de datos recibiendo los datos por POST
   */
   public function nuevoMarca()
@@ -409,7 +410,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita una marca en la base de datos recibiendo los datos por POST
   */
   public function editarMarca()
@@ -423,7 +424,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo proceso seco a la base de datos recibiendo los datos por POST
   */
   public function nuevoProceso()
@@ -442,7 +443,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un proceso seco en la base de datos recibiendo los datos por POST
   */
   public function editarProceso()
@@ -456,7 +457,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo tipo de pantalón a la base de datos recibiendo los datos por POST
   */
   public function nuevoTipo()
@@ -472,7 +473,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un tipo de pantalón en la base de datos recibiendo los datos por POST
   */
   public function editarTipo()
@@ -487,7 +488,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo usuario a la base de datos recibiendo los datos por POST
   */
   public function nuevoUsuario()
@@ -511,7 +512,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un usuario en la base de datos recibiendo los datos por POST
   */
   public function editarUsuario()
@@ -525,7 +526,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que agrega un nuevo puesto a la base de datos recibiendo los datos por POST
   */
   public function nuevoPuesto()
@@ -542,7 +543,7 @@ class Administracion extends CI_Controller
     else redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método que edita un puesto en la base de datos recibiendo los datos por POST
   */
   public function editarPuesto()
@@ -556,7 +557,7 @@ class Administracion extends CI_Controller
     else  redirect('/administracion/index?q=error');
   }
 
-  /*
+  /**
   * Método para llevar a cabo los descuentos
   */
   public function descuentos()
@@ -588,7 +589,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   * Método para editar un descuento en la base de datos
   */
   public function editarDescuento()
@@ -600,7 +601,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/descuentos?id=' . $this->input->post()['idUsuario']);
   }
 
-  /*
+  /**
   * Método para agregar un descuento a la base de datos.
   */
   public function nuevoDescuento()
@@ -618,7 +619,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/descuentos?id=' . $data['usuario_id']);
   }
 
-  /*
+  /**
   * Método para eliminar un descuento en la base de datos.
   */
   public function eliminarDescuento()
@@ -629,7 +630,7 @@ class Administracion extends CI_Controller
     $this->Descuentos->delete($id);
   }
 
-  /*
+  /**
   * Método para ver y cambiar el costo de ojal.
   */
   public function ojal()
@@ -652,7 +653,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   * Método para ver los detalles del corte
   */
   public function ver()
@@ -665,7 +666,7 @@ class Administracion extends CI_Controller
   }
 
   // Funciones para modificar corte
-  /*
+  /**
   * Método para cargar todos los datos de un corte para su modificación.
   */
   public function modificar()
@@ -774,7 +775,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   *  Método que cambia los datos generales del corte.
   */
   public function modificarGenerales()
@@ -787,7 +788,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que cambia la imágen del corte.
   */
   public function modificarImagen()
@@ -829,7 +830,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/modificar?folio=' . $this->input->post()['folioCambiarImagen']);
   }
 
-  /*
+  /**
   *  Método que cambia los datos de autorización del corte.
   */
   public function editarAutorizacion()
@@ -843,7 +844,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que elimina la autorización del corte.
   */
   public function eliminarAutorizacion()
@@ -872,7 +873,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que cambia los datos específicos de autorización del corte.
   */
   public function editarAutorizacionDatos()
@@ -886,7 +887,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que elimina los datos generales de autorización del corte.
   */
   public function eliminarAutorizacionDatos()
@@ -900,7 +901,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que cambia los datos generales de salida interna del corte.
   */
   public function editarSalidaInterna()
@@ -914,7 +915,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que elimina los datos generales de salida interna del corte.
   */
   public function eliminarSalidaInterna()
@@ -938,7 +939,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que edita los datos específicos de salida interna del corte.
   */
   public function editarSalidaInternaDatos()
@@ -959,7 +960,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que edita un lavado del corte.
   */
   public function editarLavadoCorte()
@@ -975,7 +976,7 @@ class Administracion extends CI_Controller
       'tipo' => $this->input->post()['tipo'],
     );
     $this->CorteAutorizado->updateAdministracion($data);
-    /*
+    /**
     // Actualizar produccion_proceso_seco(lavado_id) con: carga, corte_folio
     $data = array(
     'lavado_id' => $this->input->post()['lavado_id'],
@@ -988,7 +989,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que elimina un lavado del corte.
   */
   //Cambiado por base de datos
@@ -1001,7 +1002,7 @@ class Administracion extends CI_Controller
       'id' => $this->input->post()['id']
     );
     $this->CorteAutorizado->deleteAdministracion($data);
-    /*
+    /**
     // Eliminar salida_interna1_datos con : id_carga, corte_folio
     $data = array(
     'id_carga' => $this->input->post()['id_carga'],
@@ -1020,7 +1021,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que edita la porducción del corte.
   */
   public function editarProduccion()
@@ -1035,7 +1036,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   *  Método que elimina la porducción del corte.
   */
   public function eliminarProduccion()
@@ -1050,7 +1051,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   * Método que agrega un lavado al corte en la base de datos.
   */
   public function agregarLavado()
@@ -1095,7 +1096,7 @@ class Administracion extends CI_Controller
         // Costo del proceso seco
         $costo = $this->ProcesoSeco->getById($value)[0]['costo'];
         // Llenar arreglo
-        /*$data['corte_folio'] = $this->input->post()['corteFolioNuevoLavado'];
+        /**$data['corte_folio'] = $this->input->post()['corteFolioNuevoLavado'];
         $data['id_carga'] = $idCarga;
         $data['lavado_id'] = $this->input->post()['lavadoProcesoNuevo'];*/
         $data['corte_autorizado_id'] = $idCorteAutorizado;
@@ -1147,7 +1148,7 @@ class Administracion extends CI_Controller
     redirect('/administracion/modificar?folio=' . $this->input->post()['corteFolioNuevoLavado']);
   }
 
-  /*
+  /**
   * Método que edita un reproceso del corte en la base de datos.
   */
   public function editarReproceso()
@@ -1166,7 +1167,7 @@ class Administracion extends CI_Controller
 
   }
 
-  /*
+  /**
   * Método que elimina un reproceso del corte en la base de datos.
   */
   public function eliminarReproceso()
@@ -1184,7 +1185,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   * Método que edita la producción de reproceso de un corte en la base de datos.
   */
   public function editarProduccionReproceso()
@@ -1198,7 +1199,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   * Método que elimina la producción de un reproceso de un corte en la base de datos.
   */
   public function eliminarProduccionReproceso()
@@ -1213,7 +1214,7 @@ class Administracion extends CI_Controller
   }
 
   //Métodos de ahorro.
-  /*
+  /**
   * Método que muestra los ahorros.
   */
   public function ahorros()
@@ -1249,7 +1250,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   * Método que agrega un nuevo ahorro en la base de datos.
   */
   public function nuevoAhorro()
@@ -1267,7 +1268,7 @@ class Administracion extends CI_Controller
     redirect("administracion/ahorros?id=" . $this->input->post()['id']);
   }
 
-  /*
+  /**
   * Método que edita un ahorro de un empleado en la base de datos.
   */
   public function editarAhorro()
@@ -1279,7 +1280,7 @@ class Administracion extends CI_Controller
     redirect("administracion/ahorros?id=" . $this->input->post()['idUsuario']);
   }
 
-  /*
+  /**
   * Método que elimina un ahorro de un empleado en la base de datos.
   */
   public function eliminarAhorro()
@@ -1293,7 +1294,7 @@ class Administracion extends CI_Controller
     ));
   }
 
-  /*
+  /**
   * Método para agregar un nuevo proceso a la base de Datos
   */
   public function agregarProceso()
@@ -1321,7 +1322,7 @@ class Administracion extends CI_Controller
 
 
   //Métodos de nómina.
-  /*
+  /**
   * Método para ver las nóminas.
   */
   public function nomina()
@@ -1335,7 +1336,7 @@ class Administracion extends CI_Controller
     $this->load->view('comunes/foot');
   }
 
-  /*
+  /**
   * Método que agrega una nueva nómina a la base de datos.
   */
   public function nuevaNomina()
@@ -1389,7 +1390,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   * Método para ver una nómina
   */
   public function verNomina()
@@ -1468,7 +1469,7 @@ class Administracion extends CI_Controller
         }
       }
       // Creacion del PDF
-      /*
+      /**
       * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
       * heredó todos las variables y métodos de fpdf
       */
@@ -1479,7 +1480,7 @@ class Administracion extends CI_Controller
       // Define el alias para el número de página que se imprimirá en el pie
       $pdf->AliasNbPages();
       $pdf->AddPage();
-      /*
+      /**
       * Se define el titulo, márgenes izquierdo, derecho y
       * el color de relleno predeterminado
       */
@@ -1628,7 +1629,7 @@ class Administracion extends CI_Controller
           utf8_decode("$" . $pagado[$key])
         ));
       }
-      /*
+      /**
       * Se manda el pdf al navegador
       *
       * $this->pdf->Output(nombredelarchivo, destino);
@@ -1646,7 +1647,7 @@ class Administracion extends CI_Controller
       {
         // print_r($this->input->post());
         // Creacion del PDF
-        /*
+        /**
         * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
         * heredó todos las variables y métodos de fpdf
         */
@@ -1662,7 +1663,7 @@ class Administracion extends CI_Controller
         // Define el alias para el número de página que se imprimirá en el pie
         $pdf->AliasNbPages();
         $pdf->AddPage();
-        /*
+        /**
         * Se define el titulo, márgenes izquierdo, derecho y
         * el color de relleno predeterminado
         */
@@ -1753,7 +1754,7 @@ class Administracion extends CI_Controller
             utf8_decode('$' . $value['pagado'])
           ));
         }
-        /*
+        /**
         * Se manda el pdf al navegador
         *
         * $this->pdf->Output(nombredelarchivo, destino);
@@ -1769,7 +1770,7 @@ class Administracion extends CI_Controller
   }
 
   //MÉTODOS DE REPROCESOS.
-  /*
+  /**
   * Método para entrar a submódulo de reproceso.
   */
   public function reproceso()
@@ -1804,7 +1805,7 @@ class Administracion extends CI_Controller
     }
   }
 
-  /*
+  /**
   * Método que muestra los detalles de una nómina.
   */
   public function verNominaDetalles()
@@ -1812,7 +1813,7 @@ class Administracion extends CI_Controller
     if (!isset($this->input->get()['id']) || !is_numeric($this->input->get()['id']))
     redirect('/administracion/index?q=error');
     // Creacion del PDF
-    /*
+    /**
     * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
     * heredó todos las variables y métodos de fpdf
     */
@@ -1832,7 +1833,7 @@ class Administracion extends CI_Controller
     // Define el alias para el número de página que se imprimirá en el pie
     $pdf->AliasNbPages();
     $pdf->AddPage();
-    /*
+    /**
     * Se define el titulo, márgenes izquierdo, derecho y
     * el color de relleno predeterminado
     */
@@ -2060,7 +2061,7 @@ class Administracion extends CI_Controller
         ));
       }
     }
-    /*
+    /**
     * Se manda el pdf al navegador
     *
     * $this->pdf->Output(nombredelarchivo, destino);
@@ -2073,7 +2074,7 @@ class Administracion extends CI_Controller
   }
 
   //REPORTES
-  /*
+  /**
   * Método para generar el reporte de costos.
   */
   public function reporteCostos()
@@ -2148,7 +2149,7 @@ class Administracion extends CI_Controller
         // Define el alias para el número de página que se imprimirá en el pie
         $pdf->AliasNbPages();
         $pdf->AddPage();
-        /*
+        /**
         * Se define el titulo, márgenes izquierdo, derecho y
         * el color de relleno predeterminado
         */
@@ -2596,7 +2597,7 @@ class Administracion extends CI_Controller
           utf8_decode("$" . $this->input->post()['total-'])
         ));
 
-        /*
+        /**
         * Se manda el pdf al navegador
         *
         * $this->pdf->Output(nombredelarchivo, destino);
@@ -2631,7 +2632,7 @@ class Administracion extends CI_Controller
       // Define el alias para el número de página que se imprimirá en el pie
       $pdf->AliasNbPages();
       $pdf->AddPage();
-      /*
+      /**
       * Se define el titulo, márgenes izquierdo, derecho y
       * el color de relleno predeterminado
       */
@@ -2666,7 +2667,7 @@ class Administracion extends CI_Controller
           utf8_decode($this->input->post()['fecha'][$key]),
         ));
       }
-      /*
+      /**
       * Se manda el pdf al navegador
       *
       * $this->pdf->Output(nombredelarchivo, destino);

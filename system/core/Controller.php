@@ -92,10 +92,10 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
-	
+
 	//MÉTODOS AGREGADOS
-	/*
-	 ** Método que carga el menú dependiendo del tipo de usuario
+	/**
+	 * Método que carga el menú dependiendo del tipo de usuario
 	 */
 	public function cargarMenu()
 	{

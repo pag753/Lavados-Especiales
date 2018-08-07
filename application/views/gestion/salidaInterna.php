@@ -17,7 +17,7 @@ $(document).ready(function() {
       type: 'POST',
       success: function(result) {
         result = JSON.parse(result);
-        console.log(result);
+        //console.log(result);
         if (result.info!=''){
           $("#imagenModal").html(result.info.imagen);
           $("#folioModal").html(result.info.folio);

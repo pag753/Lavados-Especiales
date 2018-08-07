@@ -1,11 +1,18 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('form').submit(function() {
+    return confirm('¿Está seguro de cambiar los costos?');
+  });
+});
+</script>
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
       <h3><?php echo $texto1 ?></h3>
-      <form action="costos/<?php echo $folio."_".$carga ?>" method="post" enctype="multipart/form-data">
+      <form action="costos" method="post" enctype="multipart/form-data">
         <input type="hidden" name="folio" id="folio" value="<?php echo $folio; ?>" /> <input type="hidden" name="corte" id="corte" value="<?php echo $corte; ?>" /> <input type="hidden" name="marca" id="marca" value="<?php echo $marca; ?>" />
         <input type="hidden" name="maquilero" id="maquilero" value="<?php echo $maquilero; ?>" />
         <input type="hidden" name="cliente" id="cliente" value="<?php echo $cliente; ?>" />
@@ -14,20 +21,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <input type="hidden" name="fecha" id="fecha" value="<?php echo $fecha; ?>" />
         <input type="hidden" name="carga" id="carga" value="<?php echo $carga; ?>" />
         <input type="hidden" name="idlavado" id="idlavado" value="<?php echo $idlavado; ?>" />
-        <div class="form-group row">
-          <label for="folio" class="col-3 col-form-label">Folio</label>
-          <div class="col-9">
-            <input type="number" name="folio" class="form-control" readonly value="<?php echo $folio; ?>">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="lavado" class="col-3 col-form-label">Lavado</label>
-          <div class="col-9">
-            <input type="text" name="lavado" class="form-control" readonly value="<?php echo strtoupper($lavado) ?>">
-          </div>
-        </div>
+        <input type="hidden" name="folio" value="<?php echo $folio; ?>">
+        <input type="hidden" name="lavado" value="<?php echo strtoupper($lavado) ?>">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>Folio</th>
+              <td><?php echo $folio; ?></td>
+            </tr>
+            <tr>
+              <th># Carga</th>
+              <td><?php echo $this->input->get()['carga'] ?></td>
+            </tr>
+            <tr>
+              <th>Lavado</th>
+              <td><?php echo strtoupper($lavado) ?></td>
+            </tr>
+            <tr>
+              <th>Color de hilo</th>
+              <td><?php echo $this->input->get()['color_hilo'] ?></td>
+            </tr>
+            <tr>
+              <th>Tipo</th>
+              <td><?php echo $this->input->get()['tipo'] ?></td>
+            </tr>
+          </tbody>
+        </table>
         <div class="form-group row">
           <div class="col-12">
+            <h5>Tabla de costos</h5>
             <div class='table-responsive'>
               <table class="table">
                 <thead>
@@ -39,11 +61,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <tbody>
                   <?php foreach ($procesos as $key => $value): ?>
                     <tr>
+                      <td><?php echo strtoupper($value['proceso']) ?></td>
                       <td>
-                        <input type="text" readonly class="form-control" name="proc[<?php echo $key ?>]" value="<?php echo strtoupper($value) ?>" />
-                      </td>
-                      <td>
-                        <input type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $key ?>]" value="<?php echo $costos[$key] ?>">
+                        <input required type="number" step="any" required placeholder="Inserte costo" class="form-control" name="costo[<?php echo $value['id'] ?>]" value="<?php echo $value['costo'] ?>">
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -52,11 +72,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
           </div>
         </div>
-        <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
-          <i class="fas fa-eye"></i> Detalles
-        </button>
         <div class="mx-auto">
-          <a href="costos"><button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button></a> <input type="submit" class="btn btn-primary" value="Aceptar" />
+          <a href="<?php echo base_url() ?>index.php/administracion/costos/<?php echo $this->input->get()['folio'] ?>">
+            <button name="regresar" id="regresar" type="button" class="btn btn-secondary">Regresar</button>
+          </a>
+          <input type="submit" class="btn btn-primary" value="Aceptar" />
+          <button type="button" name="informacion" id="boton" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+            <i class="fas fa-eye"></i>
+          </button>
         </div>
       </form>
     </div>

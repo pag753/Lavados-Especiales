@@ -31,7 +31,7 @@ $(document).ready(function() {
         dataType: 'json',
         type: "POST",
         success: function(result) {
-          console.log(result);
+          //console.log(result);
           if (result.datos.length == 0) {
             $('#tabla').hide(500);
             $('#alerta').attr("class","alert alert-warning" )

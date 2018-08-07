@@ -169,6 +169,8 @@ class CorteAutorizadoDatos extends CI_Model
   public function joinLavadoProcesos($folio)
   {
     $this->db->select('
+    corte_autorizado.color_hilo,
+    corte_autorizado.tipo,
     corte_autorizado.id as id,
     corte_autorizado.id_carga,
     lavado.id as idlavado,
@@ -183,6 +185,7 @@ class CorteAutorizadoDatos extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  // Modificado por base de datos
   public function joinLavadoProcesosCarga($folio, $carga)
   {
     $this->db->select('
@@ -191,7 +194,7 @@ class CorteAutorizadoDatos extends CI_Model
     lavado.nombre as lavado,
     proceso_seco.nombre as proceso,
     proceso_seco.id as idproceso,
-    corte_autorizado_datos.corte_folio as folio,
+    corte_autorizado.corte_folio as folio,
     corte_autorizado_datos.costo as costo,
     corte_autorizado_datos.status as status,
     corte_autorizado_datos.piezas_trabajadas as piezas,
@@ -200,11 +203,40 @@ class CorteAutorizadoDatos extends CI_Model
     Round((corte_autorizado_datos.costo*corte_autorizado_datos.piezas_trabajadas),2) as total,
     corte_autorizado_datos.defectos as defectos')
     ->from('corte_autorizado_datos')
-    ->join('lavado', 'corte_autorizado_datos.lavado_id=lavado.id')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
     ->join('usuario', 'corte_autorizado_datos.usuario_id=usuario.id')
     ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
-    ->where('corte_autorizado_datos.corte_folio', $folio)
-    ->where('corte_autorizado_datos.id_carga', $carga)
+    ->where('corte_autorizado.corte_folio', $folio)
+    ->where('corte_autorizado.id_carga', $carga)
+    ->order_by('corte_autorizado_datos.orden');
+    return $this->db->get()->result_array();
+  }
+
+  public function joinLavadoProcesosCarga2($id)
+  {
+    $this->db->select('
+    usuario.nombre as usuario,
+    lavado.id as idlavado,
+    lavado.nombre as lavado,
+    proceso_seco.nombre as proceso,
+    proceso_seco.id as idproceso,
+    corte_autorizado.corte_folio as folio,
+    corte_autorizado_datos.id as id,
+    corte_autorizado_datos.costo as costo,
+    corte_autorizado_datos.status as status,
+    corte_autorizado_datos.piezas_trabajadas as piezas,
+    corte_autorizado_datos.orden as orden,
+    corte_autorizado_datos.fecha_registro as fecha,
+    Round((corte_autorizado_datos.costo*corte_autorizado_datos.piezas_trabajadas),2) as total,
+    corte_autorizado_datos.defectos as defectos')
+    ->from('corte_autorizado_datos')
+    ->join('corte_autorizado','corte_autorizado.id=corte_autorizado_datos.corte_autorizado_id')
+    ->join('lavado', 'corte_autorizado.lavado_id=lavado.id')
+    ->join('usuario', 'corte_autorizado_datos.usuario_id=usuario.id')
+    ->join('proceso_seco', 'corte_autorizado_datos.proceso_seco_id=proceso_seco.id')
+    ->where('corte_autorizado.id', $id)
+    //->where('corte_autorizado.id_carga', $carga)
     ->order_by('corte_autorizado_datos.orden');
     return $this->db->get()->result_array();
   }
@@ -337,6 +369,15 @@ class CorteAutorizadoDatos extends CI_Model
     ->where('id_carga', $carga)
     ->where('proceso_seco_id', $proceso)
     ->where('lavado_id', $lavado)
+    ->update('corte_autorizado_datos', array(
+      'costo' => $costo
+    ));
+    return $query;
+  }
+
+  public function actualizaCosto2($id, $costo)
+  {
+    $query = $this->db->where('id', $id)
     ->update('corte_autorizado_datos', array(
       'costo' => $costo
     ));

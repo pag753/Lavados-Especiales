@@ -16,7 +16,7 @@ $(document).ready(function() {
       type: 'POST',
       success: function(result) {
         if (result.info != ''){
-          console.log(result);
+          //console.log(result);
           $("#imagenModal").html(result.info.imagen);
           $("#folioModal").html(result.info.folio);
           $("#corteModal").html(result.info.corte);

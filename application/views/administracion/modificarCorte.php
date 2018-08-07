@@ -10,15 +10,6 @@ $input_imagen = array(
   'accept' => 'image/png, .jpeg, .jpg, image/gif',
 );
 ?>
-<style>
-body {
-  position: relative;
-}
-
-ul.nav-pills {
-  position: fixed;
-}
-</style>
 <script type="text/javascript">
 var procesos = <?php echo $jsonProcesos; ?>;
 var indiceProcesos = 0;
@@ -300,18 +291,7 @@ function eliminarProduccionReproceso(id)
   }
 }
 <?php endif; ?>
-function reSize()
-{
-  var secciones =['#seccion1','#seccion2','#seccion3','#seccion4','#seccion5','#seccion6','#seccion7','#seccion8','#seccion9'];
-  $.each(secciones, function( index, value ) {
-    $(value).css('min-height',$(window).height());
-  });
-}
 $(document).ready(function() {
-  reSize();
-  $(window).resize(function(){
-    reSize();
-  });
   $('#botonGenerales').click(function(){
     if ($('#folio').val()=='' || $('#corte').val() == '' || $('#marca_id').val() == '' || $('#maquilero_id').val() == '' || $('#cliente_id').val() == '' || $('#tipo_pantalon_id').val() == '' || $('#fecha_entrada').val() == '' || $('#piezas').val() == '' || $('#ojales').val() == '')
     alert("Existen campos vacíos, favor de revisar");
@@ -433,15 +413,16 @@ $(document).ready(function() {
         },
         dataType: "json",
         error: function (request, status, error) {
-          //window.location.replace("<?php echo base_url() ?>");
-          console.log(request.responseText);
+          window.location.replace("<?php echo base_url() ?>");
+          //console.log(request.responseText);
         }
       });
     }
   });
   <?php endif; ?>
   var tablas = [];
-  <?php if ($produccionProcesoSeco != 0): ?> tablas.push('#tablaProduccion');
+  <?php if ($produccionProcesoSeco != 0): ?>
+  tablas.push('#tablaProduccion');
   <?php endif;
   if ($autorizadoDatos != 0):?>
   tablas.push('#tblespecificosAutorizacion');
@@ -485,21 +466,36 @@ $(document).ready(function() {
 </script>
 <input type="hidden" name="folio" id="folio" value="<?php echo $this->input->get()['folio']; ?>">
 <div class="container-fluid">
-  <div class="row">
-    <div class="hidden-lg-down col-2" style="background: rgba(255, 255, 255, 0.7)">
-      <ul class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-        <li class="nav-item"><a class="nav-link" href="#seccion1" aria-controls="seccion1" aria-selected="true">Datos generales</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion2" aria-controls="seccion2" aria-selected="false">Lavados</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion4" aria-controls="seccion4" aria-selected="false">Autorización del corte</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion5" aria-controls="seccion5" aria-selected="false">Salida interna</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion6" aria-controls="seccion6" aria-selected="false">Datos de salida interna</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion7" aria-controls="seccion7" aria-selected="false">Producción de p. s.</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion8" aria-controls="seccion8" aria-selected="false">Reprocesos</a></li>
-        <li class="nav-item"><a class="nav-link" href="#seccion9" aria-controls="seccion9" aria-selected="false">Producción reprocesos</a></li>
-      </ul>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-10">
-      <div id="seccion1" style="background: rgba(255, 255, 255, .7)">
+  <h1>Modificar el corte con folio <?php echo $this->input->get()['folio'] ?></h1>
+  <div class="tabpanel">
+    <ul class="nav nav-pills nav-justified" style="background: rgba(255,255,255,.5)">
+      <li class="nav-item">
+        <a class="nav-link active" href="#seccion1" data-toggle="pill">Datos generales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion2" data-toggle="pill">Lavados</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion4" data-toggle="pill">Autorización del corte</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion5" data-toggle="pill">Salida interna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion6" data-toggle="pill">Datos de salida interna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion7" data-toggle="pill">Producción de proceso seco</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion8" data-toggle="pill">Reprocesos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#seccion9" data-toggle="pill">Producción de reprocesos</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="seccion1" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -571,7 +567,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion2" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion2" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -634,7 +630,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion4" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion4" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -810,7 +806,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion5" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion5" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -858,7 +854,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion6" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion6" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -910,7 +906,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion7" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion7" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -923,14 +919,15 @@ $(document).ready(function() {
                 <table class="table table-striped" id="tablaProduccion">
                   <thead>
                     <tr>
+                      <th hidden></th>
                       <th>Operario</th>
                       <th>Carga - Lavado</th>
                       <th>Proceso</th>
                       <th>Piezas trabajadas</th>
-                      <th>Costo</th>
-                      <th>Total</th>
+                      <th hidden>Costo</th>
+                      <th hidden>Total</th>
                       <th>Defectos</th>
-                      <th>Fecha</th>
+                      <th hidden>Fecha</th>
                       <th>¿Se pagó?</th>
                       <th>Razón</th>
                       <th>Editar</th>
@@ -940,14 +937,17 @@ $(document).ready(function() {
                   <tbody>
                     <?php foreach ($produccionProcesoSeco as $key => $value): ?>
                       <tr>
+                        <td class="details-control" hidden>
+                          <button type="button" name="button" class="btn btn-info"><i class="fas fa-plus"></i></button>
+                        </td>
                         <td><?php echo $value['nombre_completo'] ?></td>
                         <td><?php echo $value['id_carga'] . " - " . $value['lavado'] ?></td>
                         <td><?php echo $value['proceso'] ?></td>
                         <td><input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccion<?php echo $value['id']; ?>" name="piezasProduccion<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>"></td>
-                        <td>$<?php echo $value['costo'] ?></td>
-                        <td>$<?php echo $value['total'] ?></td>
+                        <td hidden>$<?php echo $value['costo'] ?></td>
+                        <td hidden>$<?php echo $value['total'] ?></td>
                         <td><input class="form-control" type="number" id="defectosProduccion<?php echo $value['id'] ?>" name="defectosProduccion<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>"></td>
-                        <td><?php echo $value['fecha'] ?></td>
+                        <td hidden><?php echo $value['fecha'] ?></td>
                         <td><select class="form-control" name="estadoNomina<?php echo $value['id']; ?>" id="estadoNomina<?php echo $value['id']; ?>">
                           <option value="0" <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No se ha pagado</option>
                           <option value="1" <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se pagó</option>
@@ -979,7 +979,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion8" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion8" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -1054,7 +1054,7 @@ $(document).ready(function() {
           <div class="card-footer text-muted"></div>
         </div>
       </div>
-      <div id="seccion9" style="background: rgba(255, 255, 255, .7)">
+      <div role="tabpanel" class="tab-pane" id="seccion9" style="background: rgba(255, 255, 255, .7)">
         <div class="card">
           <div class="card-header">
             <div class="mx-auto">
@@ -1071,8 +1071,8 @@ $(document).ready(function() {
                       <th>Carga - Lavado</th>
                       <th>Proceso</th>
                       <th>Piezas trabajadas</th>
-                      <th>Costo</th>
-                      <th>Total</th>
+                      <th hidden>Costo</th>
+                      <th hidden>Total</th>
                       <th>Defectos</th>
                       <th>Fecha</th>
                       <th>¿Se pagó?</th>
@@ -1081,51 +1081,52 @@ $(document).ready(function() {
                       <th>Eliminar</th>
                     </tr>
                   </thead>
-                  <tbody><?php foreach ($produccionReprocesos as $key => $value): ?>
-                    <tr>
-                      <td><?php echo $value['usuario_nombre'] ?></td>
-                      <td><?php echo $value['id_carga'] . " -  " . $value['lavado_nombre'] ?></td>
-                      <td><?php echo $value['proceso'] ?></td>
-                      <td><input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccionReproceso<?php echo $value['id']; ?>" name="piezasProduccionReproceso<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>"></td>
-                      <td>$<?php echo $value['costo'] ?></td>
-                      <td>$<?php echo $value['total'] ?></td>
-                      <td><input class="form-control" type="number" id="defectosProduccionReproceso<?php echo $value['id'] ?>" name="defectosProduccionReproceso<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>"></td>
-                      <td><?php echo $value['fecha'] ?></td>
-                      <td>
-                        <select class="form-control" name="estadoNominaReproceso<?php echo $value['id']; ?>" id="estadoNominaReproceso<?php echo $value['id']; ?>">
-                          <option value="0" <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No se ha pagado</option>
-                          <option value="1" <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se pagó</option>
-                          <option value="2" <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se pagará después</option>
-                          <option value="3" <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No se pagará nunca</option>
-                        </select>
-                      </td>
-                      <td>
-                        <textarea class="form-control" id="razonProduccionReproceso<?php echo $value['id']; ?>" name="razonProduccionReproceso<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea>
-                      </td>
-                      <td>
-                        <button type="button" class="btn btn-warning" onclick="editarProduccionReproceso(<?php echo $value['id']; ?>);">
-                          <i class="far fa-edit" title="Editar los datos de producción del reproceso."></i>
-                        </button>
-                      </td>
-                      <td>
-                        <button type="button" class="btn btn-danger" onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);" title="Eliminar estos datos de producción de este reproceso.">
-                          <i class="far fa-trash-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php else: ?>
-            <div class="alert alert-danger" role="alert">No hay datos de producción de reprocesos de este corte.</div>
-          <?php endif; ?>
+                  <tbody>
+                    <?php foreach ($produccionReprocesos as $key => $value): ?>
+                      <tr>
+                        <td><?php echo $value['usuario_nombre'] ?></td>
+                        <td><?php echo $value['id_carga'] . " -  " . $value['lavado_nombre'] ?></td>
+                        <td><?php echo $value['proceso'] ?></td>
+                        <td><input class="form-control" placeholder="Escribe el número de piezas" type="number" id="piezasProduccionReproceso<?php echo $value['id']; ?>" name="piezasProduccionReproceso<?php echo $value['id']; ?>" value="<?php echo $value['piezas'] ?>"></td>
+                        <td hidden>$<?php echo $value['costo'] ?></td>
+                        <td hidden>$<?php echo $value['total'] ?></td>
+                        <td><input class="form-control" type="number" id="defectosProduccionReproceso<?php echo $value['id'] ?>" name="defectosProduccionReproceso<?php echo $value['id'] ?>" value="<?php echo $value['defectos'] ?>"></td>
+                        <td><?php echo $value['fecha'] ?></td>
+                        <td>
+                          <select class="form-control" name="estadoNominaReproceso<?php echo $value['id']; ?>" id="estadoNominaReproceso<?php echo $value['id']; ?>">
+                            <option value="0" <?php echo ($value['estado_nomina'] == 0)? "selected":"" ?>>No se ha pagado</option>
+                            <option value="1" <?php echo ($value['estado_nomina'] == 1)? "selected":"" ?>>Se pagó</option>
+                            <option value="2" <?php echo ($value['estado_nomina'] == 2)? "selected":"" ?>>Se pagará después</option>
+                            <option value="3" <?php echo ($value['estado_nomina'] == 3)? "selected":"" ?>>No se pagará nunca</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control" id="razonProduccionReproceso<?php echo $value['id']; ?>" name="razonProduccionReproceso<?php echo $value['id']; ?>"><?php echo $value['razon_pagar']; ?></textarea>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-warning" onclick="editarProduccionReproceso(<?php echo $value['id']; ?>);">
+                            <i class="far fa-edit" title="Editar los datos de producción del reproceso."></i>
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-danger" onclick="eliminarProduccionReproceso(<?php echo $value['id']; ?>);" title="Eliminar estos datos de producción de este reproceso.">
+                            <i class="far fa-trash-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+              </div>
+            <?php else: ?>
+              <div class="alert alert-danger" role="alert">No hay datos de producción de reprocesos de este corte.</div>
+            <?php endif; ?>
+          </div>
+          <div class="card-footer text-muted"></div>
         </div>
-        <div class="card-footer text-muted"></div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div class="modal fade" id="modalImagen" tabindex="-1" role="dialog" aria-labelledby="modalImagen" aria-hidden="true">
   <div class="modal-dialog" role="document">

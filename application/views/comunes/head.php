@@ -1,11 +1,8 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-if (! isset($titulo)) $titulo = 'Lavados Especiales';
-?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
-<html>
+<html lang="es" dir="ltr">
 <head>
-  <title><?php echo $titulo ?></title>
+  <title><?php echo (isset($titulo))? $titulo : 'Lavados Especiales' ?></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="msapplication-TileColor" content="#00a8ff" />

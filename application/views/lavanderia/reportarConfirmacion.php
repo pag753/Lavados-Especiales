@@ -17,6 +17,7 @@ $(document).ready(function() {
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-10 col-md-12 offset-lg-1">
+      <h4>Reportar piezas de lavandería</h4>
       <div class="card">
         <div class="card-header">
           <strong>Datos Generales</strong>
