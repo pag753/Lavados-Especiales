@@ -65,7 +65,7 @@ $(document).ready(function(){
         </div>
       </div>
       <div id="complemento">
-        <table class="table table-striped table-bordered" style="background: rgba(255, 255, 255, .5)">
+        <table class="table table-striped table-bordered" style="background: rgba(255, 255, 255, .8)">
           <tbody>
             <tr>
               <td>Imágen</td>

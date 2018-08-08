@@ -46,7 +46,7 @@ $(document).ready(function() {
             $("#piezasModal").html(result.corte.piezas);
             var cadena = "<table class='table table-striped'><thead><tr><th># Carga</th><th>Lavado</th><th>Color de hilo</th><th>Tipo</th><th>Editar</th></tr></thead><tbody>";
             $.each(result.datos, function(index,val){
-              cadena += "<tr><td>" + val.id_carga + "</td><td>" + val.lavado + "</td><td>" + val.color_hilo + "</td><td>" + val.tipo + "</td><td><a href='costos?id=" + val.id + "&folio=" + $('#folio').val() + "&carga=" + val.id_carga + "&color_hilo=" + val.color_hilo + "&id_carga=" + val.id_carga + "&tipo=" + val.tipo + "'><i class='fa fa-info' aria-hidden='true'></i></a></td></tr>";
+              cadena += "<tr><td>" + val.id_carga + "</td><td>" + val.lavado + "</td><td>" + val.color_hilo + "</td><td>" + val.tipo + "</td><td><a href='costos?id=" + val.id + "&folio=" + $('#folio').val() + "&carga=" + val.id_carga + "&color_hilo=" + val.color_hilo + "&id_carga=" + val.id_carga + "&tipo=" + val.tipo + "'><button type='button' name='button' class='btn btn-warning'><i class='fa fa-edit' aria-hidden='true'></i></button></a></td></tr>";
             });
             cadena +="</tbody></table>";
             $('#cargas').html(cadena);

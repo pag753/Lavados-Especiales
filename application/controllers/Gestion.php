@@ -76,7 +76,8 @@ class Gestion extends CI_Controller
       $this->load->model('corte');
       $this->corte->agregar($datos['datos_corte']);
       //print_r($data);
-      redirect('/gestion/index/' . $datos['datos_corte']['folio']);
+      //redirect('/gestion/index/' . $datos['datos_corte']['folio']);
+      redirect('/gestion/alta');
     }
     else
     {

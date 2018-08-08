@@ -1145,7 +1145,7 @@ class Administracion extends CI_Controller
         $this->CorteAutorizadoDatos->agregar($data);
       }
     }
-    redirect('/administracion/modificar?folio=' . $this->input->post()['corteFolioNuevoLavado']);
+    redirect('/administracion/modificar?folio=' . $this->input->post()['corteFolioNuevoLavado'] . "#seccion2");
   }
 
   /**

@@ -42,7 +42,7 @@ function editarLavado(id){
         id: id,
       },
       success: function(res) {
-        if (res.respuesta) location.reload();
+        if (res.respuesta) window.location.replace("<?php echo base_url() . "index.php/administracion/modificar?folio=" . $this->input->get()['folio'] . "#seccion2" ?>");//location.reload();
       },
       dataType: "json",
       error: function (request, status, error) {
@@ -316,7 +316,7 @@ $(document).ready(function() {
           },
           dataType: "json",
           error: function (request, status, error) {
-            window.location.replace("<?php echo base_url() ?>");
+            window.location.replace("<?php echo base_url() . "index.php/administracion/modificar?folio=".$this->input->get()['folio'] ?>");
             //console.log(request.responseText);
           }
         });
@@ -747,6 +747,10 @@ $(document).ready(function() {
                                     <?php endforeach; ?>
                                   </select>
                                 </td>
+                              </tr>
+                              <tr>
+                                <th>Nota:</th>
+                                <td>Si va a seleccionar primera o segunda fase de lavandería favor de colocar el costo de -1</td>
                               </tr>
                               <tr>
                                 <th>Costo del proceso $</th>
