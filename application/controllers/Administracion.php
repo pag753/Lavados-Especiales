@@ -1773,12 +1773,13 @@ class Administracion extends CI_Controller
   /**
   * Método para entrar a submódulo de reproceso.
   */
-  public function reproceso()
+  public function reproceso($folio = null)
   {
     if (!$this->input->post())
     {
       $this->load->model("ProcesoSeco");
       $data['procesos'] = $this->ProcesoSeco->get();
+      $data['folio'] = $folio;
       $titulo['titulo'] = "Nuevo reproceso";
       $this->load->view('comunes/head', $titulo);
       $this->load->view('administracion/menu');
@@ -1801,7 +1802,7 @@ class Administracion extends CI_Controller
       );
       $this->load->model('Reproceso');
       $this->Reproceso->insert($data);
-      redirect('/administracion/index?q=reproceso');
+      redirect('/administracion/reproceso/' . $this->input->post()['corte_folio']);
     }
   }
 

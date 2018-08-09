@@ -50,6 +50,7 @@ $(document).ready(function() {
         <div class="form-group row">
           <div class="col-12">
             <h5>Tabla de costos</h5>
+            <p><strong>Nota: </strong>Asegurese de que las fases de lavandería tengan costos de -1 y snow de 0.</p>
             <div class='table-responsive'>
               <table class="table">
                 <thead>

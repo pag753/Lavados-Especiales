@@ -11,8 +11,7 @@ $input_folio = array(
 <script>
 $(document).ready(function() {
   $('#reproceso').hide();
-  $("#folio").focus();
-  $('#folio').keyup(function() {
+  $("#folio").focus().keyup(function() {
     if ($('#folio').val() == '') {
       $('#alerta').attr('class','alert alert-warning')
       .html('Folio de corte vacío')
@@ -51,6 +50,7 @@ $(document).ready(function() {
   $('#reproceso').submit(function() {
     return confirm('¿Está seguro de dar de alta este reproceso?');
   });
+  if ($('#folio').val() != '') $('#folio').keyup();
 });
 </script>
 <div class="container-fluid">
@@ -70,7 +70,7 @@ $(document).ready(function() {
           <div class="table-responsive">
             <table class="table table-striped table-hover">
               <tr>
-                <th>Calga - Lavado</th>
+                <th>Carga - Lavado</th>
                 <td><select class="form-control" name="lavado" id="lavado">
                 </select></td>
               </tr>

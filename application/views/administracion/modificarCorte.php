@@ -750,7 +750,7 @@ $(document).ready(function() {
                               </tr>
                               <tr>
                                 <th>Nota:</th>
-                                <td>Si va a seleccionar primera o segunda fase de lavandería favor de colocar el costo de -1</td>
+                                <td>Si va a seleccionar primera o segunda fase de lavandería favor de colocar el costo de -1 y si es snow el costo debe ser de 0.</td>
                               </tr>
                               <tr>
                                 <th>Costo del proceso $</th>
@@ -1054,6 +1054,11 @@ $(document).ready(function() {
             <?php else: ?>
               <div class="alert alert-danger" role="alert">No hay reprocesos de este corte.</div>
             <?php endif; ?>
+            <div class="ml-auto">
+              <a href="reproceso/<?php echo $this->input->get()['folio'] ?>">
+                <button type="button" name="button" class="btn btn-success" title="Agregar un nuevo reproceso"><i class="fa fa-plus" aria-hidden="true"></i></button>
+              </a>
+            </div>
           </div>
           <div class="card-footer text-muted"></div>
         </div>
