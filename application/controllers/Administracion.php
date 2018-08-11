@@ -127,9 +127,10 @@ class Administracion extends CI_Controller
         /*
         foreach ($query as $key => $value)
         {
-          $datos['procesos'][$value['idproceso']] = $value['proceso'];
-          $datos['costos'][$value['idproceso']] = $value['costo'];
-        }*/
+        $datos['procesos'][$value['idproceso']] = $value['proceso'];
+        $datos['costos'][$value['idproceso']] = $value['costo'];
+
+        */
         // Buscar la imágen
         $extensiones = array(
           "jpg",
@@ -308,8 +309,7 @@ class Administracion extends CI_Controller
       $this->Cliente->insert($data);
       redirect("/administracion/catalogosClientes");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -338,8 +338,7 @@ class Administracion extends CI_Controller
       $this->Lavado->insert($data);
       redirect("/administracion/catalogosLavados");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -387,8 +386,7 @@ class Administracion extends CI_Controller
       $this->Maquilero->update(trim($this->input->post()['nombreE']), trim($this->input->post()['direccionE']), trim($this->input->post()['telefonoE']), $this->input->post()['id']);
       redirect("/administracion/catalogosMaquileros");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -406,8 +404,7 @@ class Administracion extends CI_Controller
       $this->Marca->insert($data);
       redirect("/administracion/catalogosMarcas");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -469,8 +466,7 @@ class Administracion extends CI_Controller
       $this->Tipo_pantalon->insert($data);
       redirect("/administracion/catalogosTipos");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -484,8 +480,7 @@ class Administracion extends CI_Controller
       $this->Tipo_pantalon->update(trim($this->input->post()['nombreE']), $this->input->post()['id']);
       redirect("/administracion/catalogosTipos");
     }
-    else
-    redirect('/administracion/index?q=error');
+    else redirect('/administracion/index?q=error');
   }
 
   /**
@@ -835,8 +830,7 @@ class Administracion extends CI_Controller
   */
   public function editarAutorizacion()
   {
-    if (!$this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post()) redirect('/administracion/index?q=error');
     $this->load->model('CorteAutorizado');
     $this->CorteAutorizado->update($this->input->post());
     echo json_encode(array(
@@ -849,8 +843,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarAutorizacion()
   {
-    if (!$this->input->post() || !isset($this->input->post()['folio']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['folio'])) redirect('/administracion/index?q=error');
     $folio = $this->input->post()['folio'];
     $this->load->model(array(
       'ProduccionProcesoSeco',
@@ -878,8 +871,7 @@ class Administracion extends CI_Controller
   */
   public function editarAutorizacionDatos()
   {
-    if (!$this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post()) redirect('/administracion/index?q=error');
     $this->load->model("CorteAutorizadoDatos");
     $this->CorteAutorizadoDatos->update($this->input->post());
     echo json_encode(array(
@@ -892,8 +884,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarAutorizacionDatos()
   {
-    if (!$this->input->post() || !isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model("CorteAutorizadoDatos");
     $this->CorteAutorizadoDatos->deleteByID($this->input->post()['id']);
     echo json_encode(array(
@@ -906,8 +897,7 @@ class Administracion extends CI_Controller
   */
   public function editarSalidaInterna()
   {
-    if (!$this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post()) redirect('/administracion/index?q=error');
     $this->load->model("SalidaInterna1");
     $this->SalidaInterna1->update($this->input->post());
     echo json_encode(array(
@@ -920,8 +910,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarSalidaInterna()
   {
-    if (!$this->input->post() || !isset($this->input->post()['folio']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['folio'])) redirect('/administracion/index?q=error');
     $folio = $this->input->post()['folio'];
     $this->load->model(array(
       'ProduccionProcesoSeco',
@@ -944,8 +933,7 @@ class Administracion extends CI_Controller
   */
   public function editarSalidaInternaDatos()
   {
-    if (!$this->input->post() || !isset($this->input->post()['piezas']) || !isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['piezas']) || !isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model("SalidaInterna1Datos");
     // Actualizar salida_interna1_datos(piezas) con : id_carga, corte_folio
     $data = array(
@@ -976,13 +964,14 @@ class Administracion extends CI_Controller
       'tipo' => $this->input->post()['tipo'],
     );
     $this->CorteAutorizado->updateAdministracion($data);
-    /**
+    /*
     // Actualizar produccion_proceso_seco(lavado_id) con: carga, corte_folio
     $data = array(
     'lavado_id' => $this->input->post()['lavado_id'],
     'carga' => $this->input->post()['id_carga'],
     'corte_folio' => $this->input->post()['folio']);
-    $this->ProduccionProcesoSeco->updateAdministracion($data);*/
+    $this->ProduccionProcesoSeco->updateAdministracion($data);
+    */
     // Regresar
     echo json_encode(array(
       'respuesta' => true
@@ -1002,7 +991,7 @@ class Administracion extends CI_Controller
       'id' => $this->input->post()['id']
     );
     $this->CorteAutorizado->deleteAdministracion($data);
-    /**
+    /*
     // Eliminar salida_interna1_datos con : id_carga, corte_folio
     $data = array(
     'id_carga' => $this->input->post()['id_carga'],
@@ -1026,8 +1015,7 @@ class Administracion extends CI_Controller
   */
   public function editarProduccion()
   {
-    if (!$this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post()) redirect('/administracion/index?q=error');
     $this->load->model("ProduccionProcesoSeco");
     $this->ProduccionProcesoSeco->updateById($this->input->post());
     // Regresar
@@ -1041,8 +1029,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarProduccion()
   {
-    if (!$this->input->post() || !isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model("ProduccionProcesoSeco");
     $this->ProduccionProcesoSeco->deleteById($this->input->post()['id']);
     // Regresar
@@ -1058,8 +1045,7 @@ class Administracion extends CI_Controller
   {
     print_r($this->input->post());
 
-    if (!$this->input->post() || !isset($this->input->post()['procesoNuevo']) || !isset($this->input->post()['corteFolioNuevoLavado']) || !isset($this->input->post()['lavadoProcesoNuevo']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['procesoNuevo']) || !isset($this->input->post()['corteFolioNuevoLavado']) || !isset($this->input->post()['lavadoProcesoNuevo'])) redirect('/administracion/index?q=error');
     $this->load->model(array(
       'CorteAutorizado',
       'CorteAutorizadoDatos',
@@ -1154,8 +1140,7 @@ class Administracion extends CI_Controller
   public function editarReproceso()
   {
     //print_r($this->input->post());
-    if (!$this->input->post())
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post()) redirect('/administracion/index?q=error');
     $this->load->model('Reproceso');
     $data = array(
 
@@ -1172,8 +1157,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarReproceso()
   {
-    if (!isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model(array(
       'ProduccionReproceso',
       'Reproceso'
@@ -1190,8 +1174,7 @@ class Administracion extends CI_Controller
   */
   public function editarProduccionReproceso()
   {
-    if (!isset($this->input->post()['id']) || !isset($this->input->post()['piezas']) || !isset($this->input->post()['defectos']) || !isset($this->input->post()['estado_nomina']))
-    redirect('/administracion/index?q=error');
+    if (!isset($this->input->post()['id']) || !isset($this->input->post()['piezas']) || !isset($this->input->post()['defectos']) || !isset($this->input->post()['estado_nomina'])) redirect('/administracion/index?q=error');
     $this->load->model('ProduccionReproceso');
     $this->ProduccionReproceso->update($this->input->post());
     echo json_encode(array(
@@ -1204,8 +1187,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarProduccionReproceso()
   {
-    if (!isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model('ProduccionReproceso');
     $this->ProduccionReproceso->deleteById($this->input->post()['id']);
     echo json_encode(array(
@@ -1221,17 +1203,14 @@ class Administracion extends CI_Controller
   {
     if ($this->input->get())
     {
-      if (!isset($this->input->get()['id']))
-      redirect('/administracion/index?q=error');
+      if (!isset($this->input->get()['id'])) redirect('/administracion/index?q=error');
       $id = $this->input->get()['id'];
-      if ($id == '')
-      redirect("/");
+      if ($id == '') redirect("/");
       $this->load->model("Ahorros");
       $this->load->model("Usuarios");
       $data['ahorros'] = $this->Ahorros->getByIdUsuario($id);
       $data['usuario'] = $this->Usuarios->getById($id);
-      if (count($data['usuario']) == 0)
-      redirect('/administracion/index?q=error');
+      if (count($data['usuario']) == 0) redirect('/administracion/index?q=error');
       $titulo['titulo'] = "Ahorros del operario " . $data['usuario'][0]['nombre'];
       $this->load->view('comunes/head', $titulo);
       $this->load->view('administracion/menu');
@@ -1255,8 +1234,7 @@ class Administracion extends CI_Controller
   */
   public function nuevoAhorro()
   {
-    if (!$this->input->post() || !isset($this->input->post()['fecha']) || !isset($this->input->post()['cantidad']) || !isset($this->input->post()['id']) || !isset($this->input->post()['aportacion']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['fecha']) || !isset($this->input->post()['cantidad']) || !isset($this->input->post()['id']) || !isset($this->input->post()['aportacion'])) redirect('/administracion/index?q=error');
     $this->load->model('Ahorros');
     $data = array(
       'fecha' => $this->input->post()['fecha'],
@@ -1273,8 +1251,7 @@ class Administracion extends CI_Controller
   */
   public function editarAhorro()
   {
-    if (!$this->input->post() || !isset($this->input->post()['aportacionE']) || !isset($this->input->post()['fechaE']) || !isset($this->input->post()['cantidadE']) || !isset($this->input->post()['idE']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['aportacionE']) || !isset($this->input->post()['fechaE']) || !isset($this->input->post()['cantidadE']) || !isset($this->input->post()['idE'])) redirect('/administracion/index?q=error');
     $this->load->model('Ahorros');
     $this->Ahorros->update($this->input->post()['aportacionE'], $this->input->post()['fechaE'], $this->input->post()['cantidadE'], $this->input->post()['idE']);
     redirect("administracion/ahorros?id=" . $this->input->post()['idUsuario']);
@@ -1285,8 +1262,7 @@ class Administracion extends CI_Controller
   */
   public function eliminarAhorro()
   {
-    if (!$this->input->post() || !isset($this->input->post()['id']))
-    redirect('/administracion/index?q=error');
+    if (!$this->input->post() || !isset($this->input->post()['id'])) redirect('/administracion/index?q=error');
     $this->load->model("Ahorros");
     $this->Ahorros->delete($this->input->post()['id']);
     echo json_encode(array(
@@ -1651,8 +1627,7 @@ class Administracion extends CI_Controller
         * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
         * heredó todos las variables y métodos de fpdf
         */
-        if (!$this->input->get())
-        redirect('/administracion/index?q=error');
+        if (!$this->input->get()) redirect('/administracion/index?q=error');
         $this->load->model('Nomina');
         $nomina = $this->Nomina->getNominaById($this->input->get()['id']);
         // print_r($nomina);
@@ -1788,8 +1763,7 @@ class Administracion extends CI_Controller
     }
     else
     {
-      if (!isset($this->input->post()['piezas']) || !isset($this->input->post()['lavado']) || !isset($this->input->post()['proceso']) || !isset($this->input->post()['costo']) ||  !is_numeric($this->input->post()['lavado']) || !is_numeric($this->input->post()['proceso']) || !is_numeric($this->input->post()['costo']) || !is_numeric($this->input->post()['piezas']))
-      redirect('/administracion/index?q=error');
+      if (!isset($this->input->post()['piezas']) || !isset($this->input->post()['lavado']) || !isset($this->input->post()['proceso']) || !isset($this->input->post()['costo']) ||  !is_numeric($this->input->post()['lavado']) || !is_numeric($this->input->post()['proceso']) || !is_numeric($this->input->post()['costo']) || !is_numeric($this->input->post()['piezas'])) redirect('/administracion/index?q=error');
       $data = array(
         'corte_autorizado_id' => $this->input->post()['lavado'],
         'proceso_seco_id' => $this->input->post()['proceso'],
@@ -1811,8 +1785,7 @@ class Administracion extends CI_Controller
   */
   public function verNominaDetalles()
   {
-    if (!isset($this->input->get()['id']) || !is_numeric($this->input->get()['id']))
-    redirect('/administracion/index?q=error');
+    if (!isset($this->input->get()['id']) || !is_numeric($this->input->get()['id'])) redirect('/administracion/index?q=error');
     // Creacion del PDF
     /**
     * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
@@ -2082,16 +2055,14 @@ class Administracion extends CI_Controller
   {
     if ($this->input->get())
     {
-      if (!isset($this->input->get()['folio']) || !is_numeric($this->input->get()['folio']))
-      redirect('/administracion/index?q=error');
+      if (!isset($this->input->get()['folio']) || !is_numeric($this->input->get()['folio'])) redirect('/administracion/index?q=error');
       $this->load->model(array(
         'ProduccionProcesoSeco',
         'ProduccionReproceso'
       ));
       $data['produccion'] = $this->ProduccionProcesoSeco->getByFolioEspecifico($this->input->get()['folio']);
       $data['reproceso'] = $this->ProduccionReproceso->getByFolioEspecifico2($this->input->get()['folio']);
-      if (count($data['produccion']) == 0 && count($data['reproceso']) == 0)
-      redirect('/administracion/index?q=noCorte');
+      if (count($data['produccion']) == 0 && count($data['reproceso']) == 0) redirect('/administracion/index?q=noCorte');
       $data['folio'] = $this->input->get()['folio'];
       // Conseguir datos del cortes
       $extensiones = array(
@@ -2280,8 +2251,7 @@ class Administracion extends CI_Controller
         // Datos específicos de autorización del corte del corete
         $pdf->ln(10);
         $corte = $this->CorteAutorizadoDatos->reporte($this->input->post()['id']);
-        if (count($corte) == 0)
-        redirect('/administracion/index?q=error');
+        if (count($corte) == 0) redirect('/administracion/index?q=error');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(0, 0, utf8_decode("Datos específicos de autorización del corte"), 0, 1, 'C');
         $pdf->ln(5);
@@ -2355,8 +2325,7 @@ class Administracion extends CI_Controller
         // Datos generales de salida interna
         $pdf->ln(10);
         $corte = $this->SalidaInterna1->getByFolioEspecifico($this->input->post()['id']);
-        if (count($corte) == 0)
-        redirect('/administracion/index?q=error');
+        if (count($corte) == 0) redirect('/administracion/index?q=error');
         $corte = $corte[0];
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(0, 0, utf8_decode("Datos generales de salida interna del corte"), 0, 1, 'C');
@@ -2388,8 +2357,7 @@ class Administracion extends CI_Controller
         // Datos específicos de salida interna
         $pdf->ln(10);
         $corte = $this->SalidaInterna1Datos->getByFolioEspecifico2($this->input->post()['id']);
-        if (count($corte) == 0)
-        redirect('/administracion/index?q=error');
+        if (count($corte) == 0) redirect('/administracion/index?q=error');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(0, 0, utf8_decode("Datos específicos de salida interna del corte"), 0, 1, 'C');
         $pdf->ln(5);
