@@ -2176,28 +2176,17 @@ class Administracion extends CI_Controller
             break;
           }
         }
-        $pdf->SetWidths(array(
-          21.111111111,
-          21.111111111,
-          21.111111111,
-          21.111111111,
-          21.111111111,
-          21.111111111,
-          21.111111111,
-          21.111111111
-        ));
         $cadena = "";
-        if ($ban)
-        $pdf->Image($imagen, NULL, NULL, 21.111111111, 10);
-        else
-        $cadena = utf8_decode("No hay imágen");
+        if ($ban) $pdf->Image($imagen, NULL, NULL, 21.111111111, 10);
+        else $imagen = utf8_decode("No hay imágen");
         $pdf->Cell(21.111111111, 0, $cadena, 1, 10, "");
-        $pdf->SetY($pdf->getY() - 10);
-        $pdf->SetX($pdf->getX() + 21.111111111);
+        //$pdf->SetY($pdf->getY() - 10);
+        //$pdf->SetX($pdf->getX() + 21.111111111);
         $corte = $this->Corte->getByFolioGeneral($this->input->post()['id'])[0];
         $corte['imagen'] = $imagen;
         $pdf->ban = false;
         $pdf->Row(array(
+          $imagen,
           utf8_decode($corte['fecha']),
           utf8_decode($corte['corte']),
           utf8_decode($corte['marca']),
